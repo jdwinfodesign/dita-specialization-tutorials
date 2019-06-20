@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Constraint Module: XSD-Syntax Version</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>constraint module<indexterm>XSD syntax</indexterm></indexterm>
+        <indexterm>XSD syntax<indexterm>constraint module</indexterm></indexterm>
+        <indexterm>content models<indexterm>constraining</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>XSD constraint modules consist of one or two XSD documents that redefine the content model or
+            attribute list to be constrained. Whether the constraint requires one document or two
+            depends on the details of the constraint being applied and the group being constrained.
+            This particular constraint requires an intermediate XSD file to work around limitations
+            in the way the redefine feature works. Essentially, we have to clear the content of
+                <xmlelement>p</xmlelement> and then extend it, which requires two levels of redefinition. </p>
+    <p>To create an XSD version of the highlight-only topic constraint module, follow these steps:<ol
+      id="ol_8ddc0387-5381-4182-9725-f902e72e5dbf">
+      <li>Create a new directory to hold the constraint module and an XSD document type shell that
+                    uses it. This directory will eventually be the directory for the constraint
+                    module, so name it in a way that reflects the name of the constraint module, for
+                    example, <q>highlightOnlyPConstraints.</q></li>
+      <li>Copy <filepath>topic.xsd</filepath> from the <filepath>technicalContent</filepath>
+                    directory of the OASIS-provided DITA XSD distribution to this new directory.
+                    Name it something like <filepath>topic-with-highlight-constraint.xsd</filepath>
+                    to make it clear what this shell is for.<p>Eventually you will move this shell
+                        schema to a different directory, but for now putting all the pieces in one
+                        directory makes setup and testing easier. Once everything is working in this
+                        location you can reorganize the files and know when you've got everything
+                        hooked up right again.</p></li>
+      <li>In the same directory, create a new XML document that uses the shell XSD. This document is
+                    used to test as you go. Name it something like
+                        <filepath>constraint-test.xsd</filepath>. Verify that the document is valid.
+                    As you haven't yet modified the shell schema document, it should be valid. The
+                    document should look something like
+                    this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;topic
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="topic-with-highlight-constraint.xsd"
+  id="topicid">
+  &lt;title>Test of Simple Paragraph Restriction&lt;/title>
+  &lt;body>
+    &lt;p>&lt;b>b&lt;/b>, &lt;i>i&lt;/i>, &lt;u>u&lt;/u>. Not allowed &lt;keyword>keyword&lt;/keyword>.&lt;/p>
+    &lt;p>&lt;/p>
+  &lt;/body>
+&lt;/topic></codeblock></li>
+      <li>In the same directory, create a new empty XSD document named
+                        <filepath>highlightOnlyPConstraints.xsd</filepath>. This is the constraint
+                    module file.</li>
+      <li>For this domain you are constraining the content model of the <xmlelement>p</xmlelement>
+                    element, so the first task is to find where <xmlelement>p</xmlelement>'s content model
+                    is defined in the XSD files that make up the base <xmlelement>topic</xmlelement>
+                    vocabulary module. One way to do this is to search for
+                        <codeph>name="p.content"</codeph> across all the standard XSD modules (for
+                    example, using OxygenXML's <q>Find in files</q> feature or using Search in
+                    Windows Explorer). You should find the group definition for <q>p.content</q> in
+                        <filepath>commonElementMod.xsd</filepath>. It looks like
+                    this:<codeblock>	&lt;xs:group name="p.content">
+		&lt;xs:sequence>
+			&lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+				&lt;xs:group ref="para.cnt" minOccurs="0"/>
+			&lt;/xs:choice>
+		&lt;/xs:sequence>
+	&lt;/xs:group></codeblock></li>
+      <li>Create the intermediate redefinition file <filepath>highlightOnlyPConstraintsInt.xsd</filepath> and give it this content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  &lt;xs:annotation>
+    &lt;xs:documentation>Intermediate level of redefine to work around XSD redefine limitations
+    &lt;/xs:documentation>
+  &lt;/xs:annotation>
+  
+  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementMod.xsd:1.2">
+    &lt;!-- constrain content of &lt;p> element -->
+    &lt;xs:group name="p.content">
+      &lt;xs:choice>
+        &lt;!-- "clear" p.content so we can then override it again in the next level of redefine. -->
+      &lt;/xs:choice>            
+    &lt;/xs:group>  
+  &lt;/xs:redefine>
+
+  &lt;xs:group name="p-highlight-only.content">
+    &lt;xs:choice>
+      &lt;xs:sequence maxOccurs="unbounded">      
+        &lt;xs:group ref="b" minOccurs="0"/>
+        &lt;xs:group ref="i" minOccurs="0"/>
+        &lt;xs:group ref="u" minOccurs="0"/>
+      &lt;/xs:sequence>
+    &lt;/xs:choice>                
+  &lt;/xs:group>
+&lt;/xs:schema> </codeblock><p>This schema document redefines <xmlelement>p</xmlelement> as declared in <filepath>commonElementMod.xsd</filepath> to be an empty group. This document also defines a new group containing the new content model we want for <xmlelement>p</xmlelement>.</p></li>
+      <li>In the new constraint module XSD file, create an <xmlelement>xs:redefine</xmlelement> element
+                    that points <filepath>highlightOnlyPConstraintsInt.xsd</filepath> and defines
+                        <q>p.content</q> to use the <q>p-highlight-only.content</q> content group
+                    also defined in
+                    <filepath>highlightOnlyPConstraintsInt.xsd</filepath>:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+
+  &lt;xs:redefine schemaLocation="<b>highlightOnlyPConstraintsInt.xsd</b>">
+    &lt;!-- constrain content of &lt;p> element -->
+    &lt;xs:group name="p.content">    
+      &lt;xs:choice>
+        <b>&lt;xs:group ref="p-highlight-only.content"/></b>
+      &lt;/xs:choice>            
+    &lt;/xs:group>
+  &lt;/xs:redefine>
+
+
+&lt;/xs:schema></codeblock></li>
+      <li>To the topic document type shell XSD add the statement in bold between the two statements shown:<codeblock>  ...
+
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.2"/>
+
+  <b>&lt;xs:include schemaLocation="highlightOnlyTopicConstraints.xsd" /></b>
+  
+  &lt;xs:group name="info-types">
+    &lt;xs:sequence/>    
+  &lt;/xs:group>
+
+  ...</codeblock><p>This includes the constraint module in the XSD document type shell.</p></li>
+      <li>In the topic document type shell, remove or comment out the include of
+                        <filepath>commonElementMod.xsd</filepath>, since it is now included by the
+                    redefine statement in the intermediate XSD
+                    document:<codeblock>  &lt;!-- =================  MODULE INLCUDE DEFINITION  ==================  -->
+ <b>&lt;!-- &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementMod.xsd:1.2"/> --></b></codeblock></li>
+      <li>Test your work by validating your test document. It should validate (meaning all the
+                    schema components are hooked up). Make sure your test document has a paragraph
+                    with something other than <xmlelement>b</xmlelement>, <xmlelement>i</xmlelement>, or
+                        <xmlelement>u</xmlelement> in it (e.g., <xmlelement>keyword</xmlelement>).</li>
+      <li>Update the domains attribute declaration in the document type shell to reflect the use of the constraint module:<codeblock>  ...
+
+  &lt;xs:attributeGroup name="domains-att">
+    &lt;xs:attribute name="domains" type="xs:string" 
+      default="<b>(topic highlightOnlyP-c)</b> 
+          (topic ui-d) (topic hi-d) (topic sw-d) (topic pr-d) 
+          (topic ut-d) (topic indexing-d) (topic hazard-d) 
+          (topic abbrev-d)"/>
+  &lt;/xs:attributeGroup>
+
+  ...</codeblock></li>
+      <li>Test the constraint by validating your test document. It should be valid and should only allow <xmlelement>b</xmlelement>, <xmlelement>i</xmlelement>, and <xmlelement>u</xmlelement> within <xmlelement>p</xmlelement>. </li>
+      </ol></p>
+    <p>At this point you could package the constraint module and the shell document type into Toolkit plugins.</p>
+  </body>
+</subsection>

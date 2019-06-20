@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss2">
+  <title>Configuration</title>
+  <body>
+    <p>Configuration is the task of taking existing vocabulary and constraint modules and combining
+      them together to define a DITA document type.</p>
+    <p>You do configuration by creating new document type shells, which are DTD or XSD files that
+      serve as manifests of the vocabulary modules that make up the DITA document types.</p>
+    <p>Configuration can also involve the creation of new constraint modules.</p>
+    <p>As an implementation activity, creating new document type shells is an entirely mechanical
+      process that requires no knowledge of DTD or XSD syntax. The tutorials demonstrate the
+      mechanical process. Likewise, because the process is entirely mechanical (meaning it requires
+      no creative thought or invention), it can be automated, as it has been by Jarno Elovirta and
+      his DITA DTD Generator (<xref href="http://dita-generator.appspot.com/" format="html"
+        scope="external">http://dita-generator.appspot.com/</xref>).</p>
+    <p>The development of constraint modules requires a bit more DTD or XSD knowledge, but it is
+      also a largely mechanical process because it is always about removing or constraining existing
+      things, not adding new things. Therefore, it does not require invention, only analysis of
+      requirements and modification of existing declarations.</p>
+  </body>
+</subsection>

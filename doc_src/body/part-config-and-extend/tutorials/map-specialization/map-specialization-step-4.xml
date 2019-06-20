@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization Step 4: Create faq-mapDomain Module</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>structural domain<indexterm>map</indexterm></indexterm>
+        <indexterm>map domain<indexterm>defining</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The faq-mapDomain map domain defines the <xmlelement>faq-question-set</xmlelement> and <xmlelement>faq-question</xmlelement> topicref types. </p>
+    <p>Create the module as follows:<ol>
+      <li>Edit the file <filepath>faq-mapDomain/dtd/faq-mapDomain.ent</filepath> and add these declarations:<codeblock>&lt;!-- ============================================================= -->
+&lt;!--                    ELEMENT EXTENSION ENTITY DECLARATIONS      -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY % faq-map-d-topicref 
+  "faq-question-set |
+   faq-question
+  "                     
+>
+
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ENTITY DECLARATION                  -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY faq-map-d-att 
+  "(map faq-map-d)"                           
+>
+</codeblock></li>
+      <li>Edit the file <filepath>faq-mapDomain/dtd/faq-mapDomain.mod</filepath> and add these parameter entity declarations:<codeblock>&lt;!-- ==================================
+     FAQ Map Domain
+
+     Copyright (c) 2011 Your Name Here
+
+     ================================== -->
+
+<b>&lt;!ENTITY % faq-question-set "faq-question-set" >
+&lt;!ENTITY % faq-question     "faq-question" ></b>
+</codeblock> </li>
+      <li>In the file <filepath>map.mod</filepath> find the declarations for the <xmlelement>topicref</xmlelement> element and copy them into the <filepath>faq-mapDomain.mod</filepath> file:<codeblock>&lt;!ENTITY % topicref.content
+                       "((%topicmeta;)?, 
+                         (%anchor; | 
+                          %data.elements.incl; |
+                          %navref; | 
+                          %topicref;)* )"
+>
+&lt;!ENTITY % topicref.attributes
+             "navtitle 
+                        CDATA 
+                                  #IMPLIED
+              href 
+                        CDATA 
+                                  #IMPLIED
+              keyref 
+                        CDATA 
+                                  #IMPLIED
+              keys 
+                        CDATA 
+                                  #IMPLIED
+              query 
+                        CDATA 
+                                  #IMPLIED
+              copy-to 
+                        CDATA 
+                                  #IMPLIED
+              outputclass 
+                        CDATA 
+                                  #IMPLIED
+              %topicref-atts;
+              %univ-atts;"
+>
+&lt;!ELEMENT topicref    %topicref.content;>
+&lt;!ATTLIST topicref    %topicref.attributes;>
+</codeblock></li>
+      <li>Globally change <q>topicref</q> to <q>faq-question-set,</q> except for the reference to
+                    the <parameterentity>topicref.atts</parameterentity> parameter
+                    entity:<codeblock>&lt;!ENTITY % <b>faq-question-set</b>.content
+                       "((%topicmeta;)?, 
+                         (%anchor; | 
+                          %data.elements.incl; |
+                          %navref; | 
+                          %faq-question-set;)* )"
+>
+&lt;!ENTITY % <b>faq-question-set</b>.attributes
+             "navtitle 
+                        CDATA 
+                                  #IMPLIED
+              href 
+                        CDATA 
+                                  #IMPLIED
+              keyref 
+                        CDATA 
+                                  #IMPLIED
+              keys 
+                        CDATA 
+                                  #IMPLIED
+              query 
+                        CDATA 
+                                  #IMPLIED
+              copy-to 
+                        CDATA 
+                                  #IMPLIED
+              outputclass 
+                        CDATA 
+                                  #IMPLIED
+              %topicref-atts;
+              %univ-atts;"
+>
+&lt;!ELEMENT <b>faq-question-set</b>    %<b>faq-question-set</b>.content;>
+&lt;!ATTLIST <b>faq-question-set</b>    %<b>faq-question-set</b>.attributes;></codeblock></li>
+      <li>Change the content model for <xmlelement>faq-question-set</xmlelement> to:<codeblock>&lt;!ENTITY % faq-question-set.content
+                       "<b>((%topicmeta;)?, 
+                         (%faq-question;)*)</b>"
+>
+</codeblock></li>
+      <li>Copy the declarations for <xmlelement>faq-question-set</xmlelement> and paste them after the
+                    ATTLIST declaration for <xmlelement>faq-question-set</xmlelement>. Change
+                        <q>faq-question-set</q> to
+                    <q>faq-question</q>:<codeblock>&lt;!ENTITY % <b>faq-question</b>.content
+                       "((%topicmeta;)?, 
+                         (%faq-question;)*)"
+>
+&lt;!ENTITY % <b>faq-question</b>.attributes
+             "navtitle 
+                        CDATA 
+                                  #IMPLIED
+              href 
+                        CDATA 
+                                  #IMPLIED
+              keyref 
+                        CDATA 
+                                  #IMPLIED
+              keys 
+                        CDATA 
+                                  #IMPLIED
+              query 
+                        CDATA 
+                                  #IMPLIED
+              copy-to 
+                        CDATA 
+                                  #IMPLIED
+              outputclass 
+                        CDATA 
+                                  #IMPLIED
+              %topicref-atts;
+              %univ-atts;"
+>
+&lt;!ELEMENT <b>faq-question</b>    %<b>faq-question</b>.content;>
+&lt;!ATTLIST <b>faq-question</b>    %<b>faq-question</b>.attributes;>
+</codeblock></li>
+      <li>Change the content model for <xmlelement>faq-question</xmlelement> to:<codeblock>&lt;!ENTITY % faq-question.content
+                       "<b>((%topicmeta;)?)</b>"
+></codeblock></li>
+      <li>From <filepath>map.mod</filepath> find the <xmlatt>class</xmlatt> attribute declaration for <xmlatt>topicref</xmlatt> and paste it into <filepath>faq-mapDomain.mod</filepath>. <codeblock>&lt;!ATTLIST topicref    %global-atts;  class CDATA "- map/topicref "   ></codeblock></li>
+      <li>Change the element type from <q>topicref</q> to <q>faq-question,</q> change the <q>-</q>
+                    to <q>+,</q> and add <q> faq-map-d/faq-question </q> to the end of the attribute
+                    value:<codeblock>&lt;!ATTLIST faq-question    %global-atts;  class CDATA "+ map/topicref faq-map-d/faq-question "   ></codeblock></li>
+      <li>Validate the test document. It should validate. Verify that you can add a <xmlelement>faq-question</xmlelement> topicref within <xmlelement>faq-question-set</xmlelement>.</li>
+      </ol></p>
+    <p>You're done. The FAQ map type and map domains have been declared and validated. All that
+            remains is adding the appropriate catalog entries, updating the faq-map document type
+            shell to use the public IDs for the module files, and packaging the lot as one or more
+            Toolkit plugins.</p>
+  </body>
+</subsection>

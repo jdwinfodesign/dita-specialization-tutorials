@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss1">
+  <title>Linking vs. Addressing</title>
+  <shortdesc>Linking establishes relationships among things, links use addresses to point to those things.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>linking<indexterm>distinguished from addressing</indexterm></indexterm>
+        <indexterm>addressing<indexterm>distinguished from linking</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In order to understand and make best use of links in any documentation application, but especially in DITA, it is important to understand the distinction between links as abstract objects and the plumbing that makes links work.</p>
+  </body>
+  <subsection
+    id="subsection_mjn_iis_gb">
+    <title>Links as objects that represent relationships</title>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>link<indexterm>as object</indexterm></indexterm>
+          <indexterm>relationships<indexterm>represented by links</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>In general terms, a <term>link</term> is a relationship among two or
+        more things. In the context of DITA, the things that can be linked are
+        XML elements, because XML elements are the unit of semantic structure in
+        XML and DITA is an XML application.</p>
+      <p>When you create a topicref, which is a kind of link, you are
+        establishing a relationship between the <xmlelement>topicref</xmlelement>
+        element and the <xmlelement>topic</xmlelement> element that the topicref
+        points to. Likewise, a cross-reference establishes a relationship
+        between the <xmlelement>xref</xmlelement> element and the element it points to
+        (which could be almost any type of element). </p>
+      <p>When you use <xmlatt>conref</xmlatt> or <xmlatt>conkeyref</xmlatt> you
+        are establishing a use by reference relationship between the element
+        that specifies <xmlatt>conref</xmlatt> or <xmlatt>conkeyref</xmlatt> and
+        the element pointed to. In the case of topicrefs and cross-references,
+        the element types are always links. In the case of the
+        <xmlatt>conref</xmlatt> and <xmlatt>conkeyref</xmlatt> attributes, the
+        attribute creates a link from an element that is not inherently a
+        link.</p>
+      <p>All relationships have some sort of type that indicates the reason or purpose of the
+                relationship, for example, <q>related information</q> (<xmlelement>xref</xmlelement>) or
+                    <q>navigation position</q> (<xmlelement>topicref</xmlelement>). Sometimes the type is
+                generic (<q>navigation</q>) and sometimes it is specific, although in most
+                documentation contexts link types tend to be generic.</p>
+      <p>Link types are analogous to element types, in that the type allows processors to do
+                different things for different kinds of links. In DITA you can use several different
+                kinds of general link types (topicrefs, xrefs, reltable links, conref links, etc.)
+                that have specific processing semantics, and you can add your own more-specific
+                types through specialization (for example, specializations of
+                    <xmlelement>topicref</xmlelement>).</p>
+      <p>As an abstract object, a link simply establishes a relationship among
+        two or more objects, the <term>link ends</term>. One of the link ends
+        may be the link element itself, as in the case of topicrefs and cross
+        references. Links do not inherently have directionality, meaning that,
+        in theory, you should be able to traverse any link starting at any link
+        end and go to any other link end. </p>
+      <p>Link ends may also be referred to as <q>anchors.</q> However, the term <q>anchor</q> is
+        problematic because it may also refer to an object that is the target of an address to which
+        links can point but that is not itself part of a link. The HTML <xmlelement>a</xmlelement> element
+        with only an <xmlatt>id</xmlatt> or <xmlatt>name</xmlatt> attribute is an example of this
+        second meaning of the term <q>anchor.</q></p>
+      <p>Even links that we tend to think of as highly directional, such as cross-references, have
+        two ends and, while you may not normally want authors to traverse from the target of the
+        cross-reference to the reference itself, it is often useful to know that a given element is
+        in fact a reference target and where the reference is.</p>
+      <p>This is often referred to as the <q>where used</q> problem, and it comes up particularly in
+        the context of component management systems, which should keep track of links and provide
+        quick answers to the <q>where used</q> question. Answering a <q>where used</q> question for
+        a given cross-reference target or similar highly-directional link means traversing from the
+        link end that is the target of the reference to the link end that is the reference
+        itself.</p>
+      <p>Other links are not inherently directional. Such links are usually referred to as
+          <q>bidirectional</q> (if there are exactly two link ends) or <q>multidirectional</q> (if
+        there are more than two link ends). In DITA, relationship table links are not inherently
+        directional.</p>
+      <p>A link has a type. Likewise, each end of a link has a <term>role</term>, sometimes referred
+                to as <term>anchor role</term>. The role of each link end allows the semantic
+                purpose of each end to be distinguished. This allows for a more complete description
+                of the relationship and allows processors to do different things for different link
+                ends. In DITA, for most links the roles are implicit in the link type and are not
+                specified anywhere. In other links, such as DITA relationship table links, the roles
+                are specified.</p>
+      <fig>
+        <title>Abstract link model</title>
+        <image
+          href="graphics/abstract-extended-link.png"
+          id="image_lsm_qqb_mf"
+            width="4in">
+          <alt>Shows a link as a relation between two Link End objects, which in
+            turn point to topics to establish a relation between the two
+            topics.</alt>
+        </image>
+      </fig>
+      <p>If you think about links as representing relationships, it should be clear that some
+        relationships are inherently directional and some are not. Thus directionality of links is a
+        function of the semantic of the link as a relationship and of policies applied to the link
+        regarding navigation behaviors. In some systems, such as military task support systems or
+        educational systems, it may be important that navigation only be allowed in one direction
+        for certain links. In most documentation systems, directionality is more likely a matter of
+        practicality and user interface, meaning there is no need to enable direct navigation from
+        the targets of cross-references to the original reference since doing so would clutter the
+        presentation and create user interface challenges. Even for inherently non-directional links
+        such as DITA relationship table links, you may define link types that are directional and
+        therefore use processing rules to render the links with a specific directionality.</p>
+      <p>To belabor the notion of relationship directionality a bit more, some relationships are
+        reflexive, in that you can read them in either direction without changing the link type. For
+        example, the relationship <q>is married to</q> is reflexive in that you can read it as
+          <q>husband is married to wife</q> and <q>wife is married to husband</q> without changing
+        the link type. Other relationships are not reflexive, meaning that the link type is only
+        meaningful for a particular direction. For example, the relationship <q>is parent of</q> is
+        only meaningful when read starting at the <q>parent</q> role: <q>parent is parent of
+          child.</q> The reverse direction requires a different link type, in this case, <q>is child
+          of.</q></p>
+      <p>Of course, all non-reflexive relationships imply an inverse as in the parent-of/child-of
+        relationship. Thus one challenge of link relationship design is how to express the types of
+        non-reflexive relationships in markup: do you leave one direction implicit? Do you use link
+        types that reflect both directions? Do you use pairs of directional links? Does anyone
+        actually care?</p>
+      <p>This last question is actually quite important: does anyone actually care about links and
+                formal link types and anchor roles? While it’s possible to formally analyze the
+                links used in a body of documentation and work out all sorts of formal
+                relationships, it may not add any value to do so. This raises the question of what
+                links are really good for and when should you care about them?</p>
+      <p>The practical value of links include:<ul
+        id="ul_cnv_igs_gb">
+        <li>Enabling reader navigation from one place to another in order to make best use of the
+            information, usually in support of a task or in understanding a concept. In DITA this
+            means cross-references and relationship table links.</li>
+        <li>Enabling construction of complete publications from reusable component parts. In DITA
+            this means maps, topicrefs, and content references.</li>
+        <li>Enabling the reader to find information based on its participation in relationships,
+            often as it relates to real-world objects or concepts. In DITA this means relationship
+            table links, subject scheme maps, or links established outside of a DITA context, such
+            as by taxonomies or ontologies, possibly using technologies like RDF.</li>
+      </ul></p>
+      <p>The first two bullets don’t really require a great deal of formalism to be useful. Simply
+                creating new element types for <xmlelement>topicref</xmlelement> or
+                    <xmlelement>xref</xmlelement> is sufficient semantic distinction to support authoring
+                and processing.</p>
+      <p>The last bullet is really about using links to represent facts about the world to which the
+                information relates so that you can then navigate or find information components
+                based on the model of the world reflected by the links. For example, documentation
+                about a complex machine could be linked using more-specific link types that reflect
+                the component and subcomponent structure of the machine itself (for example,
+                subcomponent-of links, rather than simple navigation links). As a user of the
+                information you should be able to get a view that reflects the machine as a system
+                of components, navigate that model, and then be able to get from a specific machine
+                component to all the relevant information about that component, distinguished by
+                information type (for example, by topic type). It is in this type of model that link
+                types become more important.</p>
+      <p>Another implication of this way of thinking about links is that there are all sorts of
+        interesting ways you can create data models of the content or the information domain to
+        which the content applies and then express those data models using formal hyperlinks. This
+        is, for example, the focus and purpose of the Topic Map and RDF standards, which are all
+        about using hyperlinks to represent knowledge and relating those links to specific
+        information components. Likewise, the DITA Subject Scheme map type can be used to represent
+        formal taxonomies and ontologies as systems of links that can be imposed onto other content.
+        These can be very interesting, especially in the context of managing large bodies of content
+        that cover lots of subjects, such as encyclopedias or catalogs of published works.</p>
+      <p>Because it provides appropriate linking and addressing facilities and because of its
+        modular nature, DITA is well suited to abstract linking applications.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="subsection_mfn_qjs_gb">
+    <title>Links as sets of pointers</title>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>link<indexterm>as set of pointers</indexterm></indexterm>
+          <indexterm>identity<indexterm>of topics</indexterm></indexterm>
+          <indexterm>identity<indexterm>of elements</indexterm></indexterm>
+          <indexterm/>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>As an abstraction, a link is a relationship among objects. But to make that abstraction
+        concrete you have to point at the objects in some way. That is, for each link end there must
+        be a pointer to the thing or things that constitute that end of the link. These pointers are
+          <q>addresses</q> and the act of pointing to something is <q>addressing.</q></p>
+      <p>Addressing is the plumbing that makes links work. Everyone is familiar with HTML links,
+        which are essentially all plumbing (the <xmlatt>href</xmlatt> attribute and the URIs it
+        contains) and no semantics (the link type represented by the element type
+          <xmlelement>a</xmlelement> is completely unspecified, given that <q>a</q> stands for
+          <q>anchor</q> in HTML, meaning one end of the link). In fact, HTML has trained most people
+        to confuse the address with the link and think that what is important is the address.</p>
+      <p>But the address is no more important than whether or not the pipes that deliver the water
+                to your tap are PVC, copper, or Roman lead—as long as drinkable water comes out, you
+                don’t care how it got there.</p>
+      <p>By the same token, the pipes could be completely replaced with a different type of pipe,
+                and as long as you got the same water, you wouldn’t know or care.</p>
+      <p>So it is with addressing: as long as the address gets to the appropriate element, it
+                doesn’t matter what form of address is used. Likewise, you can always change the
+                addressing mechanism without changing the meaning of the link as long as the
+                ultimate target is the same.</p>
+      <p>Addresses may be implicit or explicit. </p>
+      <p>An <q>implicit address</q> is one that does not need to be specified because it is implied
+                by some other aspect of the link. For example, in the case of elements like
+                    <xmlelement>topicref</xmlelement> and <xmlelement>xref</xmlelement>, the link element itself
+                is one of the link ends, and therefore <q>this element</q> is the address of that
+                link end, which clearly does not need to be further specified.</p>
+            <p>DITA does not define any other type of implicit link or address, though of course,
+                you are free to implement implicit linking behavior for your own content. A typical
+                example is linking based on classification metadata within topics, where, given a
+                taxonomy that defines the classification values you can automatically relate topics
+                to each other based on the relationships defined in the taxonomy. DITA enables this
+                but does not define any built-in semantics for it.</p>
+      <p>An <q>explicit address</q> may be direct or indirect. In the context of XML applications
+                like DITA, the purpose of an address is to point unambiguously at one or more XML
+                elements or subcomponents of XML elements (attributes, text, etc.). In DITA, all
+                addressing is to elements—DITA has no notion of addressing individual attributes of
+                elements or individual text nodes. </p>
+      <p>For explicit linking, DITA defines two forms of address:<ul
+        id="ul_huh_tls_gb">
+        <li>Direct addressing using URIs and DITA-specific fragment identifiers.</li>
+        <li>Indirect addressing using keys and key references.</li>
+        </ul></p>
+      <p>URIs are a standard,<fn>Internet Request for Comment (RFC) 2396, <xref
+                        href="http://www.ietf.org/rfc/rfc2396.txt" format="html" scope="external"
+                        >http://www.ietf.org/rfc/rfc2396.txt</xref></fn> but the URI standard only
+                defines the rules for how to address complete <q>resources</q> (for example, files).
+                It does not define how to address things within resources. Addressing within
+                resources is always specific to the details of the resource’s data, which could be
+                anything. The URI standard has no choice but to delegate to the different data types
+                the rules for addressing within those data types. Thus DITA defines its own fragment
+                identifier syntax.</p>
+      <p>Note that there is no single standard for XML fragment identifiers. This is because there are simply too many different ways that it might be useful to address XML elements. There are some standards, such as XPointer, but they are neither universally implemented nor necessarily attractive. In any case, for largely historical reasons, DITA defines its own fragment identifier syntax and does not use other standards such as XPointer.</p>
+      <p>Note too that W3C standards such as XPointer and XLink are explicitly <i>delivery</i>
+                standards, not authoring standards. They are designed to meet the requirements of
+                hyper-document delivery, not hyper-document authoring, and as such lack features,
+                such as indirection, that are required for authoring but necessarily avoided for
+                delivery. Thus, it would be inappropriate for DITA to use a standard like XPointer
+                or XLink because those standards don’t meet authoring requirements, regardless of
+                any other technical flaws or value they may have. It is unfortunate that no general
+                authoring-specific addressing standard has emerged, but the lack of it hasn’t been a
+                huge issue. It does mean, however, that DITA-aware processors cannot directly use
+                any existing addressing infrastructure they may have developed for other addressing
+                standards since DITA’s addressing details are specific to DITA and not even
+                coincidently the same as any other addressing standard.</p>
+      <p>In any case, the key point is that the form of address used for a link doesn’t matter and
+                should be changeable without affecting the semantic of the link as long as the
+                ultimate target of each address is the same. In DITA this means that you should be
+                able to replace any direct URI reference with the equivalent key reference and visa
+                versa. This is important for authoring and delivery, because it means you can make
+                direct addresses indirect (important for authoring) and indirect addresses direct
+                (important for delivery), and you can do it without risk of breakage as long as you
+                can prove that the ultimate target of the address is the same before and after.</p>
+      <p>Another aspect of addressing is identity, in particular, how do things like topics and elements within topics establish their identity as unique objects relative to all other existing and potential objects? Without identity you cannot unambiguously address things.</p>
+      <p>In XML generally, identity is established as follows:<ol
+        id="ol_cfg_bos_gb">
+        <li>Every XML document is, by definition, a storage object (for example, file) within some
+                        storage system. As a storage object it has identity represented by its
+                        storage location, for example, its URL within a repository:
+                            <codeph>http://example.com/mydocs/doc1/topic-01.dita</codeph>. By
+                        implication, if two documents have the same storage location they are the
+                        same document.</li>
+        <li>Every element within an XML document has a unique and invariant location within the tree of elements rooted at the document element. That is, every element can be unambiguously and reliably addressed by an XPath expression of the form "<codeph>/root/element()[<varname>n</varname>]/element()[<varname>n</varname>]/element()[<varname>n</varname>]</codeph>", where <varname>n</varname> is the child number of the element at that level in the hierarchy. </li>
+        </ol></p>
+      <p>Thus, every element within an XML document is inherently an object whose identity can be expressed as the combination of resource location (URI) of the containing XML document and the XPath tree location of the element. </p>
+      <p>Of course, the tree location of an element is only invariant for a specific version of the
+        document. If the document is updated, then the tree location may be different in the new
+        version. Therefore, it is convenient (but not absolutely necessary) to put some sort of
+        persistent identifier on elements so they can be addressed without worrying about changes in
+        their position over time.</p>
+      <p>Using IDs is not a complete solution to the challenge of managing pointers as documents are
+                revised, but it works well enough that it’s worth doing for convenience if nothing
+                    else.<fn>To understand why it’s not a complete solution, consider the case of an
+                    element with an ID getting split into two elements as a result of a
+                    revision—some of the references to the original ID will continue to be correct
+                    but some will not be; thus there is no alternative but to update the incorrect
+                    references to point to the newly-created element. At that point, it should
+                    become clear that, because it can’t protect you from broken links, an ID is no
+                    better than a tree location. IDs are at best a convenience and at worst a
+                    distraction.</fn> A complete solution must provide some form of indirect
+                addressing, which in DITA is provided through the key reference facility, about
+                which more later. </p>
+      <p>For element identity DITA defines the following mechanisms:<ul
+        id="ul_eox_fqs_gb">
+        <li>Topic elements require the <xmlatt>id</xmlatt> attribute, which for
+                            <xmlelement>topic</xmlelement>, is declared as type <q>ID,</q> (an XML ID)
+                        meaning that its value must be unique within the document that contains the
+                            <xmlelement>topic</xmlelement> element. This is the only place in DITA that
+                            <xmlatt>id</xmlatt> attributes are declared as type <q>ID.</q><p>Note
+                            that this does <i>not</i> require that all topics have globally unique
+                            IDs, only that topics have unique IDs within their containing XML
+                            documents. For documents that contain exactly one
+                                <xmlelement>topic</xmlelement> element the topic ID doesn’t matter at all,
+                            as the topic can be unambiguously addressed by addressing the XML
+                            document as a whole. Any processor that either requires that topic IDs
+                            be globally unique or assumes that they are is broken.</p></li>
+        <li>Almost all non-topic elements within topics may have an <xmlatt>id</xmlatt> attribute.
+                        The value must be unique within the non-topic children of the containing
+                        topic, but there is no way in DTD or XSD to express this requirement so most
+                        editors will not enforce it. The identity of non-topic elements within
+                        topics is established by the combination of the topic ID and the element ID
+                        of the element itself. <p>Note that if a topic contains a subtopic, the same
+                            element ID may be used within the subordinate topic (but of course, the
+                            topic IDs must be unique within a single XML document as that is the
+                            rule for XML attributes of type ID). That is, each topic establishes a
+                            new ID space for all of the non-topic children within that topic (i.e.,
+                            the elements within the short description, abstract, prolog, and body of
+                            the topic, but not within any nested topics nor the nested topic
+                            elements themselves).</p><p>This design was driven primarily by a desire
+                            to make it possible to combine topics together into new documents
+                            without having to rewrite IDs and pointers to them. It makes some things
+                            easier and some things harder. It’s not how I would have done it, but it
+                            is how DITA was designed long before it became an OASIS standard.
+                            </p><p>Note also that concerns about what happens during processing,
+                            such as resolving conrefs or applying <q>chunk</q> rules should be of no
+                            concern because processors should always have enough information to
+                            manage addresses through the processing of content (remembering that
+                            addresses can always be changed as long as the resulting target is
+                            correct).</p></li>
+        <li>Elements within maps may have an <xmlatt>id</xmlatt> attribute. The value must be unique within the map but, for various good reasons, these <xmlatt>id</xmlatt> attributes are not declared as type ID and therefore XSDs and DTDs cannot validate ID uniqueness within maps.</li>
+        </ul></p>
+      <p>If you have a situation where you are migrating legacy content into DITA you may run into
+                issues around capturing current IDs or multiple IDs. If your legacy content uses
+                normal XML IDs then there should be no problem since they will be at least as unique
+                as DITA requires as long as you’re not combining things from different documents
+                into new documents. Likewise, CMS object IDs should translate to element IDs since
+                they are presumably also unique.</p>
+      <p>If you need to capture additional identifiers, in addition to the element ID, that is best
+                done by using <xmlelement>data</xmlelement> within topic prologs or non-topic elements (if
+                the identifiers don’t apply to the topic as a whole).</p>
+    </body>
+  </subsection>
+</subsection>

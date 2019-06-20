@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Constraint Module Step 3: Define the New Content Models</title>
+  <body>
+    <p>The base content model for the <xmlelement>p</xmlelement> element is defined in a parameter entity named <parameterentity>p.content</parameterentity> (by the general DITA 1.2 rules for constructing DTD-syntax element type declarations). Thus we need to declare our own version of <parameterentity>p.content</parameterentity> with the content model we want.</p>
+    <p>We want to allow only #PCDATA and the element types <xmlelement>b</xmlelement>,
+                <xmlelement>i</xmlelement>, and <xmlelement>u</xmlelement>, or any specializations of those
+            types. </p>
+    <p>Thus, the content model should be defined as:<codeblock>(#PCDATA |
+ %b; |
+ %i; |
+ %u;)*</codeblock></p>
+    <p>To allow specializations of these element types we need to reference the tagname parameter
+            entities for them, not the bare element type names. That is, we want to use
+                    <q><codeph>%b;</codeph></q> not just <q><codeph>b</codeph></q> in the content
+            models. Because of the way parameter entity declaration precedence works in DTDs we have
+            to declare the tagname parameter entities in the constraint module to ensure they are
+            declared before they are used in the content model.</p>
+    <p>Given this knowledge, add the following parameter entity declarations to the constraint module file:</p>
+    <p>
+      <codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- ======================================
+     Constraint Domain: Paragraphs with
+     only highlight domain elements.
+     
+     Copyright (c) 2011 Your Name Here
+     
+     ====================================== -->
+
+&lt;!ENTITY topic-constraints "(topic highlightOnlyTopic-c)" >
+
+<b>&lt;!ENTITY % b           "b"            >
+&lt;!ENTITY % i           "i"            >
+&lt;!ENTITY % u           "u"            > 
+
+&lt;!ENTITY % p.content 
+  "
+  (#PCDATA |
+   %b; |
+   %i; |
+   %u;)*
+  "></b>
+
+     
+&lt;!-- ============ End of constraint module --></codeblock>
+    </p>
+    <p>That's the entire constraint module.</p>
+    <p>It may seem odd that we have to declare tagname entities that are already declared in the base module. However, there is an order of inclusion problem that can't be worked around any other way.</p>
+    <bodydiv
+      outputclass="why-does-dita">
+      <p>In DTDs, the first declaration of a parameter entity name wins. This is why the module files are included <i>last</i> in document type shells: they have to give domain modules and constraint modules the opportunity to override any parameter entities declared in the base module.</p>
+      <p>Likewise, constraint modules are included <i>after</i> any domain entity files and after
+                the domain integration parameter entities in the document type shell so they will
+                use any element-type-specific integrations in the constrained content models they
+                define. But because the tagname parameter entities used in the constraint module may
+                not be overridden by domains in a given shell, the constraint module has to declare
+                the tagname parameter entities locally just to be sure.</p>
+    </bodydiv>
+  </body>
+</subsection>

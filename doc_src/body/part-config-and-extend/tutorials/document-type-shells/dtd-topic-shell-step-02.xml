@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>DTD Topic Type Shell Tutorial Step 2: Delete Unwanted Domain Modules</title>
+  <body>
+    <p>A domain module is integrated into a DTD shell by the following bits, in order of occurrence in the DTD file:<ul
+      id="ul_30c2ce01-d0a4-4640-acdf-9c4c96f1e34b">
+      <li>A reference to the domain's .ent file</li>
+      <li>References to the domain's extension parameter entities (one or more) in the domain extension parameter entities section of the shell.</li>
+      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute component text entity in the <textent>included-domains</textent> entity.</li>
+      <li>A reference to the domain's .mod file.</li>
+      </ul></p>
+    <p>Deleting a domain module means removing all four of these bits for a given domain.</p>
+    <p>To remove the reference to the programming domain from <filepath>myTopic.dtd</filepath>, perform these steps:<ol
+      id="ol_27c4d10e-c2d5-4807-94d5-9ca783c91596">
+      <li>Find the declaration and reference for the <parameterentity>pr-d-dec</parameterentity> parameter entity and delete it:<codeblock>...
+
+&lt;!ENTITY % abbrev-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Abbreviated Form Domain//EN" 
+         "abbreviateDomain.ent"
+>%abbrev-d-dec;
+
+<b>&lt;!ENTITY % pr-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Programming Domain//EN" 
+         "programmingDomain.ent"                                              
+>%pr-d-dec;</b>
+
+&lt;!ENTITY % sw-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Software Domain//EN" 
+         "softwareDomain.ent"                                                 
+>%sw-d-dec;
+
+...</codeblock></li>
+      <li>Find the comment <q>DOMAIN EXTENSIONS,</q> which is the section that contains the domain
+                    extension parameter entities. Find all the parameter entity references that
+                    start with <q>%pr-d-</q> and delete them, along with the leading or trailing
+                        <q>|</q>
+                        character:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN EXTENSIONS                          -->
+&lt;!-- ============================================================= -->
+&lt;!--                    One for each extended base element, with
+                        the name of the domain(s) in which the
+                        extension was declared                     -->
+
+&lt;!ENTITY % pre          "pre | 
+                         <b>%pr-d-pre; | </b>
+                         %sw-d-pre; | 
+                         %ui-d-pre;
+                        ">
+&lt;!ENTITY % keyword      "keyword | 
+                         <b>%pr-d-keyword; | </b>
+                         %sw-d-keyword; |
+                         %ui-d-keyword;
+                        ">
+&lt;!ENTITY % ph           "ph | 
+                         %hi-d-ph; | 
+                         <b>%pr-d-ph; | </b>
+                         %sw-d-ph; | 
+                         %ui-d-ph;
+                        ">
+&lt;!ENTITY % term         "term | 
+                         %abbrev-d-term;
+                        ">
+&lt;!ENTITY % fig          "fig |
+                         <b>%pr-d-fig; |</b>
+                         %ut-d-fig;
+                        ">
+&lt;!ENTITY % dl           "dl<b> | 
+                         %pr-d-dl;</b>
+                        ">
+&lt;!ENTITY % index-base   "index-base | 
+                         %indexing-d-index-base;
+                        ">
+&lt;!ENTITY % note         "note | 
+                         %hazard-d-note;
+                        ">
+
+...</codeblock><p>The
+                        result of these deletions should look like
+                        this:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN EXTENSIONS                          -->
+&lt;!-- ============================================================= -->
+&lt;!--                    One for each extended base element, with
+                        the name of the domain(s) in which the
+                        extension was declared                     -->
+
+&lt;!ENTITY % pre          "pre | 
+                         %sw-d-pre; | 
+                         %ui-d-pre;
+                        ">
+&lt;!ENTITY % keyword      "keyword | 
+                         %sw-d-keyword; |
+                         %ui-d-keyword;
+                        ">
+&lt;!ENTITY % ph           "ph | 
+                         %hi-d-ph; | 
+                         %sw-d-ph; | 
+                         %ui-d-ph;
+                        ">
+&lt;!ENTITY % term         "term | 
+                         %abbrev-d-term;
+                        ">
+&lt;!ENTITY % fig          "fig |
+                         %ut-d-fig;
+                        ">
+&lt;!ENTITY % dl           "dl
+                        ">
+&lt;!ENTITY % index-base   "index-base | 
+                         %indexing-d-index-base;
+                        ">
+&lt;!ENTITY % note         "note | 
+                         %hazard-d-note;
+                        ">
+</codeblock></p></li>
+      <li>Find the comment <q>DOMAINS ATTRIBUTE OVERRIDE,</q> which is the section that contains the
+                    declaration for the <textent>included-domains</textent> entity. Delete the
+                    reference to the <textent>pr-d-att</textent>
+                        entity:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
+&lt;!-- ============================================================= -->
+&lt;!--                    Must be declared ahead of the DTDs, which
+                        puts @domains first in order               -->
+
+&lt;!ENTITY included-domains 
+                          "&amp;hi-d-att; 
+                           &amp;ut-d-att; 
+                           &amp;indexing-d-att;
+                           &amp;hazard-d-att;
+                           &amp;abbrev-d-att;
+                           <b>&amp;pr-d-att;</b> 
+                           &amp;sw-d-att;
+                           &amp;ui-d-att; 
+  "
+>
+
+...</codeblock><p>The
+                        result should
+                        be:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
+&lt;!-- ============================================================= -->
+&lt;!--                    Must be declared ahead of the DTDs, which
+                        puts @domains first in order               -->
+
+&lt;!ENTITY included-domains 
+                          "&amp;hi-d-att; 
+                           &amp;ut-d-att; 
+                           &amp;indexing-d-att;
+                           &amp;hazard-d-att;
+                           &amp;abbrev-d-att;
+                           &amp;sw-d-att;
+                           &amp;ui-d-att; 
+  "
+>
+
+...</codeblock></p></li>
+      <li>Find the declaration and reference to the <parameterentity>pr-d-def</parameterentity> parameter entity and delete it:<codeblock>...
+
+&lt;!ENTITY % ui-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 User Interface Domain//EN" 
+         "uiDomain.mod"
+>%ui-d-def;
+
+<b>&lt;!ENTITY % pr-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Programming Domain//EN" 
+         "programmingDomain.mod"
+>%pr-d-def;</b>
+
+&lt;!ENTITY % sw-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Software Domain//EN" 
+         "softwareDomain.mod"
+>%sw-d-def;
+
+...</codeblock></li>
+      <li>Validate your test document. It should be valid if you've deleted everything correctly. Because the test document points directly to the <filepath>myTopic.dtd</filepath> file, any validation errors must be the result of something in the DTD file itself.</li>
+      </ol></p>
+    <p>Repeat this process for each of the other domains you don't want. </p>
+    <p>Notice that the naming convention used for domain-related components makes it easy to find
+            the bits for a given domain: just search on <q><varname>domainShortName</varname>-d</q>
+            where <varname>domainShortName</varname> is the short name for the domain, e.g.,
+                <q>pr,</q>
+            <q>ui,</q>
+            <q>sw,</q> etc.</p>
+    <p>If you remove the programming (pr), software (sw), user interface (ui), and hazard statement (hazard) domains from this shell, the final result should look like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- ============================================================= 
+
+     My Topic Shell
+     
+     Sample topic type shell demonstrating removing some domains
+     and adding others.
+     
+     
+     ============================================================= -->
+
+&lt;!-- ============================================================= -->
+&lt;!--                    TOPIC ENTITY DECLARATIONS                  -->
+&lt;!-- ============================================================= -->
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ENTITY DECLARATIONS                 -->
+&lt;!-- ============================================================= -->
+
+
+&lt;!ENTITY % hi-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.ent"
+>%hi-d-dec;
+
+&lt;!ENTITY % ut-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Utilities Domain//EN" 
+         "../../base/dtd/utilitiesDomain.ent"                                                
+>%ut-d-dec;
+
+&lt;!ENTITY % indexing-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Indexing Domain//EN" 
+         "../../base/dtd/indexingDomain.ent"                                                 
+>%indexing-d-dec;
+
+&lt;!ENTITY % abbrev-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Abbreviated Form Domain//EN" 
+         "abbreviateDomain.ent"
+>%abbrev-d-dec;
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ATTRIBUTE DECLARATIONS              -->
+&lt;!-- ============================================================= -->
+
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN EXTENSIONS                          -->
+&lt;!-- ============================================================= -->
+&lt;!--                    One for each extended base element, with
+                        the name of the domain(s) in which the
+                        extension was declared                     -->
+
+&lt;!ENTITY % pre          "pre
+                        ">
+&lt;!ENTITY % keyword      "keyword
+                        ">
+&lt;!ENTITY % ph           "ph | 
+                         %hi-d-ph;
+                        ">
+&lt;!ENTITY % term         "term | 
+                         %abbrev-d-term;
+                        ">
+&lt;!ENTITY % fig          "fig |
+                         %ut-d-fig;
+                        ">
+&lt;!ENTITY % dl           "dl
+                        ">
+&lt;!ENTITY % index-base   "index-base | 
+                         %indexing-d-index-base;
+                        ">
+&lt;!ENTITY % note         "note
+                        ">
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ATTRIBUTE EXTENSIONS                -->
+&lt;!-- ============================================================= -->
+&lt;!ENTITY % props-attribute-extensions  
+  ""
+>
+&lt;!ENTITY % base-attribute-extensions   
+  ""
+>
+
+
+&lt;!-- ============================================================= -->
+&lt;!--                    TOPIC NESTING OVERRIDE                     -->
+&lt;!-- ============================================================= -->
+
+&lt;!--                    Redefine the infotype entity to exclude 
+                        other topic types and disallow nesting     -->
+&lt;!ENTITY % topic-info-types 
+  "topic
+  "
+>
+
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
+&lt;!-- ============================================================= -->
+&lt;!--                    Must be declared ahead of the DTDs, which
+                        puts @domains first in order               -->
+
+&lt;!ENTITY included-domains 
+                          "&amp;hi-d-att; 
+                           &amp;ut-d-att; 
+                           &amp;indexing-d-att;
+                           &amp;abbrev-d-att;
+  "
+>
+
+
+&lt;!-- ============================================================= -->
+&lt;!--                    TOPIC ELEMENT INTEGRATION                  -->
+&lt;!-- ============================================================= -->
+
+&lt;!--                    Embed topic to get generic elements        -->
+&lt;!ENTITY % topic-type   
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Topic//EN" 
+         "../../base/dtd/topic.mod"
+>
+%topic-type;
+
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ELEMENT INTEGRATION                 -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY % hi-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.mod"
+>%hi-d-def;
+
+&lt;!ENTITY % ut-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Utilities Domain//EN" 
+         "../../base/dtd/utilitiesDomain.mod"
+>%ut-d-def;
+
+&lt;!ENTITY % indexing-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Indexing Domain//EN" 
+         "../../base/dtd/indexingDomain.mod"
+>%indexing-d-def;
+
+&lt;!ENTITY % abbrev-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Abbreviated Form Domain//EN" 
+         "abbreviateDomain.mod"
+>%abbrev-d-def;
+
+
+&lt;!-- ================== End My Topic DTD  ====================== --></codeblock></p>
+    <p>Note that in the domain extension area, there are now declarations like this:<codeblock>&lt;!ENTITY % pre          "pre
+                        "></codeblock></p>
+    <p>This defines <parameterentity>pre</parameterentity> to be <q>pre, </q>which effectively does nothing to the
+            original definition of <parameterentity>pre</parameterentity>. However, it doesn't hurt to have it here,
+            and it gives you a ready place to add in any new domains you might integrate later. You
+            can remove this declaration entirely if you want.</p>
+  </body>
+</subsection>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>XSD-Based Constraint and Vocabulary Modules</title>
+  <shortdesc>This chapter explores the details of using XSD to define constraint modules and vocabulary modules.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>XSD<indexterm>constraint module</indexterm><indexterm>vocabulary module</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The DITA standard defines both XML document type definitions (DTD) and XML Schema (XSD) as recognized document constraint languages for creating DITA vocabulary modules and constraint modules. The DITA standard defines coding requirements for XSD-based modules just as it does for DTD-based modules.</p>
+    <p>The coding requirements for XSD vocabulary modules are fairly straightforward and map pretty closely to the corresponding DTD coding requirements.</p>
+    <p>However, XSD constraint modules present a particular challenge because they depend on the XSD redefine feature. The redefine feature is both limited in the types of changes you can express (at least directly) and is ambiguously defined in the XSD 1.0 and 1.1 specifications, such that different conforming XSD processors can produce different results for the same XSD document (see <xref
+      href="dtd-or-xsd.xml#topic-id"
+      format="dita"/>).</p>
+    <p>To successfully create XSD-based constraint modules you must understand how the redefine facility works and how to work around its limitations when necessary.</p>
+  </body>
+  <subsection
+    id="ss1">
+    <title>The Redefine Feature and Its Limitations</title>
+    <body>
+      <p>The XSD redefine feature allows one schema document to unilaterally modify the definition of a named group defined in another XSD document. This is analogous to the use of parameter entities in DTDs to enable redefinition of part of a content model or attribute list by redefinition of a parameter entity. However, the XSD redefine feature is not exactly equal to parameter entities. In particular, the new group must provide a one-to-one match for the items ("particles") in the group being redefined. This means that you cannot simply name a group and then change it however you want.</p>
+      <p>[TBD: More details here]</p>
+    </body>
+  </subsection>
+  <subsection
+    id="ss2">
+    <title>Extension vs. Restriction</title>
+    <body>
+      <p>TBD: Discuss the difference between extension and restriction and how to tell when you need to do one or the other.</p>
+    </body>
+  </subsection>
+</chapter>

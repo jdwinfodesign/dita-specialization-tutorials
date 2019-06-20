@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="keys-and-keyrefs">
+  <title>Keys and key references</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>key</indexterm>
+        <indexterm>key reference</indexterm>
+        <indexterm>key space</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Key references are indirect because the reference is just a key name. The key name is bound
+      to a resource by a separate key definition within a map. In order to resolve the initial
+      reference to the ultimate target resource, the processor must first find the correct key
+      definition and then resolve that to a resource, which then becomes the resource to which the
+      initial key reference resolves. The resource bound to the key name be a topic, a map, or a
+      non-DITA resource, such as a graphic or Web page.</p>
+    <p>Indirect addressing allows you to author links that will resolve to
+      different resources (topics, maps, graphics, or other non-DITA things)
+      depending on the root maps that use them. </p>
+    <p>A typical example is a generic task that applies to many products but
+      which refers to product-specific details. For example, printers often use
+      the same print engine and toner cartridge but have different covers. The
+      task of changing the toner cartridge is the same for all applications of
+      the print engine but the illustrations of the specific printers that use
+      it will be different for each printer model.</p>
+    <p>If the <q>change the toner cartridge</q> task included a reference to a printer-specific
+      illustration you would need a separate copy of the task for each printer model, even though
+      the text of the task is identical for all printers. By contrast, if the task could refer
+      abstractly to the <q>changing the toner cartridge</q> illustration and let some other part of
+      the system figure out which illustration to use for each instance, then you would only need
+      one copy of the task.</p>
+    <p>The <q>other part of the system</q> binds key names to specific resources using key
+      definition topicrefs within maps. In particular, the root map for a publication determines the
+      binding of keys to resources. Different root maps can define different bindings for the same
+      key.</p>
+    <p>Key bindings create a <i>global</i> key space for a given root map. This means that, within
+      the context of a given root map, all references to a given key name will resolve to the same
+      resource. When a root map includes other maps it forms a <term>map tree</term>. Key
+      definitions may occur within any map in the map tree, and there may be multiple definitions
+      for the same key name. When there are multiple definitions for the same key, only one can be
+      the <q>effective</q> binding within the scope of a given root map. The rules for determining
+      which definition of a key is the effective one are explained in <xref
+        href="constructing-key-spaces.xml#key-spaces" format="dita"/>. </p>
+    <p>For authors, the important (dare I say key) concept is that key bindings are global, not
+            scoped by the map they are defined in. Thus it doesn’t matter where a given key
+            reference is, relative to where the effective key binding happens to be in the map tree:
+            the binding is global and therefore all references to the key will resolve to the same
+            resource for a given root map. This behavior is designed to allow higher maps in the map
+            tree to determine the effective bindings for specific keys. While you might intuitively
+            expect that key definitions within a submap would override those defined in an ancestor
+            map, keys don’t, and can’t, work that way. The discussion of key space construction
+                <xref href="constructing-key-spaces.xml#key-spaces" format="dita"/> discusses the
+            global aspect of keys in more detail.</p>
+    <p>In the case of our toner cartridge replacement task we know that we need to always have an
+      illustration of the printer that shows where the toner access panel is. We can assign a key
+      name to this illustration and use it to indirectly point to the graphic. For example we could
+      assign the key <q>illustration-toner-cartridge-access-panel</q> and then use it from an
+        <codeph>&lt;image></codeph> element, like
+      so:<codeblock>&lt;task id="changing-toner-cartridge">
+  ...
+  &lt;context>
+    &lt;figure>
+      &lt;title>Toner Cartridge Access Panel&lt;/title>
+      <b>&lt;image keyref="illustration-toner-cartridge-access-panel"/></b>
+    &lt;/figure>
+  &lt;/context>
+  ...
+&lt;/task></codeblock></p>
+    <p>Note that the <xmlelement>image</xmlelement> element uses a <xmlatt>keyref</xmlatt> attribute,
+            rather than an <xmlatt>href</xmlatt> attribute. The value of the <xmlatt>keyref</xmlatt>
+            attribute is a <term>key name</term>. As the author of this task we only need to know
+            the key name for the graphic, we don’t need to know where the graphic is. In fact,
+            because we know that this key will resolve to many different graphics in different
+            printer-specific publications, we <i>can’t</i> know for sure what graphic it will
+            resolve to. Of course, while we’re authoring we might have a particular version of this
+            graphic, for example, the illustration for the first printer model this task is used
+            for, or maybe a representative graphic that serves as guidance to illustrators who will
+            create the printer-specific versions. But, as the author of this task, we don’t care
+            what graphic the key <q>illustration-toner-cartridge-access-panel</q> resolves to as
+            long as it resolves to something in each publication.</p>
+    <p>Using the key establishes a requirement for the illustration but it’s up to the author of
+            each model-specific publication’s map to bind key to the appropriate illustration.</p>
+    <p>Within a map, you create a key definition using the <xmlelement>topicref</xmlelement> element or
+      any specialization of <xmlelement>topicref</xmlelement>. The <xmlelement>topicref</xmlelement> element
+      uses the <xmlatt>keys</xmlatt> attribute to specify the key or keys to be defined and then
+      either points to a resource (a topic, another map, or a non-DITA resource such as a graphic)
+      or uses subelements within <xmlelement>topicmeta</xmlelement> to define text to use as the resource
+      (or both).</p>
+    <p>For our task example, we need to bind the key
+        <q>illustration-toner-cartridge-access-panel</q> to the appropriate printer-specific
+      illustration. This means that we must have a separate root map for each different printer
+      model and then within each map, create the appropriate key definition. For example, for
+      printer model <q>PR2105</q> you might have a root map like this:</p>
+    <codeblock>&lt;bookmap>
+  &lt;title>Printer PR2105 Operator Manual&lt;/title>
+  ...
+  &lt;topicref
+    keys="illustration-toner-cartridge-access-panel"
+    <b>href="graphics/PR2105-toner-cartridge-access-panel.svg"</b>
+    format="svg"
+    processing-role="resource-only"
+  />
+  ...
+  &lt;chapter href="maintenance.dita">
+    ...
+    &lt;topicref href="common/changing-the-printer-cartridge.dita"/>
+    ...
+  &lt;/chapter>
+  ...
+&lt;/bookmap></codeblock>
+    <p>The highlighted <xmlelement>topicref</xmlelement> element represents a key definition that binds
+      the key name <q>illustration-toner-cartridge-access-panel</q> to the graphic file
+        <filepath>graphics/PR2105-toner-cartridge-access-panel.svg</filepath>, which is the
+      illustration for the PR2105 model.<fn>You could of course have model-specific key definitions
+        that use selection (conditional) attributes reflecting the models to which they apply, but
+        not for this example. However, because key bindings are global, you would still only be able
+        to reflect a single model in given publication using conditional key definitions.</fn>
+    </p>
+    <p>Note the <xmlatt>processing-role</xmlatt> attribute on the <xmlelement>topicref</xmlelement>
+      element. This attribute, new in DITA 1.2, indicates whether the topicref contributes to the
+      main navigation tree of the map (the value <q>normal,</q> which is the default) or serves only
+      as a resource used by reference from elsewhere (<q>resource-only</q>). Because this graphic is
+      not intended to be included in the result publication at this point in the map we must specify
+      a processing role of <q>resource-only</q> to tell the processor not to do anything with the
+      graphic other than remember that there is a key associated with it.</p>
+    <p>The example map also refers to the changing-the-printer-cartridge task topic, representing a
+      specific use of the topic, a topic we know will be used from many different printer-specific
+      publications.</p>
+    <p>When the task topic is processed <i>in the context of the PR2105 map</i> the effective
+      binding of the key name <q>illustration-toner-cartridge-access-panel</q> will be to the PR2105
+      graphic. But when the same topic is used in different maps the binding may be different. For
+      example, the map for the printer model PR3604 would look like this:</p>
+    <codeblock>&lt;bookmap>
+  &lt;title>Printer PR3604 Operator Manual&lt;/title>
+  ...
+  &lt;topicref
+    keys="illustration-toner-cartridge-access-panel"
+    <b>href="graphics/PR3604-toner-cartridge-access-panel.svg"</b>
+    format="svg"
+    processing-role="resource-only"
+  />
+  ...
+  &lt;chapter href="maintenance.dita">
+    ...
+    &lt;topicref href="common/changing-the-printer-cartridge.dita"/>
+    ...
+  &lt;/chapter>
+  ...
+&lt;/bookmap></codeblock>
+    <p>Note that the only difference between the two model-specific maps is the filename of the illustration to use. The key name is the same and the task topic is the same.</p>
+    <p>Thus, the indirection provided by the key reference mechanism allows a single task to be used
+      unchanged in different maps and be associated with the appropriate linked resources.</p>
+    <p>Note that this indirection separates the concern of information content (what information is
+      required to support a specific topic) from the concern of content configuration management.
+      The author of the topic says, as the content designer, <q>this topic requires an illustration
+        that shows the toner cartridge access panel</q> and expresses that general requirement by
+      using a key reference rather than a direct reference to a specific graphic. It is up to the
+      author of the map to define the key binding to the appropriate graphic. This makes the content
+      more flexible, but it means there have to be appropriate business processes and communication
+      in place so the topic author and map author coordinate appropriately (and of course, somebody
+      has to make sure the illustrations get drawn).</p>
+    <p>The example above uses <xmlelement>topicref</xmlelement> elements to define the key bindings so
+            that it’s clear that key definitions are done with topicrefs. Any topic reference can
+            define keys. However, in most cases, you want to define keys as resource-only topicrefs
+            and then use those keys from elsewhere. To make that easier, DITA 1.2 provides the
+                <xmlelement>topicref</xmlelement> specialization <xmlelement>keydef</xmlelement>, which simply
+            sets the default value for the <xmlatt>processing-role</xmlatt> attribute to
+                <q>resource-only.</q> But it can also be useful to associate keys with normal (non
+            resource-only) topicrefs, for example, to enable key-based linking to specific parts of
+            a publication.</p>
+    <p>For example, in our printer operator guide publications it could make sense to put keys on the chapters and subsection topicrefs too, resulting in a map like this: </p>
+    <codeblock>&lt;bookmap>
+  &lt;title>Printer PR3604 Operator Manual&lt;/title>
+  ...
+  &lt;topicref
+    keys="illustration-toner-cartridge-access-panel"
+    href="graphics/PR3604-toner-cartridge-access-panel.svg"
+    format="svg"
+    processing-role="resource-only"
+  />
+  ...
+  &lt;chapter 
+     <b>keys="maintenance-chapter"</b>
+     href="maintenance.dita">
+    ...
+    &lt;topicref 
+       <b>keys="changing-printer-cartridge-task"</b>
+       href="common/changing-the-printer-cartridge.dita"/>
+    ...
+  &lt;/chapter>
+  ...
+&lt;/bookmap></codeblock>
+    <p>Here the navigation topicrefs now have keys that allow references to those topics by key
+      reference. For example, you could have cross-references to the changing-the-printer-cartridge
+      task that use the key rather than a direct href to the topic
+      file:<codeblock>&lt;concept id="indicator-codes">
+  &lt;title>Indicator codes and response&lt;/title>
+  &lt;conbody>
+    ...
+    &lt;dl>
+      ...
+      &lt;dlentry>
+        &lt;dt>Toner low&lt;/dt>
+        &lt;dd>Change the toner cartridge.
+See <b>&lt;xref keyref="changing-printer-cartridge-task"/></b>.
+        &lt;/dd>
+      &lt;/dlentry>
+      ...
+    &lt;/dl>
+    ...
+   &lt;/conbody>
+&lt;/concept></codeblock></p>
+    <p>Here the author of the topic has indicated a requirement for a changing the printer cartridge
+            task, but by using a key doesn’t have to worry about the specific task topic. As for the
+            image reference above, the key will be resolved to whatever resource is ultimately bound
+            to the key <q>changing-printer-cartridge-task</q> in the context of a specific map. That
+            might be the generic task or, for some printers, it might be a printer-specific task.
+            The author of the indicator codes topic doesn’t have to know or care.</p>
+    <p>Note too that a key reference to a normal-processing-role topicref
+      establishes a link to a specific use of the target topic, not just to the
+      topic in general. This allows you to have the same topic used multiple
+      times in a map and have unambiguous references to a specific use of that
+      topic, allowing processors to do the right thing.</p>
+    <p>A topicref that specifies the <xmlatt>keys</xmlatt> attribute is said to be a <q>key-defining
+        topicref.</q> A key-defining topicref binds a key to a <q>resource,</q> which can be any of
+      the following:<ul>
+        <li>A topic</li>
+        <li>A map</li>
+        <li>A non-DITA object (technically, anything that can be addressed by URL that is not itself
+          a DITA document)</li>
+        <li>Subelements within the topicref element that provide replacement text for elements like
+                        <xmlelement>term</xmlelement>, <xmlelement>keyword</xmlelement>, and
+                        <xmlelement>xref</xmlelement> (See <xref href="keys-as-variables.xml#topic-id"
+                        format="dita"/> for more on this use of keys).</li>
+      </ul></p>
+    <p>Note that a key cannot be bound directly to a non-topic element within a topic, it can only
+            be bound to the topic. Key-based references to elements within topics still require you
+            to specify the ID of the target element within the topic. This has the side effect that
+            key-based references to specific elements require that the same element ID be used in
+            all topics bound to the key in different maps. </p>
+    <p>For example, if you needed to create a cross-reference from the changing-the-toner-cartridge
+            task to a table in another topic that must exist for each printer, but will be different
+            for each model, that table would need to have the same <xmlatt>id</xmlatt> value in each
+            version of the topic that provides the table. This turns out not to be a problem in
+            practice because these types of topics are usually cloned from a template or an original
+            starting topic, but it does mean that there has to be some coordination of IDs used in
+            these circumstances because there is no separate indirection mechanism for pointing to
+            elements within topics (at least not in DITA 1.2—there’s no technical barrier to such a
+            facility, just a concern about complexity in order to satisfy a relatively rare use
+            case, one for which there is a workaround).</p>
+    <p>Key-based references to elements within topics use the syntax
+          <codeph><varname>key-name</varname>/<varname>element-id</varname></codeph>. For example,
+      to create a cross-reference to a specific table in another topic you would do
+      this:<codeblock>&lt;task id="changing-toner-cartridge">
+  ...
+  &lt;context>
+    &lt;figure>
+      &lt;title>Toner Cartridge Access Panel&lt;/title>
+      &lt;image keyref="illustration-toner-cartridge-access-panel"/>
+    &lt;p>For toner cartridge specifications see
+    &lt;/figure>
+<b>&lt;href keyref="printer-specs-topic/toner-cartridge-specs-table" 
+   type="table"/></b>.
+  &lt;/context>
+  ...
+&lt;/task></codeblock></p>
+    <p>The topics that get bound to the key <q>printer-specs-topic</q> must each have a
+        <xmlelement>table</xmlelement> element with the ID <q>toner-cartridge-specs-table.</q>
+    </p>
+  </body>
+</subsection>

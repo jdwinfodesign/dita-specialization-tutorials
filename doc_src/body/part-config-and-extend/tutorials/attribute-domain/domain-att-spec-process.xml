@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-attribute-specialization-tutorial">
+  <title>Attribute Specialization Tutorial</title>
+  <shortdesc>Goal: Declare an attribute domain vocabulary module that provides a new conditional (property) attribute.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>attribute domain<indexterm>specialization</indexterm></indexterm>
+        <indexterm>specialization<indexterm>attribute domain</indexterm><indexterm>from <xmlatt>props</xmlatt></indexterm></indexterm>
+        <indexterm>attribute specialization<index-see>attribute domain</index-see></indexterm>
+        <indexterm>vocabulary module<indexterm>attribute domain</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can specialize from the <xmlatt>base</xmlatt> and <xmlatt>props</xmlatt> attributes. For
+            conditional processing (filtering and flagging), this lets you add your own attributes,
+            which can be clearer to authors and implementors than using
+            <xmlatt>otherprops</xmlatt>.</p>
+    <p>For this tutorial, the goal is to declare an attribute domain module that provides a new
+            conditional attribute, in this case the <q>phase of the moon</q> condition, useful for
+            medical information for werewolves and other lycanthropes.<fn>For a more practically
+                useful example, see the d4p_renditionTarget attribute domain in the DITA For
+                Publishers vocabulary.</fn></p>
+    <p>Attribute domains are the easiest form of specialization. It's so easy that you should never complain about missing conditional attributes in the base DITA specification, just declare your own.</p>
+    <p>The specialization requires you to do just two things:</p>
+    <p>1. For each specialization of <xmlatt>props</xmlatt>, create a .ent file that defines the
+            attribute and a corresponding domain declaration. This is the <q>attribute domain
+                vocabulary module.</q></p>
+    <p>2. Modify any document type shells that need to reflect the specialized attribute (e.g.,
+                <filepath>topic.dtd</filepath>, <filepath>reference.dtd</filepath>, or your own
+            specialized document type shells). You integrate the specialization attribute domain
+            through the shell DTDs.</p>
+    <p>For this tutorial we want to create a specialization of <xmlatt>props</xmlatt> called
+                <q>phase-of-moon</q> that takes as its value one or more moon phase names (e.g.,
+                <q>full,</q>
+            <q>new,</q>
+            <q>waning,</q>
+            <q>waxing,</q> etc.).</p>
+    <p>Note that an attribute domain always defines exactly one attribute. You cannot declare multiple attributes in a single attribute domain module.</p>
+  </body>
+</subsection>

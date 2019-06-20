@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-step-4-4">
+  <title>Step 4-4. Update Type-Specific Parameter Entities in Shell DTD</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>    
+  </prolog>
+  <body>
+    <p>Add the module type-specific parameter entities to the domain extension parameter entities.
+        In concept.dtd, find the comment that says "DOMAIN EXTENSIONS". Update the <parameterentity>keyword</parameterentity>
+        parameter entity declaration to include the <parameterentity>xml-d-keyword</parameterentity> parameter entity:
+<codeblock>
+&lt;!ENTITY % keyword
+  "keyword |
+   <b>%xml-d-keyword;</b>
+  "                   
+></codeblock></p>
+    <p>This declaration has the effect of including all the XML module's keyword-type elements wherever keyword
+        is allowed in the base DITA-defined content models.</p>
+  </body>
+</subsection>

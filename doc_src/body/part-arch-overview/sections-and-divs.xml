@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Sections and Divisions: Organizing Topic Body Content</title>
+  <shortdesc>Topic bodies may be organized into a single level of titled containers (sections) or contain hierarchies of untitled containers (body divisions). Sections may also contain hierarchies of untitled containers (section divisions).</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm><xmlelement>section</xmlelement></indexterm>
+        <indexterm><xmlelement>bodydiv</xmlelement></indexterm>
+        <indexterm><indexterm><xmlelement>sectiondiv</xmlelement></indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>A fundamental design rule for DITA is that hierarchies of arbitrarily titled components are
+      represented using hierarchies of topics created either through maps or by directly nesting
+      topics within topics in a single XML document. By <q>arbitrarily titled</q> we mean the title
+      is defined in the instance by the author, rather than being an invariant title generated
+      automatically.</p>
+    <p>Thus, within the body of a single topic it would be wrong to have more than one level of
+      arbitrarily-titled things.</p>
+    <p>This rule is reflected in DITA by the <xmlelement>section</xmlelement> element.</p>
+    <p>The <xmlelement>section</xmlelement> element allows <xmlelement>title</xmlelement> as a direct child,
+            meaning that authors can create sections with arbitrary titles. However,
+                <xmlelement>section</xmlelement> does not allow <xmlelement>section</xmlelement> as a
+            descendant. This is specifically so that authors cannot create a hierarchy of
+            arbitrarily titled things within a topic’s body.</p>
+    <p>If authors need to create arbitrary hierarchies of titled things, they must use topics to do
+      so. (General discussion of designing topic and map markup hierarchies is in Volume 2 of
+        <cite>DITA for Practitioners</cite>.)</p>
+    <p>Many practitioners with background in other document types often react negatively to this
+            aspect of DITA when they first come to understand it. I certainly did—you can find in
+            the archives of the DITA Technical Committee’s mailing list a fairly long discussion
+            between me and others as to whether sections should or should not be allowed to
+            nest.</p>
+    <p>However, once you understand that topics are the fundamental unit of content aggregation you
+      see that it is not only correct but necessary that sections do not nest.</p>
+    <p>The <xmlelement>section</xmlelement> element was intended primarily for use in reference topic
+            types where you have a consistent set of titled containers where the titles are
+            generated (invariant). The <xmlelement>section</xmlelement> element takes an attribute,
+                <xmlatt>spectitle</xmlatt>, which let’s you specify fixed or default title text
+            (using a text lookup key) as part of a specialization of <xmlelement>section</xmlelement>, so
+            authors don’t have to deal with titles if you don’t want them to.</p>
+    <p>The <xmlelement>section</xmlelement> element was not really intended to be used in its
+            unspecialized form by authors, and unspecialized use should be discouraged. In short,
+            authors who use unspecialized <xmlelement>section</xmlelement> elements will soon realize that
+            it doesn’t nest and become frustrated when they realize that they should have been using
+            subordinate topics all along. Then, they will have to rework their content. Don’t let
+            that happen.</p>
+    <p>DITA also provides for arbitrarily nested <i>untitled</i> structures, which serve as the
+      specialization base for defining organizational wrapper elements or modeling complex content
+      structures. These structures are called <q>divisions</q> and are represented by the
+        <xmlelement>bodydiv</xmlelement> and <xmlelement>sectiondiv</xmlelement> elements. The two element types
+      are required to ensure that you cannot indirectly put sections within sections:
+        <xmlelement>bodydiv</xmlelement> allows <xmlelement>section</xmlelement>, <xmlelement>sectiondiv</xmlelement>
+      does not.</p>
+    <p>Divisions are explicitly not titled, meaning they do not allow <xmlelement>title</xmlelement> in
+      their content and are not intended to allow author-defined titles. They may have the
+      processing effect of generating titles, but they may not have arbitrary titles, as that would
+      violate the principle that <q>only topics may define title hierarchies.</q></p>
+  </body>
+</subsection>

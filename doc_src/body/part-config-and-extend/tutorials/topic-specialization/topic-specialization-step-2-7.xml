@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Step 2.7: Define <xmlatt>domains</xmlatt> Attribute Contribution Entity (.ent File)</title>
+  <body>
+    <p>Both structural and domain modules require a .ent file in addition to the .mod file. For a
+            structural domain (map or topic type), the .ent file simply defines the
+                <xmlatt>domains</xmlatt> attribute contribution for the topic type.</p>
+    <p>Create a file named <filepath>faq-question.ent</filepath> in the <filepath>faq-question/dtd</filepath> directory. Add a descriptive comment to the top of it indicating the name of the module and your ownership.</p>
+    <p>Add the following text entity declaration:<codeblock>    
+  &lt;!ENTITY faq-question-att     
+  "(topic concept faq-question)"
+  >
+</codeblock></p>
+    <p>The value of the entity is the list of the ancestor topic types for the new topic type,
+                <q>topic concept</q> in this case, followed by the name of the topic type defined by
+            the module itself. If the faq-question topic type required any domains it would list
+            them following its own name.</p>
+    <p>Edit the <filepath>faq-question.dtd</filepath> file and find the comment <q>TOPIC ENTITY
+                DECLARATIONS</q> and insert this parameter entity declaration and reference after
+            the comment (if you don't find this comment, find the comment <q>DOMAIN ENTITY
+                DECLARATIONS</q> and insert the following declaration <i>before</i>
+            it):<codeblock>&lt;!ENTITY % faq-question-dec     
+  PUBLIC "faq-question.ent" 
+         "faq-question.ent"
+>%faq-question-dec;</codeblock></p>
+    <p>Note that the publid ID is just the filename. This is just for testing purposes. For production use you would use an appropriate URN or public ID.</p>
+    <p>Find the declaration for the <textent>included-domains</textent> text entity and add a reference to the entity <textent>faq-question-att</textent> to it. It should look like this:<codeblock>&lt;!ENTITY included-domains 
+                        "
+                         <b>&amp;faq-question-att;</b>
+                         &amp;hi-d-att; 
+                         &amp;ut-d-att;  
+                        "                
+>
+</codeblock></p>
+    <p>Validate the test document again. It should still be valid. Check the root
+                <xmlelement>faq-question</xmlelement> element to verify that it has a
+                <xmlatt>domains</xmlatt> attribute and that its value includes the <q>(topic concept
+                faq-question)</q> component in addition to those for the highlight and utility
+            domains.</p>
+    <p>At this point the new topic module is complete. All that remains is to assign appropriate public identifiers to the .mod, .ent, and .dtd files and package it as an Open Toolkit plugin so that the module can be used for production.</p>
+  </body>
+</subsection>

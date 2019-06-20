@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="understanding-specialization">
+  <title>Understanding Configuration and Specialization</title>
+  <shortdesc>Before you can design and implement your own configurations and specializations you
+    must have a basic understanding of configuration and specialization.</shortdesc>
+  <body>
+    <p>DITA is designed to let you design new markup and new document types in a way that allows any
+      general-purpose DITA processor to usefully process documents that use the new markup. This in
+      turn enables blind interchange of DITA documents, because DITA users knows they can use and
+      process, at least minimally, any conforming DITA document they get from any source. In
+      particular, in the context of a map, you can combine topics of any type and get usable, if not
+      optimal, results from any general-purpose DITA processor.<fn>I have to say <q>general
+          purpose</q> processor because it's possible to have conforming DITA processors that only
+        understand specific markup vocabularies and are not specialization aware. Such processors
+        are probably rare, but they are explicitly allowed by the DITA 1.2 conformance clause. Most
+        DITA-aware tools you will find are both general-purpose and specialization-aware, meaning
+        that they can handle, to at least some minimal degree, all conforming DITA documents,
+        specialized or not. </fn></p>
+    <p>The specialization feature of DITA, the ability to have your own markup design while still
+      ensuring blind interchange of your content with other DITA users, is unique among all
+      currently-existing standard XML applications (and most, if not all, private XML applications). </p>
+    <p>Specialization is the one truly unique and distinguishing aspect of DITA. No other aspect of
+      DITA is exclusive to DITA. All of DITA's modularity features—maps, topics, key-based
+      addressing, etc.—can either be found to one degree or another in other XML applications or
+      could be added to those applications without too much trouble. This is not to discount the
+      value of these features of DITA—they represent deep thought and years of practical experience
+      and are quite valuable in themselves—but they are not distinguishing in the way that
+      specialization is.</p>
+    <p>Even if you have no use for any aspect of DITA having to do with modularity or reuse, you
+      still have a use for specialization simply because it enables reliable interchange in a way
+      that no other XML application does. Even if your only interchange partner is your future self,
+      DITA still offers dramatic and compelling advantages.</p>
+    <p>In short, one can see DITA as an architecture for the management of XML vocabularies. </p>
+    <p>These tutorials show you how to apply the architecture to specific types of requirements.</p>
+  </body>
+</chapter>

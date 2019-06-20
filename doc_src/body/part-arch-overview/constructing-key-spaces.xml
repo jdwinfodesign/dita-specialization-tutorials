@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="key-spaces">
+  <title>Constructing key spaces</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>key space<indexterm>constructing</indexterm></indexterm>
+        <indexterm>constructing key spaces</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In the simplest case, a given root map does not include any submaps, and every key name is
+      defined by exactly one key-defining topicref. However, this is neither the only case nor the
+      typical case.</p>
+    <p>Most non-trivial publications involve maps and submaps, and it will often be the case that
+            the same key name is defined more than once within the context of a given root map and
+            its submaps. The processing challenge is to determine which key definition is the
+            correct one.</p>
+    <p>The general design intent of the DITA 1.2 key reference facility is that a given root map
+      establishes a <i>global</i> key space within which a given key name has at most one binding
+      and where earlier and <q>higher</q> definitions take precedence over later and <q>lower</q>
+      definitions.</p>
+    <p>By <q>higher</q> and <q>lower</q> I mean the position of a map within the tree of maps
+            descending from the root map. Maps that are closer to the root map (<q>higher</q>) take
+            precedence over maps that are farther from root map (<q>lower</q>). Within a map, maps
+            referenced earlier take precedence over maps referenced later. This design allows maps
+            to override the key definitions in the maps they reference. If the key definition
+            facility were not defined in this way it would be impossible for higher-level maps to
+            control key values.</p>
+    <p>Note that because the key space defined by the root map is global, you cannot have different
+      bindings for the same key active at different places within a map tree. This is a limitation
+      to be sure, but without it, we would not have had time to get any indirection facility into
+      DITA 1.2. It is likely that future versions of DITA will extend the key definition facility to
+      provide other key scopes.</p>
+    <p>At the same time, it is likely that additional <q>variable</q> facilities will be defined to
+            satisfy requirements for locally-scoped, dynamically-resolved values that the key
+            reference facility cannot satisfy today. In addition, there are processing techniques
+            that allow you to get the effect of locally-scoped keys without changing the base key
+            processing semantics. Many of these have been discussed on the Yahoo DITA Users
+                group.<fn>If you have any question about the necessity of a global key space,
+                consider the case of a topic referenced from one submap that references a key that
+                is defined in two other submaps but not in the root map. If the key space was not
+                global, then which of the two possible bindings to use would be undefined, and there
+                would be no way for authors to indicate which they meant. Likewise, if keys were
+                scoped by submaps, it would be impossible for topics in one submap to refer to a key
+                defined in both its map scope and a different map scope. Thus, without a way of
+                establishing the scope (key space), the only option is to have a global key space so
+                all key references are unambiguous.</fn></p>
+    <p>The formal definition of key space construction says that within a given map the first key
+      definition in <q>document order</q> is the effective definition. Within the map tree, the
+      first definition within a <i>breadth-first</i> traversal of the map tree takes precedence.</p>
+    <p><q>Document order</q> means the order the start tags of each element in the XML document tree
+            are encountered, technically a <term>depth-first</term> traversal of the element tree. A
+            depth-first traversal goes from parent to child until a leaf node is reached, and only
+            then goes to the next sibling of that leaf (or the next sibling of its nearest ancestor
+            with a sibling) and so on down the tree. A <term>breadth first</term> traversal goes
+            from one node to its siblings before then going to each of the siblings’ children. See
+                <xref href="#key-spaces/fig-map-tree" format="dita"/>.</p>
+    <p>Because the rule is <q>first in map document in document order then first in map tree in
+        breadth-first order,</q> when the map tree consists of exactly one map, the first definition
+      in document order wins. When the map tree consists of two or more maps, the first definition
+      within the map nearest the root map in breadth-first order takes precedence, with the root map
+      always being first.</p>
+    <p>Consider a system of four maps: a root (Root Map 1), two submaps, Submap 1 and Submap 2, both
+            referenced from the root map in the order Submap 1 followed by Submap 2, and submap
+            Submap 3, referenced from Submap 1. </p>
+    <fig
+      id="fig-map-tree">
+      <title>Map Tree of Four Maps</title>
+      <image
+        href="graphics/keys-and-keyrefs/map-tree.png"
+        width="3.8in">
+        <alt>Shows a tree of four boxes. "Root Map 1" points to "Submap 1" and "Submap 2". Submap 1 points to "Submap 3". The breadth-first ordering goes from Root Map 1 to Submap 1 to Submap 2 to Submap 3. The depth-first ordering goes from Root Map 1 to Submap 1 to Submap 3 to Submap 2.</alt>
+      </image>
+    </fig>
+    <p>Any key defined in the root map will take precedence over the same key defined in any of the submaps. A key defined in Submap 1 will take precedence over the same key defined in Submap 2 because Submap 1 occurs before Submap 2 in the map tree. Finally any key defined in Submap 2 will take precedence over the same key defined in Submap 3 because Submap 2 occurs before Submap 3 in a breadth-first traversal of the map tree.</p>
+    <p>Note that the position of key references is not important: the key space is global and must
+      be determined before any key references can be resolved.</p>
+    <p>Consider this set of key definitions in the root map:</p>
+    <codeblock>&lt;map>
+  &lt;title>Root Map 1&lt;/title>
+  &lt;topicgroup>
+     <b>&lt;keydef keys="key-01" href="topic-1A.dita"/></b>
+     <b>&lt;keydef keys="key-01" href="topic-1B.dita"/></b>
+  &lt;/topicgroup>
+  <b>&lt;keydef keys="key-01" href="topic-1C.dita"/></b>
+&lt;/map></codeblock>
+    <p>Here there are three key-defining topicrefs for the key name <q>key-01.</q> The effective
+      definition is the binding to topic-1A.dita, because that is the first definition in document
+      order (depth-first traversal of the element tree within the map document). The breadth-first
+      rule only applies to the tree of maps, not to the tree of elements within a document.</p>
+    <p>Now consider the root map with a reference to Submap 1 added:</p>
+    <codeblock>&lt;map>
+  &lt;title>Root Map 1&lt;/title>
+  &lt;topicgroup>
+    &lt;mapref href="submap-01.ditamap"/>
+  &lt;/topicgroup>
+  &lt;topicgroup>
+     &lt;keydef keys="key-01" href="topic-1A.dita"/>
+     &lt;keydef keys="key-01" href="topic-1B.dita"/>
+  &lt;/topicgroup>
+  &lt;keydef keys="key-01" href="topic-1C.dita"/>
+&lt;/map></codeblock>
+    <p>If Submap 1 also defines a binding for key name <q>key-01</q> it cannot be effective because,
+      by the breadth-first map tree traversal rule, any definition in the root map takes precedence
+      over any definitions in submaps, even though the reference to the submap happens to occur
+      before any of the key definitions in the root map.</p>
+    <p>If we now add the reference to Submap 2 we establish the order of those maps in the map tree:</p>
+    <codeblock>&lt;map>
+  &lt;title>Root Map 1&lt;/title>
+  &lt;topicgroup>
+    &lt;mapref href="submap-01.ditamap"/>
+  &lt;/topicgroup>
+  &lt;mapref href="submap-02.ditamap"/>
+  &lt;topicgroup>
+     &lt;keydef keys="key-01" href="topic-1A.dita"/>
+     &lt;keydef keys="key-01" href="topic-1B.dita"/>
+  &lt;/topicgroup>
+  &lt;keydef keys="key-01" href="topic-1C.dita"/>
+&lt;/map></codeblock>
+    <p>Again, it is the document (depth-first) order of the references to the maps that determines their ordering in the map tree. Thus, even though in this example the reference to Submap 2 comes first in a <i>breadth</i>-first traversal of the elements within the root map, that is not relevant because it is the document (depth-first) order that is important. Thus this markup produces the map tree shown in <xref
+      href="#key-spaces/fig-map-tree"
+      format="dita"/>.</p>
+    <p>To complete the map tree Submap 1 must include Submap 3:</p>
+    <codeblock>&lt;map>
+  &lt;title>Submap 1&lt;/title>
+  &lt;mapref href="submap-03.ditamap"/>
+  &lt;keydef keys="key-01" href="topic-1D.dita"/>
+&lt;/map></codeblock>
+    <p>And let Submap 3 look like this:</p>
+    <codeblock>&lt;map>
+  &lt;title>Submap 3&lt;/title>
+  &lt;keydef keys="key-01" href="topic-1E.dita"/>
+  &lt;keydef keys="key-02" href="topic-2B.dita"/>
+&lt;/map></codeblock>
+    <p>Finally, Submap 2 looks like this:</p>
+    <codeblock>&lt;map>
+  &lt;title>Submap 2&lt;/title>
+  &lt;keydef keys="key-01" href="topic-1F.dita"/>
+  &lt;keydef keys="key-02" href="topic-2A.dita"/>
+&lt;/map></codeblock>
+    <p>The effective value of key <q>key-01</q> is set in the root map because the root map has at
+      least one definition for that key.</p>
+    <p>The effective value of the key <q>key-02</q> is determined by its first position within the
+      map tree because it is not defined in the root map.</p>
+    <p>In this case, key-02 is defined in two maps: Submap 2 and Submap 3. The effective definition is the definition in Submap 2 (topic-2A.dita) because Submap 2 comes first in the map tree in a breadth-first traversal.</p>
+    <p>The key space defined by this map tree can be represented by a table that has one row for each unique key and indicates at least the effective definition, as shown in <xref
+      href="#key-spaces/keyspace-table-01"
+      format="dita"/>.</p>
+    <table
+      frame="all"
+      id="keyspace-table-01">
+      <title>Key space table for Root Map 1</title>
+      <tgroup
+        cols="3">
+        <colspec
+          colname="c1"
+          colnum="1"
+          colwidth="1.0*"/>
+        <colspec
+          colname="c2"
+          colnum="2"
+          colwidth="4.13*"/>
+        <colspec
+          colname="c3"
+          colnum="3"
+          colwidth="2.56*"/>
+        <thead>
+          <row>
+            <entry>Key Name</entry>
+            <entry>Key Definitions 
+              (In precedence order)</entry>
+            <entry>Containing Map</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry
+              morerows="5">key-01</entry>
+            <entry><codeph><b>&lt;keydef keys="key-01" href="topic-1A.dita"/></b></codeph></entry>
+            <entry>rootmap.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1B.dita"/></codeph></entry>
+            <entry>rootmap.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1C.dita"/></codeph></entry>
+            <entry>rootmap.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1D.dita"/></codeph></entry>
+            <entry>submap-01.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1F.dita"/></codeph></entry>
+            <entry>submap-02.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1E.dita"/></codeph></entry>
+            <entry>submap-03.ditamap</entry>
+          </row>
+          <row>
+            <entry
+              morerows="1">key-02</entry>
+            <entry><codeph><b>&lt;keydef keys="key-02" href="topic-2A.dita"/></b></codeph></entry>
+            <entry>submap-02.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-02" href="topic-2B.dita"/></codeph></entry>
+            <entry>submap-03.ditamap</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>In this table, the key definitions for a given key are listed in precedence order, first by document order within a single map and then by breadth-first order within the map tree. The first key definition for each key is therefore the effective one, as shown by the highlighting.</p>
+    <p>Note that the root map serves as the identifier of the key space because it is the root map that ultimately determines the effective bindings of all the keys. Different root maps represent distinct key spaces.</p>
+    <p>By the same token, you cannot resolve any key until you have established the active key space for the resolution attempt. This has important implications for authoring and component management, about which more later.</p>
+    <p>To more clearly demonstrate the fact that different root maps establish different key spaces, let us now create Root Map 2, which omits the definitions of key-01 in the root and includes Submap 1 and Submap 2, but in the reverse order from Root Map 1:</p>
+    <codeblock>&lt;map>
+  &lt;title>Root Map 2&lt;/title>
+  &lt;topicgroup>
+    &lt;mapref href="submap-02.ditamap"/>
+    &lt;mapref href="submap-01.ditamap"/>
+  &lt;/topicgroup>
+&lt;/map></codeblock>
+    <p>Now Submap 2 comes before Submap 1 in the map tree and that makes the effective value of
+      key-01 the binding defined in Submap 2, namely <q>topic-1F.ditamap.</q> The key space table
+      for key space Root Map 2 looks like this:</p>
+    <table
+      frame="all"
+      id="keyspace-table-02">
+      <title>Key space table for Root Map 2</title>
+      <tgroup
+        cols="3">
+        <colspec
+          colname="c1"
+          colnum="1"
+          colwidth="1.0*"/>
+        <colspec
+          colname="c2"
+          colnum="2"
+          colwidth="4.13*"/>
+        <colspec
+          colname="c3"
+          colnum="3"
+          colwidth="2.56*"/>
+        <thead>
+          <row>
+            <entry>Key Name</entry>
+            <entry>Key Definitions (In precedence order)</entry>
+            <entry>Containing Map</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry
+              morerows="1">key-01</entry>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1F.dita"/></codeph></entry>
+            <entry>submap-02.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1E.dita"/></codeph></entry>
+            <entry>submap-03.ditamap</entry>
+          </row>
+          <row>
+            <entry
+              morerows="1">key-02</entry>
+            <entry><codeph><b>&lt;keydef keys="key-02" href="topic-2A.dita"/></b></codeph></entry>
+            <entry>submap-02.ditamap</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-02" href="topic-2B.dita"/></codeph></entry>
+            <entry>submap-03.ditamap</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>Any topic that has a link to key <q>key-01</q> will link to different target topics when
+      processed in the context of Root Map 1 than when processed in the context of Root Map 2.</p>
+    <p>You might wonder why the key space table shows all the bindings even though only one can be effective within a given key space. There are several reasons:<ul>
+      <li>For this example it makes it clear what the precedence order of the different definitions
+                    is.</li>
+      <li>For analysis and debugging it can be useful to know all the definitions of a given key in
+          a given keyspace. Thus, key space constructing processors should build this sort of table
+          so users can see it on request.</li>
+      <li>In a CMS system it may be useful to maintain repository-wide knowledge of all the key
+          definitions in all the maps, then determine effective key spaces dynamically. A <q>key
+            database,</q> where you use the key for lookup, would resemble this table.</li>
+      <li>When applicability (conditional processing) is in play, it may be necessary to hold all
+          potentially effective bindings for a key and determine the effective binding in the
+          context of a specific set of conditions. This is especially important in authoring support
+          systems where authors may want to see a dynamic, in-editor view of the data as determined
+          by some set of conditions. Unless the key space table includes at least all
+          potentially-applicable key definitions, this type of dynamic view cannot be provided.</li>
+      <li>In the future it is likely there will be a way to define the resolution scope for specific
+          key references, which means that any definition of a key could potentially be effective
+          based on specific processing-time or resolution-time scope settings.</li>
+    </ul></p>
+    <p>Finally, note that the map tree is constructed using only directly-addressed maps. This is
+            because you can’t resolve any key-based map references until you construct the key space
+            and you can’t construct the key space until you have constructed the map tree.</p>
+    <p>This implies that there are conceptually at least two passes in the processing of the map: a first pass to construct the map tree and  key space and a second pass to construct the full map tree, taking any indirect map references into account. The output of the second step would then be the input to any additional processing applied to the map.</p>
+  </body>
+</subsection>

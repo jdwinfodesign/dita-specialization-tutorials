@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Maps and Topics</title>
+  <shortdesc>DITA’s markup design is based on an approach to content authored characterized by
+        standalone units (<q>topics</q>) organized into different structures by separate documents
+            (<q>maps</q>).</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>map<indexterm>overview</indexterm></indexterm>
+        <indexterm>topic<indexterm>overview</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In most traditional XML applications for documents, a <q>publication</q> is represented by a
+            single XML document that contains all the content and defines the hierarchical
+            organization of the publication. With few exceptions, before the publication of the
+            XInclude specification, there was no standard way to do anything else. XInclude allows
+            for a weak form of separation of structure from content but does not really do more than
+            you could always do with external parsed entities. </p>
+    <p>Neither external parsed entities nor XInclude are useful for re-use because they are both
+            use-by-copy, not use-by-reference. For example, the XInclude specification does not
+            provide for rewriting IDs and references to them in included content. That means that an
+            XInclude is equivalent to copying the content referenced literally, which is no
+            different from using external parsed entities. In addition, XInclude only supports
+            direct URI references and does not support indirect addressing. That makes it
+            inappropriate for authoring in a re-use context. Thus, for DITA’s purposes, where re-use
+            and modularity are primary driving requirements, external parsed entities and XInclude
+            have no value.</p>
+    <p>DITA’s design was driven by the need to have a clear and complete separation between the
+            content used in a publication and the structure of that publication. The idea was that
+            content should be organizable into reusable chunks that could then be organized into
+            structures for different purposes. Because, in this environment, content would
+            necessarily have no knowledge of where it was or how it might be used, it would be
+            necessary for the users to impose information onto the content: titles, metadata,
+            additional content, and so on.</p>
+    <p>Because DITA was designed initially to support the technical documentation practice of
+      modular writing, the content chunks are called <q>topics,</q> meaning roughly a <q>a single
+        rhetorical topic or subject</q> This implies that the content more or less stands alone and
+      is thus inherently reusable. This idea makes general sense in a technical documentation
+      context, though it cannot always be achieved in that context. Divorced from any particular
+      writing practice or editorial policy, topics are simply titled units of content.</p>
+    <p>Because the primary use of the content is to produce published information for human use, and
+      those publications usually need some sort of navigation structure, the publication structuring
+      component was called a <q>map,</q> meaning roughly a map of navigation structures onto
+      content.</p>
+    <p>Thus in DITA there are two types of XML document:<fn>In fact there are really four types
+                defined by the DITA specification: map, topic, ditabase, and DITAVAL. However,
+                ditabase and DITAVAL do not directly apply to the DITA architecture.</fn> map
+            documents and topic documents. Map documents are documents whose root element is
+                <xmlelement>map</xmlelement> or a specialization of <xmlelement>map</xmlelement>. Topic
+            documents are documents whose root element is <xmlelement>topic</xmlelement> or a
+            specialization of <xmlelement>topic</xmlelement>. No document with any other element type as
+            its root can be a conforming DITA document. Thus, even though XML allows any element
+            type defined within a DTD or any global type defined in an XSD schema to be the root of
+            a document governed by that DTD or schema, the DITA standard requires all conforming
+            DITA documents to be either map documents or topic documents.</p>
+    <p>For practitioners used to more freedom in how content is organized for storage, this may seem
+      like a bit of a severe restriction. However, there are good reasons for this design approach.
+        <ul id="ul_cyf_smr_vf">
+        <li>It ensures, in part, that all DITA documents have a consistent structure and are
+          consistently described in terms of their structural requirements (that is, their DITA
+          document types).</li>
+        <li>It ensures that all DITA documents are objects in the general computer science
+          sense.</li>
+        <li>It means that DITA-aware component management systems only need to know about two
+                    things: maps and topics—they don’t need to manage elements below the topic or
+                    map level as storage objects.</li>
+        <li>It means you can practically manage DITA content on a file system or in a simple code
+                    control system.</li>
+      </ul></p>
+    <p>One practical implication of this requirement is that you may have topic documents that serve
+      only to hold elements intended for use by reference from other topics. For example, you might
+      have a topic that contains nothing but warnings used by reference or phrase elements that
+      contain product-specific terms or whatever. This is perfectly natural in DITA and should not
+      bother you at all.</p>
+    <p>While DITA does not require the use of maps—you could represent an entire publication as a
+      single XML document containing a tree of topics—it definitely rewards it and in most cases
+      there is no reason not to use maps and many reasons to use them. Many people (and tools)
+      assume that maps are required.</p>
+  </body>
+  <subsection
+    id="subsection_1f16405e-0128-4c5a-aefa-a1972c51c798">
+    <title>Topics</title>
+    <titlealts>
+      <searchtitle>Architectural overview of DITA topics</searchtitle>
+    </titlealts>
+    <shortdesc>The <q>topic</q> is the primary unit of content in DITA—all content must be in a
+      document whose root element is, or is specialized from, <xmlelement>topic</xmlelement>.</shortdesc>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>topic<indexterm>overview of</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>A topic is a titled unit of content. A topic must have a title (<xmlelement>title</xmlelement>)
+        and topics that consist of only titles are perfectly fine (these are referred to as
+          <q>title-only topics</q>). A topic may have a separate navigation title, a separate search
+        title, a short description (<xmlelement>shortdesc)</xmlelement>, an abstract
+          (<xmlelement>abstract</xmlelement>), a prolog (<xmlelement>prolog</xmlelement>) (containing metadata
+        for the topic), and a body (<xmlelement>body</xmlelement>). A topic may have child topics
+        following the body.</p>
+      <p>The topic’s body contains the direct content of the topic: paragraphs, lists, figures, and
+                tables. The body may contain one level of arbitrarily-titled containers
+                    (<q>sections</q>) or any level of untitled containers (<q>body divisions</q>).
+                See <xref keyref="sections-and-divs"/>.</p>
+      <p>A topic may have alternate titles (<xmlelement>titlealts</xmlelement>): one
+        for use in navigation contexts (<xmlelement>navtitle</xmlelement>) and one for
+        searching (<xmlelement>searchtitle</xmlelement>). </p>
+      <p>Navigation titles are intended to be used in tables of contexts or other navigation aids.
+        When specified within the topic itself, navigation titles usually provide a shorter version
+        of the title. Because navigation is necessarily a function of where a topic is used,
+        navigation titles are usually imposed by maps rather than being specified by the topic
+        itself. A topic reference to a topic may specify the navigation title to use for that
+        reference to the topic (see <xref href="#subsection_9830d280-ec0c-49b9-a27d-9cb028d4b665"
+          format="dita"/>).</p>
+      <p>Search titles are intended to provide a form of the title for use in search results,
+                usually because the topic’s main title would not be distinct in isolation. For
+                example, this topic’s title, <q>Topics</q> is clear in the context of this chapter ,
+                but would be ambiguous in a list of search results. A better search title would be
+                    <q>Architectural overview of DITA topics.</q></p>
+      <p>A topic element must have an <xmlatt>id</xmlatt> attribute. The <xmlatt>id</xmlatt> attribute on topic elements is an XML ID, meaning that it must be unique within the XML document that contains the topic. This means that if you have nested topics within the root topic, they must all have unique IDs within the scope of that XML document.</p>
+      <p>There is no general requirement that topic IDs be unique beyond the scope of the XML
+                document that contains them. However, some tools assume global ID uniqueness or
+                impose that requirement. They should not and any that do are, I assert, broken. The
+                identity of a topic is established by the identity of the XML document that contains
+                it, that is, the storage location of that document. Making topic IDs globally unique
+                doesn’t add anything. It just complicates authoring and implementation and adds an
+                opportunity for error that you don’t need.</p>
+      <p>DITA provides, through maps, more than sufficient facilities for naming topics uniquely.
+        There is no need for globally-unique IDs on topic elements.</p>
+      <p>See <xref
+        keyref="topic-structural-pattern"/> for a deeper discussion of topic markup.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="subsection_9830d280-ec0c-49b9-a27d-9cb028d4b665">
+    <title>Maps</title>
+    <shortdesc>Maps use hyperlinks (topic references) to organize topics into arbitrary structures.
+      Maps may impose titles and metadata onto topics. Maps bind names (<q>keys</q>) to topics to
+      enable indirect addressing.</shortdesc>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>DITA map<index-see>map</index-see></indexterm>
+          <indexterm>map<indexterm>overview of</indexterm></indexterm>
+          <indexterm><xmlelement>topicref</xmlelement></indexterm>
+          <indexterm><xmlelement>anchorref</xmlelement></indexterm>
+          <indexterm><xmlelement>navref</xmlelement></indexterm>
+          <indexterm><xmlelement>reltable</xmlelement></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>A DITA map is nothing more than a set of hyperlinks pointing to topics (or non-DITA
+        things). The base hyperlink element type is <xmlelement>topicref</xmlelement>. The name
+          <q>topicref</q> is a slight misnomer because <xmlelement>topicref</xmlelement> elements may
+        point to things that are not topics, including DITA maps, graphics, and non-DITA resources
+        such as websites, PDF documents, and so on, or they may not point to anything. A more
+        accurate name would be something like <q>map component link,</q> but <q>topicref</q> is the
+        name DITA uses.<fn>There are many places where a more complete abstraction of DITA markup
+          could be defined. That activity will have to wait for DITA 2.0, where the need for
+          backward compatibility with DITA 1.x is removed.</fn></p>
+      <p>A map may also have a title (<xmlelement>title</xmlelement>) and metadata
+        (<xmlelement>topicmeta</xmlelement>). It may also include three other element
+        types that are not specializations of <xmlelement>topicref</xmlelement>:
+        <xmlelement>anchor</xmlelement>, <xmlelement>navref</xmlelement>, and
+        <xmlelement>reltable</xmlelement>. </p>
+      <p>We usually think of maps as representing complete publications or as defining a
+        subcomponent of a publication, such as a complete chapter or part or set of related tasks
+        and supporting concept and reference topics. However, maps may be used to collect topics or
+        non-DITA resources for any reason, including simply to define a related set of content
+        objects or to organize content objects by topic, product, subsystem, or whatever.</p>
+      <p>A DITA map does not necessarily represent a thing to be published. So when we talk about
+                maps and their processing we have to be careful to specify the type of thing a given
+                map represents. The DITA map mechanism is very general, so you should plan to use
+                specializations of maps and topic references to represent specific uses of maps.
+                DITA’s built-in BookMap type is a typical example of a map specialization that
+                reflects a specific purpose, in this case, book publications.</p>
+      <p>The simplest map for a publication will have a <xmlelement>title</xmlelement> element that
+        contains the title for the overall publication and one or more <xmlelement>topicref</xmlelement>
+        elements that link to the topics that provide the content of the
+        publication:<codeblock>&lt;map>
+  &lt;title>An Introduction to Aikido&lt;/title>
+  &lt;topicref href="topics/chapter-01.dita"/>
+  &lt;topicref href="topics/chapter-02.dita"/>
+  &lt;topicref href="topics/chapter-03.dita"/>  
+  &lt;topicref href="topics/chapter-04.dita"/>
+&lt;/map></codeblock></p>
+      <p>In practice, your maps will usually be much more sophisticated, taking
+        advantage of some or all of the features of DITA maps.</p>
+      <p>Nominally, a map defines a <q>navigation tree</q> for a set of topics, that is a table of
+        contents (ToC) or similar hierarchical navigation structure. However, maps can also organize
+        topics non-hierarchically through sets of extended links defined in relationship tables or
+        even simply collect a set of topics with no particular relationship among any of the
+        topics.</p>
+      <p>One map may include other maps, forming a <q>map tree.</q> The root of such a map tree is
+        the <q>root map</q> and has some special processing considerations. The input to DITA
+        processing is generally a root map and, conversely, a map used as the input to some process
+        is, by definition, the root map for that processing instance. There is no specific property
+        of a map that makes it be or not be a root map. However, most maps are intended to
+        exclusively be root maps or subordinate maps. While it is possible for a map intended to be
+        a root map to also be used as a subordinate map, usually a map is only useful as root or a
+        subordinate map but not both. In particular, by the rules of DITA, the titles of subordinate
+        maps are ignored by output processors and do not contribute to the navigation tree defined
+        by the root map.</p>
+    </body>
+    <subsection
+      id="subsection_p3f_pwl_3f">
+      <title>Map Components</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>map<indexterm>components of</indexterm></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>The base map content model allows an optional
+          <xmlelement>title</xmlelement>, an optional <xmlelement>topicmeta</xmlelement>,
+          and then any combination of the following base element types:<ul
+          id="ul_lpz_jxl_3f">
+          <li><xmlelement>anchor</xmlelement></li>
+          <li><xmlelement>data</xmlelement> or <xmlelement>data-about</xmlelement></li>
+          <li><xmlelement>navref</xmlelement></li>
+          <li><xmlelement>reltable</xmlelement></li>
+          <li><xmlelement>topicref</xmlelement></li>
+          </ul></p>
+        <p>In practice, <xmlelement>data</xmlelement> elements are not used within
+          maps except within <xmlelement>topicmeta</xmlelement> elements. That is, it
+          is not general practice to mix topic references and
+          <xmlelement>data</xmlelement> elements directly.</p>
+        <p>The <xmlelement>topicref</xmlelement> element is the primary base element type used to
+                    construct maps. Topicrefs have a processing role of either <q>normal</q> or
+                        <q>resource only</q> and are <q>normal</q> by default. Normal-role topicrefs
+                    that point to topics or maps establish the main <q>navigation tree</q> for the
+                    map. Resource-only topicrefs do not contribute to the navigation tree. If
+                    resource-only topicrefs point to topics or other resources, they establish
+                    dependencies on those resources, for example, topics that contain elements to be
+                    used by reference.</p>
+        <p>The <xmlelement>anchor</xmlelement> element identifies points within a map
+          where another map can impose additional topic references, similar to
+          the conref push feature of content references.</p>
+        <p>The <xmlelement>navref</xmlelement> element creates a reference to another map where the
+          reference is intended to be resolved as late possible, such as by a browser or online
+          delivery system, rather than during the base map processing. A typical use is in Eclipse
+          InfoCenters, where the Eclipse system resolves and combines maps using
+            <xmlelement>navref</xmlelement> elements in compiled InfoCenters.</p>
+        <p>The <xmlelement>reltable</xmlelement> element defines sets of links among topics, effectively
+          defining a <q>relationship graph</q> over some or all of the topics used by a map.</p>
+        <p>The DITA vocabulary includes a map domain, <q>map group,</q> that defines a number of
+                    specializations of <xmlelement>topicref</xmlelement> that support common uses of
+                        <xmlelement>topicref</xmlelement>. These elements are so convenient that most
+                    people don’t even realize that their use is optional. Therefore, you will see
+                    them in nearly all map documents.</p>
+        <p>The <xmlelement>topicmeta</xmlelement> element contains metadata. <xmlelement>topicmeta</xmlelement>
+          within <xmlelement>map</xmlelement> defines the metadata for the map as a whole and, for root
+          maps, the publication as a whole (when the map is treated as a publication).
+            <xmlelement>topicmeta</xmlelement> within <xmlelement>topicref</xmlelement> defines the metadata for
+          the topicref and, depending on the rules that apply, to any resource referenced by the
+          topicref.</p>
+        <p>The rules for maps include rules for propagating metadata down the map tree, down the
+          topicref tree, and from topicrefs to the topics they reference.</p>
+      </body>
+    </subsection>
+    <subsection
+      id="subsection_jtj_21m_3f">
+      <title>Topic references</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>topic references<indexterm>overview
+              of</indexterm></indexterm>
+            <indexterm><xmlelement>topicref</xmlelement></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>The primary use of topic references is to point to <term>resources</term>, where a
+          resource may be a DITA topic, a map, or a non-DITA object of any type, including graphics,
+          websites, PDF files, etc. </p>
+        <p>A topicref may point directly to a resource using the <xmlatt>href</xmlatt> attribute, or
+                    indirectly using the <xmlatt>keyref</xmlatt> attribute. See <xref
+                        href="linking-and-addressing.xml#topic-id" format="dita"/> for details. From
+                    the standpoint of the overall meaning of a given topic reference, it doesn’t
+                    matter whether it uses <xmlatt>href</xmlatt> or <xmlatt>keyref</xmlatt>, the
+                    meaning and processing results should always be the same.</p>
+        <p>The type of resource pointed to is indicated by the
+          <xmlatt>format</xmlatt> attribute of <xmlelement>topicref</xmlelement>. </p>
+        <p>The value of <xmlatt>format</xmlatt> depends on the data type of the resource. For DITA
+          resources, the required values are:<dl>
+            <dlentry>
+              <dt>dita</dt>
+              <dd>DITA topics. This is the default value for <xmlatt>format</xmlatt>, since pointing
+                to topics is the main use of <xmlelement>topicref</xmlelement>.</dd>
+            </dlentry>
+            <dlentry>
+              <dt>ditamap</dt>
+              <dd>DITA maps.</dd>
+            </dlentry>
+          </dl></p>
+        <p>For non-DITA resources, the convention is to use the extension or common name of the
+          format, e.g., <q>html</q> for HTML pages, <q>jpg</q> or <q>JPEG</q> for JPEG graphics,
+          etc. The processing of non-DITA resources is necessarily processor-specific, but most
+          DITA-aware processors will understand this convention.</p>
+        <p>All topicrefs have a processing role determined by the value of the
+                        <xmlatt>processing-role</xmlatt> attribute. The value is either
+                        <q>normal</q> or <q>resource-only,</q> with the default being <q>normal.</q>
+                    A topicref with a processing-role of normal contributes to the map’s navigation
+                    tree or relationship graph. A topicref with a processing-role of resource-only
+                    points to a resource that is not directly part of the navigation tree. For
+                    example, topics that only contain elements used by conref would be resource-only
+                    topics.</p>
+        <p>Another use for resource-only topicrefs is to define keys used for indirect addressing.
+          The resource-only processing role allows a map to point to all the resources it requires,
+          removing the need to process every topic just to determine the set of topics needed by the
+          map. This is especially useful if you need to package maps for interchange, provide
+          content to translators, or import or export content from a component management
+          system.</p>
+        <p>Finally, as with other DITA links, a topic reference has a <q>scope</q>
+                        (<xmlatt>scope</xmlatt>), which indicates whether the referenced resource is
+                    part of map’s direct content (<q>local</q>), is part of a closely-related map
+                        (<q>peer</q>), or is a completely separate resource (<q>external</q>). The
+                    default value of <xmlatt>scope</xmlatt> is <q>local.</q>
+                </p>
+        <p>You use <q>external</q> for things like Web pages or PDF documents that you’re linking to
+                    but that you don’t produce as part of your general DITA processing. </p>
+        <p>You use <q>peer</q> for documents that are part of your environment but that are
+          published as separate publications. For example, the installation and operation manuals
+          for a product would likely be peers. The <q>peer</q> value generally implies that
+          processors should know about the peer resources and might be able to do things like
+          creating working links to those resources in generated output (for example, because they
+          are all published to the same website or produced as PDFs intended to be delivered
+          together). The <q>local</q> and <q>external</q> scopes are pretty easy to handle: the
+          resources are either part of your map or completely separate from it. The <q>peer</q>
+          scope is more complicated because it brings in processor-specific processing that is
+          outside the scope of the DITA specification.</p>
+        <p>A scope value of <q>external</q> would normally not be used on direct topic references,
+                    as it wouldn’t make much sense to include an external resource into a map. The
+                    value of <q>external</q> is normally used for things like cross-references
+                    inside a topic to external websites, for example, the
+                    following:<codeblock>&lt;p>See <b>&lt;xref href="http://dita-ot.sourceforge.net"</b> 
+<b>scope="external"></b>The DITA Open Toolkit project page&lt;/xref>
+for more on the DITA Open Toolkit.&lt;/p></codeblock></p>
+        <p>However, it can make sense to use <q>external</q> for key definitions that bind keys to
+          external resources, such as Web
+          sites:<codeblock>&lt;keydef keys="dita-ot-site"
+   href="http://dita-ot.sourceforge.net"
+   <b>scope="external"</b>
+   format="html"
+/></codeblock></p>
+        <p>With a key of this form, the cross-reference could be reworked to use a key reference
+                    rather than a direct URI
+                    reference:<codeblock>&lt;p>See <b>&lt;xref keyref="dita-ot-site"></b> The DITA Open Toolkit project page&lt;/xref>
+for more on the DITA Open Toolkit.&lt;/p></codeblock></p>
+        <p>Topicrefs may contain nested topic references, by which you can
+          create a structural
+          hierarchy:<codeblock>&lt;topicref keyref="topic-01">
+  &lt;topicref keyref="topic-02">
+    &lt;topicref keyref="topic-03"/>
+    &lt;topicref keyref="topic-04"/>
+  &lt;/topicref>
+  &lt;topicref keyref="topic-05">
+    &lt;topicref keyref="topic-06"/>
+    &lt;topicref keyref="topic-07"/>
+  &lt;/topicref>
+&lt;/topicref>  </codeblock></p>
+        <p>A topicref may specify a navigation title. While
+          <xmlelement>topicref</xmlelement> provides a <xmlatt>navtitle</xmlatt>
+          attribute, it is deprecated in favor of the
+          <xmlelement>navtitle</xmlelement> subelement, which goes in the
+          <xmlelement>topicmeta</xmlelement> child of topicref.  The
+          <xmlatt>navtitle</xmlatt> attribute, being an attribute, cannot
+          contain any markup and many translation tools do not allow, or make it
+          difficult, to modify the contents of attributes.</p>
+        <p>A topicref with a navigation title looks
+          like:<codeblock>&lt;topicref>
+  &lt;topicmeta>
+    <b>&lt;navtitle>Some Topic Heading&lt;/navtitle></b>
+  &lt;/topicmeta>
+  ...
+&lt;/topicref></codeblock></p>
+        <p>If you want to impose a navigation title onto a topic you must specify the
+                        <xmlatt>locktitle</xmlatt> attribute, otherwise the navigation title
+                    specified in the map is ignored in preference to the title or navigation title
+                    defined by the
+                    topic:<codeblock>&lt;topicref href="some-topic.dita"
+   <b>locktitle="yes"</b>>
+  &lt;topicmeta>
+    <b>&lt;navtitle>Some Topic&lt;/navtitle></b>
+  &lt;/topicmeta>
+&lt;/topicref></codeblock></p>
+        <p>Here the navigation tree will use the value <q>Some Topic</q> as the title of the
+                    referenced topic rather than the value of the <xmlelement>title</xmlelement> element
+                    in that topic. The title of the topic as presented in the main content
+                    presentation will reflect the value of the <xmlelement>title</xmlelement> element in
+                    the topic.</p>
+        <p>In addition to linking to topics, maps, or non-DITA resources,
+          topicrefs can do the following things:<ul
+          id="ul_44n_jkn_3f">
+          <li>Create titled groups of topicrefs (<q>topic heads</q>)</li>
+          <li>Create untitled groups of topicrefs (<q>topic groups</q>)</li>
+          <li>Define sets of topicrefs intended to be used by reference from
+            other maps (<xmlelement>topicset</xmlelement>)</li>
+          <li>Impose sets of topicrefs onto maps
+            (<xmlelement>anchorref</xmlelement>)</li>
+          <li>Bind keys used for indirect addressing to resources (<q>key definitions</q>)</li>
+          </ul></p>
+      </body>
+    </subsection>
+    <subsection
+      id="subsection_zkz_312_kf">
+      <title>Topicref Configuration Attributes</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>attributes<indexterm>topicref
+              configuration</indexterm><indexterm><xmlatt>chunk</xmlatt></indexterm><indexterm><xmlatt>copy-to</xmlatt></indexterm><indexterm><xmlatt>format</xmlatt></indexterm><indexterm><xmlatt>keys</xmlatt></indexterm><indexterm><xmlatt>href</xmlatt></indexterm><indexterm><xmlatt>keyref</xmlatt></indexterm><indexterm><xmlatt>linking</xmlatt></indexterm><indexterm><xmlatt>scope</xmlatt></indexterm><indexterm><xmlatt>type</xmlatt></indexterm><indexterm><xmlatt>audience</xmlatt></indexterm><indexterm><xmlatt>importance</xmlatt></indexterm><indexterm><xmlatt>otherprops</xmlatt></indexterm><indexterm><xmlatt>platform</xmlatt></indexterm><indexterm><xmlatt>print</xmlatt></indexterm><indexterm><xmlatt>product</xmlatt></indexterm><indexterm><xmlatt>props</xmlatt></indexterm><indexterm><xmlatt>rev</xmlatt></indexterm><indexterm><xmlatt>status</xmlatt></indexterm><indexterm><xmlatt>collection-type</xmlatt></indexterm><indexterm><xmlatt>locktitle</xmlatt></indexterm><indexterm><xmlatt>processing-role</xmlatt></indexterm><indexterm><xmlatt>toc</xmlatt></indexterm></indexterm>
+            <indexterm>topic references<indexterm>configuration attributes
+              of</indexterm></indexterm>
+            <indexterm><xmlelement>topicref</xmlelement></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>Topicref elements take a number of attributes. These can be
+          classified as follows:<ul
+          id="ul_23p_k12_kf">
+          <li>Linking and addressing attributes: <xmlatt>chunk</xmlatt>,
+            <xmlatt>copy-to</xmlatt>, <xmlatt>format</xmlatt>,
+            <xmlatt>href</xmlatt>, <xmlatt>keys</xmlatt>,
+            <xmlatt>keyref</xmlatt>, <xmlatt>linking</xmlatt>,
+            <xmlatt>scope</xmlatt>, and <xmlatt>type</xmlatt>. These attributes
+            serve to define or characterize the resource the topicref links to,
+            if any.</li>
+          <li>Selection attributes: <xmlatt>audience</xmlatt>,
+            <xmlatt>importance</xmlatt>, <xmlatt>otherprops</xmlatt>,
+            <xmlatt>platform</xmlatt>, <xmlatt>print</xmlatt>,
+            <xmlatt>product</xmlatt>, <xmlatt>props</xmlatt> and its
+            specializations, <xmlatt>rev</xmlatt>, and
+            <xmlatt>status</xmlatt>.</li>
+          <li>Topicref configuration attributes: <xmlatt>collection-type</xmlatt>,
+                                <xmlatt>locktitle</xmlatt>, <xmlatt>processing-role</xmlatt>, and
+                                <xmlatt>toc</xmlatt>. These configure how the topicref behaves
+                            either with respect to its peer topicrefs and the map it’s part of or
+                            with respect to the resource it references.</li>
+          </ul></p>
+        <p>The linking and addressing attributes are covered in the sections on linking and
+          addressing. The selection attributes are covered in the sections on conditional
+          processing. The <xmlatt>locktitle</xmlatt> attribute is covered in the section on metadata
+          cascade.</p>
+        <p>The <xmlatt>processing-role</xmlatt> attribute indicates whether the resource pointed to
+          by the topicref is part of the main navigation tree or navigation graph (<q>normal</q>) or
+          if it acts as a resource used by other topics or topicrefs via key reference
+            (<q>resource-only</q>). See <xref href="#subsection_sgl_z2n_3f" format="dita"/>.</p>
+        <p>The <xmlatt>collection-type</xmlatt> attribute indicates what, if any, relationship
+          exists among topics referenced directly by the topicref that contains the
+            <xmlatt>collection-type</xmlatt> attribute or any included topicrefs.<dl>
+            <dlentry>
+              <dt>unordered</dt>
+              <dd>There is no significance to the order of the topics and no implicit relationship
+                among them. In particular, there is no expectation or requirement to generate
+                previous and next topic links between the topics. This is the default value.</dd>
+            </dlentry>
+            <dlentry>
+              <dt> sequence </dt>
+              <dd>The order of the topics is significant and they explicitly represent a sequence or
+                reading order. Processors usually generate previous and next links or otherwise
+                ensure that the sequence is apparent and navigable.</dd>
+            </dlentry>
+            <dlentry>
+              <dt>choice</dt>
+              <dd>Indicates that one of the topics out of the set should be chosen. The way this
+                                choice is made is processor dependent. For example, you might match
+                                selection attributes, such as experience level, with values
+                                specified by the reader. The main point of <q>choice</q> is to
+                                indicate that only one of the set should be presented to a given
+                                reader.</dd>
+            </dlentry>
+            <dlentry>
+              <dt>family</dt>
+              <dd>Indicates that each of the referenced topics is closely related to each of the
+                others. This is usually represented by having <q>related links</q> from each member
+                of the set to every other member of the set.</dd>
+            </dlentry>
+          </dl></p>
+        <p>Note that the meaning of <xmlatt>collection-type</xmlatt> when
+          specified on <xmlatt>reltable</xmlatt> and <xmlatt>relcolspec</xmlatt>
+          is undefined and should not be taken as cascading to topicrefs within
+          relationship table cells.</p>
+        <p>The <xmlatt>toc</xmlatt> attribute indicates whether or not the topicref should
+          contribute to the navigation table of contents. A value of <q>no</q> indicates it should
+          not contribute, a value of <q>yes</q> that it should. The default is yes.</p>
+      </body>
+    </subsection>
+    <subsection
+      id="subsection_1bg_1fn_3f">
+      <title>Specializations of Topicref</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>topic references<indexterm>specializations
+              of</indexterm></indexterm>
+            <indexterm><xmlelement>topicref</xmlelement></indexterm>
+            <indexterm><xmlelement>topicsetref</xmlelement></indexterm>
+            <indexterm><xmlelement>topicset</xmlelement></indexterm>
+            <indexterm><xmlelement>mapref</xmlelement></indexterm>
+            <indexterm><xmlelement>topichead</xmlelement></indexterm>
+            <indexterm><xmlelement>topicgroup</xmlelement></indexterm>
+            <indexterm><xmlelement>keydef</xmlelement></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>Most of the different uses of <xmlelement>topicref</xmlelement> have a
+          corresponding specialization provided by the DITA-defined map group
+          domain<indexterm>vocabulary module<indexterm>map group
+          domain</indexterm></indexterm><indexterm>map<indexterm>map group
+          domain</indexterm></indexterm> vocabulary module:<ul
+          id="ul_3dv_v1m_3f">
+          <li><xmlelement>topicsetref</xmlelement>: References a
+            <xmlelement>topicset</xmlelement> in order to use the topic set by
+            reference.</li>
+          <li><xmlelement>mapref</xmlelement>: References another map. Sets the
+            default value for the <xmlatt>format</xmlatt> attribute to
+            <q>ditamap.</q></li>
+          <li><xmlelement>topichead</xmlelement>: Represents a titled group of
+            topicrefs within the map. Requires a title but does not allow a
+            reference to a resource. Topic heads contribute to the navigation
+            tree of the map. Any normal-role <xmlelement>topicref</xmlelement> element
+            that has a title but no resource reference acts as a topic
+            head.</li>
+          <li><xmlelement>topicgroup</xmlelement>: Represents an untitled group of
+            topicrefs. Topic groups never contribute to the navigation tree,
+            even if they have titles. Any topicref with no resource reference
+            and no title acts as a topic group. The specialized element type
+            <xmlelement>topicgroup</xmlelement> has the additional rule that even if
+            it does have a title, it still acts as a topic group and not a topic
+            head. This lets you use the <xmlelement>topicgroup</xmlelement> element to
+            organize topicrefs for whatever purpose and give those groups titles
+            that are meaningful for authors, without affecting the navigation
+            tree. For example, I often use <xmlelement>topicgroup</xmlelement> in this
+            way to organize groups of key definitions.</li>
+          <li><xmlelement>keydef</xmlelement>: Defines a key definition. Requires the
+            <xmlatt>keys</xmlatt> attribute and sets the default value for the
+            <xmlatt>processing-role</xmlatt> attribute to <q>resource-only.</q>
+            (See <xref
+            href="linking-and-addressing.xml#topic-id"
+            format="dita"/>).</li>
+          </ul></p>
+        <p>A common use of specialization is to define new topicref types that reflect specific
+          publication structures. For example, the DITA BookMap map type defines topicref types like
+            <q>chapter</q> and <q>part</q> and the DITA for Publishers publication map domain
+          defines topicref types like <q>dedication,</q>
+          <q>article,</q> and <q>front-cover.</q></p>
+        <p>The use of specialized topicrefs lets you impose publication-specific
+          semantics onto otherwise generic
+          topics<indexterm>topic<indexterm>generic</indexterm></indexterm>. For
+          example, if you use a <xmlelement>chapter</xmlelement> topicref to point to
+          a generic <xmlelement>topic</xmlelement> topic or to a
+          <xmlelement>concept</xmlelement> topic, you are saying explicitly that, in
+          the context of this publication, the generic topic is playing the role
+          of <q>chapter.</q> Processors can then apply chapter style and
+          processing to the topic.</p>
+        <p>This is an important use of topicrefs because it creates a clear and complete separation
+                    between the concern of information typing—for example, concept, task, and
+                    reference—and publication structure—part, chapter, subsection, appendix, etc. In
+                    particular, you don’t necessarily have to change the element type of a topic
+                    simply to use it in an new context where it is playing a different structural
+                    role. For example, the same concept might be a chapter in one publication, an
+                    appendix in another, and subsection in yet another. The topic itself doesn’t
+                    change, only the way it is used.</p>
+        <p>Because the processing and presentation implications of a given topicref or topic are
+                    necessarily a matter of style and details of a particular output type, the
+                    precise implications of the combination of topicref type and topic type are, of
+                    course, processor specific. However, in general, you should expect the tagname
+                    of the topicref element to take precedence over the topic type when determining
+                    structural role within a publication, except for generic
+                        <xmlelement>topicref</xmlelement> elements. </p>
+        <p>In the purest use of DITA, topics always reflect an information type that says nothing
+          about its possible structural role (e.g., <q>concept,</q>
+          <q>task,</q> and <q>reference</q>), leaving it to maps to define structural roles. In
+          practice, not all topics are quite so pure. For example, the DITA for Publishers
+          vocabulary includes topic types like <q>chapter</q> and <q>part</q> largely because
+          Publishing users coming to XML for the first time or coming from non-DITA XML applications
+          expect to find those topic types. Over time, as their sophistication grows, they would
+          likely move to topic types that are more descriptive of the content and less descriptive
+          of their original structural roles. DITA for Publishers also provides the topic type
+            <q>division,</q> which represents a titled publication component with no inherent
+          structural role.</p>
+        <p>Specializations of <xmlelement>topicref</xmlelement> are fairly easy to define because usually
+                    all you’re doing is changing the tagname and not modifying the base content
+                    model or attributes at all.</p>
+      </body>
+    </subsection>
+    <subsection
+      id="subsection_sgl_z2n_3f">
+      <title>Topicrefs, Navigation Trees, and Navigation Graphs</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>topic references<indexterm>as navigation
+              trees</indexterm><indexterm>as navigation
+              graphs</indexterm></indexterm>
+            <indexterm><xmlelement>topicref</xmlelement></indexterm>
+            <indexterm>navigation tree</indexterm>
+            <indexterm>navigation graph</indexterm>
+            <indexterm>relationship table</indexterm>
+            <indexterm>map<indexterm>navigation tree in</indexterm></indexterm>
+            <indexterm>map<indexterm>navigation graph in</indexterm></indexterm>
+            <indexterm>map<indexterm>relationship table
+              in</indexterm></indexterm>
+            <indexterm>extended links</indexterm>
+            <indexterm>link<indexterm>extended</indexterm></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>The concepts of <q>navigation tree</q> and <q>navigation graph</q> are not formally
+          defined in the DITA specification through DITA 1.2, but they are inherent in the
+          distinction between normal and resource-only topic references and between topicrefs
+          outside of relationship tables and inside relationship tables. The DITA 1.2 specification
+          uses the term <q>navigation tree</q> but does not formally define it. The term
+            <q>navigation graph</q> is not used in the DITA 1.2 specification.</p>
+        <p>Before DITA 1.2, when the <xmlatt>processing-role</xmlatt> attribute was introduced, all
+          topicrefs contributed to the navigation tree or relationship graph, meaning that a map
+          existed primarily to define a navigation tree. Therefore, there was no need to formally
+          define the concept of navigation tree. Because relationship tables required distinct
+          markup, there was no need to define the abstraction of navigation graph.</p>
+        <p>However, with the introduction of resource-only topicrefs there is now a need to talk
+          about the difference between normal-role topicrefs and resource-only topicrefs and
+          describe what they do. That leads to the need to distinguish the navigation tree and
+          navigation graph from resource-only topicrefs.</p>
+        <p>The <term>navigation tree</term> is the table-of-contents structure defined by the
+          normal-role topicrefs in the map (and not within relationship tables). While DITA provides
+          some markup control over how the normal-role topicrefs translate into a literal table of
+          contents or equivalent navigation structure, in general there is a one-to-one
+          correspondence between the normal-role topicrefs and the navigation structure produced
+          from the map for maps used to produce some sort of navigable output. I have to be vague
+          here because the variety of possible uses for maps is unbounded. But in practice, maps are
+          mostly used to generate things like books, websites, and online help with familiar
+          TOC-like navigation trees. More generally, maps are a form of <q>virtual document,</q>
+          such as provided by many content and component management systems.</p>
+        <p>The <term>navigation graph</term> is the set of links among topics defined in any
+          relationship tables in the map. Each row of a relationship table is effectively an
+          extended link (in the XLink sense), where each cell of the row represents one anchor or
+          end of the link. Each cell of a row contains one or more normal-role topicrefs that link
+          to the resources that act as that anchor of the link. Each column in the relationship
+          table has an associated role. A typical example is a relationship table with the columns
+            <q>concept</q> and <q>reference,</q> which relate concept topics linked from cells in
+          the <q>concept</q> column to reference topics linked from cells in the <q>reference</q>
+          column. (See <xref href="relationship-tables.xml#topic-id" format="dita"/>.) A
+          relationship table may have any number of columns.</p>
+        <p>The typical rendition effect of relationship table links is to generate <q>See also</q>
+          links at the ends of the topics linked.</p>
+      </body>
+    </subsection>
+    <subsection
+      id="subsection_wtz_lkn_3f">
+      <title>Creating Compound Maps</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>map<indexterm>compound</indexterm></indexterm>
+            <indexterm>compound maps</indexterm>
+            <indexterm/>
+            <indexterm><xmlatt>format</xmlatt></indexterm>
+            <indexterm>topic reference<indexterm>to maps</indexterm></indexterm>
+            <indexterm><xmlelement>anchor</xmlelement></indexterm>
+            <indexterm><xmlelement>anchorref</xmlelement></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>The simplest map is a single XML document that contains all the topic
+          references and relationship tables that define a single
+          publication.</p>
+        <p>But in practice, most publications are constructed from multiple maps, creating a
+            <q>compound map.</q></p>
+        <p>DITA defines several ways to combine maps and topicrefs together to
+          construct a compound map and an effective navigation tree.</p>
+        <p>The most direct way to combine maps is a map-to-map reference using a topicref with a
+            <xmlatt>format</xmlatt> value of
+          <q>ditamap</q>:<codeblock>&lt;map>
+  &lt;title>My Publication&lt;/title>
+  &lt;topicref href="chap-01.ditamap"
+   <b>format="ditamap"</b>
+  />
+  &lt;topicref href="chap-02.ditamap"
+   <b>format="ditamap"</b>
+  />
+&lt;/map></codeblock></p>
+        <p>The referenced maps are usually referred to as <q>submaps</q> or <q>subordinate maps.</q>
+          All the topic references and relationship tables in the subordinate maps are combined with
+          the root map and processed together. This processing results in an effective map that can
+          be represented as a new single map document. The <q>map pull</q> processing stage of the
+          DITA Open Toolkit does exactly this: it processes the root map to pull in all referenced
+          maps, applies the DITA rules for combining maps, and produces a single map document as a
+          temporary file.</p>
+        <p>You can also pull in separately-marked sets of topicrefs from a
+          larger map using the <xmlelement>topicset</xmlelement> and
+          <xmlelement>topicsetref</xmlelement> elements, which are both
+          specializations of <xmlelement>topicref</xmlelement>.</p>
+        <p>For example, you might have a map that organizes the content for a
+          number of re-usable tasks and associated concept and task topics. Each
+          group of topics forms a reusable unit of structure, but for whatever
+          reason it was easier or more effective to define these in a single map
+          document rather than as individual maps. Such a map would look
+          something
+          like:<codeblock>&lt;map>
+  &lt;title>Task and Related Content Topic Sets&lt;/title>
+  <b>&lt;topicset id="task-01-topicset></b>
+    &lt;topicref href="task-01.dita">
+      &lt;topicref href="concept-01.dita"/>
+      &lt;topicref href="ref-01.dita"/>
+      &lt;topicref href="ref-02.dita"/>
+    &lt;/topicref>
+  <b>&lt;/topicset></b>
+  <b>&lt;topicset id="task-02-topicset></b>
+    &lt;topicref href="task-02.dita">
+      &lt;topicref href="concept-02.dita"/>
+      &lt;topicref href="ref-03.dita"/>
+      &lt;topicref href="ref-04.dita"/>
+    &lt;/topicref>
+  <b>&lt;/topicset></b>
+&lt;/map></codeblock></p>
+        <p>From another map you can use individual topic sets using the
+          <xmlelement>topicsetref</xmlelement>
+          element:<codeblock>&lt;map>
+  &lt;title>My Publication&lt;/title>
+  ...
+  &lt;topicsetref href="topicsets.ditamap#task-02-topicset"/>
+  ...
+&lt;/map></codeblock></p>
+        <p>The processed result is that the referenced topicset is included in the referencing map.
+                    Note, however, that it is not a content reference, so this map processing is
+                    performed <i>after</i> any content reference processing or filtering. Processors
+                    may delay resolution of topicset references if appropriate, doing the resolution
+                    in the rendition system rather than as part of the output processing. Processors
+                    can also treat topicset references as equivalent to referencing a map with a
+                        <xmlatt>format</xmlatt> value of <q>ditamap.</q> By <q>rendition system</q>
+                    I mean interactive presentation systems like Eclipse InfoCenters or online help
+                    systems, where the final rendering of the content to a reader is done by the
+                    rendition system, so there is opportunity for additional processing beyond that
+                    applied to the DITA source.</p>
+        <p>You can also <q>push</q> subordinate maps onto another map through the use of anchors and
+                    anchor references. The <xmlelement>anchor</xmlelement> element defines a potential
+                        <q>push</q> target within a map. </p>
+        <p>You can use the <xmlatt>anchorref</xmlatt> attribute of a map or an
+                        <xmlelement>anchorref</xmlelement> element to point to an anchor and impose the
+                    contents of the map or <xmlelement>anchorref</xmlelement> onto the anchor. The intent
+                    is that the imposition be processed as late as possible, ideally in the delivery
+                    system.</p>
+        <p>Finally, you can use content references with map elements just as you can with topic
+                    elements. You can use pull conrefs to pull topicrefs into a map and push conrefs
+                    to impose additional topicrefs into a map. However, since you can include maps
+                    or individual topicrefs in maps and you have the anchor/anchorref facility, the
+                    use of content references within maps is fairly rare. And because content
+                    references are always processed before any semantic processing, conref offers
+                    much less flexibility in controlling when map composition is done. In
+                    particular, it doesn’t allow it to be done in the delivery system.</p>
+      </body>
+    </subsection>
+    <subsection
+      id="subsection_jww_jqn_3f">
+      <title>Chunking and Copy-To</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>chunking</indexterm>
+            <indexterm/>
+            <indexterm><xmlatt>copy-to</xmlatt></indexterm>
+            <indexterm><xmlatt>chunk</xmlatt></indexterm>
+            <indexterm><xmlelement>topicmeta</xmlelement></indexterm>
+            <indexterm><xmlelement>shortdesc</xmlelement></indexterm>
+            <indexterm>attributes<indexterm><xmlatt>copy-to</xmlatt></indexterm></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>You can generate two broad classes of output from a map: monolithic single-file output
+          like PDF and modular, multi-file output like HTML and online help.</p>
+        <p>For multi-file outputs there is normally a one-to-one relationship between input topic
+                    files and result files. That’s the obvious way to produce multi-file outputs,
+                    but the DITA specification doesn't require it.</p>
+        <p>Generating output files from input topics presents two potential challenges:<ol
+          id="ol_cfw_35n_3f">
+          <li>Using the same topic in different places in the map to result in different result
+                            files.</li>
+          <li>Combining multiple topics into one output file or splitting one topic into multiple
+                            output files.</li>
+          </ol></p>
+        <p>For the first challenge, you can use the <xmlatt>copy-to</xmlatt> attribute of
+            <xmlelement>topicref</xmlelement> to specify the effective topic filename for that use of the
+          topic.</p>
+        <p>For example, say you use a common subtask twice in the same map under different main
+                    tasks, but you want each use of the task to result in a different HTML file in
+                    HTML outputs. You can force this by specifying <xmlatt>copy-to</xmlatt> on each
+                    topicref:<codeblock>&lt;map>
+  ...
+  &lt;topicref href="main-task-A.dita">
+    &lt;topicref href="subtask-01.dita"
+      <b>copy-to="task-a-subtask-01.dita"</b>/>
+    ...
+  &lt;/topicref>
+  &lt;topicref href="main-task-B.dita">
+    &lt;topicref href="subtask-01.dita"
+      <b>copy-to="task-b-subtask-01.dita"</b>/>
+    ...
+  &lt;/topicref>
+  ...
+&lt;/map></codeblock></p>
+        <p>Note that the value of <xmlatt>copy-to</xmlatt> specifies the effective <i>source</i>
+                    filename, not the effective <i>output</i> filename. That’s because the mapping
+                    from source files to output files is still processor dependent. The only
+                    knowable thing at authoring time is the source filenames.</p>
+        <p>You can use <xmlatt>copy-to</xmlatt> in this way to enable cross
+                        references<indexterm>cross references<indexterm>using
+                                <xmlatt>copy-to</xmlatt></indexterm></indexterm><indexterm>cross
+                            references<indexterm>to specific uses of a
+                            topic</indexterm></indexterm><indexterm>topic<indexterm>cross references
+                            to uses of</indexterm></indexterm> to specific uses of a topic by
+                    putting a key on the topicref that specifies <xmlatt>copy-to</xmlatt>.
+                    References to that key will then be reliably associated to that specific use of
+                    the referenced topic and not to any other, as though you had a made a literal
+                    copy of the topic in your source repository. For example, the preceding example
+                    can be extended to add
+                    keys:<codeblock>&lt;map>
+  ...
+  &lt;topicref keys="main-task-A" href="main-task-A.dita">
+    &lt;topicref <b>keys="task-a-subtask-01"</b>
+      href="subtask-01.dita"
+      copy-to="task-a-subtask-01.dita"/>
+    ...
+  &lt;/topicref>
+  &lt;topicref <b>keys="main-task-B"</b> href="main-task-B.dita">
+    &lt;topicref keys="task-b-subtask-01"
+      href="subtask-01.dita"
+      copy-to="task-b-subtask-01.dita"/>
+    ...
+  &lt;/topicref>
+  ...
+&lt;/map></codeblock></p>
+        <note>When you specify <xmlatt>copy-to</xmlatt>, you can also specify a
+          short description (<xmlelement>shortdesc</xmlelement>) in
+          <xmlelement>topicmeta</xmlelement> within the topicref to set the short
+          description of the topic as copied. Implementation of this behavior is
+          optional for processors.</note>
+        <p>For the second challenge, you can use the <xmlatt>chunk</xmlatt> attribute of
+            <xmlelement>topicref</xmlelement> to indicate how the input should map to output files, and
+          the <xmlatt>copy-to</xmlatt> attribute to specify the effective filename to use when
+          constructing the output result. The <xmlatt>chunk</xmlatt> attribute can also be specified
+          on <xmlelement>map</xmlelement>. When specified on a map, the <xmlatt>chunk</xmlatt> applies to
+          all the normal-role topicrefs in the map.</p>
+        <p>The value of the <xmlatt>chunk</xmlatt> attribute is a list of blank-delimited tokens
+                    that indicate the topics to be chunked, how those topics should be split or
+                    combined, and whether the result affects navigation or content.</p>
+        <p>The selection options are:<parml>
+                        <plentry>
+                            <pt>select-topic</pt>
+                            <pd>Selects just the topic referenced by the topicref, but not any of
+                                its ancestor, peer, or descendant topics. This allows you to treat
+                                topics that are part of larger topic documents as though they were
+                                stand-alone topic documents.</pd>
+                        </plentry>
+                        <plentry>
+                            <pt>select-document</pt>
+                            <pd>Selects the entire document that contains the referenced topic.</pd>
+                        </plentry>
+                        <plentry>
+                            <pt>select-branch</pt>
+                            <pd>Selects the referenced topic and all of its descendant topics.</pd>
+                        </plentry>
+                    </parml></p>
+        <p>The combination and split options are:<parml>
+          <plentry>
+            <pt>by-topic</pt>
+            <pd>Splits each topic in the set of selected topics into a separate result file. This
+                                lets you create multiple output files from topics that are authored
+                                in the same XML document. You don’t have direct control over the
+                                output filenames because <xmlatt>copy-to</xmlatt> only applies to
+                                the result of a single-file effective chunk.</pd>
+          </plentry>
+          <plentry>
+            <pt>by-document</pt>
+            <pd>Combines the topics in the selected set into a single result document. This lets you
+                                create a single output file from topics are authored in separate XML
+                                documents. Here, <xmlatt>copy-to</xmlatt> should determine the
+                                effective source filename of the chunk.</pd>
+          </plentry>
+          </parml></p>
+        <p>The rendering options are:<parml>
+          <plentry>
+            <pt>to-content</pt>
+            <pd>Indicates that the result should be rendered as a new content object in the output,
+                                e.g., a new HTML file for HTML-based outputs. When the topicref is a
+                                topic head, it means that the output should be as though the
+                                topichead had referenced a title-only topic with the topic head’s
+                                title.</pd>
+          </plentry>
+          <plentry>
+            <pt>to-navigation</pt>
+            <pd>Indicates that a new chunk of navigation should be created to reference the
+                                specified chunk, such as a separate table of contents or set of
+                                related links. If a topichead has a <xmlatt>chunk</xmlatt> value of
+                                to-navigation and that topichead is the target of a cross-reference,
+                                then the cross reference should go to the navigation structure
+                                itself, whatever that might be in a given rendition (for example, an
+                                entry in a table of contents or a node in a tree control reflecting
+                                the navigation structure). The exact meaning of to-navigation is
+                                necessarily highly dependent on the details of the rendition.</pd>
+          </plentry>
+          </parml></p>
+        <p>You can use <xmlatt>chunk</xmlatt> in combination with
+          <xmlatt>copy-to</xmlatt> to control the effective filename of
+          chunks.</p>
+        <p>See the section <q>Chunking</q> in the <cite>DITA Architectural Specification</cite> for
+          a full explanation of chunking.</p>
+      </body>
+    </subsection>
+    <subsection
+      id="subsection_fgv_v5d_kf">
+      <title>Metadata Cascade In Maps</title>
+      <prolog>
+        <metadata>
+          <keywords>
+            <indexterm>metadata<indexterm>cascade in
+              maps</indexterm></indexterm>
+            <indexterm>cascade of metadata in maps</indexterm>
+            <indexterm>map<indexterm>metadata cascade
+              in</indexterm></indexterm>
+            <indexterm><xmlelement>topicref</xmlelement></indexterm>
+            <indexterm><xmlelement>topicgroup</xmlelement></indexterm>
+            <indexterm><xmlatt>chunk</xmlatt></indexterm>
+            <indexterm><xmlatt>copy-to</xmlatt></indexterm>
+            <indexterm><xmlatt>outputclass</xmlatt></indexterm>
+            <indexterm><xmlatt>href</xmlatt></indexterm>
+            <indexterm><xmlatt>keyref</xmlatt></indexterm>
+            <indexterm><xmlatt>keys</xmlatt></indexterm>
+          </keywords>
+        </metadata>
+      </prolog>
+      <body>
+        <p>Maps and topics may have metadata, which can be stored in attributes on those elements or
+                    in a <xmlelement>topicmeta</xmlelement> child element.Some of the metadata defined on
+                    maps and topicrefs cascades or propagates down the map hierarchy to descendant
+                    topicrefs and maps and, for topicrefs that point to DITA topics, to the topics
+                    themselves.</p>
+        <p>The rules for metadata cascade are necessarily complex. See the topic
+          "Cascading of attributes and metadata in a DITA map" in the <cite>DITA
+          Architectural Specification</cite> for complete details.</p>
+        <p>Here is a summary of the rules:<ul id="ul_14t_rwd_kf">
+            <li>Directly-specified values always take precedence over cascaded values for
+              propagation within map documents and from map-to-map. For example, if an ancestor
+              topicref specifies <codeph>toc="yes"</codeph> and a descendant topicref specifies
+                <codeph>toc="no"</codeph>, the value specified on the descendant topicref takes
+              precedence and sets the value cascaded down to its descendants, if any.</li>
+            <li>Metadata on topicrefs cascades to referenced topics unless the
+                                <xmlatt>lockmeta</xmlatt> attribute on <xmlelement>topicmeta</xmlelement>
+                            is set to <q>no.</q> The default value for <xmlatt>lockmeta</xmlatt> is
+                                <q>yes,</q> meaning that the topicref’s metadata overrides or
+                            extends the referenced topic’s metadata.</li>
+            <li>All the selection attributes and topicref-configuring attributes
+                                (<xmlatt>toc</xmlatt>, <xmlatt>type</xmlatt>,
+                                <xmlatt>format</xmlatt>, etc.) cascade from <xmlelement>map</xmlelement>
+                            to <xmlelement>topicref</xmlelement> and from <xmlelement>topicref</xmlelement> to
+                                <xmlelement>topicref</xmlelement> within the map document.</li>
+            <li>The metadata elements <xmlelement>author</xmlelement>, <xmlelement>source</xmlelement>,
+                <xmlelement>publisher</xmlelement>, <xmlelement>copyright</xmlelement>,
+                <xmlelement>critdates</xmlelement>, <xmlelement>permissions</xmlelement>,
+                <xmlelement>audience</xmlelement>, <xmlelement>category</xmlelement>,
+                <xmlelement>prodinfo</xmlelement>, <xmlelement>othermeta</xmlelement> all cascade from
+                <xmlelement>map</xmlelement> to <xmlelement>topicref</xmlelement>, from
+                <xmlelement>topicref</xmlelement> to <xmlelement>topicref</xmlelement> within the map document,
+              and from <xmlelement>topicref</xmlelement> to referenced topic. </li>
+            <li>Cascading is additive for attributes and metadata elements that allow multiple
+              values. For attributes and elements that allow a single value, the value defined on
+              the nearest ancestor element takes precedence. </li>
+            <li>Notable attributes that do not cascade are <xmlatt>chunk</xmlatt>,
+                                <xmlatt>copy-to</xmlatt>, and <xmlatt>outputclass</xmlatt>, along
+                            with the addressing attributes <xmlatt>href</xmlatt>,
+                                <xmlatt>keyref</xmlatt>, and <xmlatt>keys</xmlatt>.</li>
+          </ul></p>
+        <p>In general, the metadata cascade behavior gives you the results you would expect.
+                    However, sometimes you get surprising results. For example, in a publication
+                    that consists of chapters or articles authored by different people, if you
+                    specified author metadata in the map and did not also specify
+                        <codeph>lockmeta="no"</codeph> on the map’s <xmlelement>topicmeta</xmlelement>
+                    element, the publication-level authors would also become, effectively, the
+                    authors of each chapter, which may not be what you want.</p>
+        <p>Another important implication of metadata cascade is in component management systems and
+          search and retrieval systems, where the system may need to create a special DITA-aware
+          index or <q>materialized view</q> of the maps and topics in order to provide accurate and
+          fast searching on metadata imposed by maps onto topics. It also implies that you may need
+          to select a specific root map before performing a cascade-aware search in order to
+          establish the correct metadata context. Or search results may need to indicate which map
+          imposes a specific bit of cascaded metadata onto a topic.</p>
+        <p>Finally, note the utility of <xmlelement>topicgroup</xmlelement> as way to set default values
+          for descendant topicrefs. For example, if you want to set the default value of the
+            <xmlatt>collection-type</xmlatt> attribute to <q>sequence,</q> you can do it with a
+          topic
+          group:<codeblock>  ...
+  <b>&lt;topicgroup collection-type="sequence"></b>
+    &lt;topicref keyref="topic-345"/>
+    &lt;topicref keyref="topic-143"/>
+    &lt;topicref keyref="topic-261"/>
+  &lt;/topicgroup>
+  ...</codeblock>
+        </p>
+      </body>
+    </subsection>
+  </subsection>
+</chapter>

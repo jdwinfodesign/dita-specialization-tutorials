@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
+<map>
+  <!-- <title>Understanding Specialization</title> -->
+  <topicmeta>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </topicmeta>
+  <topicref href="understanding_specialization.xml" collection-type="sequence">
+    <topicref href="what-is-specialization.xml"/>
+    <topicref href="types-of-specialization.xml"/>
+    <topicref href="domains-and-topic-types.xml"/>
+    <topicref href="specialization-dtds-and-schemas.xml"/>
+    <topicref href="class-attributes.xml"/>
+    <topicref href="specialization-restrictions.xml"/>
+  </topicref>
+</map>

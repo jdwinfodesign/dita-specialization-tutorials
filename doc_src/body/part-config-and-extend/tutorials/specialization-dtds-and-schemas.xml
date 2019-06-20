@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="dtds-and-schemas">
+  <title>Specialization, DTDs, and Schemas</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </prolog>
+  <body>
+    <p>Starting with DITA 1.1, the DITA specification defines both DTD and XSD Schema
+        versions of the DITA document types. The basic patterns for organizing topic, map,
+        and domain specialization modules are the same for DTDs and schemas but there are
+        detail differences reflecting the different features and syntaxes of the two
+        document constraint languages.</p>
+    <p>This tutorial will eventually be provided into two versions, one for DTD-based
+        specializations and one for schema-based specializations. However, until the DITA
+        Open Toolkit properly supports schema-based specializations, there is no point
+        in creating schema-based specializations.</p>
+    <p>Once you understand how to create DTD-based specializations, transferring that 
+        knowledge to schema-based specialization is straightforward.</p>
+  </body>
+</subsection>

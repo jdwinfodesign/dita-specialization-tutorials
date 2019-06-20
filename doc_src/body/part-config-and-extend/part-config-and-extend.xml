@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE part PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:part" "part.dtd">
+<part
+  id="topic-id">
+  <title>Markup Configuration and Extension</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>markup<indexterm>configuration</indexterm><indexterm>extension</indexterm></indexterm>
+        <indexterm>configuration</indexterm>
+        <indexterm>extension</indexterm>
+        <indexterm>specialization</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>DITA is an XML application architecture uniquely designed to enable controlled and manageable
+      configuration and extension without breaking interchange. This aspect of DITA is what
+      distinguishes it from all other standard XML applications, in particular, all other
+      applications for human-consumed documents.</p>
+    <p>This part explains the nuts and bolts of designing and implementing custom DITA applications. It explains DITA's configuration and extension facilities, discusses the theory and practice of DITA markup design, provides specific procedures and techniques for configuring DITA document types, and provides specific procedures and techniques for implementing new vocabulary modules (specializations).</p>
+    <p>There are two aspects to DITA configuration and extension: analysis, which is the process of
+      figuring out what you need to do from a markup design standpoint, and implementation, which is
+      the process of realizing your design in working components, for example, defining new
+      specialization and constraint modules, creating new shell document types, and so on. </p>
+    <p>A side effect of DITA's modular vocabulary design is that implementation is a largely mechanical process that is fairly easy to do once someone shows you how. Because DITA-aware tools can automatically process specialized and constrained documents it also means you can test your new modules quickly and easily using tools like OxygenXML and the Open Toolkit. This in turn means that you can iterate over new designs quickly.</p>
+    <p>Thus, while at first glance DITA's vocabulary mechanism may seem Byzantine and odd, especially to people with long experience in traditional SGML and XML implementation, it is in fact quite clever and makes a number of tasks much easier than they would otherwise be.</p>
+    <p>Thus this part starts with some practical working examples that demonstrate the mechanical process, with the goal of getting you quickly to some working custom components. Once you see how all the parts work together you can focus on the analysis aspects of your real-world challenges confident in the knowledge you'll be able to quickly realize them in a working system.</p>
+  </body>
+</part>

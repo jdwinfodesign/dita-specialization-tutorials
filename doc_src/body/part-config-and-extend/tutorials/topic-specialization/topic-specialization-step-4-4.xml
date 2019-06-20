@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-spec-step-4-4">
+  <title>Topic Specialization Step 4-4: Implement Specialization-Specific XSLT Processing</title>
+  <body>
+    <p>For the FAQ question, the new processing is relatively easy: just generate <q>Q. </q> before
+            the title content:
+            <codeblock>
+&lt;xsl:template match="*[contains(@class, ' faq-question/faq-question-statement ')]">
+  &lt;xsl:param name="headinglevel">
+      &lt;xsl:choose>
+          &lt;xsl:when test="count(ancestor::*[contains(@class,' topic/topic ')]) > 6">6&lt;/xsl:when>
+          &lt;xsl:otherwise>&lt;xsl:value-of select="count(ancestor::*[contains(@class,' topic/topic ')])"/>&lt;/xsl:otherwise>
+      &lt;/xsl:choose>
+  &lt;/xsl:param>
+  &lt;xsl:element name="h{$headinglevel}">
+    &lt;xsl:attribute name="class">topictitle&lt;xsl:value-of select="$headinglevel"/>&lt;/xsl:attribute>
+    &lt;xsl:call-template name="commonattributes"/>
+    <b>&lt;div class="faq-question-statement" style="background-color: #FFFFA0">
+    &lt;span class="faq-question-statement-q">Q. &lt;/span></b>
+    &lt;xsl:apply-templates/>
+    <b>&lt;/div></b>
+  &lt;/xsl:element>
+  &lt;xsl:value-of select="$newline"/>  &lt;xsl:param name="headinglevel">
+&lt;/xsl:template>
+    </codeblock></p>
+    <p>The <xmlelement>span</xmlelement> with the <xmlatt>class</xmlatt> value isn't strictly necessary but it
+    provides a handy hook for using CSS styles to further control the presentation of the question.</p>
+    <p>For the answer, the solution is not quite so obvious. To render the answer such that the
+            initial <q>A. </q> text is immediately followed by the first paragraph (with no break)
+            requires processing the first child paragraph of <xmlelement>faq-answer</xmlelement> specially
+            and then processing the rest of the content. However, the base template provides
+            processing for elements that would be presented <i>before</i> the first paragraph, such
+            as the abstract and the short description.</p>
+    <p>This presents a dilemma and indicates that we haven't fully thought through the markup design
+            or the presentation design. Clearly we were thinking of questions as just being a title
+            with the question and answers as paragraphs. But DITA topics can contain other elements,
+            and we have to account for them somehow.</p>
+    <p>One way would be to simply eliminate those elements from the allowed content of
+                <xmlelement>faq-question</xmlelement>. That would certainly simplify the problem, but it
+            might make our FAQ question topics too simple. For example, there might be systems that
+            depend on short descriptions or abstracts for some cool functionality.</p>
+    <p>The better thing would be to provide FAQ-specific processing for these elements that ensures
+            the correct presentation. In addition, there might be ways to integrate them with the
+            FAQ to make them more useful.</p>
+    <p>In particular, it probably makes sense to refine the model for <xmlelement>faq-question</xmlelement>
+    to <i>require</i> <xmlelement>shortdesc</xmlelement> to be the first paragraph of the answer, with
+    the body as the rest of the answer. This would enable, for example, an FAQ presentation that
+    shows just the question and short description with the topic body hidden until requested.</p>
+    <p>This is why it's so important to test new markup designs in the context of realistic
+            processing and authoring. As you design new markup you should expect to go through
+            several iterations of design/implement/rework. One advantage of using DITA as a base is
+            that it is fairly inexpensive to do this iterative development. With DITA, you can
+            quickly extend the base functionality without first implement a large base of processing
+            just to get to a point where you can see some output.</p>
+    <p>At this point, we put our XSLT work on hold for a moment and go back to the DTD declarations
+    to refine the markup rules.</p>
+  </body>
+</subsection>  

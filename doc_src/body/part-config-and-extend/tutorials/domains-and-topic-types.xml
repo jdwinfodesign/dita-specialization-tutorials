@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domains-and-topic-types">
+  <title>Domains and Topic Types</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </prolog>
+  <body>
+    <p>DITA recognizes a general fact about document types for technical documentation, namely
+        that there are two distinct classifications of elements: document-level structures and
+        paragraph-and-phrase-level elements (or sometimes, "blocks and phrases").</p>
+    <p>Document-level structures define the organizational and hierarchical structure of
+        entire documents, i.e., book goes to chapter, chapter goes to title plus subsections,
+        subsections go to title plus paragraphs, etc. Different types of documents will have 
+        different structural and organizational rules and requirements.</p>
+    <p>Block-level elements are the elements that go in the bodies of topics. 
+          These are elements that more or less can occur wherever paragraphs
+        can occur. They may also define more complex structures within the topic body (tables, 
+        lists, etc.).</p>
+    <p>Phrase-level elements are the elements that go in paragraphs (or more generally,
+        into "blocks") and are used to either identify mentions of specific things (terms,
+        programming keywords, etc.), create links (cross-references, etc.), or produce
+        some sort of formatting effect (bold, italic, etc.). The set of phrase-level elements
+        you need is usually independent of the higher-level document structures. That is,
+        whether you're writing a service manual or a novel, you probably need the same
+        basic set of phrase-level elements.</p>
+    <p>In DITA, this distinction is formalized into topic types and domains (leaving aside maps
+        for the moment, which do not directly contain any content).</p>
+    <p>In DITA, <term>topics</term> are the top-level unit of document structure. 
+          All DITA content is contained within one or more topics. It is
+        the different topic types that define specific document-level structures.</p>
+    <p>In DITA, <term>domains</term> define sets of elements that are specific to particular
+          subject area or specific application or type of thing to be documented. For example,
+          the base DITA domains include the base "highlight" and "utility" domains, which are
+          very generic and will be useful for almost any DITA document, as well as the 
+          subject-specific domains "programming", "user interface", and "software", which
+          provide phrase-level elements for talking about programming language constructs,
+          user interface components, and software components, respectively.</p>
+    <p>Domains may be used with any topic type.</p>
+    <p>In terms of the DITA specialization architecture, topics and domains form two
+        distinct axese or dimensions of element types that can be combined together to 
+        form different concrete document types (<term>shell document types</term>).</p>
+    <p>For example, if you are writing documentation for a software program, you probably don't
+        need a specialization of the concept topic type but you probably do need to
+        use the programming domain within those concept topics. But if you are writing
+        the reference documentation for Java classes, you might want to have a specialization
+        of the reference topic type that is specific to Java classes and that also uses
+        the programming domain.</p>
+    <p>In essence, domains can be "mixed in" to any topic types to provide phrase-level
+        elements specific to the subject (or "information domain") you're writing about.</p>
+  </body>
+</subsection>

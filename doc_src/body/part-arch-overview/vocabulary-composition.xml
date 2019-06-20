@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id"
+  ditaarch:DITAArchVersion="1.2" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/">
+  <title>Vocabulary Composition and Specialization</title>
+  <shortdesc>DITA turns traditional XML practice on its head with regard to document
+    types.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>vocabulary composition</indexterm>
+        <indexterm>controlled extension</indexterm>
+        <indexterm>DITA <indexterm>document type</indexterm></indexterm>
+        <indexterm/>
+        
+        <indexterm>DTD</indexterm>
+        <indexterm>document type definition</indexterm>
+        <indexterm>document type<indexterm>DITA</indexterm></indexterm>
+        <indexterm>document type<indexterm>shell</indexterm></indexterm>
+        <indexterm>extension<indexterm>controlled</indexterm></indexterm>
+        <indexterm>XSD</indexterm>
+        <indexterm>schema<index-see>XML Schema</index-see></indexterm>
+        <indexterm>XML Schema</indexterm>
+        <indexterm>specialization</indexterm>
+        <indexterm>composition<indexterm>of vocabulary
+          modules</indexterm></indexterm>
+        
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In traditional XML applications, you define a single, monolithic document type that is
+            expected to be used by all documents within a given body of documentation. You may have
+            a family of related document types that include common declaration sets, but each
+            document type is a separate artifact with a specific, invariant name (its public ID or
+            namespace name or URI). This thing is <i>the</i> document type.</p>
+    <p>DITA was specifically designed to enable the creation of new markup without breaking
+            interchange. This cannot be done using the monolithic document type approach: we’ve
+            tried for more than 20 years and have consistently failed.</p>
+    <p>The reason is simple: if you have an invariant document type definition, it cannot be
+      extensible. Any extension is no longer the same document type and referring to it by the
+      public name of the extension base is incorrect and leads to pain.</p>
+    <p>By the same token, any monolithic document type intended for wide use and interchange must,
+      by necessity, be so loose as to offer little assurance of consistency of application to
+      content. </p>
+    <p>An example of this is the National Library of Medicine Journal Article Tag Sets (JATS)
+      document type (nee NLM), which is used by a large number of publishers to interchange
+      scientific and medical papers with the National Library of Medicine. Given two JATS documents
+      from two different publishers it is highly likely that those publishers will have applied the
+      JATS elements differently for equivalent information content.</p>
+    <p>Many publishers use JATS as a starting point for developing their own document types. These
+      document types are all JATS-based but, because JATS does not impose any real constraints on
+      extension or customization, there is no knowable relation between any two publisher-specific
+      JATS-based document types or between those document types and JATS itself because there is
+      nothing in the declarations or the elements they govern that says <i>how</i> a given element
+      relates to the original JATS base. This means that smooth interchange of nominally JATS-based
+      documents is impossible in the general case. One symptom of this is that Pubmed Central, the
+      publishing organization that takes articles from publishers and makes them available in a
+      normalized JATS XML form, maintains at least 40 different transforms to manage the
+      transformation from publisher-specific documents to JATS documents.</p>
+    <p>DITA’s approach is to turn the problem around and put the focus on the element types that are
+            used by a given document rather than on a single use of those element types in an
+            invariant schema. DITA also defines a controlled extension mechanism,
+                <term>specialization</term>, that allows the creation of new markup while ensuring
+            interchangeability and interoperability.</p>
+  </body>
+  <subsection
+    id="subsection_614fb512-4d88-4ece-b844-a7eb6341d4fa">
+    <title>Vocabulary Modules and DITA Document Types</title>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>vocabulary module<indexterm>and DITA document
+            types</indexterm></indexterm>
+          <indexterm>vocabulary module<indexterm>public name
+            for</indexterm></indexterm>
+          <indexterm>vocabulary module<indexterm>short name
+            for</indexterm></indexterm>
+          <indexterm>vocabulary module<indexterm>definition
+            of</indexterm></indexterm>
+          <indexterm>vocabulary module<indexterm>composition with other
+            modules</indexterm></indexterm>
+          <indexterm>composition<indexterm>of vocabulary
+            modules</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>Each topic type is defined in a separate, invariant <term>vocabulary module</term> that
+                defines all the element types specific to that topic type. Likewise each map type is
+                defined in a separate module. Domains, which provide <q>mix in</q> elements or
+                attributes, are also defined in modules. </p>
+      <p>Each module has at least one invariant public name by which it is known and a short name
+        that is likely to be unique in any use context. The markup declarations within the module
+        are invariant, and can only be modified through the configuration and extension facilities
+        defined by the DITA specification. This means that all copies of a given vocabulary module
+        should be identical. This is very important.</p>
+      <p>A vocabulary module is simply a definition, by whatever means, of a set of DITA element
+        types and attributes. In practice vocabulary modules are implemented as DTD declaration sets
+        or XSD schema modules, along with documentation for humans. Thus, when you talk about the
+          <q>concept vocabulary module</q> you are referring to the idea of the concept topic type
+        as well as all concrete expressions of it, which include a set of concrete DTD declaration
+        sets, XSD documents, and documentation in the DITA Language Reference.</p>
+      <p>The DITA specification allows you to configure vocabulary modules for use in specific
+        contexts, but constrains those configurations so that processors can determine whether two
+        different uses of a given module in two different documents are compatible, where
+        compatibility means that elements from one document can be reliably combined with elements
+        from the other. This means, for example, that processors can determine whether a content
+        reference should be allowed or not.</p>
+      <p>Because vocabulary modules are invariant, the processing specific to a particular module
+                can also be invariant. From a practical standpoint this means you can package a
+                vocabulary module and its supporting processing modules together as a unit of
+                deployment, for example, as a plugin or set of plugins for the DITA Open Toolkit. It
+                also means that software that enables modular extension (for example, plugins for
+                the DITA Open Toolkit) is easier to configure and adapt to new vocabulary
+                modules.</p>
+      <p>The result of this focus on vocabulary modules (topic types, map types, and domain modules)
+        is that you end up with a collection of modules that can be <q>composed</q> (in the formal
+        sense of making a new thing out of smaller bits) in different ways. Likewise, the processing
+        that supports these modules can be composed from individual modules as long as your
+        processing technology supports at least some modular functionality.</p>
+      <p>Vocabulary modules may be defined by the DITA specification (topic, map, concept, task,
+                reference, etc.), other standards, or created for use by specific communities (for
+                example, specializations created within a company or department). Regardless of the
+                source of the module, all conforming modules must follow the same rules and
+                patterns.</p>
+      <p>Any given DITA document uses one or more vocabulary modules. Because vocabulary modules are
+        invariant, two documents that use the same set of vocabulary modules necessarily have the
+        same <q>document type</q> in the traditional XML sense: a unique set of element types in a
+        specific combination.</p>
+      <p>Because a document type is determined by the set of modules used, the only thing you need
+        to know to see if they use the same document type is which modules are used, that is, the
+        names of the modules. If Document A uses the modules topic, concept, and ui-d and Document B
+        uses the modules topic, concept, and ui-d, then they must have the same document type.</p>
+      <p>Documents declare their module usage through the <xmlatt>domains</xmlatt> attribute, which
+                must occur on the root element of a conforming DITA document, for
+                example:<codeblock>&lt;?xml version="1.0"?>
+&lt;concept id="mytopic"
+  <b> domains="(topic concept) (topic ui-d)"</b>
+>
+ ...
+&lt;/concept></codeblock></p>
+      <p>The <xmlatt>domains</xmlatt> attribute simply lists the modules used and how they relate to
+        each other. The value is a sequence of parenthesized groups naming the modules. In this
+        example, the first group indicates that the document uses the concept topic type module,
+        which is a specialization of the topic module. The second group indicates that the document
+        also uses the ui-d topic domain module. </p>
+      <p>Such a set of vocabulary modules (and constraint modules, which will be
+        discussed later) is called a <term>DITA document type</term> to
+        distinguish it from any particular syntactic implementation of the
+        document type.</p>
+      <p>Note that the declaration of the set of vocabulary modules used has
+        nothing to do with whether the document has a DOCTYPE declaration or
+        references an XSD schema. All that is required is the list of module
+        names provided by the <xmlatt>domains</xmlatt> attribute. This means, in
+        part, that DOCTYPE declarations and schemas are <i>never required</i> by
+        the DITA specification. Of course, DTDs and schemas are a useful
+        convenience, particularly for authoring and validation, but they are
+        never required for processing as long as the documents to be processed
+        include all the attributes that DITA uses to convey the module usage and
+        express the specialization of elements and attributes. </p>
+      <p>Of course, in practice it is useful to have DTDs or XSDs that reflect a
+        given set, or <q>integration,</q> of modules so you can edit and
+        validate documents using normal XML technology. However, you could, if
+        it made sense to do so, build software components that have intrinsic
+        knowledge of the rules defined by a given vocabulary module and thus
+        enable editing or validation of documents that use that module.</p>
+      <p>For example, you could construct a schematron that validates a vocabulary module or DITA
+        document type. That schematron could then be used to validate documents that have no DOCTYPE
+        declaration or schema reference. The details for using DTDs and XSD schemas with DITA
+        documents is defined in the document type coding requirements section of the DITA
+        architectural specification.</p>
+      <p>Given DITA’s concept of DITA document type it follows that there is not <b>a</b> DITA
+                document type in the way there is a DocBook document type or JATS document type.
+                Rather, there is a set of DITA vocabulary modules. While OASIS provides a set of DTD
+                and XSD document type shells for use with DITA documents, those shells are simply
+                conveniences or examples—they have no normative force, meaning that there is no
+                requirement that conforming DITA systems include or support those document type
+                shells and no requirement that DITA users use them.</p>
+      <p>It should go without saying that for a document to be a conforming DITA document the first
+                (leftmost) module listed in its <xmlatt>domains</xmlatt> value must be <q>topic</q>
+                or <q>map,</q> since all conforming DITA documents are either topics or maps and
+                their root elements must be specializations of <xmlelement>topic</xmlelement> or
+                    <xmlelement>map</xmlelement>.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="subsection_16e09f8b-9b00-487b-84dd-a90ed1471396">
+    <title>Constraints and Vocabulary Module Integration</title>
+    <body>
+      <p>The simplest DITA document consists of exactly one topic type or map type with no
+                additional domains, for example, a document that simply uses the <q>concept</q>
+                module with no additional domains. In that case, the <xmlatt>domains</xmlatt>
+                attribute value would be <q>(topic concept).</q> In fact, the simplest possible DITA
+                topic document would use only the <q>topic</q> topic type module and no domain or
+                constraint modules. The <xmlatt>domains</xmlatt> attribute value for such a topic
+                would be <q>(topic)</q>.</p>
+      <p>In practice, it would be rare for any production use of DITA to use base topic types
+        without any additional domains. In part, this is because the base topic types intentionally
+        have very loose content models to make them suitable as a base for specialization.</p>
+      <p>For example, both the base <xmlelement>body</xmlelement> and <xmlelement>section</xmlelement> elements
+        allow PCDATA where most users of DITA would never want PCDATA. Likewise, the
+          <xmlelement>section</xmlelement> element allows <xmlelement>title</xmlelement> to occur multiple
+        times, anywhere within the <xmlelement>section</xmlelement>. </p>
+      <p>The base content model for <xmlelement>section</xmlelement> is a direct consequence of the
+        limitations of DTDs, in particular, the requirement that if a content model includes #PCDATA
+        it must be defined as a repeating OR group. Thus, if sections must allow #PCDATA (which they
+        must, since a specialized section that allows only #PCDATA or only phrase-level elements is
+        perfectly sensible) then the only choice is to have a repeating OR group, and if sections
+        must also allow (but not require) <xmlelement>title</xmlelement> elements (which they must, since
+        a <xmlelement>section</xmlelement> is a titled unit of content, where the title is either explicit
+        or generated), then there is no way to avoid having a content model for
+          <xmlelement>section</xmlelement> that allows both #PCDATA and multiple <xmlelement>title</xmlelement>
+        elements anywhere within the <xmlelement>section</xmlelement>.</p>
+      <p>DITA’s solution to this problem is to allow adjustment of the base content models. These
+                adjustments are called <term>constraint modules</term>. They are called constraint
+                modules because they can only constrain content models, they cannot extend them.
+                That is, you can use a constraint module to disallow elements allowed by the base
+                content model, but you cannot use it to allow elements not allowed by the base
+                content model. </p>
+      <p>DITA constraints are fundamentally different from the extension
+        facilities of traditional XML applications like DocBook and JATS, which
+        simply provide parameter entities (or the XSD or RelaxNG equivalent)
+        that you can modify in whatever way you need to, without constraint.</p>
+      <p>By only allowing constraint, DITA ensures that no conforming DITA document can contain things that would be completely unexpected by a processor that understands the modules involved. </p>
+      <p>For example, a processor that understands the DITA <q>topic</q> topic type must handle
+        sections that directly contain #PCDATA or have multiple titles or anything else allowed by
+        the very loose base content models. Such a processor will then be able to handle any DITA
+        topic document no matter how constrained, because it knows about everything that
+          <i>could</i> occur in those documents. </p>
+      <p>It doesn’t matter if some of those documents locally disallow things that are allowed in
+                the base. On the other hand, if DITA allowed the use of elements not allowed by the
+                base content models, then the generic topic processor would not be able to reliably
+                process all topic documents. That would largely destroy any hope of interchange or
+                interoperable processing.</p>
+      <p>Like vocabulary modules, constraint modules are also declared in the <xmlatt>domains</xmlatt> attribute and thus contribute to the DITA document type used by the document. </p>
+      <p>A processor need not be able to process topics in a fully general way. A processor is free
+                to say <q>I only understand topics with this specific set of constraints applied to
+                    it.</q> That might allow, for example, a much simpler implementation if the
+                constraint removes a number of hard cases that users don’t need in a given
+                documentation set. Because constraint modules are declared in the
+                    <xmlatt>domains</xmlatt> attribute, a non-general processor can determine
+                immediately whether or not it can process a particular document.</p>
+      <p>The main practical implication of constraints involves content references or cutting and
+        pasting of content across topics with different DITA document types. In particular, the DITA
+        specification disallows content references from a more-constrained document to a
+        less-constrained document, since the less-constrained document may allow elements that are
+        not allowed by the more-constrained document. The same constraint applies to cut and paste:
+        You cannot paste from less constrained to more constrained without risking making the result
+        invalid.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="subsection_h3v_wrl_3f">
+    <title>Specialization</title>
+    <body>
+      <p>Specialization is the process of creating new structural or domain vocabulary modules that provide new markup for specific requirements.</p>
+      <p>The essential aspect of specialization is that every element type or attribute defined in a vocabulary module must be based on and consistent with an element type or attribute defined in a more-general vocabulary module or in the base topic or map type.</p>
+      <p>This requirement ensures that any element, no matter how specialized, can always be mapped back to some known type and therefore understood and processed in terms of that known type. This ensures that all DITA documents, no matter how specialized, can always be processed in some way. That is, new markup should never break existing specialization-aware DITA processing.</p>
+      <p>Every element type exists in a <term>specialization hierarchy</term>,
+        which goes from the base type through any intermediate types to the
+        element itself.</p>
+      <p>For example, if you defined a specialization of <xmlelement>concept</xmlelement> called
+          <xmlelement>myConcept</xmlelement>, its specialization hierarchy would be
+          <xmlelement>topic</xmlelement> -> <xmlelement>concept</xmlelement> -> <xmlelement>myConcept</xmlelement>. A
+        processor given a <xmlelement>myConcept</xmlelement> document would be able to process it either
+        as a concept topic or as a generic topic.</p>
+      <p>The magic of specialization is the <xmlatt>class</xmlatt> attribute.</p>
+      <p>Every DITA element must have a <xmlatt>class</xmlatt> attribute. The value of the class
+        attribute defines the specialization hierarchy for the element. The syntax of the
+          <xmlatt>class</xmlatt> attribute is:<ul>
+          <li>A leading <q>-</q> or <q>+</q> character: <q>-</q> for structural types, <q>+</q> for
+            domain types.</li>
+          <li>One or more space-separated module/element-type pairs: <q>topic/p,</q>
+            <q>topic/body,</q>
+            <q>hi-d/i,</q> etc.</li>
+          <li>A trailing space character on the last term in the hierarchy to ensure accurate string
+            matching.</li>
+        </ul></p>
+      <p>For the <xmlelement>myConcept</xmlelement> topic type the <xmlatt>class</xmlatt> value would be <codeblock>"- topic/topic concept/concept myConcept/myConcept "</codeblock></p>
+      <p>Which you read right to left as:<lq>The <xmlelement>myConcept</xmlelement> element in the
+                        <q>myConcept</q> module, which specializes <xmlelement>concept</xmlelement> from
+                    the <q>concept</q> module, which in turn specializes <xmlelement>topic</xmlelement>
+                    from the <q>topic</q> module.</lq></p>
+      <p>If the <xmlelement>myConcept</xmlelement> topic type defined a specialized body element, say
+                    <xmlelement>myConceptBody</xmlelement>, then the <xmlelement>myConceptBody</xmlelement>
+                element’s <xmlatt>class</xmlatt> value would
+                be:<codeblock>"- topic/body concept/conbody myConcept/myConceptBody "</codeblock></p>
+      <p>Looking at an instance of the <xmlelement>myConcept</xmlelement> element you would find these <xmlatt>class</xmlatt> attributes:<codeblock>&lt;myConcept id="topicid"
+  <b>class="- topic/topic concept/concept myConcept/myConcept "</b>
+>
+  &lt;title>My Concept&lt;/title>
+  &lt;myConceptBody
+    <b>class="- topic/body concept/conbody myConcept/myConceptBody "</b>
+  >
+&lt;/myConcept></codeblock></p>
+      <p>Note that these are attributes on element instances. While we tend to think of the
+                    <xmlatt>class</xmlatt> attribute as something that is set in DTDs or XSDs, that
+                is merely a convenience. What’s really important is that the attributes are
+                available to XML processors, which will be the case whether they are defaulted in
+                DTDs or specified explicitly in instances—the two are identical to XML
+                processors.</p>
+      <p>The magic of the <xmlatt>class</xmlatt> attribute is that specialized DITA documents will
+          <q>just work</q> when processed by general-purpose specialization-aware processors, such
+        as the DITA Open Toolkit. </p>
+      <p>One implication of this magic is that you can define new markup without the need to also
+                implement all the different forms of processing that might be applied to that
+                markup—it will just work. To the degree that your specialized markup doesn’t require
+                any specialized processing, then you will <i>never</i> need to implement any new
+                processing for it. </p>
+      <p>If your specialized markup does require specific processing, adding that processing will
+        generally be easier because DITA-aware tools are usually modular, too. For example, the DITA
+        Open Toolkit plugin mechanism makes it easy to implement specialization-specific processing
+        that extends the out-of-the-box processing using the smallest amount of custom code
+        possible.</p>
+      <p>Specialization also let’s you define new <i>global</i> attributes specialized from
+                    <xmlatt>base</xmlatt> or <xmlatt>props</xmlatt>.</p>
+      <p>Specialization allows for extension of the base DITA vocabulary by adding new element types
+                and attributes. However, this is a <i>controlled</i> extension mechanism, meaning
+                that you can’t just add anything without restriction. There are three restrictions
+                to specialization:</p>
+      <p>
+        <ol id="ol_3gt_4mq_vf">
+          <li>All new markup must be based, ultimately, on a base type defined in the DITA
+            standard.</li>
+          <li>Specialized elements can only be allowed where their base types are allowed. For
+                        example, if you define a specialization of <xmlelement>p</xmlelement>, that
+                        element type can only be allowed where <xmlelement>p</xmlelement> is allowed. That
+                        means, for example, that you can’t use your new element directly within
+                            <xmlelement>p</xmlelement> elements, because <xmlelement>p</xmlelement> does not
+                        allow <xmlelement>p</xmlelement> within its content. The base DITA markup design
+                        is intentionally loose and inclusive so that specializations are not limited
+                        inappropriately. </li>
+          <li>You cannot add arbitrary attributes to specialized element types. Because of DITA’s
+                        attribute-based specialization declaration mechanism, the declaration syntax
+                        for mapping new attributes to base attribute types would be unusably
+                        complex. You can, however, define specializations of the
+                            <xmlelement>data</xmlelement> element and then allow or require them in the
+                        content of specialized elements. <xmlelement>data</xmlelement> elements can
+                        function as attributes because the semantic of <xmlelement>data</xmlelement> is
+                        metadata and because the default presentation of <xmlelement>data</xmlelement> is
+                        to hide it, and also because you can put the value of
+                            <xmlelement>data</xmlelement> elements in the <xmlatt>value</xmlatt> attribute
+                        of the <xmlelement>data</xmlelement> element.</li>
+        </ol>
+      </p>
+      <p>These restrictions ensure interoperability and interchangeability of DITA documents.</p>
+      <p>The specialization facility and the design and implementation of
+        specialized vocabulary is covered in detail in <cite>Volume
+        2</cite>.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="subsection_lwd_k5h_4f">
+    <title>DITA and Namespaces</title>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>attributes<indexterm><xmlatt>class</xmlatt></indexterm></indexterm>
+          <indexterm><xmlatt>class</xmlatt><indexterm>use of namespaces
+            with</indexterm></indexterm>
+          <indexterm>DITA document<indexterm>self-description as
+            DITA</indexterm></indexterm>
+          <indexterm>namespace</indexterm>
+          <indexterm>self-description<indexterm>of DITA
+            documents</indexterm></indexterm>
+          <indexterm>XML<indexterm>namespace<index-see>namespace</index-see></indexterm></indexterm>
+          <indexterm>DITA<indexterm>namespace</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>An important feature of XML is <term>namespaces</term>. An XML namespace is a
+                globally-unique name that is used to construct the names of element types and
+                attributes within XML documents. Namespace names are URIs, which means that they can
+                be guaranteed to be globally unique because the rules for assigning URNs and URLs
+                are managed through global name registries, namely the authorities responsible for
+                assigning Internet domain names. If you own the domain name <q>example.com,</q> then
+                you can use <q>example.com</q> as part of a namespace URI. Because you own the
+                domain name, it’s presumed that you can manage the assignment of the remaining parts
+                of namespace URIs you create so that they are unique. For example, you might define
+                a namespace name like <q>urn:namespace:example.com:vocabulary-01.</q></p>
+      <p>Note that per the XML namespace standard, a namespace name is just a string. While it is
+                syntactically a URI, it is not intended to be resolvable to a resource. This is one
+                reason that it’s appropriate to use URNs, rather than URLs, for namespace URIs—you
+                should never need to actually resolve it to something. XML takes advantage of the
+                managed nature of URIs to enable creation of globally-unique strings.</p>
+      <p>An XML element or attribute is either in a namespace or is in no namespace. If an element
+        or attribute is in no namespace, then its name is simply the <term>local name</term>, and it
+        has no namespace name. If an element or attribute is in a namespace, then its name is the
+        namespace name plus the local name. A namespace name and local name pair is a
+          <term>qualified name</term> or <q>qname</q> for short. Namespace names may be bound to
+        prefixes to make it possible to qualify tagnames and attribute names in the XML syntax, as
+        it would be both impossible and inconvenient to use URN or URL strings as literal parts of
+        start tags.</p>
+      <p>For example, if you have the namespace name <q>urn:namespace:example.com:vocabulary-01,</q>
+        you could bind it to the prefix <q>vocab01</q> like
+        so:<codeblock>&lt;root <b>xmlns:vocab01="urn:namespace:example.com:vocabulary-01"</b>>
+  &lt;<b>vocab01</b>:foo>...&lt;/<b>vocab01</b>:foo>
+&lt;/root></codeblock></p>
+      <p>The xmlns:vocab01 namespace declaration binds the namespace name to the prefix. The prefix
+                you choose is arbitrary—it’s simply a local binding to the namespace name. Two
+                different elements could use different prefixes for the same namespace. You could
+                even use different prefixes for the same namespace in the same document. While there
+                are conventions for prefixes used for some well-known vocabularies, you should never
+                assume that a given prefix means a particular namespace. You always have to look at
+                the namespace declaration.</p>
+      <p>In the example above, the element with the tagname <q>vocab01:foo</q> has the qualified
+                name <q>{urn:namespace:example.com:vocabulary-01}foo,</q> that is, the local name
+                    <q>foo</q> in the namespace <q>urn:namespace:example.com:vocabulary-01.</q> (The
+                        <q>{<varname>namespacename</varname>}</q> syntax is a convention for writing
+                out qualified names. It is used by some tools and processing languages where it
+                would be difficult or inconvenient to go through a prefix binding.)</p>
+      <p>Note that attributes that start with <q>xmlns</q> are not true XML attributes, they are
+        namespace declarations. XML parsers should not report namespace declarations as attributes
+        but as namespace declarations. However, DTD-based validation does treat them as attributes,
+        which means you have to declare all namespace declaration attributes in DTDs, and you can
+        set them as defaulted attributes in the DTD.</p>
+      <p>For XSD-based validation, you do not, and in fact cannot, declare namespace declarations as
+        attributes. While XSDs can define default attributes, they cannot define default namespace
+        declarations. One implication of this is that XSD-based documents must always have the
+        required namespace declarations in the document instance, while DTD-based documents may have
+        them implied by the DTD and not present in the instance.</p>
+      <p>An element does not need to use a prefix in order to be in a namespace.
+        You can declare a namespace to be the default namespace for the element
+        that declares it and all of its descendants that do not themselves
+        define a default namespace. The previous example could be rewritten
+        as:<codeblock>&lt;root>
+  &lt;foo <b>xmlns="urn:namespace:example.com:vocabulary-01"</b>>...&lt;/foo>
+&lt;/root></codeblock></p>
+      <p>In this example, the element with the tagname <q>foo</q> still has the qualified name
+          <q>{urn:namespace:example.com:vocabulary-01}foo.</q> Note also that the namespace
+        declaration is now on the <xmlelement>foo</xmlelement> start tag, not on the
+          <xmlelement>root</xmlelement> start tag. If the default namespace declaration was on the
+          <xmlelement>root</xmlelement> start tag, it would put the <xmlelement>root</xmlelement> element in
+        that namespace, which would be different from the previous example.</p>
+      <p>In both examples, the <xmlelement>root</xmlelement> element is in no namespace, meaning its
+        qualified name is <q>{}root.</q></p>
+      <p>Because an element name with no prefix may still be in a namespace, you cannot make any
+        assumptions about elements and namespaces without knowing the namespace declarations in the
+        document. If a document is DTD-based, you have to either examine the DTD or parse the
+        document with respect to the DTD to know what the namespace declarations are. If a document
+        is XSD-based, or has no associated schema, then all the namespace declarations will be in
+        the document instance. But for any specific element you still need to inspect its ancestry
+        to see what the effective namespace bindings are for that element.</p>
+      <p>Attributes are a little different from elements in that attribute names
+        with no prefix are always in no namespace—there is no way within a
+        document to define the default namespace for attributes. </p>
+      <p>Using the previous example as a starting point, if you wanted to have an attribute in the
+          <q>urn:namespace:example.com:vocabulary-01</q> namespace you would have to bind it to a
+        prefix:<codeblock>&lt;root>
+  &lt;foo xmlns="urn:namespace:example.com:vocabulary-01"
+       <b>xmlns:vocab01="urn:namespace:example.com:vocabulary-01"</b>
+   >
+     &lt;bar <b>vocab01:baz="something"</b> 
+          fred="something else">...&lt;/bar>
+   &lt;/foo>
+&lt;/root></codeblock></p>
+      <p>Now the namespace <q>urn:namespace:example.com:vocabulary-01</q> is both the default
+        namespace for elements and is bound to the prefix <q>vocab01.</q> The element
+          <xmlelement>bar</xmlelement> is in the namespace and its attribute <xmlatt>baz</xmlatt> is also
+        in that namespace. The attribute <xmlatt>fred</xmlatt> is not in any namespace.</p>
+      <p>It should be clear that the <xmlelement>bar</xmlelement> element’s tagname could be either
+                    <q>vocab01:bar</q> or <q>bar</q> and it would have the same qualified name,
+                    <q>{urn:namespace:example.com:vocabulary-01}bar.</q></p>
+      <p>That’s namespaces in a nutshell.</p>
+      <p>So what does all that have to do with DITA?</p>
+      <p>The question really is, <q>why doesn’t DITA use namespaces for element or attribute
+                    names?</q></p>
+      <p>The answer is that because of prefixes, it would be difficult or impossible to have both
+        namespace-qualified names and an easy-to-process syntax for the <xmlatt>class</xmlatt>
+        attribute.</p>
+      <p>An original design requirement for DITA was that the
+        <xmlatt>class</xmlatt> attribute be easy to check, in particular with
+        CSS selectors. The syntax of the <xmlatt>class</xmlatt> attribute was
+        driven entirely by that requirement.</p>
+      <p>If you could have namespace-qualified names in <xmlatt>class</xmlatt> attribute values,
+                you’d either have to use prefixes or you’d have to use the full namespace name. The
+                former would require you to declare the prefix bindings, and processors would have
+                to dereference prefixes to namespace names. This would make it impossible to use CSS
+                selectors unless you had pre-defined prefix names, which would violate a general
+                principle of namespaces (that prefixes are local and arbitrary). And this would not
+                be enforceable since many tools modify or generate namespace prefixes as a normal
+                part of their processing.</p>
+      <p>So DITA 1.x is unable to allow the use of namespace-qualified names for DITA elements
+                (meaning any element that is a specialization from a DITA-defined base type). DITA
+                can allow foreign elements in namespaces because those elements don’t use the DITA
+                    <xmlatt>class</xmlatt> mechanism. In fact, having foreign elements in a
+                namespace helps clearly distinguish them from DITA elements.</p>
+      <p>There is one place that DITA uses namespaces: the <xmlatt>DITAArchVersion</xmlatt>
+        attribute.</p>
+      <p>Every conforming DITA document must have an attribute named
+                    <xmlatt>DITAArchVersion</xmlatt> that is in the DITA-defined namespace
+                    <q>http://dita.oasis-open.org/architecture/2005/,</q> for
+                example:<codeblock>&lt;chapter
+  id="topic-id"
+  <b>ditaarch:DITAArchVersion="1.2"</b> 
+  xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+></codeblock></p>
+      <p>This use of a DITA-defined namespace for this attribute makes DITA documents
+        self-describing as being DITA documents because they declare a DITA-defined namespace.</p>
+      <p>Any document that declares the DITA architecture namespace and has a
+        <xmlatt>DITAArchVersion</xmlatt> attribute is almost certainly a DITA
+        document. Any document that does not have both of those things cannot be
+        a <i>conforming</i> DITA document, although it may still be a DITA
+        document. Processors are free to assume that documents without the
+        namespace declaration are not DITA documents and reject them or
+        otherwise not apply DITA processing to them.</p>
+      <p>If a document has the namespace declaration, the <xmlatt>DITAArchVersion</xmlatt>
+        attribute, and a <xmlatt>domains</xmlatt> attribute with a value that conforms to the syntax
+        for <xmlatt>domains</xmlatt>, then processors can both process it as DITA and report against
+        that document any failure to conform to DITA-defined rules.</p>
+      <p>This self-describing aspect of DITA documents is unique, because it depends only on the use
+        of a specific namespace and a couple of attributes, not on the use of a specific DTD or
+        schema document. Remember that the DITA standard explicitly allows for conforming DITA
+        documents to have no directly-associated DTD or schema or other formal document grammar.
+        This is what makes that possible.</p>
+      <p>Because DITA documents may use a unique, specialized vocabulary, it is essential that DITA
+        documents be self-describing in this way, otherwise there would be no way for
+        general-purpose tools like XML editors and content management systems to automatically
+        associate DITA processing with DITA documents. </p>
+      <p>Because one of the points of DITA is that all conforming DITA documents can be understood
+        and processed regardless of their markup details, it follows that DITA-aware processors
+        should be able to usefully process any DITA document without the need for any up-front
+        configuration or customization. The self-describing nature of DITA documents enables
+        that.</p>
+      <p>If your DITA documents are DTD or XSD-based then you will need to make the DTDs or XSDs
+                findable by your tools, but in practice that’s usually done by packaging the DTDs or
+                XSDs as DITA Open Toolkit plugins and deploying them to whatever tool your processor
+                uses (assuming that all modern DITA-aware tools will use the Open Toolkit at least
+                for DTD and schema resolution, if not for other processing). But that should be
+                it.</p>
+      <p>You see this at work in the oXygenXML editor. oXygenXML will recognize all DITA documents
+                as DITA if they have the <xmlatt>DITArchVersion</xmlatt> attribute and the namespace
+                declaration. If the documents have no associated DTD or XSD, then they just work. If
+                they have a DTD or XSD, when you have to deploy the Toolkit plugins for them to
+                Oxygen’s built-in (or configured) Toolkit, and then they just work. No further
+                configuration is required. This makes it as easy as it could possibly be to work
+                with specialized documents, because there is essentially no extra work needed to
+                edit those documents as DITA within oXygenXML.</p>
+      <p>The fact that DITA cannot use namespaces for DITA elements is an annoyance and a limitation
+                in DITA 1.x, but in practice it’s not a big deal.</p>
+      <p>For maps and topics, there is less concern with name collision because map documents and
+        topic documents will never be literally combined together (maps with topics, that is) and
+        because most topic documents are managed separately and therefore having two topic types
+        with the same name but different semantics is not a huge problem (although it should be
+        avoided if possible). In general, the base vocabulary for map types and topic types is
+        managed and defined in a way that is unlikely to result in name collisions.</p>
+      <p>Domains are another matter.</p>
+      <p>For domains, name collisions are a concern because the whole point of domains is that they
+        can be combined with other domains in any topic or map type, which makes name collisions
+        more likely.</p>
+      <p>The solution is to include a <q>prefix</q> in your specialized tagnames to help ensure they
+                are globally unique. For example, the Learning and Training domains use <q>lc</q>
+                    (<q>learning content</q>) as the first characters of all tagnames. For example,
+                    <xmlelement>lcSingleSelect</xmlelement> is an element from the learning domain. DITA
+                for Publishers uses <q>d4p</q> as a prefix. As long as the prefix is more or less
+                obviously associated with the owner of the vocabulary, it’s as good as using a
+                namespace prefix but avoids the complexity of actually being a namespace prefix with
+                a separately-declared binding to a namespace name.</p>
+      <p>The TC has been wracking its collective brain to try to figure out a way to use namespaces
+                in DITA, but so far we haven’t thought of anything. For DITA 2.0, where backward
+                compatibility will not be a concern, it is likely that we’ll define a specialization
+                declaration mechanism that does allow for namespaces. For example, it could make
+                sense to have each vocabulary module be a separate XML namespace rather than using
+                the DITA 1.x convention of <q>module name.</q>.</p>
+      <p>The challenge is how to do that so the declaration is manageable and processing with common
+        tools is efficient. I suspect that we will decide that the CSS-selector requirement is not
+        compelling, since it appears that people rarely deliver DITA XML content directly to Web
+        browsers, which was the original driver for that requirement. </p>
+      <p>If DITA processing were always in the context of transforms, then resolving prefixes to
+                namespaces as part of determining an element’s DITA class would not be a problem
+                since all modern XML processing languages can do that easily.</p>
+      <p>But for now, DITA cannot use namespaces for DITA-based vocabulary.</p>
+    </body>
+  </subsection></chapter>

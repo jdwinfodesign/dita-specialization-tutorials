@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization XSD Step 1: Define faq-map Map Type</title>
+  <body>
+    <p>To define the <xmlelement>faq-map</xmlelement> map type, do the following:<ol>
+      <li>Create the directory <filepath>faq-map/xsd</filepath>.</li>
+      <li>Create the directory <filepath>faq-mapDomain/xsd</filepath>.</li>
+      <li>Create the file <filepath>faq-mapDomain/xsd/faq-mapDomain.xsd</filepath> with this
+                        content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+  
+  &lt;xs:import namespace="http://www.w3.org/XML/1998/namespace" 
+    schemaLocation="urn:oasis:names:tc:dita:xsd:xml.xsd:1.2"/>
+
+&lt;/xs:schema></codeblock><p>This
+                        file acts as the stub for the FAQ-map map domain, which we will define in
+                        Step 2.</p></li>
+      <li>Find the file <filepath>basemap.xsd</filepath> from the standard DITA schema distribution,
+                    copy it into the <filepath>faq-map/xsd</filepath> directory, and rename it to
+                        <filepath>faq-map.xsd</filepath>.</li>
+      <li>Create test document <filepath>faq-map/faq-map-test-xsd-01.ditamap</filepath> with this content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;faq-map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="xsd/faq-map.xsd">
+  &lt;title>FAQ Map Test 01&lt;/title>
+  &lt;topicmeta>&lt;/topicmeta>
+  &lt;keydef keys="foo"/>  
+  &lt;faq-question-set>
+    &lt;faq-question/>
+  &lt;/faq-question-set>
+&lt;/faq-map></codeblock><p>Validate the document. It should complain that the element type <xmlelement>faq-map</xmlelement> is not declared.</p></li>
+      <li>Edit <filepath>faq-map.xsd</filepath>.</li>
+      <li>Replace the header comment with one reflecting your ownership:<codeblock>&lt;!-- ============================================================= 
+     FAQ Map document type shell
+     
+     Copyright (c) 2011 Your Name Here     
+     ============================================================= -->
+
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified" 
+  xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/">
+  &lt;!-- ======= INCLUDE ======= -->
+  
+  ...
+
+&lt;/xs:schema></codeblock></li>
+      <li>Find the reference to <filepath>mapMod.xsd</filepath> and add an inclusion to
+                        <filepath>faq-mapMod.xsd</filepath> after
+                    it:<codeblock> ...
+
+ &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:mapMod.xsd:1.2" />
+ <b>&lt;xs:include schemaLocation="faq-mapMod.xsd" /></b>
+
+ ...
+</codeblock></li>
+      <li>Find the declaration for the <q>domains-att</q> attribute group and add <q>(map faq-map
+                        faq-map-d) </q> to the <xmlatt>domains</xmlatt> attribute
+                    value:<codeblock>  &lt;xs:attributeGroup name="domains-att">
+    &lt;xs:attribute name="domains" type="xs:string" 
+       default="<b>(map faq-map faq-map-d) </b>(map mapgroup-d) (topic indexing-d) (topic delay-d)"/>
+  &lt;/xs:attributeGroup></codeblock>
+                </li>
+      <li>Create the file <filepath>faq-map/xsd/faq-mapMod.xsd</filepath> with this content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified" 
+  xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/">
+
+
+&lt;/xs:schema></codeblock></li>
+      <li>Add a header comment as for the <filepath>faq-map.xsd</filepath> file.</li>
+      <li>Edit <filepath>mapMod.xsd</filepath> from the standard DITA schema distribution. Find the
+                    comment <q>Import - XML Attributes and Namespaces</q> and copy it and the two
+                    imports following it into
+                    <filepath>faq-mapMod.xsd</filepath>:<codeblock>&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified" 
+  xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/">
+  
+  &lt;!-- ======= IMPORT - XML attributes and namespace ======= -->
+  &lt;xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="urn:oasis:names:tc:dita:xsd:xml.xsd:1.2"/>
+  &lt;xs:import namespace="http://dita.oasis-open.org/architecture/2005/" schemaLocation="urn:oasis:names:tc:dita:xsd:ditaarch.xsd:1.2"/>
+
+  ...
+
+&lt;/xs:schema> </codeblock></li>
+      <li>Find the <xmlelement>xs:redefine</xmlelement> element for <filepath>mapGrp.xsd</filepath> and
+                    add an include of <filepath>faq-mapDomain.xsd</filepath> immediately before
+                    it:<codeblock> ...
+
+ <b>&lt;xs:include schemaLocation="../../faq-mapDomain/xsd/faq-mapDomain.xsd"/></b>
+  
+ &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:mapGrp.xsd:1.2">
+
+ ...</codeblock></li>
+      <li>In <filepath>mapMod.xsd</filepath> find the declarations for the <xmlelement>map</xmlelement> element type (they should all be together in the file) and copy them into <filepath>faq-mapMod.xsd</filepath>.</li>
+      <li>Change <q>map</q> to <q>faq-map</q> everywhere except in the default value of the
+                        <xmlatt>class</xmlatt>
+                    attribute:<codeblock>  &lt;xs:element name="<b>faq-map</b>">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        The &amp;lt;&lt;keyword>faq-map&lt;/keyword>&amp;gt; element represents
+        an FAQ publication.
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="<b>faq-map</b>.class">
+          &lt;xs:attribute ref="class" default="- map/map " />
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:complexType name="<b>faq-map</b>.class" >
+    &lt;xs:sequence>
+      &lt;xs:group ref="<b>faq-map</b>.content"/>
+    &lt;/xs:sequence>
+    &lt;xs:attributeGroup ref="<b>faq-map</b>.attributes"/>
+  &lt;/xs:complexType>
+  
+  &lt;xs:group name="<b>faq-map</b>.content">
+    &lt;xs:sequence>
+      &lt;xs:sequence>
+        &lt;xs:group ref="title" minOccurs="0" />
+        &lt;xs:group ref="topicmeta" minOccurs="0" />
+        &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+          &lt;xs:group ref="navref" />
+          &lt;xs:group ref="anchor" />
+          &lt;xs:group ref="topicref" />
+          &lt;xs:group ref="reltable" />
+          &lt;xs:group ref="data.elements.incl" />
+        &lt;/xs:choice>      
+      &lt;/xs:sequence>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+  &lt;xs:attributeGroup name="<b>faq-map</b>.attributes">
+    &lt;xs:attribute name="title" type="xs:string" />
+    &lt;xs:attribute name="id" type="xs:ID" />
+    &lt;xs:attributeGroup ref="conref-atts" />
+    &lt;xs:attribute name="anchorref" type="xs:string" />
+    &lt;xs:attribute name="outputclass" type="xs:string" />
+    &lt;xs:attributeGroup ref="domains-att"/>
+    &lt;xs:attributeGroup ref="topicref-atts" />
+    &lt;xs:attributeGroup ref="select-atts" />
+    &lt;xs:attributeGroup ref="localization-atts"/>
+    &lt;xs:attribute ref="ditaarch:DITAArchVersion"/>
+    &lt;xs:attributeGroup ref="global-atts" />
+  &lt;/xs:attributeGroup>
+</codeblock></li>
+      <li>Set the default value of the <xmlatt>class</xmlatt> attribute to <q>- map/map
+                        faq-map/faq-map
+                    </q>:<codeblock>  &lt;xs:element name="faq-map">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        The &amp;lt;&lt;keyword>faq-map&lt;/keyword>&amp;gt; element represents
+        an FAQ publication.
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="faq-map.class">
+          <b>&lt;xs:attribute ref="class" default="- map/map faq-map/faq-map " /></b>
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+</codeblock></li>
+      <li>Modify the content model defined in the faq-map.content group to:<codeblock>  &lt;xs:group name="faq-map.content">
+    &lt;xs:sequence>
+      &lt;xs:sequence>
+        &lt;xs:group ref="title" minOccurs="0" />
+        &lt;xs:group ref="topicmeta" minOccurs="0" />
+        &lt;xs:group ref="keydef" minOccurs="0" maxOccurs="unbounded"/>
+        &lt;xs:group ref="faq-question-set" minOccurs="1" maxOccurs="1"/>
+        &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+          &lt;xs:group ref="reltable" />
+        &lt;/xs:choice>      
+      &lt;/xs:sequence>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+</codeblock></li>
+      <li>Validate the test document. You should get a message to the effect that the group named
+                        <q>faq-question-set</q> cannot be resolved.</li>
+      </ol></p>
+    <p>At this point the FAQ-map map type document type shell and module are complete. Now we just
+            need to define the FAQ-map map domain.</p>
+  </body>
+</subsection>

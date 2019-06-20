@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-step-five">
+  <title>Element Domain Specialization Step 5: Extend DITA Open Toolkit XHTML Processor</title>
+  <shortdesc>Per the documentation of the types in the XML domain, we need to create XSLT templates for each of the different mentions to produce the appropriate output effects.</shortdesc>
+  <body>
+    <p>Because the XML domain only defines specializations of <xmlelement>keyword</xmlelement>, the XSLT required is quite simple and requires very little knowledge of XSLT itself.</p>
+    <p>The Open Toolkit is designed to allow extension of base functionality through <q>plugins.</q>
+            This allows you to create processing specific to your specialization and then easily
+            deploy it without directly modifying the base Toolkit processes. All Toolkit
+            transformation types <i>should</i> provide appropriate extension points for plugins, but
+            not all do. However, both the HTML and PDF transformation types do provide the extension
+            points you need to easily add processing for new specializations.</p>
+    <p>The basic process is as follows:
+      <ol>
+        <li>Create an empty starting XSLT stylesheet in a directory you control (that is, outside
+        the scope of the DITA Open Toolkit) and add an import of the base Toolkit-supplied HTML transform.</li>
+        <li>Create type-specific match templates for the element types in the XML domain.</li>
+        <li>Package the transform as an Open Toolkit plugin.</li>
+      <li>Deploy the plugin and test it.</li>
+      </ol>
+    </p>
+  </body>
+</subsection>

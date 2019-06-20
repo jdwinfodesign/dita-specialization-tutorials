@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-spec-step-4-5">
+  <title>Topic Specialization Step 4-5: Refine Markup Design for FAQ Question</title>
+  <body>
+    <p>As a result of our initial output processing implementation effort we've realized that we
+            should require the <xmlelement>shortdesc</xmlelement> element to be the required first
+            paragraph of a potentially longer answer. We will also disallow the
+                <xmlelement>abstract</xmlelement> element because it's not relevant to what we're trying
+            to do.</p>
+    <p>This change also requires us to rethink our element type names. If the short description is
+            going to act as the first paragraph of the answer, then <q>shortdesc</q> is probably not
+            the best name. By the same token, the name <q>faq-answer</q> is probably not the best
+            name for the topic body. Better names are probably <q>faq-short-answer</q> for the short
+            description and <q>faq-answer-details</q> for the topic body.</p>
+    <p>To implement this new design, first modify the test document to use this new markup: <codeblock>
+&lt;faq-question id="question-id">
+  &lt;faq-question-statement>Can I add attributes to specific element types?&lt;/faq-question-statement>
+  &lt;faq-short-answer>No, you can only define global attributes, specialized either from @base
+    or @props.&lt;/faq-short-answer>
+  &lt;faq-answer-details>
+    &lt;p>As of DITA 1.2, there is no mechanism for defining new attributes for specific element types.
+    The problem is that there is no DITA-defined syntax for declaring a given attribute as being
+    an attribute that should be recognized as such by a DITA-aware processor and not just some
+    random attribute that was allowed in error (as the DITA architecture otherwise does not 
+    allow non-DITA-defined attributes.&lt;/p>
+    &lt;p>Providing this ability is a booked feature request for DITA.&lt;/p>
+  &lt;/faq-answer-details>
+&lt;/faq-question>
+</codeblock></p>
+    <p>Verify that the document is no longer valid.</p>
+    <p>Edit faq-question.mod and do the following: <ol>
+      <li>Modify the content model for <xmlelement>faq-question</xmlelement> as follows: <ol>
+        <li>Remove <q>| %abstract;</q></li>
+        <li>Change <q>%shortdesc;</q> to <q>%faq-short-answer;</q></li>
+        <li>Remove the <q>?</q> following the group containing <q>%faq-short-answer;</q> to make it
+                            required.</li>
+        <li>Change <q>%faq-answer;</q> to <q>%faq-answer-details;</q></li>
+        </ol><p>The resulting declaration should look like this:<codeblock>&lt;!ENTITY % faq-question.content
+ "
+  ((%faq-question-statement;), 
+   (%titlealts;)?,
+   (%faq-short-answer;), 
+   (%prolog;)?, 
+   (%faq-answer-details;)?, 
+   (%related-links;)?,
+   (%faq-question-info-types;)* )                   
+"> </codeblock></p></li>
+      <li>Find the declaration of the <parameterentity>faq-answer</parameterentity> parameter entity and change its
+                    name and value to <q>faq-answer-details.</q></li>
+      <li>Create a new element name parameter entity declaration for <xmlelement>faq-answer-details</xmlelement>.</li>
+      <li>Find the element and attribute declarations for <xmlelement>faq-answer</xmlelement> and change
+                    the element type name to <q>faq-answer-details.</q><p>The new declarations
+                        should look like
+                        this:<codeblock>&lt;!--                    LONG NAME: FAQ answer details -->
+&lt;!ENTITY % faq-answer-details.content
+"
+  ((%body.cnt;)*, 
+   (%section;|
+    %example;)* 
+  )     
+">
+&lt;!ENTITY % faq-answer-details.attributes
+'
+             %id-atts;
+             %localization-atts;
+             outputclass 
+                        CDATA                            #IMPLIED    
+'>
+&lt;!ELEMENT faq-answer-details %faq-answer-details.content; >
+&lt;!ATTLIST faq-answer-details %faq-answer-details.attributes; > 
+</codeblock></p></li>
+      <li>In the DITA-supplied <filepath>commonElements.mod</filepath> file, find the element type
+                    declaration for <xmlelement>shortdesc</xmlelement>. Copy it and paste it after the
+                    element type and attribute declaration for <xmlelement>faq-question</xmlelement>. (I
+                    like to list element type declarations more or less in the order they occur in
+                    the document's structural hierarchy.)</li>
+      <li>Change <q>shortdesc</q> to <q>faq-short-answer</q> in the declarations you just
+                        copied.<p>The resulting declaration should look like
+                        this:<codeblock>&lt;!--                    LONG NAME: FAQ short answer               -->
+&lt;!ENTITY % faq-short-answer.content 
+"
+  (%title.cnt; |
+   %draft-comment;)*  
+">
+&lt;!ENTITY % faq-short-answer.attributes
+'  %univ-atts;
+   outputclass 
+      CDATA #IMPLIED    
+'>
+&lt;!ELEMENT faq-short-answer %faq-short-answer.content; >
+&lt;!ATTLIST faq-short-answer %faq-short-answer.attributes; > 
+</codeblock></p></li>
+      <li>Find the <xmlatt>class</xmlatt> attribute declarations at the end of the .mod file and edit them as follows: <ol>
+        <li>In the attribute declaration for <xmlelement>faq-answer</xmlelement>, change both occurrences
+                            of <q>faq-answer</q> to <q>faq-answer-details.</q></li>
+        <li>Copy the declaration for <xmlelement>faq-answer-details</xmlelement> and change
+                                <q>faq-answer-details</q> to <q>faq-short-answer.</q></li>
+        <li>In the <xmlatt>class</xmlatt> attribute declaration for what is now
+                                <xmlelement>faq-short-answer</xmlelement>, change <q>topic/body</q> to
+                                <q>topic/shortdesc.</q> Change <q> concept/conbody </q> to <q>
+                                concept/shortdesc </q> (all the levels of the specialization
+                            hierarchy must be accounted for in the <xmlatt>class</xmlatt> attributes
+                            even if the element type name is not changed). </li>
+        </ol></li>
+      </ol></p>
+    <p>The class declarations should now look like this: <codeblock>
+&lt;!ATTLIST faq-question        %global-atts;  class CDATA "- topic/topic     concept/concept   faq-question/faq-question ">
+&lt;!ATTLIST faq-short-answer    %global-atts;  class CDATA "- topic/shortdesc concept/shortdesc faq-question/faq-short-answer ">
+&lt;!ATTLIST faq-answer-details  %global-atts;  class CDATA "- topic/body      concept/conbody   faq-question/faq-answer-details ">
+&lt;!ATTLIST question-statement  %global-atts;  class CDATA "- topic/title     concept/title     faq-question/faq-question-statement "></codeblock></p>
+    <p>Redeploy the faq-question Toolkit plugin and try validating the updated test document. It should validate.</p>
+  </body>
+</subsection>

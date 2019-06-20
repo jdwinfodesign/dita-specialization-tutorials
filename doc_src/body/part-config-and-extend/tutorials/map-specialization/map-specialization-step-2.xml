@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization Step 2: Create New Document Type Shell DTD</title>
+  <body>
+    <p>In your work area create the directory <filepath>faq-map</filepath>. Within <filepath>faq-map</filepath> create the directory <filepath>dtd</filepath>.</p>
+    <p>Also create the directories <filepath>faq-mapDomain</filepath> and
+                <filepath>faq-mapDomain/dtd</filepath>. In the
+                <filepath>faq-mapDomain/dtd</filepath> directory create the empty files
+                <filepath>faq-mapDomain.ent</filepath> and <filepath>faq-mapDomain.mod</filepath>.
+            If you want to have some content in these files you can create appropriate DTD header
+            comments, for
+            example:<codeblock>&lt;!-- ==================================
+     FAQ Map Domain
+
+     Copyright (c) 2011 Your Name Here
+
+     ================================== --></codeblock></p>
+    <p>These stub files will allow us to create references to these modules from the faq-map document type shell before we've actually defined the faq-mapDomain module.</p>
+    <p>In the <filepath>faq-map</filepath> directory create the file <filepath>catalog.xml</filepath> with this content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  
+  &lt;nextCatalog catalog="dtd/catalog.xml"/>
+  &lt;!--&lt;nextCatalog catalog="xsd/catalog.xml"/>-->
+  
+&lt;/catalog></codeblock></p>
+    <p>In the standard DITA DTD distribution, find the file <filepath>base/basemap.dtd</filepath>
+            and copy it as file <filepath>faq-map/dtd/faq-map.dtd</filepath>.</p>
+    <p>Edit <filepath>faq-map.dtd</filepath> and modify it as follows:<ol
+      id="ol_f744f1f7-a983-4fd4-90f2-b86d26fb10a2">
+      <li>Replace the header comment with one that reflects the new map type and your ownership.</li>
+      <li>Find the comment <q>DOMAIN ENTITY DECLARATIONS</q> and after it add this parameter entity
+                    declaration and
+                        reference:<codeblock>&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ENTITY DECLARATIONS                 -->
+&lt;!-- ============================================================= -->
+
+<b>&lt;!ENTITY % faq-map-d-dec 
+  PUBLIC "faq-mapDomain.ent"
+         "../../faq-mapDomain/dtd/faq-mapDomain.ent"
+>%faq-map-d-dec;
+</b></codeblock><p>Remember
+                        that we haven't created the FAQ map domain yet, so this reference currently
+                        points to a file that doesn't exist.<draft-comment>I'm not sure if topicref
+                            in the next section should be marked up as parment or xmlelem. I'm not
+                            sure if this is the way you set it up, or if I messed it up at some
+                            point in the copy-edit.</draft-comment></p></li>
+      <li>Find the comment <q>DOMAIN EXTENSIONS</q> and delete the declaration for
+                        <parameterentity>topicref</parameterentity>.<p>You are deleting the declaration for
+                            <parameterentity>topicref</parameterentity> because while we need the mapGroup domain so
+                        we can use the <xmlelement>keydef</xmlelement> element type, we will be allowing
+                        it in a specific place in the content model for <xmlelement>faq-map</xmlelement>,
+                        so we don't want it to be allowed wherever <xmlelement>topicref</xmlelement> is
+                        allowed.</p><note>Normally you would expect to add a reference to
+                            <parameterentity>faq-question-set</parameterentity> here, but because the faq-map map
+                        type will depend on the faq-map domain it will be directly defining where
+                            <xmlelement>faq-question-set</xmlelement> is allowed, and therefore we don't
+                        want to generally allow <xmlelement>faq-question-set</xmlelement> anywhere
+                            <xmlelement>topicref</xmlelement> is allowed.</note></li>
+      <li>Find the declaration for the <parameterentity>map-type</parameterentity> parameter entity and add this declaration after it:<codeblock>&lt;!ENTITY % map-type     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Map//EN" 
+         "map.mod"                                                            
+>%map-type;
+
+<b>&lt;!ENTITY % faq-map-type     
+  PUBLIC "fap-map.mod" 
+         "fap-map.mod"                                                            
+>%faq-map-type;
+</b></codeblock></li>
+      <li>Find the comment <q>DOMAIN ELEMENT INTEGRATION</q> and add this parameter entity
+                    declaration and
+                    reference:<codeblock>&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ELEMENT INTEGRATION                 -->
+&lt;!-- ============================================================= -->
+
+<b>&lt;!ENTITY % faq-map-d-def
+  PUBLIC "faq-mapDomain.mod"
+         "../../faq-mapDomain/dtd/faq-mapDomain.mod"
+>%faq-map-d-def;</b>
+</codeblock></li>
+      <li>In the <filepath>faq-map</filepath> directory create a new XML document named
+                        <filepath>fap-map-test-01.ditamap</filepath> and give it this
+                        content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE faq-map 
+  PUBLIC "faq-map" "dtd/faq-map.dtd">
+&lt;faq-map>
+  &lt;title>FAQ Map Test 01&lt;/title>
+&lt;/faq-map></codeblock><p>Validate
+                        the document. It should fail with a message to the effect that it cannot
+                        find the file <filepath>faq-map.mod</filepath>.</p></li>
+      </ol></p>
+    <p>At this point you have what should be a good document type shell and a document that uses it.</p>
+    <p>The next step is to implement the faq-map type module.</p>
+  </body>
+</subsection>

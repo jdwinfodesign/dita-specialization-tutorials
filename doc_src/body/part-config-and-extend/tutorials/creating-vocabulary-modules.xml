@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Creating Vocabulary Modules (Specializations)</title>
+  <shortdesc>The ability to create new, reusable, and interchangeable vocabulary modules is a
+    distinguishing feature of DITA. This chapter demonstrates the mechanical process of implementing
+    new markup designs as DITA vocabulary modules.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>vocabulary module<indexterm>creating</indexterm></indexterm>
+        <indexterm>tutorial<indexterm>vocabulary module creation</indexterm></indexterm>
+        <indexterm>specialization<indexterm>implementation</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>DITA allows controlled extension of the base DITA markup design through the
+        <term>specialization</term> feature. New specializations are organized into <term>vocabulary
+        modules</term>, which can be combined with other vocabulary modules to make complete DITA
+      document types.</p>
+    <p>The hard part of the specialization is the analysis and design of the markup. That takes human thought effort that cannot be automated and should not be rushed. The expression of that analysis and design as working DTD declarations or XSD documents is a largely mechanical process that can go very quickly.</p>
+    <p>Based on my experience as a developer of many DITA vocabulary modules, I find that the time
+      required to document your implementation far exceeds the time needed to implement the module
+      declarations. It might take less than hour to implement a new domain module or a topic type
+      that is largely a clone of some other type, and several hours or more to document all the new
+      element types.</p>
+    <p>In fact, one danger you may face is that it becomes so easy to implement new markup designs
+      that you are tempted to do more implementation than is actually sustainable in terms of
+      documentation, training, and maintenance. Always consider the support and maintenance costs
+      when planning any specialization. As is the case with software engineering generally, it's
+      usually best to start with the simplest thing that could possibly work and go from there.</p>
+    <p>On the other hand, because it is so easy to define new markup and test it immediately in a
+      variety of situations (editors, HTML generation, print generation, etc.), you can do rapid,
+      iterative development of the markup design before committing any resources to making it
+      production ready. This allows you to apply agile methodologies to XML application
+      development.</p>
+    <p>The tutorials in this part are designed to demonstrate the detailed mechanical process by
+      which you translate a new markup design idea into working DTD or XSD modules. </p>
+    <p>DITA vocabulary modules come in the following flavors:<ul>
+      <li>topic type modules, which define new topic types</li>
+      <li>map type modules, which define new map types</li>
+      <li>element domain modules, which define elements that can be used with any number of different topic or map types.</li>
+      <li>attribute domain modules, which define new global attributes that can be used with all DITA elements. </li>
+      </ul></p>
+    <p>Each type of module has slightly different markup rules, so there is a tutorial for each module type.</p>
+    <p>In practice, the vocabulary modules you are most likely to need immediately are attribute domains, which let you define new applicability (filtering and flagging) attributes, followed by domain modules, usually for metadata.</p>
+    <p>In many cases, your content is not particularly different from anyone else's, but your
+      metadata, which reflects your specific business and business processes, is almost always
+      different. Therefore, the generic metadata elements and applicability attributes provided in
+      the base DITA standard will usually be insufficient.</p>
+    <p>It is also common to define new map types, because map types reflect your local practice for
+      organizing content for presentation, navigation, and management.</p>
+    <p>It is much less common to need new topic modules, especially with DITA 1.2's constraint
+      mechanism, which lets you avoid specialization when all you want to do is tighten up the
+      default rules.</p>
+    <p>The simplest specialization module is an attribute domain. Element domains can be quite simple as well, especially if you're just adding phrase-level elements or specializing from <xmlelement>data</xmlelement>.</p>
+  </body>
+</chapter>

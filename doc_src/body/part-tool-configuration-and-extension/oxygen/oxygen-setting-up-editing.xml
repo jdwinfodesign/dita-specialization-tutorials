@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Setting Up OxygenXML for DITA Editing</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm/>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>OxygenXML can automatically detect that a document is a DITA document as long as you have turned on Oxygen's ability to look inside DTDs and schemas to determine document type association. This setting is not turned on by default through Oxygen version 11.</p>
+    <p>To turn this feature on, do the following:<ol>
+      <li>Go to Preferences -> Document Type Association</li>
+      <li>Check the box "Enable DTD/XML Schema processing in document type detection"</li>
+      <li>Check the box "Only for local DTDs/XML schemas"</li>
+      </ol></p>
+    <p>With DTD processing turned on for document type detection, Oxygen will recognize any DITA document as a DITA document regardless of what document type shell it uses as long as the <xmlatt>dita:DITAArchVersion</xmlatt> attribute is present. This will cause Oxygen to turn on it's built-in DITA-specific editing features, allowing you to edit any DITA map or topic document with full features.</p>
+  </body>
+</subsection>

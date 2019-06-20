@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-specialization-tutorial">
+  <title>Element Domain Specialization Tutorial</title>
+  <shortdesc>Goal: Declare an element domain vocabulary module that provides elements to identify
+        mentions of XML constructs: element types, attributes, text entities, parameter entities,
+        and numeric character references.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>domains<indexterm>element</indexterm><indexterm>tutorial</indexterm></indexterm>
+        <indexterm>element domain<indexterm>specialization tutorial</indexterm></indexterm>
+        <indexterm>tutorials<indexterm>element domain specialization</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In any XML vocabulary for documents, there is a general class of elements whose purpose is to
+            hold the names or labels of real things. A typical example would be an element named
+                <q>person</q> whose purpose is to hold the names of people. Likewise, an element
+            named <q>color</q> would identify the names of colors. Given the string <q>Brown</q> an
+            author would tag it either <codeph>&lt;person>Brown&lt;/person></codeph> to indicate a
+            reference to a Mr or Ms Brown or <codeph>&lt;color>brown&lt;/color></codeph> to indicate
+            a mention of the color brown. This markup lets you find all mentions of people named
+                <q>Brown</q> but not the color brown. It also lets you apply different typographic
+            effects to person names and color names. They can also enable things like automatic
+            indexing, where the element type is the primary entry (e.g., <q>colors</q>) and the
+            element content is used for secondary entries (for example, <q>colors, brown</q> or
+                <q>colors, blue</q>).</p>
+    <p>I call these <q>mention</q> elements because their primary purpose is to identify mentions of
+            things. In DITA the base element type for mentions is <xmlelement>keyword</xmlelement>. In
+            technical documentation, mentions are particularly important because technical
+            documentation is about real things that usually have specific component types or
+            properties that need to be clearly identified, listed, searched on, and visually
+            distinguished. See <xref
+                href="../../../part-arch-overview/mention-elements.xml#topic-id" format="dita"/> for
+            more on the subject of mention elements.</p>
+    <p>For Publishing applications, mentions are less important because Publishing content tends to
+            be less domain-specific, and because the cost of adding mention markup is often not
+            justified by the value, especially where content was not originally authored in XML.
+            However, some Publishing content does benefit from specialized mention elements,
+            especially reference content like travel and nature guides, where identifying things
+            like place names or species names becomes important for both typography and search.</p>
+    <p>In DITA, mention elements can use the <xmlatt>keyref</xmlatt> attribute to both get their
+            effective text and become navigation links to the things they mention. This allows you
+            to have mentions of things directly connected to their formal definition (for example,
+            in reference topics). This makes mention elements very powerful and a place where a
+            relatively small investment in specialization can provide huge value for authors.</p>
+    <p>After attribute specialization, creating specialized mention elements is probably the easiest specialization to do and provides immediate value to authors. Because you don't normally need to worry about the content model details, this is entirely an exercise in naming and copying.</p>
+    <p>Since much of what I write about involves XML markup, I need to have elements that identify
+            mentions of different XML components: tag names (element types), attribute names,
+            parameter entities, text (general) entities, and numeric character references. These
+            components need distinguishing typographic presentation, but that presentation can vary
+            in different contexts. For example, I have historically used the convention
+                    <q><varname>attname</varname>=</q> for attributes, but the DITA TC resolved on
+            the convention <q>@<varname>attname</varname></q> for attributes in the course of
+            developing DITA 1.2. By having markup for attribute name mentions it is easy to modify
+            the stylesheets to change from <q><varname>attname</varname>=</q> to
+                    <q>@<varname>attname</varname>.</q></p>
+    <p>For this tutorial you will define an element domain module that provides the element types
+                <xmlelement>xmlelem</xmlelement> (XML element), <xmlelement>xmlatt</xmlelement> (XML attribute),
+                <xmlelement>textent</xmlelement> (general entity), <xmlelement>parment</xmlelement> (parameter
+            entity), and <xmlelement>numcharref</xmlelement> (numeric character reference, for example,
+                <q>&amp;#x2014;</q>).<fn>This domain is also defined as part of the DITA for
+                Publishers vocabulary.</fn></p>
+    <p>Element domains are typically either topic domains or map domains, meaning that they
+            specialize elements exclusively allowed within topics or exclusively within maps.
+            However, if a domain only specializes elements that are common to maps and topics, then
+            the domain may be used in both maps and topics. This includes domains that specialize
+            from <xmlelement>text</xmlelement>, <xmlelement>keyword</xmlelement>, <xmlelement>term</xmlelement>,
+                <xmlelement>ph</xmlelement>, and <xmlelement>data</xmlelement>. This allows you to use the same
+            mention elements within maps (for example, within titles defined in maps and metadata)
+            and topics.</p>
+  </body>
+</subsection>

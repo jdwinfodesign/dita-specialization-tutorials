@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss2">
+  <title>DITA’s Direct Addressing Syntax</title>
+  <shortdesc>DITA uses URIs and a DITA-specific fragment identifier syntax to directly address components of DITA documents.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>addressing<indexterm>direct</indexterm></indexterm>
+        <indexterm>direct addressing syntax</indexterm>
+        <indexterm>URI<indexterm>fragment identifier for</indexterm></indexterm>
+        <indexterm>fragment identifier<indexterm>DITA syntax for</indexterm></indexterm>
+        <indexterm>DITA<indexterm>fragment identifier
+          syntax</indexterm></indexterm>
+        <indexterm>DITA<indexterm>addressing syntax</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>XML is a Web application and as such uses URIs for addressing. As an XML application, DITA
+      uses URIs as well. All direct references in DITA are URI references, usually URLs. Almost
+      without exception any element that can make a direct reference does so using the
+        <xmlatt>href</xmlatt> attribute.</p>
+    <p>To oversimplify, a URI reference consists of two basic parts: the resource part and the
+            fragment identifier. Both are optional, but at least one or the other must be specified.
+            The fragment identifier is separated from the resource part by a hash sign (#), for
+            example,
+            "<codeph>http://example.com/mydocs/doc-01/topic-01.dita#some-topic-id</codeph>", where
+                <codeph>http://example.com/mydocs/doc-01/topic-01.dita</codeph> is the resource part
+            and <codeph>some-topic-id</codeph> is the fragment identifier. For a complete definition
+            of URIs see <cite>RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax</cite>
+                (<xref href="http://www.ietf.org/rfc/rfc2396.txt" format="html" scope="external"
+                >http://www.ietf.org/rfc/rfc2396.txt</xref>). </p>
+    <p>The resource part can be a uniform resource name (URN) or a uniform
+      resource locator (URL). In most applications you will use URLs since those
+      are, by definition, directly resolvable, while URNs are indirect and
+      require another layer of processing to be resolved.</p>
+    <p>URLs can be absolute or relative. Relative URLs are relative to the
+      location of the XML document that contains the reference.<fn>Technically,
+      they are relative to the effective base URL, which can be set by the
+      <xmlatt>xml:base</xmlatt> attribute. DITA cannot prevent the use of
+      <xmlatt>xml:base</xmlatt> but its use in an authoring system would be rare
+      since it would cause all sorts of havoc in most situations. The main
+      reason to use <xmlatt>xml:base</xmlatt> in an authoring environment would
+      be to make authoring URLs of things outside the scope of the DITA content
+      more convenient by moving the common part of the URL into a single
+      location. Note that per the applicable standards for XML processing and
+      URL resolution, the processing and application of
+      <xmlatt>xml:base</xmlatt> when it is present is mandatory and
+      unconditional for all URI references. This means that processors are not
+      free to apply their own processing semantics for <xmlatt>xml:base</xmlatt>
+      as regards the resolution of URI references.</fn></p>
+    <p> Note that URLs use <q>/</q> (forward slash) as the path separator, not <q>\</q> (backward
+      slash). Any use of <q>\</q> in DITA documents is wrong and should not be supported by any
+      processor. Some processors will interpret these as Windows filenames, but they should not
+      since the value is not a valid URL (at least not without escaping the backslash), and other
+      processors are not likely to honor it.</p>
+    <p>DITA fragment identifiers take one of two forms:<ul
+      id="ul_uru_dys_gb">
+      <li>For topic elements and elements within maps, the fragment identifier is the value of the
+                    target element’s <xmlatt>id</xmlatt> attribute:
+                        <codeph>href="#some-topic-id"</codeph> where <codeph>some-topic-id</codeph>
+                    is the fragment identifier.</li>
+      <li>For non-topic elements within topics, the fragment identifier is the topic ID, a forward
+          slash (<q>/</q>), and the element ID:
+            <codeph>href="#some-topic-id/some-element-id"</codeph>.<p>The element ID part must be an
+            element within the non-topic children of the topic. That is, each topic establishes a
+            separate ID namespace for all of its non-topic descendants. When you have nested topics
+            each nested topic establishes its own ID namespace, which means that a parent topic and
+            a nested topic may both have descendant non-topic elements with the same
+              <xmlatt>id</xmlatt> value.</p></li>
+    </ul></p>
+    <p>Note that while the fragment identifier syntax for non-topic elements looks like a path, it is not path, it is always a topic-id/element-id pair. If you want to address an element within a nested topic you simply use the ID of the nested topic—you do not specify the ID of the ancestor topics. For example, given this topic with a nested topic:<codeblock>&lt;topic id="parent-topic">
+  ...
+  &lt;topic id="child-topic-01">
+    &lt;title>Child Topic 1&lt;/title>
+    &lt;body>
+     &lt;p id="p-01">Paragraph one&lt;/p>
+    &lt;/body>
+  &lt;/topic>
+&lt;/topic></codeblock></p>
+    <p>The fragment identifier for the paragraph <q>p-01</q> is
+        <codeph>#child-topic-01/p-01</codeph>
+      <i>not</i>
+      <codeph>#parent-topic/child-topic-01/p-01</codeph>.</p>
+    <p>Likewise, the parent topic could also have a paragraph with the ID <q>p-01</q>:</p>
+    <p>
+      <codeblock>&lt;topic id="parent-topic">
+    &lt;body>
+     &lt;p id="p-01">Paragraph one in parent.&lt;/p>
+    &lt;/body>
+  &lt;topic id="child-topic-01">
+    &lt;title>Child Topic 1&lt;/title>
+    &lt;body>
+     &lt;p id="p-01">Paragraph one in child.&lt;/p>
+    &lt;/body>
+  &lt;/topic>
+&lt;/topic></codeblock>
+    </p>
+    <p>The fragment identifier for the parent’s paragraph would be
+                <codeph>parent-topic/p-01</codeph>.</p>
+    <p>You can, of course, refer to non-DITA content from DITA documents. In that case the fragment
+      identifier syntax is determined by the target resource and is not defined or constrained by
+      DITA. </p>
+  </body>
+</subsection>

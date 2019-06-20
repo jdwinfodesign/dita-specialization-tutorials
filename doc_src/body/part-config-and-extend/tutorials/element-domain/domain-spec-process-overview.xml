@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-process-overview">
+  <title>Element Domain Specialization Process Overview (DTDs)</title>
+  <shortdesc>A DTD-syntax element domain vocabulary module consists of two files: one that declares the element types and one that defines parameter and text entities used to integrate the module into shell document types.</shortdesc>
+  <body>
+    <p>The element type declaration file has the extension <q>.mod,</q> the entity declaration file
+            has the extension <q>.ent.</q> These two files are the complete domain module.</p>
+    <p>The process of creating a new domain module and integrating it into a document type shell DTD is as follows:<ol>
+      <li>Work out the design of the new element types, including what element types they are specializations of.</li>
+      <li>Declare the elements in the domain's .mod file.</li>
+      <li>Declare the integration entities in the domain's .ent file.</li>
+      <li>Integrate the domain into one or more document type shell DTDs using the normal integration and configuration mechanisms defined by the DITA architecture</li>
+      <li>If necessary, provide extensions for DITA processors to apply specialization-specific processing to your specialized types.<p>For example, if your specializations require a specific formatting effect that is not the default DITA behavior for the base types, you must extend the output processors you use to provide the formatting effect. Typically this means creating extension XSLT scripts for use with the DITA Open Toolkit, but it can also mean extending built-in editor configurations and stylesheets, or extending or customizing content management systems, websites, and so on, depending on the nature of the specialization.</p></li>
+      </ol> </p>
+  </body>
+</subsection>

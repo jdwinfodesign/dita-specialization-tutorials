@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="specialization-restrictions">
+  <title>Restriction on Specialization: Cannot Relax Constraints</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </prolog>
+  <body>
+    <p>A key aspect of specialization is that while you can add new element types
+        to the base DITA types, you cannot make the content models of these new 
+        element types <i>less</i> restrictive than the content models of their
+        base types. That is, if the base type "foo" has the content model "required
+        'A' followed by optional 'B'", you cannot define a specialization of
+        "foo" that makes 'A' (or a specialization of 'A') optional. By the same
+        token, because the base content model requires 'A',
+        your specialization of "foo" must require 'A' or a specialization
+        of 'A'. However, because 'B' is optional in the base content model, your 
+        specialization of "foo" can omit 'B' entirely.</p>
+    <p>However, you <i>can</i> make the specialized content models <i>more</i>
+        restrictive. Thus, you could have your specialization of "foo" require
+        both 'A' <i>and</i> 'B'.</p>
+    <p>The formal way to define this rule is in terms of "generalization", such that 
+        if from a document instance that uses specialized elements you generated a new
+        instance that used the base types of each element, would that new instance
+        always be valid against the base declarations? If the answer is "yes", then
+        your specialization is valid. If the answer is "no" then your specialization is 
+        not valid.</p>
+  </body>
+</subsection>

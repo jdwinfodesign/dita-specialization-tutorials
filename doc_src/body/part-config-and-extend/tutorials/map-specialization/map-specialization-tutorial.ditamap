@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <title>Map Specialization Tutorial</title>
+  <keydefs>
+    <topicmeta>
+      <navtitle>Key Definitions</navtitle>
+    </topicmeta>
+  </keydefs>
+  <chapter
+    href="map-specialization-tutorial.xml">
+    <subsection
+      href="map-specialization-step-1.xml"/>
+    <subsection
+      href="map-specialization-step-2.xml"/>
+    <subsection
+      href="map-specialization-step-3.xml"/>
+    <subsection
+      href="map-specialization-step-4.xml"/>
+    <subsection
+      href="map-specialization-xsd.xml">
+      <subsection
+        href="map-specialization-xsd-step-1.xml"/>
+      <subsection
+        href="map-specialization-xsd-step-2.xml"/>
+    </subsection>
+  </chapter>
+</pub-component-map>

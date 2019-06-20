@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE part PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:part" "part.dtd">
+<part
+  id="topic-id">
+  <title>An Overview of the DITA Architecture</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>architecture<indexterm>DITA</indexterm></indexterm>
+        
+        <indexterm>DITA<indexterm>architecture</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>DITA has several key architectural features that make it fundamentally different from all
+      other XML applications and standards. These features are:<ul
+        id="ul_0c021ac4-b587-41be-bb9a-ff7c192cacfe">
+        <li>Vocabulary composition, which enables the interchange and management of markup
+          vocabularies irrespective of how they are combined into specific document types.</li>
+        <li>Specialization, which enables blind interchange of DITA documents, regardless of the
+          element types used in any given document, through controlled extension of the
+          vocabulary.</li>
+        <li>Modularity of processing, which is enabled and rewarded, though not mandated, by the
+          modular nature of DITA vocabularies.</li>
+      </ul></p>
+    <p>No other aspect of DITA is particularly distinguishing, although many are innovative. In
+            particular, there is no single aspect of DITA’s markup design that cannot be found in
+            other well-known XML applications, such as DocBook, IBM ID Doc, or S1000D. While DITA’s
+            design integrates a set of features that support modular documents more completely than
+            other designs, it does not do anything that couldn’t be done by other XML
+            applications.</p>
+    <p>This means that the distinguishing aspects of DITA, in particular specialization, could be
+            applied to any markup design. Here I’m specifically thinking of DocBook, which is both
+            very widely used and not generally structurally compatible with the current DITA markup
+            design.</p>
+    <p>Thus it’s useful to think of DITA as a combination of two technologies: first, the
+            specialization facility and second, the vocabulary, that is the base topic and map types
+            and the built-in domains. The latter defines a starter vocabulary optimized for
+            general-purpose documents and reflects a set of more or less arbitrary design decisions
+            that lead to specific content model patterns (for example, requiring a wrapper element
+            around the body content of topics). </p>
+    <p>While it doesn’t directly drive DITA’s markup design, the specialization facility requires
+            the more general element types to have very loose content models. This allows
+            specialized elements to be built with more options, for example, for leaving things out
+            or changing the order of elements. This means that the base content models tend to be
+            much more open than would normally be used in typical authoring document types.</p>
+    <p>Keep in mind that DITA provides facilities for both constraining base content models without
+            doing specialization (configuration) and defining new, more-constrained elements types
+            (specialization). This means that you can adapt otherwise-generic element types to
+            reflect your authors’ specific needs for constraint without having to do specialization.
+            Thus you should not be concerned about DITA’s loose base content models.</p>
+    <p>However, the DITA markup design is unique, reflecting a set of considered design decisions
+            driven primarily by DITA’s general requirement to support modular information authoring.
+            In particular, DITA’s map and topic dichotomy reflects a fundamental separation of
+            concerns between content authoring (topics) and the organization of that content (maps).
+            Compare that with book-centric markup designs, like DocBook, where the normal practice
+            is to have a single XML document that both contains the content and defines the
+            publication structure.</p>
+    <p>Once you get to content, DITA is, by design, as familiar and natural as it can be, especially
+            if you are familiar with HTML. The content of any prose document essentially breaks down
+            into some combination of paragraphs, lists, figures, and tables, salted with various
+            inlines and annotated with metadata as needed. If you are familiar with any other
+            documentation or publishing document type, there will be few, if any, surprises in
+            DITA’s content markup design, with one notable exception, the <xmlelement>section</xmlelement>
+            element, about which more later.</p>
+  </body>
+</part>

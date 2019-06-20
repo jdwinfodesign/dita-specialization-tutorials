@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Deploying Toolkit Plugins</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Open Toolkit<indexterm>deploying plugins</indexterm></indexterm>
+        <indexterm>plugin<indexterm>deploying</indexterm></indexterm>
+        <indexterm>Ant<indexterm>deploying plugins with</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>All of the tutorials that follow ultimately result in components that can be packaged as Open
+      Toolkit plugins.</p>
+    <p>A plugin for the Open Toolkit is simply a directory containing the files that make up the plugin.</p>
+    <p>To use a plugin with a Toolkit instance you <q>deploy</q> the plugin by copying the directory
+      to the <filepath>plugins</filepath> directory and running the integrator.xml Ant script
+      included with the Toolkit (see <xref href="packaging-vocabulary-as-plugins.xml#topic-id"
+        format="dita"/>).</p>
+    <p>This raises the question of how to actually do the copying, especially during development,
+      where you will be making many changes and continuously updating your plugin as you develop and
+      test it.</p>
+    <p>As a general practice, you do not want the source code for your plugin to be managed in the
+      directory structure of the Toolkit itself. You want to manage the source in a separate work
+      area and then copy it to the Toolkit as you go.</p>
+    <p>One reason to keep your plugin source separate from the Toolkit is that the source file
+      organization may not match how the files need to be organized for use in a plugin. For
+      example, you may need to support one or more editors that expect a specific organizational
+      structure that is different from what you would use in a plugin. Thus you may need to produce
+      several different packagings of the same document type files for use by different tools.</p>
+    <p>There are, of course, many ways to deploy plugins: you can copy the files manually, use a
+      batch or a shell script, or use Ant.</p>
+    <p>The Open Toolkit is based on Apache Ant, which is a general build process scripting facility. Ant is used very heavily in Java projects to manage compiling and packaging Java code, but Ant is general purpose and can be used for lots of things.</p>
+    <p>One thing you can do easily with Ant is copy files from one place to another. Thus you can
+      create an Ant script that will copy the source files for your plugins to the appropriate
+      Toolkit and run the integrator.xml Ant script in one step.</p>
+    <p>The main challenge here is telling the Ant script where the Toolkit is on your local machine.</p>
+    <p>My practice is to have a file named <filepath>build.properties</filepath> (Windows) or
+        <filepath>.build.properties</filepath> (Linux or OSX) in my home directory that sets the
+      value of a property named <q>dita-ot-dir</q> to the location of the Toolkit I want to deploy
+      to. In my project-specific build scripts I then include the
+        <filepath>build.properties</filepath> file and use the <varname>dita-ot-dir</varname>
+      property in copy tasks that deploy my Toolkit plugins. Note that the script below defines the
+      property <q>dita-ot-dir.</q> This definition of the property will be used <i>only</i> if
+        <varname>dita-ot-dir</varname> is not defined in either
+        <filepath>.build.properties</filepath> or <filepath>build.properties</filepath>. By the
+      property definition precedence rules in Ant, the first definition of a property wins, so the
+      definition in the main Ant script is ignored if <varname>dita-ot-dir</varname> is defined in
+      either of the included properties files. See <xref
+        href="../part-end-to-end/dev-environment-setup.xml#chapter-id" format="dita"/> for more
+      information.</p>
+    <p>Here is a simple Ant build script (named <filepath>build.xml</filepath> by Ant convention)
+      that will deploy a set of Toolkit plugins where the plugin source files are in a directory
+      named <filepath>toolkit_plugins</filepath> under the main project
+      directory:<codeblock>&lt;project name="DITA Tutorials" basedir="." default="deploy-toolkit-plugins">
+	
+  &lt;property file="build.properties"/>
+  &lt;property file="${user.home}/.build.properties"/>
+  &lt;property file="${user.home}/build.properties"/>
+
+	
+  &lt;property name="dist" location="${basedir}/dist"/>
+  &lt;property name="plugin.dist" location="${dist}/plugins"/>
+  &lt;property name="dita-ot-dir" location="c:\DITA-OT1.5"/>
+  &lt;property name="plugin-src" location="${basedir}/toolkit_plugins"/>
+  &lt;property name="plugin-deploy_target" location="${dita-ot-dir}/plugins"/>
+  &lt;property name="ot-plugins-base-name" value="<b>com.example.plugins</b>"/>
+
+  &lt;import file="${dita-ot-dir}${file.separator}integrator.xml" optional="yes"/>
+
+
+  &lt;target name="init">
+  &lt;tstamp/>
+  &lt;/target>
+
+  &lt;tstamp>
+	&lt;format property="package.date" pattern="yyyy-MM-dd"/>
+  &lt;/tstamp>
+
+  &lt;target name="clean">
+  &lt;/target>
+	
+	
+  &lt;target name="dist-toolkit-plugins" 
+      description="Packages the DITA Open Toolkit plugins for deployment to a working Toolkit instance"
+	  depends="dist-init"
+  >
+    &lt;delete includeemptydirs="true" failonerror="false">
+      &lt;fileset dir="${plugin.dist}"/>
+    &lt;/delete>
+	&lt;copy todir="${plugin.dist}">
+		&lt;fileset dir="${plugin-src}">
+		&lt;/fileset>
+	&lt;/copy>
+  &lt;/target>
+	
+  &lt;target name="deploy-toolkit-plugins" depends="dist-toolkit-plugins"
+     description="Deploy plugins to local DITA Open Toolkit">
+    &lt;delete failonerror="true" includeemptydirs="true">
+      &lt;fileset dir="${plugin-deploy_target}" includes="${ot-plugins-base-name}.*/**"/>
+    &lt;/delete>
+    &lt;mkdir dir="${plugin-deploy_target}"/>
+    &lt;copy todir="${plugin-deploy_target}"> 
+      &lt;fileset dir="${plugin.dist}">
+        &lt;include name="**/*"/>
+      &lt;/fileset>
+    &lt;/copy>
+    &lt;!-- Integrate the deployed plugins: -->
+    &lt;antcall target="integrate"/>
+
+  &lt;/target>
+	
+  &lt;target name="dist-init">
+    &lt;delete failonerror="false" includeemptydirs="true">
+      &lt;fileset dir="${dist}" includes="*/**"/>
+    &lt;/delete>
+	&lt;mkdir dir="${dist}"/>
+  &lt;/target>
+
+&lt;/project></codeblock></p>
+    <p>If you're not familiar with Ant this may look a lot more complicated than it really is.</p>
+    <p>Each <xmlelement>target</xmlelement> element represents a separate callable part of the script. In
+      this script the main target is named <q>deploy-toolkit-plugins.</q> It's also set as the
+      default target so that if you simply run the script without specifying a target it will run
+      the deploy-toolkit-plugins target automatically. By default, the Ant command looks for a file
+      named <filepath>build.xml</filepath> so from a command line, if you are in the directory
+      containing the <filepath>build.xml</filepath> file, you can just type <cmdname>ant</cmdname>
+      and it should work (assuming the <cmdname>ant</cmdname> command is in your
+      path):<codeblock>c:\workspace\myproject> ant
+Buildfile: build.xml
+
+dist-init:
+
+dist-toolkit-plugins:
+
+...
+
+BUILD SUCCEEDED</codeblock></p>
+    <p>You can see what targets are available in the script by using the <parmname>-projecthelp</parmname> parameter:<codeblock>c:\workspace\myproject> ant -projecthelp
+Buildfile: build.xml
+
+Main targets:
+
+ deploy-toolkit-plugins  Deploy plugins to local DITA Open Toolkit
+ dist-toolkit-plugins    Packages the DITA Open Toolkit plugins for deployment to a working Toolkit instance
+Default target: deploy-toolkit-plugins
+c:\workspace\myproject> </codeblock></p>
+    <p>The targets listed are those with <xmlatt>description</xmlatt> attributes.</p>
+    <p>This script breaks the deployment into two steps:<ol
+      id="ol_3d822fab-2a7f-447c-87ec-2b3ec22786ed">
+      <li>dist-toolkit-plugins copies all the files to a <q>distribution</q> directory</li>
+      <li>deploy-toolkit-plugins then copies the files from the distribution directory to the Toolkit <filepath>plugins</filepath> directory. It also runs the <filepath>integrator.xml</filepath> script that is part of the Toolkit itself.</li>
+      </ol></p>
+    <p>This two-step process allows you the opportunity to pull files together from different source locations into a single set of files to be deployed. For example, my normal practice is to manage all my vocabulary modules and document type shells in a source directory called <filepath>doctypes</filepath> and all my Toolkit plugins in a directory called <filepath>toolkit_plugins</filepath>. In the <filepath>toolkit_plugins</filepath> directory I have directories for each distinct document type plugin with just the files that are Toolkit-specific (usually just the <filepath>plugin.xml</filepath> file). I then have my dist-toolkit-plugins Ant target merge the files from the <filepath>toolkit_plugins</filepath> directory with the files from the <filepath>doctypes</filepath> directories to create complete Toolkit plugins.</p>
+    <p>The Ant property <varname>ot-plugins-base-name</varname> holds the common directory name
+      prefix for all of the plugins managed by this Ant script, which makes it easy to delete
+      existing deployed plugins and otherwise copy only the files you want. You would set this
+      property to match whatever you've used for your plugins (I recommend the Java-style reverse
+      domain name convention, e.g. <q>com.example.myproject</q>).</p>
+    <p>One you get this sort of pattern set up it becomes easy to replicate.</p>
+    <p>Once you have the Ant script working you can run it in a couple of different ways.</p>
+    <p>An easy way is to start a Toolkit command-line shell using the <filepath>startcmd.bat</filepath> or <filepath>startcmd.sh</filepath> scripts that are part of the full Toolkit installation. These scripts set up a command line environment with everything set up correctly so you can run the Toolkit Ant scripts. </p>
+    <p>For example, to run your Ant script to deploy your plugins, you might do something like this:<codeblock>c:\> cd c:\DITA-OT
+c:\DITA-OT> startcmd
+<i>{stuff happens here}</i>
+c:\DITA-OT> cd c:\workspace\myproject
+c:\workspace\myproject> ant
+Buildfile: build.xml
+
+dist-init:
+    [mkdir] Created dir: /workspace/myproject/dist
+
+dist-toolkit-plugins:
+
+ ...
+
+integrate:
+[integrate] Using XERCES.
+
+BUILD SUCCESSFUL
+Total time: 2 seconds</codeblock></p>
+    <p>Once you've run <filepath>startcmd</filepath> you can come back to the command window and rerun the deploy script just by hitting the up arrow and enter.</p>
+    <p>If you use Eclipse as your development environment you can run the Ant script from within Eclipse once you do a one-time setup of Ant with the Open Toolkit's java libraries. See <xref
+      href="../part-end-to-end/dev-environment-setup.xml#chapter-id"
+      format="dita"/>.</p>
+    <p>You can also set up a standalone batch or shell script that sets up the execution environment as <filepath>startcmd</filepath> does and then runs your Ant script. That may be the most convenient approach if you expect other people to run this process with minimal setup.</p>
+    <p>Note also that you can set Ant properties on the command line. So, for example, if you had
+      two different Toolkit instances that you wanted to deploy to, you could set the value of the
+        <varname>dita-ot-dir</varname> Ant property on the command line like
+      so:<codeblock>ant -Ddita-ot-dir=/Applications/oxygen_12_beta/frameworks/dita/DITA-OT/</codeblock></p>
+  </body>
+</subsection>

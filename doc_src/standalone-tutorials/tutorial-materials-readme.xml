@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "http://docs.oasis-open.org/dita/v1.1/OS/dtd/topic.dtd">
+<topic id="topic-1">
+  <title>DITA Tutorial Materials</title>
+  <body>
+    <p>Tutorial Materials version ^version^ - ^timestamp^ build ^buildnumber^</p>
+    <p>These materials represent the worked results of the <xref
+      href="http://xiruss.org/tutorials/dita-specialization/"
+      format="html"
+      scope="external">DITA Configuration and Specialization Tutorials</xref> (<xref
+      href="http://xiruss.org/tutorials/dita-specialization/"
+      format="html"
+      scope="external">http://xiruss.org/tutorials/dita-specialization/</xref>).</p>
+  </body>
+</topic>

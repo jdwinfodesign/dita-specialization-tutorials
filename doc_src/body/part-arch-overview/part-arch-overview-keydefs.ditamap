@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <title>Key definitions for Part 2, Architectural Overview</title>
+  <keydefs>
+    <keydef keys="subject-scheme-maps" href="subject-scheme-maps.xml#topic-id"/>
+    <keydef keys="relationship-tables" href="relationship-tables.xml#topic-id"/>
+    <keydef keys="vocabulary-composition" href="vocabulary-composition.xml#topic-id"/>
+    <keydef keys="maps-and-topics" href="maps-and-topics.xml#topic-id"/>
+    <keydef keys="linking-and-addressing" href="linking-and-addressing.xml#topic-id"/>
+    <keydef keys="conref-facility" href="conref-facility.xml#topic-id"/>
+    <keydef keys="applicability" href="applicability.xml#topic-id" />
+    <keydef keys="data-and-metadata" href="data-and-metadata.xml#topic-id"/>
+    <keydef keys="sections-and-divs" href="sections-and-divs.xml#topic-id"/>
+    <keydef keys="topic-structural-pattern" href="topic-structural-pattern.xml#topic-id"/>
+    <keydef keys="part-00" href="part-00.xml#topic-id"/>
+  </keydefs>
+</pub-component-map>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss4">
+  <title>DITA Vocabulary Management: Modules</title>
+  <body>
+    <p>DITA addresses this lack of manageability by providing features that make vocabularies manageable while avoiding the inherent problems of monolithic interchange document types.</p>
+    <p>DITA essentially turns the problem on its head. Rather than having invariant monolithic
+      document types, it provides invariant vocabulary <q>modules</q> that can be combined together
+      to form an infinite variety of specific document types and that can themselves be extended, in
+      a controlled fashion, to create new vocabulary modules. </p>
+    <p>Likewise, vocabulary modules can be locally configured through <q>constraint</q> modules,
+      which enable the customization of content models and attribute lists, but only in ways that
+      guarantee interchangeability and processability. </p>
+    <p>DITA defines a markup-based declaration mechanism that makes the nature of any configuration or extension machine-understandable. That is, a processor, looking at any conforming DITA document, can know exactly what vocabulary modules it uses and, if constraints have been applied, what those constraints are. For any given DITA element, a processor can know what standard-defined DITA elements it is based on, and thus how to apply at least some minimal DITA-defined processing to those elements.</p>
+    <p>These declaration mechanisms are the <xmlatt>class</xmlatt> and <xmlatt>domains</xmlatt>
+      attributes. These attributes are the <q>magic</q> of DITA that make everything work. These
+      attributes, along with some essential rules for vocabulary composition, make it possible for
+      any general-purpose DITA processor to reliably process any DITA document no matter how it has
+      been configured or extended. Likewise, a human observer of the document can know how its
+      markup relates to other DITA markup and can look at any given DITA vocabulary module and know
+      how it relates to other modules.</p>
+    <p>Thus you can think of DITA as an unbounded set of vocabulary modules and a set of tools for combining those modules into specific document types suited to specific requirements. </p>
+  </body>
+</subsection>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>XSD Topic Type Shell Tutorial</title>
+  <shortdesc>This tutorial demonstrates the process of creating an XSD-syntax document type shell.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>XSD</indexterm>
+        <indexterm>document type shell<indexterm>XSD syntax</indexterm><indexterm>XSD syntax<indexterm>document type shell</indexterm></indexterm></indexterm>
+        <indexterm>schema<indexterm>document type shell</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>XSD document type shells use two XSD features to create complete XSD-based DITA document types: <xmlelement>xs:include</xmlelement> and <xmlelement>xs:redefine</xmlelement>. Includes are used to include components that are not being modified through redefine. Redefine is used to include components for which one or more groups defined in the component are being redefined, either to extend base groups with domain-provided element types or to restrict groups through constraint modules.</p>
+  </body>
+</subsection>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-process-step-5-1">
+  <title>Element Domain Specialization Step 5-1: Create Blank Specialization-Specific XSLT Transform Plugin</title>
+  <body>
+    <p>Create a directory to hold the plugin. As for document type plugins (see <xref
+      href="../../packaging-vocabulary-as-plugins.xml#topic-id"
+      format="dita"/>), you should give your plugin a globally unique name, such as a Java-style package name like "org.example.xmldomain.html". The plugin name should reflect both the domain it supports and the transformation type it extends so it's clear what its purpose is. As a matter of practice, I like to use the same engineering practice for Toolkit plugins that one normally uses for Java classes, namely keep them small and focused. Thus I typically have a separate plugin for each domain/transformation type pair. By naming them all with the same "package" prefix it is easy to see all the related plugins in a Toolkit's <filepath>plugins</filepath> directory. It aslo makes it easy to do things like use Ant to manipulate a set of plugins (for example, to package them for distribution or automate deployment from your development environment to your test Toolkit environment).</p>
+    <p>Because the plugin will contain a normal XSLT module, you can implement and test the XSLT in isolation before you build and test your plugin. This is easiest in the context of an XSLT integrated development environment like OxygenXML or XML Spy, which handles the details of applying the transform to your test data.</p>
+    <p>In your chosen directory, create the file "xmlDomain2html.xsl" and give it this content: <codeblock>
+&lt;?xml version="1.0" encoding="UTF-8" ?>
+&lt;!-- ===========================================================
+     HTML generation templates for the XML Construct DITA domain
+     specialization
+     
+     Copyright (c) 2011 Your Name Here
+     
+     =========================================================== -->
+&lt;xsl:stylesheet version="2.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                
+  
+&lt;/xsl:stylesheet> </codeblock></p>
+    <p>As of version 1.5, the Open Toolkit requires the use of the Saxon XSLT engine, which means you can use XSLT 1 or XSLT 2. For this exercise the processing is so simple that it doesn't matter whether you use version 1 or 2. However, since the Toolkit allows XSLT 2 there's no reason not to declare your stylesheet as being an XSLT 2 stylesheet.</p>
+    <p>For more complicated processing you will definitely want to use XSLT 2. </p>
+    <p>To be a Toolkit plugin, the directory must contain a file named <filepath>plugin.xml</filepath>. This file declares the name of the plugin and otherwise configures the plugin [reference to more general section on creating Toolkit plugins]. For this simple plugin, the plugin descriptor is:<codeblock>&lt;plugin id="<b>org.example.xmldomain.html</b>">
+  &lt;require plugin="org.example.xmldomain.doctypes"/> 
+  &lt;feature extension="dita.xsl.xhtml" value="xmlDomain2html.xsl" type="file"/>  
+&lt;/plugin></codeblock></p>
+    <p>The part in bold is the plugin name. The name must be unique across all plugins installed in a given Toolkit, so it's important to give the plugin a globally unique name. Again, using Java-style package names ensures that.</p>
+    <p>The <xmlelement>require</xmlelement> element indicates that this plugin requires the corresponding doctype plugin that contains the specialization module itself. The Toolkit's integration process checks this dependency and makes sure that all the necessary parts are available.</p>
+    <p>The <xmlelement>feature</xmlelement> element says that the XSLT file <filepath>xmlDomain2html.xsl</filepath> hooks into the extension point named "dita.xsl.xhtml" and is of type "file". This tells the Toolkit's integration process to add a reference to the file <filepath>xmlDomain2html.xsl</filepath> at the point in the base HTML files where the extension point "dita.xsl.xhtml" is defined. Note that you don't care where that extension point is defined, you only care about the name. Any number of plugins can extend that same extension point. </p>
+    <note
+      type="tip">Common errors to watch for:<ul
+      id="ul_7a187e7b-fbc9-4a0f-8dc1-cc1cc00d24fb">
+      <li>Copying a plugin.xml file and forgetting to change the <xmlatt>id</xmlatt> value. This will cause confusing errors in the Toolkit processing that can be hard to diagnose.</li>
+      </ul></note>
+  </body>
+</subsection>  

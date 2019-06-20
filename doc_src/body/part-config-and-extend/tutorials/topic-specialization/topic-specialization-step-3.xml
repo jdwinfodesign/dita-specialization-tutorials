@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-specialization-step-3">
+  <title>Topic Specialization Step 3. Package the Modules as a Toolkit Plugin</title>
+  <body>
+    <p>Now that the declarations are complete and validated, we need to package the declarations for use in documents. The best way to do this is to package it as an Open Toolkit plugin. Making it into a plugin does two things:<ul
+      id="ul_ee6a74ab-053c-486d-992d-65b9c4dafe3f">
+      <li>Provides entity resolution catalogs for mapping public identifiers to the various files.</li>
+      <li>Makes it easy to deploy the vocabulary modules to Toolkit instances, which in turn makes the modules automatically available to tools that use the Toolkit to access vocabulary modules.</li>
+      </ul></p>
+    <p>To set up the plugin, follow these steps:<ol
+      id="ol_369edde5-9a45-421f-b22b-aa07bbb861b6">
+      <li>In the <filepath>faq-question</filepath> directory create a file named
+                        <filepath>plugin.xml</filepath> with this
+                        content:<codeblock>&lt;plugin id="org.example.faq-question.doctype">
+  &lt;feature extension="dita.specialization.catalog.relative" value="catalog.xml" type="file"/>
+&lt;/plugin></codeblock><note>This
+                        defines a plugin with just this module. In practice you would normally
+                        package all the related document type shells, vocabulary modules, and
+                        constraint modules together as a single Toolkit plugin. See <xref
+                            href="../../packaging-vocabulary-as-plugins.xml#topic-id" format="dita"
+                        />.</note></li>
+      <li>In the <filepath>faq-question</filepath> directory create a file named <filepath>catalog.xml</filepath> with this content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  
+  &lt;nextCatalog catalog="dtd/catalog.xml"/>
+  
+&lt;/catalog></codeblock></li>
+      <li>In the <filepath>faq-question/dtd</filepath> directory create a file named
+                        <filepath>catalog.xml</filepath> with this
+                        content:<codeblock>&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  
+  &lt;public publicId="urn:pubid:example.org:doctypes:dita:modules:entities:faq-question"
+    uri="faq-question.ent"
+  />
+  
+  &lt;public publicId="urn:pubid:example.org:doctypes:dita:modules:faq-question"
+    uri="faq-question.mod"
+    />
+  
+  &lt;public publicId="urn:pubid:example.org:doctypes:dita:faq-question"
+    uri="faq-question.dtd"
+    />
+
+&lt;/catalog></codeblock><note>In
+                        practice you would replace <q>example.org</q> with your own domain name or
+                        its universally-unique equivalent in the URNs.</note></li>
+      <li>Edit the file <filepath>faq-question/dtd/faq-question.dtd</filepath> and update the entity declarations for the .ent and .mod files to use the URNs defined in the catalog file:<codeblock>...
+
+&lt;!ENTITY % faq-question-dec     
+  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:entities:faq-question-v1</b>" 
+         "faq-question-v1.ent"
+>%faq-question-dec;
+     
+...
+
+&lt;!ENTITY % faq-question-typemod 
+  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:faq-question-v1</b>" "faq-question-v1.mod"                                                        
+ >                                                     
+%faq-question-typemod;
+
+...</codeblock><note type="tip">Common mistake: Using the .mod file's URN for the .ent file or visa versa.<p>This
+                            is an easy mistake to make and a hard one to catch because the URNs are
+                            so similar. One symptom of this is that the shell that's in the same
+                            directory as the modules works, because it's system IDs are resolvable,
+                            but a different shell that uses the same modules fails because the URNs
+                            are wrong and the system IDs are not resolvable. That is one reason to
+                            make sure that system IDs are not resolvable&mdash;it helps reveal this
+                            sort of error.</p><p>Making this mistake can lead to baffling validation
+                            errors from XML parsers, such as duplicate element type declarations or
+                            other DTD syntax errors. Whenever you get those kinds of errors, the
+                            first thing to check is the public IDs of the module entity declarations
+                            in the shell document types.</p></note></li>
+      <li>Copy the test document to create a new test document,
+                        <filepath>faq-question-test-02.xml</filepath>, and modify its DOCTYPE
+                    declaration so it uses the URN of the .dtd file and a bogus system identifier
+                    (so the parser has to use the public ID to resolve the reference to the DTD
+                        file<fn>Pedantically, the reference to the external parameter entity
+                        declaration
+                        set.</fn>):<codeblock>&lt;?xml version="1.0"?>          
+&lt;!DOCTYPE faq-question 
+  PUBLIC "urn:pubid:example.org:doctypes:dita:modules:faq-question" 
+         "bogus"
+>          
+&lt;faq-question id="question-id">
+  &lt;faq-question-statement>Can I add attributes to specific element types?&lt;/faq-question-statement>
+  &lt;faq-answer >
+    &lt;p>No, you can only define global attributes, specialized either from @ase
+    or @props.&lt;/p>
+  &lt;/faq-answer>
+&lt;/faq-question></codeblock><p>Edit
+                        this document: it should not validate because you haven't deployed the
+                        plugin to your Open Toolkit yet.</p></li>
+      <li>Deploy the plugin to your Open Toolkit by copying the <filepath>faq-question</filepath>
+                    directory to the <filepath>plugins</filepath> directory of your Open
+                        Toolkit.<p>Run the <filepath>integrator.xml</filepath> Ant task to integrate
+                        the
+                        plugin:<codeblock>c:\DITA-OT > ant -f integrator.xml</codeblock></p><p>This
+                        adds a reference to the <filepath>faq-question/catalog.xml</filepath> file
+                        into the Toolkit's master entity resolution catalog,
+                            <filepath>catalog-dita.xml</filepath>.</p></li>
+      <li>Configure your editor or validation tool to use the catalog
+                        <filepath>catalog-dita_template.xml</filepath> and verify that
+                        <filepath>faq-question-test-02.xml</filepath> validates.<p>If you are using
+                        OxygenXML and you deployed the plugin to Oxygen's Toolkit, then you should
+                        just need perform the <q>Reset cache and validate</q> action. With other
+                        editors or validators you may need to explicitly configure the use of the
+                            <filepath>catalog-dita.xml</filepath> catalog.</p></li>
+      </ol></p>
+    <p>Your new topic type is now ready to use.</p>
+  </body>
+</subsection>  

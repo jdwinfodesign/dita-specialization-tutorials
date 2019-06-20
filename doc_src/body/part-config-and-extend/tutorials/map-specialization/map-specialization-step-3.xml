@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization Step 3: Create faq-map Map Type Module</title>
+  <body>
+    <p>Find the file <filepath>map.mod</filepath> in the standard DITA DTD distribution. You will be cutting and pasting from <filepath>map.mod</filepath> into the new module file for the faq-map map type.</p>
+    <p>Construct the new module file as follows:<ol
+      id="ol_3d6b421b-1a0d-47c6-a6d0-be06e6fa5b8f">
+      <li>Create the file <filepath>faq-map/dtd/faq-map.mod</filepath> and give it this content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!--=======================================
+    FAQ Map map type module.
+    
+    Represents a single FAQ publication
+    
+    Copyright (c) 2011 Your Name Here
+    
+    ======================================= -->
+    
+    
+    
+ &lt;!-- ======== End of FAQ Map Module ======  --></codeblock></li>
+      <li>In <filepath>map.mod</filepath> find the declaration for <parameterentity>map.content</parameterentity>,
+                    copy that declaration and the next three declarations
+                        (<parameterentity>map.attributes</parameterentity> and the ENTITY and ATTLIST declarations
+                    for <xmlelement>map</xmlelement>), and paste them into the
+                        <filepath>faq-map.mod</filepath> file after the header
+                    comment:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!--=======================================
+    FAQ Map map type module.
+    
+    Represents a single FAQ publication
+    
+    Copyright (c) 2011 Your Name Here
+    
+    ======================================= -->
+    
+&lt;!ENTITY % map.content
+                       "((%title;)?, 
+                         (%topicmeta;)?, 
+                         (%anchor; |
+                          %data.elements.incl; |
+                          %navref; |
+                          %reltable; |
+                          %topicref;)* )"
+>
+&lt;!ENTITY % map.attributes
+             "title 
+                        CDATA 
+                                  #IMPLIED
+              id 
+                        ID 
+                                  #IMPLIED
+              %conref-atts;
+              anchorref 
+                        CDATA 
+                                  #IMPLIED
+              outputclass 
+                        CDATA 
+                                  #IMPLIED
+              %localization-atts;
+              %topicref-atts;
+              %select-atts;"
+>
+&lt;!ELEMENT map    %map.content;>
+&lt;!ATTLIST map    
+              %map.attributes;
+              %arch-atts;
+              domains 
+                        CDATA 
+                                  "&amp;included-domains;" 
+>
+    
+    
+ &lt;!-- ======== End of FAQ Map Module ======  --></codeblock></li>
+      <li>Modify these declarations by changing <q>map</q> to <q>faq-map</q> everywhere,
+                    e.g.:<codeblock>&lt;!ENTITY % <b>faq-map</b>.content
+                       "((%title;)?, 
+                         (%topicmeta;)?, 
+                         (%anchor; |
+                          %data.elements.incl; |
+                          %navref; |
+                          %reltable; |
+                          %topicref;)* )"
+>
+&lt;!ENTITY % <b>faq-map</b>.attributes
+ ...
+&lt;!ELEMENT <b>faq-map</b>    %<b>faq-map</b>.content;>
+&lt;!ATTLIST <b>faq-map</b>    
+              %<b>faq-map</b>.attributes;
+  ...
+></codeblock></li>
+      <li>Change the definition of the <parameterentity>faq-map.content</parameterentity> parameter entity
+                    to:<codeblock>&lt;!ENTITY % faq-map.content
+                       "((%title;)?, 
+                         (%topicmeta;)?,
+                         (%keydef)*,                         
+                         (%faq-question-group;),
+                         (%reltable;)*)"
+></codeblock></li>
+      <li>Change the value of the <xmlatt>domains</xmlatt> attribute declaration in the pub-map ATTLIST declaration to reflect the module hierarchy and the required map domains:<codeblock>&lt;!ATTLIST faq-map    
+  %faq-map.attributes;
+  %arch-atts;
+     domains 
+     CDATA 
+       "<b>(map faq-map mapGroup faq-mapDomain)</b> 
+        &amp;included-domains;" 
+>
+</codeblock></li>
+      <li>Validate the test document. You should get messages to the effect that the parameter
+                    entities <parameterentity>keydef</parameterentity> and <parameterentity>faq-question-group</parameterentity>
+                    were referenced but not declared. <p>Because this map type module depends on
+                        specific domains, we have to locally declare the parameter entities for the
+                        element types we use from those domains because the domain-provided
+                        parameter entities are not included by the shell DTD until after the map
+                        type module is included.</p></li>
+      <li>Immediately after the header comment, add these parameter entity declarations:<codeblock>&lt;!ENTITY % keydef           "keydef"           >
+&lt;!ENTITY % faq-question-set "faq-question-set" ></codeblock><p>Validate the test document again. It should now give a message that the document is missing required content.</p></li>
+      <li>Edit the test document to add the minimum allowed content, resulting in this document:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE faq-map 
+  PUBLIC "faq-map" "dtd/faq-map.dtd">
+&lt;faq-map>
+  &lt;title>FAQ Map Test 01&lt;/title>
+  &lt;topicmeta>&lt;/topicmeta>
+  &lt;keydef keys="foo"/>  
+  &lt;faq-question-set>
+    
+  &lt;/faq-question-set>
+&lt;/faq-map></codeblock><p>Validate the test document again. It should now complain that the element type <xmlelement>faq-question-set</xmlelement> is not declared, which of course it is not.</p></li>
+      <li>Immediately before the ending comment, add the <xmlatt>class</xmlatt> attribute declaration for the <xmlelement>faq-map</xmlelement> element:c<codeblock>&lt;!ATTLIST faq-map    %global-atts;  class CDATA "- map/map faq-map/faq-map "        ></codeblock></li>
+      </ol></p>
+    <p>At this point the faq-map map type should be ready to use as soon as the faq-mapDomain module is defined.</p>
+  </body>
+</subsection>

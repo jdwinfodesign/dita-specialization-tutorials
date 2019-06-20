@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="step2-3">
+  <title>Step 2-3. Declare Elements and Attributes</title>
+  <body>
+    <p>For each element type, create an element type and attribute declaration: <codeblock>
+&lt;!-- ====================================================
+     XML Construct Domain Module
+    
+     Author: <i>your name here</i>
+
+     Copyright (c) 2011 <i>copyright holder</i>
+     
+     <i>license to use or not use or whatever</i>
+     ==================================================== -->
+ 
+&lt;!ENTITY % xmlelem    "xmlelem"  >
+
+<b>&lt;!--                    LONG NAME: XML Element                            -->
+&lt;!ENTITY % xmlelem.content 
+  " 
+  (#PCDATA)*
+  "
+>
+&lt;!ENTITY % xmlelem.attributes
+  '
+  %univ-atts;          
+  keyref
+    CDATA
+    #IMPLIED
+  outputclass 
+    CDATA
+    #IMPLIED    
+  '
+>
+&lt;!ELEMENT xmlelem %xmlelem.content; >
+&lt;!ATTLIST xmlelem %xmlelem.attributes; >
+</b>          </codeblock></p>
+    <p>Note that the content model for each element type must be at least as restrictive as the content model of the specialization base (in this case, <xmlelement>keyword</xmlelement>, although we haven't declared that yet). Looking at the DITA language reference (or the declaration in commonElements.mod), we see that the content model for <xmlelement>keyword</xmlelement> includes both #PCDATA as well as all other phrase-level elements. Since the XML component mentions don't need or want any subelements, we've reduced the content model down to just #PCDATA (just text), which is consistent with the content model of the <xmlelement>keyword</xmlelement> element.</p>
+    <p>Note also that the content model and attribute lists are defined as parameter entities that are then used in the actual ELEMENT and ATTLIST declarations. (This is a change from DITA 1.1 to DITA 1.2 made to enable overriding of individual element's content models and attribute lists through constraint modules. ) In this case the only content model more restrictive than "<codeph>(#PCDATA)*</codeph>" is "<codeph>EMPTY</codeph>".)</p>
+    <note
+      type="other" othertype="Common Errors">
+      <p>Attributes with quoted default values quoted with the same quote character as the parameter entity text.</p>
+      <p>In parameter entity declarations you can use either single quotes or double quotes (" or ') to quote the entity value. Because attributes can have literal default values, you have to make sure the quotes used for the attribute value are different from the quotes used for the parameter entity text itself. This is most common with specializations of <xmlelement>data</xmlelement> where you want to set the <xmlatt>name</xmlatt> attribute to a specific value (typically the tagname of the specialization).</p>
+      <p>For attribute declarations it's usually easiest to use single quotes so that attributes that specify literal default values can use double quotes, which is how most American's will declare them (and thus what you are most likely to copy from the base DITA declarations). Of course, if you're British you can swap that around.</p>
+      <p>An attributes parameter entity with a quoted default value would look like this:<codeblock>&lt;!ENTITY % myDataElem.attributes 
+  '
+    name
+       CDATA
+       <b>"myDataElem"</b>
+    value
+       CDATA
+       #REQUIRED
+    %univ-atts;
+  '
+></codeblock></p>
+    </note>
+  </body>
+</subsection>

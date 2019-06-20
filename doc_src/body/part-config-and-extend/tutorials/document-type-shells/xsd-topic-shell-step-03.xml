@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>XSD Topic Type Shell Tutorial Step 3: Add Reference to a New Domain</title>
+  <body>
+    <p>To integrate a new domain, we add the following three components:<ul
+      id="ul_dd4b885a-75db-4756-aec9-1c1b21f1b9b8">
+      <li>An <xmlelement>xs:include</xmlelement> of the domain's XSD module file (XSD domain modules consist of a single XSD file).</li>
+      <li>A reference to the domain's domain extension groups, one for each different base element type the domain extends.</li>
+      <li>The domain's <xmlatt>domains</xmlatt> attribute contribution in the <q>domains-att</q>
+                    attribute group declaration.</li>
+      </ul></p>
+    <p>To integrate a domain, you need to know the following:<ul
+                id="ul_62d8248c-b64c-423d-b780-0ca8d28a37fa">
+                <li>The URN or URL of the module's XSD file. This should be in the entity resolution
+                    catalog for the domain. If the domain is packaged using the pattern described
+                    here, then the catalog file should be in the same directory as the .xsd file for
+                    the domain. If you are integrating a standard DITA domain, you can look in the
+                    DITA standard itself or in the <filepath>catalog_dita.xml</filepath> file in the
+                    Open Toolkit's top-level directory.</li>
+                <li>The set of domain extension groups the module defines. These are defined in the
+                    domain's XSD document. For example, the file
+                        <filepath>softwareDomain.xsd</filepath> has these
+                        declarations:<codeblock>  &lt;xs:group name="sw-d-ph">
+    &lt;xs:choice>
+      &lt;xs:element ref="msgph" />
+      &lt;xs:element ref="filepath" />
+      &lt;xs:element ref="userinput" />
+      &lt;xs:element ref="systemoutput" />
+    &lt;/xs:choice>
+  &lt;/xs:group>
+
+  &lt;xs:group name="sw-d-keyword">
+    &lt;xs:choice>
+      &lt;xs:element ref="msgnum" />
+      &lt;xs:element ref="varname" />
+      &lt;xs:element ref="cmdname" />
+    &lt;/xs:choice>
+  &lt;/xs:group>
+
+  &lt;xs:group name="sw-d-pre">
+    &lt;xs:choice>
+      &lt;xs:element ref="msgblock" />
+    &lt;/xs:choice>
+  &lt;/xs:group></codeblock><p>This
+                        reflects the fact that the software domain specializes from
+                            <xmlelement>pre</xmlelement>, <xmlelement>ph</xmlelement>, and
+                            <xmlelement>keyword</xmlelement>.</p></li>
+                <li>The <xmlatt>domains</xmlatt> attribute contribution is <q>(topic
+                            <varname>domainShortName</varname>-d)</q> for a domain that specializes
+                    directly from topic and not from another domain. The <xmlatt>domains</xmlatt>
+                    attribute value for the domain should also be documented in an XSD annotation at
+                    the start of the domain's XSD file, as in this example from
+                        <filepath>softwareDomain.xsd</filepath>:<codeblock>  &lt;xs:annotation>
+    &lt;xs:appinfo>
+      &lt;dita:domainsModule 
+         xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+         ><b>(topic sw-d)</b>&lt;/dita:domainsModule>
+    &lt;/xs:appinfo>
+    &lt;xs:documentation> 
+    
+    &lt;/xs:documentation>
+  &lt;/xs:annotation></codeblock></li>
+            </ul></p>
+    <p>For this tutorial we want to integrate the XML domain defined in the topic element domain tutorial. The information we need for the XML domain is:<dl>
+      <dlentry>
+        <dt>.xsd file URN:</dt>
+        <dd><q>urn:pubid:exmple.org:doctypes:dita:modules:xmlDomain</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domain extension groups</dt>
+        <dd><q>xml-d-keyword</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domains attribute contribution:</dt>
+        <dd><q>(topic xml-d)</q></dd>
+      </dlentry>
+      </dl></p>
+    <p>Armed with this knowledge, the process of integrating the domain is as follows:<ol>
+      <li>Find the <xmlelement>xs:include</xmlelement> element for the highlight domain. Copy it and paste a new copy into <filepath>myTopic.xsd</filepath> immediately after the original:<codeblock>  ...
+
+  &lt;!--  ================ TOPIC DOMAINS =====================  -->
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2"/>
+  <b>&lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2"/></b>
+
+  ...</codeblock></li>
+      <li>Replace the value of <xmlatt>schemaLocation</xmlatt> with the URN for the XML
+                    domain:<codeblock>  ...
+
+  &lt;!--  ================ TOPIC DOMAINS =====================  -->
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2"/>
+  &lt;xs:include schemaLocation="<b>urn:pubid:exmple.org:doctypes:dita:modules:xmlDomain</b>"/>
+
+  ...</codeblock></li>
+      <li>Find the <xmlelement>xs:redefine</xmlelement> for commonElementGrp.xsd and then the group named
+                        <q>keyword.</q> Add a reference to the <q>xml-d-keyword</q>
+                    group:<codeblock>...
+
+  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2">
+    &lt;xs:group name="keyword">
+      &lt;xs:choice>
+        &lt;xs:group ref="keyword"/>
+        <b>&lt;xs:group ref="xml-d-keyword"/></b>
+      &lt;/xs:choice>
+    &lt;/xs:group>
+...</codeblock></li>
+      <li>Find the group named <q>domains-att</q> and add the string <q>(topic xml-d) </q> to the
+                    value of the <xmlatt>default</xmlatt>
+                    attribute:<codeblock>...
+
+  &lt;xs:attributeGroup name="domains-att">
+    &lt;xs:attribute name="domains" type="xs:string"       
+      default="(topic abbrev-d)
+      (topic hi-d)  
+      (topic indexing-d) 
+      (topic ut-d) 
+      <b>(topic xml-d)</b>  
+      "/>
+  &lt;/xs:attributeGroup>
+
+&lt;/xs:schema></codeblock></li>
+      <li>Validate your test document. Assuming that the XML domain module is already deployed (you can find it in the materials package for the tutorials), then your document should validate if you haven't made any syntax errors in the shell XSD. As for deleting domains, it is pretty hard to make a syntax error, especially if you are editing the XSD document in an XML editor like OxygenXML.<p>If the document validates, see if you can enter any of the element types from the domain into a paragraph, such as <xmlelement>xmlelem</xmlelement> or <xmlelement>xmlatt</xmlelement>. You should be able to.</p></li>
+      </ol></p>
+    <p>That's it, you're done. You've successfully created a new topic type shell that removes domains you don't want and adds a new domain you do want.</p>
+    <p>It should be clear from following this tutorial that creating document type shells is an entirely mechanical process and that once you've done it once or twice it becomes very easy and quick.</p>
+    <p>This tutorial did not show how to package your new shell as a Toolkit plugin. For that, see <xref
+      href="../../packaging-vocabulary-as-plugins.xml#topic-id"
+      format="dita"/>.</p>
+    <p>This tutorial shows how to create a topic type shell. Creating map type shells is exactly the same.</p>
+  </body>
+</subsection>

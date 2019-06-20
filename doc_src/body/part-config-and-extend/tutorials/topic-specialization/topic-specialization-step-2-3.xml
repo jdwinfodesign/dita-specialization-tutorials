@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-specialization-step-2-3">
+  <title>Step 2-3. Create New .mod File and Integrate Into Shell</title>
+  <body>
+    <p>Find the file <filepath>concept.mod</filepath> in the regular DITA DTD distribution and copy
+            it to <filepath>faq-question.mod</filepath> in your
+                <filepath>faq-questions/dtd</filepath> directory.</p>
+    <p>Edit this file as follows: <ul>
+      <li>Delete the header comments and replace them with comments that indicate this module DTD is
+                    owned by you and contains the DTD declarations for the FAQ question module.</li>
+      </ul></p>
+    <p>Now edit the <filepath>faq-question.dtd</filepath> file (the document type shell DTD) and integrate the module as follows: <ol>
+      <li>Find the declaration for the <parameterentity>concept-typemod</parameterentity> entity declaration.</li>
+      <li><i>After</i> this declaration, add the following declaration and reference to the
+                    faq-question topic type module:
+                    <codeblock>
+&lt;!ENTITY % faq-question-typemod 
+  SYSTEM "faq-question.mod"                                                        
+ >                                                     
+%faq-question-typemod; </codeblock></li>
+      </ol></p>
+    <p>The topic element integration section of the <filepath>faq-question.dtd</filepath> shell
+            should now look like this:
+            <codeblock>
+&lt;!-- ============================================================= -->
+&lt;!--                    TOPIC ELEMENT INTEGRATION                  -->
+&lt;!-- ============================================================= -->
+
+&lt;!--                    Embed topic to get generic elements        -->
+&lt;!ENTITY % topic-type   PUBLIC 
+"-//OASIS//ELEMENTS DITA Topic//EN" 
+"topic.mod"                                                          >
+%topic-type;
+
+
+&lt;!--                    Embed concept to get specific elements     -->
+&lt;!ENTITY % concept-typemod 
+                        PUBLIC 
+"-//OASIS//ELEMENTS DITA Concept//EN" 
+"concept.mod"                                                        >                                                     
+%concept-typemod;
+
+<b>&lt;!ENTITY % faq-question-typemod 
+  SYSTEM "faq-question.mod"                                                        
+ >                                                     
+%faq-question-typemod;</b>
+</codeblock></p>
+    <p>Note that I didn't bother to define either a public identifier or a URN for the
+                <parameterentity>faq-question-typemod</parameterentity> parameter entity. This is to keep things
+            simple. Later, once we've got everything working, we can replace the relative URL with a
+            URN and set up the necessary catalog mappings.</p>
+    <p>Trying validating your test document again. Now you should get errors to the effect that the
+                <q>concept</q> element type is declared multiple times, as well as the same messages
+            about the FAQ-specific element types not being declared. This indicates that we've got
+            the module integrated with the shell correctly.</p>
+    <note>You may be now be thinking that I'm going about this in the wrong order&#x2014;shouldn't I
+            declare the element types for the module first and then integrate them? The method in
+            this madness is that by starting from the back and working forward, we know what isn't
+            done yet (by the failures reported when we validate our test) and we'll know for sure
+            when we're done (because the failures will go away) and, most important, we'll know that
+            when the failures do go away, it's because everything really is hooked up correctly and
+            not for some other hard-to-debug reason, like we forgot to hook in a particular module.
+            Essentially, we start with where we want to end up and then work backwards until we get
+            there.</note>
+  </body>
+</subsection>

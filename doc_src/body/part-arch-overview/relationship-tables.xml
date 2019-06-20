@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Relationship Tables</title>
+  <shortdesc>Relationship tables create extended links among topics. These links are usually
+    rendered as <q>See also</q> links. Relationship tables are defined in maps.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm><xmlelement>reltable</xmlelement><indexterm>discussion
+          of</indexterm></indexterm>
+        <indexterm>extended links</indexterm>
+        <indexterm>link<indexterm>extended</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When a topic is authored it is impossible to know all the possible contexts in which it might
+      be used. Thus, it is impossible to define within a topic all the possible links it might have
+      to other topics. Likewise, a topic used in different maps may need to link to different topics
+      in the context of different maps.</p>
+    <p>To do this you need a link that works without modifying the topics themselves. Such a link is
+      usually called an <q>extended link</q> to distinguish it from inline or <q>embedded</q> links
+      like cross-references and topicrefs.</p>
+    <p>An extended link consists of two or more <q>anchors,</q> where each anchor points to one or
+            more resources. The link represents a relationship among the anchors and thus among the
+            resources anchored. The link itself usually has a type reflecting the meaning of the
+            relationship, for example, <q>married-to</q> or <q>more-information-for.</q> Each anchor
+            usually has a role reflecting the role it plays within the relationship, for example,
+                <q>husband,</q>
+            <q>wife,</q>
+            <q>spouse,</q>
+            <q>base topic,</q>
+            <q>supporting topic,</q> etc. Link types and roles may be more or less precise as
+            needed. <xref href="#topic-id/fig-abstract-link-01" format="dita"/> shows the general
+            model for extended links.</p>
+    <fig
+      id="fig-abstract-link-01">
+      <title>Abstract Extended Link</title>
+      <image
+        href="graphics/abstract-extended-link.png"
+        id="image_mkd_djd_kf"
+        width="4in">
+        <alt>Schematic diagram of an extended link showing a link object pointing to two Anchor
+          objects that then each point to topic documents. The dashed arrow shows that the topics
+          are related to each other.</alt>
+      </image>
+    </fig>
+    <p>There are many ways that extended links can be modeled in XML. The DITA approach is the
+            relationship table, which contains one or more extended links of the same type. Each row
+            is an extended link. Each column represents one anchor role. Each cell represents an
+            anchor for that row’s extended link. </p>
+    <p>Each cell contains zero or more topicrefs that point to the resource(s) for that anchor. All
+      the resources linked from one anchor are then linked to the resources linked from the other
+      anchors in that row.</p>
+    <p>A typical relationship table looks like
+      this:<codeblock>  &lt;reltable >
+    &lt;relheader>
+      &lt;relcolspec>
+        &lt;topichead>
+          &lt;topicmeta>
+            &lt;navtitle>Concept&lt;/navtitle>
+          &lt;/topicmeta>
+        &lt;/topichead>
+      &lt;/relcolspec>
+      &lt;relcolspec>
+        &lt;topichead>
+          &lt;topicmeta>
+            &lt;navtitle>Reference&lt;/navtitle>
+          &lt;/topicmeta>
+        &lt;/topichead>
+      &lt;/relcolspec>
+    &lt;/relheader>
+    &lt;relrow>
+      &lt;relcell>
+        &lt;topicref
+          href="concept-01.dita"/>
+      &lt;/relcell>
+      &lt;relcell>
+        &lt;topicref
+          href="reference-01.dita"/>
+      &lt;/relcell>
+    &lt;/relrow>
+    &lt;relrow>
+      &lt;relcell>
+        &lt;topicref
+          href="concept-01.dita"/>
+        &lt;topicref
+          href="concept-02.dita"/>
+      &lt;/relcell>
+      &lt;relcell>
+        &lt;topicref
+          href="reference-02.dita"/>
+      &lt;/relcell>
+    &lt;/relrow>
+  &lt;/reltable></codeblock></p>
+    <p>This relationship table defines two extended links. The anchor roles are <q>Concept</q> and
+        <q>Reference,</q> as defined by the navigation titles of the <xmlelement>relcolspec</xmlelement>
+      elements in the <xmlelement>relheader</xmlelement>. In the first link, the concept anchor points to
+        <q>concept-01.dita,</q> and the reference anchor points to <q>reference-01.dita.</q> In the
+      second, the concept anchor points to the two concept topics <q>concept-01.dita</q> and
+        <q>concept-02.dita,</q> and the reference anchor points to the <q>reference-02.dita.</q> The
+      link type in this case is unspecified and is therefore the very generic <q>related-to</q> link
+      type.</p>
+    <p>Through DITA 1.2, relationship tables do not provide a direct way to indicate the link type
+      other than by specializing the <xmlelement>reltable</xmlelement> element to indicate the link type.
+      Thus, if you need to indicate different link types, you may need to establish a convention for
+      using the relationship table title or metadata to indicate the link type or choose roles that
+      clearly imply the link type.</p>
+    <p>The relationship table establishes the links among the topics, creating a
+      graph of relationships, as shown in <xref
+      href="#topic-id/rel-table-graph-01"
+      format="dita"/>.</p>
+    <fig
+      id="rel-table-graph-01">
+      <title>Link Graph for A Relationship Table</title>
+      <image
+        keyref="link-graph-01.gv"
+        id="image_ffc_yrd_kf"
+        width="4in"
+        >
+        <alt>Shows a graph of nodes where concept-01 has two-way relationships with nodes
+          "reference-01" and "reference-02", and node "reference-02" also has a two-way relationship
+          with node "concept-02".</alt>
+      </image>
+    </fig>
+    <p>There are many ways that the links could be used for navigation and information presentation.
+      By default, the Open Toolkit renders relationship table links as <q>related links</q> at the
+      end of each topic to which a link applies. So in this example, <q>concept-01</q> would have
+      two related links, one to <q>reference-01</q> and one to <q>reference-02.</q> Topic
+        <q>reference-01</q> would have one related link to <q>concept-01.</q> Topic
+        <q>reference-02</q> would have two related links, one to <q>concept-01</q> and one to
+        <q>concept-02.</q> And topic <q>concept-02</q> would have links to <q>concept-01</q> and
+        <q>reference-01.</q></p>
+    <p>Note that there is no relationship between topics <q>concept-01</q> and <q>concept-02,</q>
+      even though they are both members of the same reltable cell. This is because there is no
+      implicit relationship among topics referenced from the same cell in a relationship table.</p>
+    <p>Another possible presentation effect would be to present the table itself
+      as a set of navigable links, perhaps as an alternative to the normal table
+      of contents usually associated with a map.</p>
+    <p>In short, relationship tables can drive the same kinds of link-based interactions as
+      technologies like RDF and XLink.</p>
+    <p>If you are familiar with RDF, for example, it should be clear that a DITA
+      relationship table can be restated as a set of  RDF relations. Likewise,
+      it could be restated as a set of XLink extended links. </p>
+    <p>Authoring relationship tables can be a challenge simply because it’s a lot of fiddly work to
+            create the rows and then create the topicrefs for each cell. Most DITA-aware editing
+            tools provide some support for creating the tables and links, but they may not provide
+            maximum convenience. But for data sets where you need extensive interlinking and there
+            is a lot of topic reuse, relationship tables are usually the only way to practically
+            create and manage the links.</p>
+    <p>It may also be possible to auto-generate relationship tables based on knowledge held
+      elsewhere. For example, you might be able to use a product bill of materials to generate
+      relationship tables among the topics that reflect the individual product subcomponents. Or you
+      might be able to use associations between metadata items or full-text queries to generate
+      relationship tables. There are many possibilities.</p>
+    <p>Finally, note that there is no built-in way to  have relationship table
+      links generate embedded links as though they were directly-authored cross
+      references. There are possibly ways in which that could be done, but it
+      would depend entirely on writing and editorial conventions that will be
+      specific to your data sets and processing tools, so DITA does not attempt
+      to standardize such a facility, at least not today.</p>
+  </body>
+</subsection>

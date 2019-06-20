@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="keys-and-applicability">
+  <title>Key definitions and applicability (conditional processing)</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>key definition<indexterm>conditional processing of</indexterm></indexterm>
+        <indexterm>key definition<indexterm>applicability of</indexterm></indexterm>
+        <indexterm>conditional processing<indexterm>of key definitions</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When all key definitions are unconditional, constructing the key space is relatively easy. However, when key definitions or map references are conditional, things can get complicated very quickly.</p>
+    <p>The issue is that the DITA specification allows processors to choose when
+      conditional processing is applied: before or after key space construction.
+      In addition, some processors may need to apply conditional processing as
+      late as possible, for example, editors and component management
+      systems<indexterm>component management system<indexterm>condition
+      awareness of</indexterm></indexterm><indexterm>conditional
+      processing<indexterm>in component management
+      systems</indexterm></indexterm> that need to provide different views of
+      the source documents reflecting different sets of active conditions.</p>
+    <p>Note that only the filtering aspect of conditional processing is relevant
+      here—flagging is a rendition issue and does not affect key space
+      construction in any way.<indexterm>key
+      space<indexterm>constructing</indexterm></indexterm><indexterm>key
+      space<indexterm>conditional processing implications
+      for</indexterm></indexterm></p>
+    <p>Flagging is the process of indicating in the presented content what it applies to, for
+            example, "For Windows" or "For OSX". See <xref href="applicability.xml#topic-id"
+                format="dita"/> for more information on flagging.</p>
+    <p>When filtering is applied before key space construction, then the key space is fixed, meaning
+      that any excluded key definitions are eliminated before key space construction and therefore
+      cannot be represented in the final key space.</p>
+    <p>When filtering is applied after key space construction, then the effective value for a given
+      key cannot be completely determined except in the context of a specific set of active
+      conditions.</p>
+    <p>For example, let’s take the Root Map 1 example and define key-01 for different conditions
+            using the <xmlatt>platform</xmlatt> property. That gives us the following markup:</p>
+    <p>For example, say that the definitions of key-01 in the Root Map 1 example actually reflect the bindings appropriate for different conditions, resulting in this markup:</p>
+    <codeblock>&lt;map>
+  &lt;title>Root Map 1&lt;/title>
+  &lt;topicgroup>
+    &lt;mapref href="submap-01.ditamap"/>
+  &lt;/topicgroup>
+  &lt;topicgroup>
+     &lt;keydef 
+        <b>platform="platform-A"</b>
+        keys="key-01" 
+        href="topic-1A.dita"/>
+     &lt;keydef 
+        <b>platform="platform-B"</b>
+        keys="key-01" 
+        href="topic-1B.dita"/>
+     &lt;keydef 
+        <b>platform="platform-C"</b>
+        keys="key-01" 
+        href="topic-1C.dita"/>
+  &lt;/topicgroup>
+&lt;/map></codeblock>
+    <p>Now, each definition of the key <q>key-01</q> has a different value for the
+        <xmlatt>platform</xmlatt> property. The effective binding will depend on the setting for the
+      platform property either at the time the key space is constructed (filtering applied first) or
+      at the time the key reference is resolved (filtering applied after key space
+      construction).</p>
+    <p>In serial batch processors like the Open Toolkit or DITA2Go, the result is the same either
+      way. But for interactive systems like editors and component management systems the difference
+      is important.</p>
+    <p>To make the example a little more interesting, let’s add an unconditional definition for the
+            key as well as a duplicate conditional definition:</p>
+    <codeblock>&lt;map>
+  &lt;title>Root Map 1&lt;/title>
+  &lt;topicgroup>
+    &lt;mapref href="submap-01.ditamap"/>
+  &lt;/topicgroup>
+  &lt;topicgroup>
+     &lt;keydef 
+        <b>platform="platform-A"</b>
+        keys="key-01" 
+        href="topic-1A.dita"/>
+     &lt;keydef 
+        <b>platform="platform-A"</b>
+        keys="key-01" 
+        href="topic-1H.dita"/>
+     &lt;keydef 
+        <b>platform="platform-B"</b>
+        keys="key-01" 
+        href="topic-1B.dita"/>
+     &lt;keydef 
+        <b>platform="platform-C"</b>
+        keys="key-01" 
+        href="topic-1C.dita"/>
+     &lt;keydef 
+        keys="key-01" 
+        href="topic-1G.dita"/>
+  &lt;/topicgroup>
+&lt;/map></codeblock>
+    <p>Now there are four possible bindings, any one of which could be effective depending on the
+      active value for the platform property. The binding to topic <q>topic-1H.dita</q> cannot ever
+      be effective because it comes after a definition for the same key name with the same set of
+      conditions (<codeph>platform = "platform-A"</codeph>). But the remaining four definitions
+      could each be active under different sets of conditions.</p>
+    <p>Thus, if a processor needs to provide resolution-time determination of key bindings based on
+      conditions, it needs to add a <q>conditions</q> column to the key space table, as shown in
+        <xref href="#keys-and-applicability/keyspace-table-03" format="dita"/>.</p>
+    <table
+      frame="all"
+      id="keyspace-table-03">
+      <title>Key space table for Root Map 1 with applicability conditions</title>
+      <tgroup
+        cols="4">
+        <colspec
+          colname="c1"
+          colnum="1"
+          colwidth="1.0*"/>
+        <colspec
+          colname="c2"
+          colnum="2"
+          colwidth="3.34*"/>
+        <colspec
+          colname="c3"
+          colnum="3"
+          colwidth="2.49*"/>
+        <colspec
+          colname="newCol4"
+          colnum="4"
+          colwidth="2.46*"/>
+        <thead>
+          <row>
+            <entry>Key Name</entry>
+            <entry>Key Definitions (In precedence order)</entry>
+            <entry>Containing Map</entry>
+            <entry>Applicable Conditions</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry
+              morerows="6">key-01</entry>
+            <entry><codeph><b>&lt;keydef keys="key-01" href="topic-1A.dita"/></b></codeph></entry>
+            <entry>rootmap.ditamap</entry>
+            <entry>platform = platform-A</entry>
+          </row>
+          <row>
+            <entry><codeph><b>&lt;keydef keys="key-01" href="topic-1B.dita"/></b></codeph></entry>
+            <entry>rootmap.ditamap</entry>
+            <entry>platform = platform-B</entry>
+          </row>
+          <row>
+            <entry><codeph><b>&lt;keydef keys="key-01" href="topic-1C.dita"/></b></codeph></entry>
+            <entry>rootmap.ditamap</entry>
+            <entry>platform = platform-C</entry>
+          </row>
+          <row>
+            <entry><codeph><b>&lt;keydef keys="key-01" href="topic-1D.dita"/></b></codeph></entry>
+            <entry>rootmap.ditamap</entry>
+            <entry>None</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1D.dita"/></codeph></entry>
+            <entry>submap-01.ditamap</entry>
+            <entry>None</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1F.dita"/></codeph></entry>
+            <entry>submap-02.ditamap</entry>
+            <entry>None</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-01" href="topic-1E.dita"/></codeph></entry>
+            <entry>submap-03.ditamap</entry>
+            <entry>None</entry>
+          </row>
+          <row>
+            <entry
+              morerows="1">key-02</entry>
+            <entry><codeph><b>&lt;keydef keys="key-02" href="topic-2A.dita"/></b></codeph></entry>
+            <entry>submap-02.ditamap</entry>
+            <entry>None</entry>
+          </row>
+          <row>
+            <entry><codeph>&lt;keydef keys="key-02" href="topic-2B.dita"/></codeph></entry>
+            <entry>submap-03.ditamap</entry>
+            <entry>None</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>Now a processor resolving <q>key-01</q> sees four potentially effective definitions, and to
+      resolve the key reference, it needs to know the value of the <xmlatt>platform</xmlatt>
+      condition.</p>
+    <p>The implications for dynamic resolution are:<ol
+      id="ol_eqz_pqw_cb">
+      <li>Processors must inspect the set of conditions on each key definition to determine the set
+          of potentially applicable key definitions. For a given key, the first definition with a
+          unique set of conditions is potentially effective, second and subsequent definitions with
+          the same condition set cannot be potentially effective (by the precedence rules for key
+          definitions).</li>
+      <li>Processors must maintain knowledge of the applicable conditions for each potentially-effective key definition.</li>
+      <li>Resolution requests must allow users to specify active conditions as parameters to the
+          request. That is, given an API method like <apiname>resolveKeyReference()</apiname>, the
+          parameters must include a set of active conditions in addition to the key space (or the
+          identifier of the root map that establishes the key space) and the key to be resolved.
+          Likewise, user interfaces that allow users to see the effect of resolved references must
+          provide a way to specify active conditions. This could be either through direct
+          specification or through prior configuration.</li>
+      </ol></p>
+  </body>
+</subsection>

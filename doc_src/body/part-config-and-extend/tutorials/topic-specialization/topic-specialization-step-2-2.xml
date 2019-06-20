@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-specialization-step-2-2">
+  <title>Step 2-2. Create New Document Type Shell DTD</title>
+  <body>
+    <p>In the base DITA distribution, find the file <filepath>concept.dtd</filepath>, copy it into
+            the <filepath>faq-question/dtd</filepath> directory, and rename it
+                <filepath>faq-question.dtd</filepath> (in the sample materials this file is named
+                <filepath>faq-question-v1.dtd</filepath>).</p>
+    <p>Edit this file as follows: <ul>
+      <li>Delete the header comments and replace them with comments that indicate this document type
+                    shell DTD is owned by you and is specific to the FAQ question module.</li>
+      <li>Remove any references to any domain modules and entity files you don't need. Which ones
+                    you need is entirely your decision&#x2014;if the FAQ is about a software product
+                    you may, in fact, need the software and UI domains. For simplicity you can leave
+                    all those declarations alone for now and worry about them later (or let the
+                    users of your module worry about it). In the tutorial materials I've used only
+                    the highlight and utility domains within this shell.</li>
+      <li>Find the parameter entity named <parameterentity>concept-info-types</parameterentity> and rename it to
+                        <parameterentity>faq-question-info-types</parameterentity>. Set its replacement text to
+                        <q>no-topic-nesting,</q> instead of <q>%info-types;.</q><p>The
+                            <xmlelement>no-topic-nesting</xmlelement> element is one of the DITA
+                            <q>specialization</q> element types that exist to work around
+                        limitations in DTD syntax. In particular, if you have a content model
+                        declared like so: <codeblock> (%some-parameter-entity;)</codeblock> You
+                        cannot simply set <parameterentity>some-parameter-entity</parameterentity> to an empty
+                        string, because the resolved result would be: <codeblock>()</codeblock>which
+                        is not valid.</p><p>The solution is to define an empty element type that
+                        acts as a placeholder, thus <xmlelement>no-topic-nesting</xmlelement>.</p></li>
+      </ul></p>
+    <p>Try validating or opening the test document again. This time, instead of getting an error
+            like <q>DTD not found,</q> you should get errors like <q>element type 'faq-question' not
+                declared,</q> indicating that the validator found the DTD, but could not find the
+            declarations for the FAQ-specific element types, which of course we haven't created yet.
+            But we're making progress.</p>
+  </body>
+</subsection>

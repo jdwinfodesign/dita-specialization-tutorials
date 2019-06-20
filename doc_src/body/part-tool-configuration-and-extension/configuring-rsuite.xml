@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Configuring the RSuite CMS Component Management System</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>RSuite CMS</indexterm>
+        <indexterm>DITA-aware component management systems<indexterm>RSuite CMS</indexterm></indexterm>
+        <indexterm>editors (software)<indexterm>DITA-aware<indexterm>OxygenXML</indexterm></indexterm></indexterm>
+        <indexterm>tools, commercial<indexterm>RSuite CMS</indexterm></indexterm>
+        <indexterm>Really Strategies Inc.<indexterm>RSuite CMS</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <draft-comment
+        author="WEK">Discuss how to configure RSuite to use new vocabulary modules, how to configure its use of the Toolkit, how to integrate and extend workflow, how to extend and customize DITA-aware ingestion and export.</draft-comment>
+    </p>
+  </body>
+</chapter>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss4">
+  <title>Linking, Addressing, and Reuse: The Need for Indirection</title>
+  <shortdesc>Element-to-element links present inherent reuse challenges. To overcome these
+    challenges you must use some form of indirection for addressing. Indirection lets you change the
+    ultimate target of a link without modifying the link itself.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>linking</indexterm>
+        <indexterm>addressing<indexterm>indirect</indexterm></indexterm>
+        <indexterm>reuse</indexterm>
+        <indexterm>indirection</indexterm>
+        <indexterm>indirect addressing</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In the context of a publication developed and published in isolation, using links poses no
+      particular practical challenge beyond constructing addresses (that is, setting the value of
+      the <xmlatt>href</xmlatt> attribute). Once created, the links will work reliably as long as
+      files are not moved or renamed and element IDs are not changed. There are challenges managing
+      addresses when you revise a publication, but those challenges are manageable. While indirect
+      addressing can help in this simple case, it is not a hard requirement.</p>
+    <p>However, as soon as you introduce a second publication to the system, things get very challenging very quickly.</p>
+    <p>This issue is dependencies. A link from one topic to another makes the first topic dependent
+      on the second; anywhere the first topic is used, the second topic must also be used.</p>
+    <p>In DITA, where topics are used by reference from maps and the same topic can be used in
+      different maps (and therefore in different publications), you need to handle topic-to-topic
+      dependencies. In addition, because the same topic may be used multiple times within the same
+      map, there is a potential issue with <term>use context</term> when linking to a topic used
+      multiple times.</p>
+    <p>The term <q>use context</q> simply means the context within which a piece of content is used
+      or included. In DITA this ultimately means the root map that directly or indirectly includes a
+      given topic. The focus is on topics because all content is ultimately included in topics, and
+      it is topics that establish the addressing context for all non-topic elements. Therefore, the
+      use context of topics establishes the use context for all non-topic content elements. </p>
+    <p>Generally speaking a given root map represents a distinct publication or processing context,
+      which I generalize as the concept <q>publication.</q> Within a publication, a given topic will
+      be used from specific places within the map hierarchy. Each of these places is also a use
+      context. Thus, when a topic is used multiple times within a map it has an overall use context,
+      which is the publication, and one or more specific use contexts. Both types of use contexts
+      may be important for referencing and reusing the topic.</p>
+    <p>Consider a topic that has a cross-reference to another topic, for
+      example, a task topic that links to a supporting reference
+      topic:<codeblock>&lt;task id="changing-toner-cartridge">
+  ...
+  &lt;context>
+    &lt;figure>
+      &lt;title>Toner Cartridge Access Panel&lt;/title>
+      &lt;image href="../images/model_PR3604/illustration-toner-cartridge-access-panel.jpg"/>
+    &lt;p>For toner cartridge specifications see
+    &lt;/figure>
+<b>&lt;xref href="../ref/model_PR3604/PR3604_specifications.dita#specs-PR3604/toner-cartridge-specs-table" 
+   type="table"/></b>.
+  &lt;/context>
+  ...
+&lt;/task></codeblock></p>
+    <p>The topic <q>changing-toner-cartridge</q> now has a dependency on the topic
+                <q>PR3604_specifications.dita,</q> and therefore, any map that includes the task
+                <q>changing-toner-cartridge</q> must also include the reference topic
+                <q>PR3604_specifications.dita.</q></p>
+    <p>However, consider a case where we want the <q>changing-toner-cartridge</q> task to be a
+            generic task for any printer, and we want to reuse that task in other places. In that
+            case, it would be incorrect to include the reference topic for this specific
+            printer.</p>
+    <p>What to do?</p>
+    <p>Using direct addresses, as in the example above, there is no way to avoid including the
+      linked topic except to make a copy of the task and change the reference. Making a copy of the
+      task is obviously counter to the point of reuse.</p>
+    <p>One solution would be to move the generic parts of the task into a
+      separate topic, leaving only the part that is specific to the target
+      reference, namely the cross-reference, and then pull in the generic parts
+      by conref. You would then create different versions of the task for use in
+      different maps so you could link to different reference topics.</p>
+    <p>This works but is really complicated and requires new work for every new publication you want
+      to use the task in. At that point it starts to look easier to just make the copies and eat the
+      cost of keeping them in sync.</p>
+    <p>Another solution is to simply avoid using cross-references. For example, you could replace
+            the cross-reference with a reltable link that establishes the relationship between the
+            task and the reference topic. This works and is exactly what relationship tables were
+            designed for, but it may not result in the best result for readers (we are probably all
+            familiar with online help that includes 15 or 20 <q>related links</q> links at the end
+            of a topic, with little to distinguish one link from another). In addition, there may be
+            contexts, such as Publishing documents, where the cross-reference is required either by
+            the original document, by editorial practice, or by the author’s choice. In that case, a
+            relationship table will not work (at least not in DITA, through 1.2, where relationship
+            tables provide no way to reference elements inside topics; they can only reference whole
+            topics).</p>
+    <p>The example here uses a cross-reference, but the same problem applies to conref: if you have
+            created a content reference to a different topic you have necessarily created a
+            dependency between the two topics. In this case, the technique of breaking up the topic
+            into generic and use-context-specific components doesn’t help since that requires the
+            use of conref itself.</p>
+    <p>It should not take long to realize that direct addressing is the problem here: a direct
+      address creates a <q>hard pointer</q> to a thing. A direct address is not sensitive to the use
+      context within which the reference occurs.</p>
+    <p>If the direct address is an absolute URL, then it is clearly independent of any use context. </p>
+    <p>If the direct address is a relative URL, it is relative to the <i>storage</i> location of the XML document that contains the reference, not the use context of the document. That is, a relative URL is just a shorthand form of absolute URL where the base part of the absolute URL is determined by the URL of the containing document. In DITA terms, the location of the using map is again immaterial.</p>
+    <p>The solution then is, as in many aspects of computer systems, indirection. In particular, you
+      need an addressing facility where the ultimate target can be determined relative to a given
+      use context. </p>
+    <p>In DITA this means that the ultimate target of any indirect reference from a topic or submap
+            must be defined in a map that uses the topic or submap. In this context, <q>map</q>
+            means the compound map rooted as a particular root map, not a specific map document. </p>
+    <p>This form of indirection is often referred to as <q>late-bound indirection</q> because you
+            can’t know the ultimate target of a reference until you have established the root map
+            you are processing. It is possible to have static, or <q>early bound</q> indirection,
+            which simply protects initial references from changes in the details of targets but this
+            form of indirection is not specific to the use context. DITA, through version 1.2, does
+            not provide this form of indirection nor does any other general XML facility.<fn>Some
+                years ago I submitted a note to the W3C for such a facility, <q>XML Indirect,</q>
+                but it was largely ignored as far as I’m aware. I realize now that it was ignored
+                because it is only of interest in authoring environments and the W3C does not do
+                authoring standards, only delivery standards. In practice most systems avoid the
+                need for this type of indirection by simply imposing some reasonable constraints on
+                addressing or by simply eating the cost of breakage when things change. At the same
+                time, few if any XML-aware content management systems actually solve the problem of
+                versioned hyper-document management. So, perhaps XML Indirect’s time will come
+                anon.</fn></p>
+    <p>As long as DITA did not provide some form of indirect addressing, reuse of topics that had
+      hard references to elements in other XML documents was effectively impossible. Of course,
+      people got around the problem in various ways, including defining their own addressing
+      mechanisms, using post processing to fix the problem, or simply accepting limitations on what
+      they could do within topics. All of these approaches have drawbacks and costs.</p>
+    <p>Therefore, late-bound, use-context-specific, indirect addressing is a hard requirement if you
+      want  unconstrained reuse of content.</p>
+    <p>With version 1.2, DITA adds late-bound indirect addressing in the form of the key reference
+      facility. Key references allow the same reference to be bound to different targets in
+      different use contexts (that is, in different maps). It does not, as of version 1.2, allow the
+      same reference to be bound to different targets in different submaps. That is, within the
+      scope of a given root map, a given key reference will always resolve to the same resource.
+      Thus, the key reference facility is not a complete solution to the reuse and linking problem,
+      but it goes a long way toward providing a complete solution. You can expect that the facility
+      will be extended in future DITA versions so that it provides a more complete, if not 100%
+      complete, solution to the linking problem.</p>
+    <p>The most important point is that as soon as you need to reuse topics in different maps, and
+      you need to link from those topics to other topics, you will need some form of indirect
+      addressing to make the content reusable and the addresses manageable without resorting to
+      non-standard tricks or workarounds.</p>
+  </body>
+</subsection>

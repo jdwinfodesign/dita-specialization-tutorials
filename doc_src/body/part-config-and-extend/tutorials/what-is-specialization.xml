@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="what-is-specialization">
+  <title>What is DITA Specialization?</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </prolog>
+  <body>
+    <p>DITA specialization allows you to define new element types that are specific to your information and business processes while still being recognizable as base DITA-defined element types. These "specialized elements" let you tailor your markup to your local needs while still taking advantage of any processing associated with the base type. In addition, if you need to, you can extend your processing tools to add new functionality that is specific to your specialized types.</p>
+    <note>This is a very high-level overview of DITA specialization. For the complete and official definition, see the DITA Architecture Specification produced by the OASIS DITA Technical Committee (<xref
+      href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dita"
+      scope="external"
+      format="html">http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dita</xref>).</note>
+    <p>Typical uses of specialization include:
+        <ul>
+        <li>Creating reference topic types that are specific to a particular kind of thing (Java classes, automobile parts, etc.)</li>
+        <li>Creating task topic types that are specific to a particular way of structuring tasks</li>
+        <li>Adding business-specific metadata to topics or elements within topics</li>
+        <li>Creating topic types and elements that reflect an existing set of element type names or style names that are
+          well understood by the authoring community</li>
+        <li>Creating concept topic types that reflect a specific kind of information (for example, standards within a specific
+          industry)</li>
+        <li>Creating text-level element types for a specific business domain, such as accounting or project management or whatever</li>
+        <li>Creating specialized DITA map elements to reflect specific structural patterns or editorial rules</li>
+      </ul>
+    </p>
+    <p>When you "create a specialization" you are defining new document type modules that can then be combined 
+        with the base DITA modules to create new DITA-based document types.</p>
+    <p>Note that the process of combining
+        document type modules together to create a shell document type is called "configuration" and is distinct
+        from the process of specialization.</p>
+    <p>In short, <term>specialization</term> is the process of declaring new element types and attributes based on existing
+        DITA element types and attributes, while <term>integration</term> is the process of combining declaration 
+          <term>modules</term> to define a complete <term>shell</term> document type for creating document instances.
+          A shell document type that simply includes or doesn't include a set of pre-existing modules is a <keyword>configuration</keyword>,
+          as compared to a module that defines entirely new element types, which is a <keyword>specialization</keyword>.
+          You can do configuration without doing specialization, but you can't do specialization without also doing configuration.</p>
+    <p>For example, the configuration of the concept
+          shell used for these topics omits the programming, software, indexing, and user interface domains that are part of base DITA,
+          because they aren't relevant to this discussion (and I'm not going to be defining 
+          inline index entries). It also includes a specialized domain, XML constructs,
+          that provides elements for talking about XML components, such as element types, attributes, and entities. (The XML 
+          constructs domain is also the subject of the domain specialization tutorial itself.)
+        </p>
+    <p>The DITA architecture defines specific structural, naming, and coding patterns for specialization modules
+        and shell DTDs that help ensure consistency of design and implementation and make it easy to combine
+        modules into new document types. While these patterns are not strictly needed technically (they have no bearing 
+        on the validity or processability of DITA documents), they make it easier to use and re-use modules and
+        generally keep things consistent. Once you understand the patterns and how the pieces fit together, you will
+        see that creating new specializations and configurations is remarkably easy.</p>
+  </body>
+</subsection>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <title>Understanding Configuration and Specialization</title>
+  <chapter
+    href="understanding_specialization.xml">
+    <subsection
+      href="vocabulary-management.xml"/>
+    <subsection
+      href="dita-vocabulary-management.xml"/>
+    <subsection
+      href="doctypes-config-and-specialization.xml">
+      <subsection
+        href="vocabulary-configuration.xml"/>
+      <subsection
+        href="specialization-overview.xml"/>
+    </subsection>
+    <subsection
+      href="cost-of-interchange.xml"/>
+  </chapter>
+</pub-component-map>

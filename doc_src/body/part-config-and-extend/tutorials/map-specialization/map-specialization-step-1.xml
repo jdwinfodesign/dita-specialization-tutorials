@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization Step 1: Design the Map Element Types</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>map specialization<indexterm>design of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>A typical FAQ consists of one or more groups of questions, where each group has a descriptive
+            title. There may also be some introductory material that is not itself FAQ
+            questions.</p>
+    <p>That suggests that an FAQ map needs the following components:<ul>
+      <li>A topicref for referring to individual FAQ questions, e.g. <q>faq-question</q></li>
+      <li>A topic head type for creating sets of related questions, e.g.
+                    <q>faq-question-set</q></li>
+      <li>Some metadata for the FAQ set as a whole</li>
+      <li>The ability to refer to generic (non-FAQ question) topics at the start of an FAQ set.</li>
+      </ul></p>
+    <p>The metadata requirement is handled by the generic metadata for topicrefs and maps (at least for the purpose of this exercise). References to generic topics can be done using unspecialized <xmlelement>topicref</xmlelement>.</p>
+    <p>That just leaves two element types to be defined for the FAQ map domain:<dl>
+      <dlentry>
+        <dt><xmlelement>faq-question</xmlelement></dt>
+        <dd>Represents the use of a single FAQ question topic. Would normally be used with
+                        faq-question topics. Because we've defined the
+                            <xmlelement>faq-question</xmlelement> topic type to require short
+                        descriptions, it is probably appropriate to set the default value for the
+                            <xmlatt>type</xmlatt> attribute to <q>faq-question</q> so that users are
+                        warned if they point to other topic types. Because FAQ questions are
+                        explicitly atomic, <xmlelement>faq-question</xmlelement> does not allow
+                        subordinate topicrefs.</dd>
+      </dlentry>
+      <dlentry>
+        <dt><xmlelement>faq-question-set</xmlelement></dt>
+        <dd>Creates a group of related FAQ questions. May have an initial generic topic or may refer
+                        to a non-FAQ-question topic to act as an introduction or to satisfy the need
+                        for title-only topics in some processing environments.<p>The content model
+                            is: <codeblock>(topicmeta?, 
+ topicref?, 
+ faq-question*)</codeblock>.
+                        </p></dd>
+      </dlentry>
+      </dl></p>
+    <p>For the FAQ map type we need the following element types:<dl>
+      <dlentry>
+        <dt><xmlelement>faq-map</xmlelement></dt>
+        <dd>Specializes from <xmlelement>map</xmlelement> and serves as the root of an FAQ publication.
+                        It's content model is:<fn>I like to define my map types so that they allow
+                            exactly one root topicref type that serves as the root of the navigation
+                            tree defined by the map. I think that makes the use and intent of the
+                            map clearer, especially now that the <xmlatt>processing-role</xmlatt>
+                            attribute makes a clear distinction between topicrefs that contribute to
+                            the navigation tree and those that do not (resource-only topicrefs). It
+                            also makes it clearer what the effect of a mapref to a subordinate map
+                            is because this pattern means that a reference to a map is equivalent to
+                            a reference to the root navigation topicref in the map. However, I did
+                            not apply that pattern to this example in order to keep it as simple as
+                            possible. For example, in a real design I would probably make the
+                            content model of <xmlelement>faq-map</xmlelement> something like "<codeph>(faq
+                                | faq-question-set)"</codeph> where <xmlelement>faq</xmlelement> is
+                                "<codeph>(faq-question-set)+</codeph>". This would let you have a
+                            single root map with <xmlelement>faq</xmlelement> as the root of the entire
+                            navigation tree but also allow submaps that contain single
+                                <xmlelement>faq-question-set</xmlelement> elements. That model allows a
+                            document with multiple FAQ question sets, but ensures that all maps have
+                            exactly one navigation root
+                        topicref.</fn><codeblock>(title,
+ topicmeta?,
+ keydef*,
+ faq-question-set+,
+ reltable*) </codeblock></dd>
+      </dlentry>
+      </dl></p>
+  </body>
+</subsection>

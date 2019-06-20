@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss6">
+  <title>The Cost of Interchange Enablement and the Overall Value of DITA</title>
+  <body>
+    <p>There is of course no free lunch. DITA's interchange features do have a cost, namely the imposition of some general constraints and rules that are necessary to ensure the system works.</p>
+    <p>In particular, a given DITA element must be at least as constrained as its immediate base
+      type. This means, for example, that if the base type requires element <xmlelement>A</xmlelement>
+      followed by element <xmlelement>B</xmlelement>, then any specialization of the base type must
+      provide <xmlelement>A</xmlelement> or a specialization of <xmlelement>A</xmlelement> and must require it
+      to be followed by <xmlelement>B</xmlelement> or a specialization of <xmlelement>B</xmlelement>.</p>
+    <p>For example, because the content model for <xmlelement>topic</xmlelement> requires
+        <xmlelement>title</xmlelement>, all specialized topic types must also require
+        <xmlelement>title</xmlelement>, or a specialization of <xmlelement>title</xmlelement>, and must require
+      the title element to be the first child of the topic element.</p>
+    <p>This means that markup designers do not have completely free reign to structure new markup
+      designs. It also means that it will not always be possible to make an existing non-DITA
+      vocabulary into a DITA vocabulary simply by adding the appropriate <xmlatt>class</xmlatt>
+      attributes, because the existing vocabulary may not align structurally with the appropriate
+      base DITA type.</p>
+    <p>For example, the general DocBook model for titled divisions does not include an element type
+      that corresponds to the DITA <xmlelement>body</xmlelement> element, which DITA requires to hold the
+      direct content of topics. Thus DocBook divisions are not structurally compatible with DITA
+      topics.</p>
+    <p>The <q>at least as constrained</q> requirement also means that elements designed to be the
+      basis for further specialization need to allow appropriate options in their own content models
+      so they don't prevent reasonable specialized designs. This is why the content models for most
+      of the topic elements are so loose: they have to allow a wide range of possible
+      specializations. It is important to remember that the base standard types were <i>not</i>
+      intended to be directly used for authoring. They were intended to be specialized or
+      constrained as appropriate for specific authoring use cases. </p>
+    <p>For example, while <xmlelement>body</xmlelement> within <xmlelement>topic</xmlelement> allows an unconstrained mix of block elements and <xmlelement>section</xmlelement> elements, <xmlelement>conbody</xmlelement> within <xmlelement>concept</xmlelement> only allows block elements before any <xmlelement>section</xmlelement> elements. But another specialization of <xmlelement>topic</xmlelement> might need to continue to allow a mix of block elements and <xmlelement>section</xmlelement> elements, so the constraint in <xmlelement>conbody</xmlelement> would be inappropriate in <xmlelement>body</xmlelement> because it would prevent other legitimate ways of organizing topic content in other specializations. </p>
+    <p>It's also important to remember that DITA, while developed originally for technical
+      documentation, is not specific to technical documentation and, therefore, should not reflect
+      markup design decisions that reflect editorial practice specific to technical documentation.
+      DITA is a completely general XML application framework and, therefore, must accommodate all
+      legitimate requirements within the general constraints of enabling interchange and
+      interoperation. </p>
+    <p>To experienced XML practitioners the <q>at least as constrained</q> requirement may seem
+      particularly onerous, or at least annoying, and it can be frustrating to realize that the way
+      you would have designed a particular bit of markup in the past simply cannot work in a DITA
+      context. It means that you cannot always create a blindly-literal mapping from legacy non-XML
+      structures into DITA structures. You will have to work out some amount of structural
+      reordering, and you will need to retrain the people transitioning from the old system to the
+      new. It means you will have to learn the basic DITA structural patterns to translate
+      requirements into conforming DITA markup designs.</p>
+    <p>However, the important question is not about cost but about value.</p>
+    <p>The value of DITA is that it <i>dramatically</i> lowers the overall cost of system
+      implementation, use, and maintenance while increasing the inherent value of content by
+      enabling blind interchange over the broadest possible scope. This lower overall cost far
+      outweighs the direct cost of specialization, while the increase in value of DITA-based content
+      increases the value of the overall system. Even if a DITA-based implementation were no less
+      expensive to initially implement than the equivalent non-DITA-based system, it would still
+      have greater value because the content will have greater value and the ongoing cost of
+      ownership will be lower. In fact, even if initial DITA implementation were more expensive than
+      non-DITA options, the added long-term value would still justify the DITA-based solution. But
+      DITA-based systems are demonstrably less expensive to acquire and implement than any possible
+      non-DITA solution that satisfies the same set of requirements.</p>
+    <p>That is, by accepting a few constraints on your freedom to define arbitrary markup structures
+      and by taking the effort to learn the basics of DITA, you can implement very sophisticated XML
+      systems with lower startup and ownership costs than any non-DITA solution that satisfies the
+      same requirements.</p>
+    <p>Part of the point of these tutorials, and of <cite>DITA for Practitioners</cite> in general,
+      is to make the necessary knowledge available so that the cost of learning what you need to
+      know is also lowered. </p>
+    <p>So while there is a cost to the specialization feature in terms of design constraints,
+      increased complexity for specialization-aware processors, and the need for practitioners to
+      learn new skills and concepts, the value returned from the investment of those costs is
+      remarkable. And the value will continue to increase as network effects serve to make more and
+      more DITA-aware knowledge and processing available, which means it's available to all. That
+      suggests that an investment in DITA-based systems is the safest XML system investment you can
+      make today.</p>
+    <p>As a practitioner, I would refuse to do a from-scratch XML implementation that was not
+      DITA-based because it would be a disservice to the client to do anything else, and because
+      anything else would be more expensive, both in the short term and the long term, than a
+      DITA-based solution. The only non-DITA-based systems I work on any more are legacy systems
+      that, for business reasons, cannot be (immediately) replaced with DITA-based equivalents. And
+      it is painful for me to do so, because everything that DITA makes easy is hard in these
+      systems.</p>
+    <p>Hopefully I've made my point, but in case I haven't, here's my position in a
+        nutshell:<lq>DITA is a compelling technology not because it does cool stuff (although it
+        does) but because, through the specialization feature, it <i>dramatically</i> lowers the
+        initial and recurring costs of doing <i>anything</i> with XML for documents intended
+        primarily for human consumption. Thus, even XML applications with the most basic
+        requirements will benefit from a DITA-based solution simply because they will be cheaper,
+        probably much cheaper, than any other XML-based alternative. And when you realize that you
+        actually do need some of the really cool stuff DITA does, it's there waiting for
+      you.</lq></p>
+  </body>
+</subsection>

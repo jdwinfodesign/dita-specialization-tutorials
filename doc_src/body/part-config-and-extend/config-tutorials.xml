@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="chapter-id">
+  <title>Introduction to the Configuration and Extension Tutorials</title>
+  <shortdesc>This section provides tutorial examples for creating DITA configuration and extension
+    components, with a focus on the mechanics, not the concepts.</shortdesc>
+  <body>
+    <p>DITA defines a set of DTD and XSD coding requirements that all conforming vocabulary modules
+      should follow. These requirements serve several important purposes:<ul>
+        <li>Consistency of implementation across modules</li>
+        <li>Smooth interchange of knowledge</li>
+        <li>Smooth interchange of vocabulary components</li>
+        <li>Ease of implementation</li>
+      </ul></p>
+    <p>Some of the DITA-imposed requirements come from the syntax and semantics of DTDs and XSDs,
+      others are simply arbitrary decisions that had to be made and, having been made, make
+      replication easy.</p>
+    <p>In short, once you learn the basic rules for how to organize the components of a vocabulary
+      module, constraint module, or document type shell, you will understand the markup details of
+      any conforming DITA module. You will also be able to quickly create new components because
+      this is largely an exercise in copying, pasting, renaming, and deleting what you don't
+      need.</p>
+    <p>You don't have to worry about how you'll structure and organize your DTD declarations or
+      schema components. You won't have to work out clever schemes for modularity or
+      conditionality.</p>
+    <p>You do need to have a basic understanding of either DTD or XSD syntax, depending on which you
+      choose for your vocabulary modules. These tutorials tell you exactly what to type, so you can
+      do them even if you don't have a working understanding of DTD or XSD syntax, but you will
+      eventually need to know why you're doing what you're doing.</p>
+    <p>You should also, at some point, read the <q>Configuration, specialization, and
+        constraints</q> section of the <cite>DITA Architectural Specification</cite>, which defines
+      the implementation requirements reflected in these tutorials.</p>
+    <p>These tutorials are not intended to give you a deep conceptual understanding of how
+      vocabulary modules work, they're intended to make it possible for you to create your own
+      before you fully understand why they work they way they do. One of the cool parts of DITA is
+      that you can do that. </p>
+    <p>If you follow these tutorials you should be able apply the processes demonstrated to your own
+      configuration and extension requirements, assuming you've already worked out the markup
+      design. A lot of specializations simply add new mention elements (specializations of
+        <xmlelement>keyword</xmlelement> or <xmlelement>term</xmlelement>) or metadata elements. The easiest
+      specialization to implement is an attribute domain that adds a new <xmlatt>props</xmlatt>
+        specialization.<draft-comment>In the last paragraph, the first sentence is a nice seque to
+        what follows, but the last two sentences seem out of place. I suggest you drop them. They
+        don't add anything you haven't said elsewhere.</draft-comment></p>
+  </body>
+</chapter>

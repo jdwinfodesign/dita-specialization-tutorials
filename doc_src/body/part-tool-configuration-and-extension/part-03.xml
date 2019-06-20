@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE part PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:part" "part.dtd">
+<part
+  id="topic-id">
+  <title>DITA Tool Configuration and Extension</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>tools</indexterm>
+        <indexterm>DITA processors</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>DITA content exists to that useful things can be produced from it. The challenge is making the tools you have available produce what you want.</p>
+    <p>This part covers the nuts and bolts of making DITA-aware tools do you want, with a focus on the DITA Open Toolkit, but also on configuring DITA-aware editors and content management systems.</p>
+  </body>
+</part>

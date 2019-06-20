@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-specialization-step-2-4">
+  <title>Step 2-4. Declare FAQ Question Topic Type Elements and Attributes</title>
+  <body>
+    <p>Per our markup design from step 1, we will need to declare the following specialized element types:
+        <ul>
+        <li><xmlelement>faq-question</xmlelement> as a specialization of <xmlelement>concept</xmlelement></li>
+        <li><xmlelement>faq-question-statement</xmlelement> as a specialization of <xmlelement>title</xmlelement></li>
+        <li><xmlelement>faq-answer</xmlelement> as a specialization of <xmlelement>conbody</xmlelement></li>
+      </ul>
+    </p>
+    <p>To create these new element types, edit the <filepath>faq-question.mod</filepath> file and
+            modify it as follows: <ol>
+                <li>Find the declaration for the <xmlelement>concept</xmlelement> element type. Change
+                        <q>concept</q> to <q>faq-question</q> in the element and attribute list
+                    declarations.</li>
+                <li>Within the content model for what is now <xmlelement>faq-question</xmlelement>, change
+                        <q>%title;</q> to <q>%faq-question-statement;</q> and <q>%conbody;</q> to
+                        <q>%faq-answer;.</q></li>
+                <li>Find the declaration for the <xmlelement>conbody</xmlelement> element type. Change
+                        <q>conbody</q> to <q>faq-answer</q> in the element and attribute list
+                    declarations.</li>
+                <li>From the base DITA distribution, open <filepath>commenElements.mod</filepath>
+                    and find the declaration for the <xmlelement>title</xmlelement> element. Copy this
+                    declaration and paste it into <filepath>faq-question.mod</filepath>. Change
+                        <q>title</q> to <q>faq-question-statement</q> in the element and attribute
+                    list declarations.</li>
+            </ol>
+        </p>
+    <p>The element type declarations should look like this: <codeblock>  
+&lt;!--                    LONG NAME: FAQ question  -->
+&lt;!ENTITY % faq-question.content
+ "
+  ((%faq-question-statement;), 
+   (%titlealts;)?,
+   (%prolog;)?, 
+   (%faq-answer;)?, 
+   (%related-links;)?,
+   (%faq-question-info-types;)* )                   
+">
+&lt;!ENTITY % faq-question.attributes
+'
+             id         ID                               #REQUIRED
+             conref     CDATA                            #IMPLIED
+             %select-atts;
+             %localization-atts;
+             %arch-atts;
+             outputclass 
+                        CDATA                            #IMPLIED
+             domains    CDATA                "&amp;included-domains;"    
+'>
+&lt;!ELEMENT faq-question %faq-question.content; >
+&lt;!ATTLIST faq-question %faq-question.attributes; > 
+
+
+&lt;!--                    LONG NAME: FAQ answer details -->
+&lt;!ENTITY % faq-answer.content
+"
+  ((%body.cnt;)*, 
+   (%section;|
+    %example;)* 
+  )     
+">
+&lt;!ENTITY % faq-answer.attributes
+'
+             %id-atts;
+             %localization-atts;
+             outputclass 
+                        CDATA                            #IMPLIED    
+'>
+&lt;!ELEMENT faq-answer %faq-answer.content; >
+&lt;!ATTLIST faq-answer %faq-answer.attributes; > 
+             
+&lt;!--                    LONG NAME: FAQ question statement -->
+
+&lt;!ENTITY % faq-question-statement.content
+"
+  (%title.cnt;)*                               
+"> 
+&lt;!ENTITY % faq-question-statement.attributes
+'
+             %id-atts;
+             %localization-atts;
+             outputclass 
+                        CDATA                            #IMPLIED    
+'>
+&lt;!ELEMENT faq-question-statement %faq-question-statement.content; >
+&lt;!ATTLIST faq-question-statement %faq-question-statement.attributes; > 
+
+</codeblock> </p>
+    <p>If you want, validate the test document again. You should now only get errors like
+                <q>parameter entity 'question-statement' was referenced but not declared</q> and
+            maybe some errors about the declaration of <xmlelement>faq-question</xmlelement> itself. This
+            indicates we've declared the necessary element types, at least minimally, but we need to
+            declare the parameter entities as well.</p>
+  </body>
+</subsection>

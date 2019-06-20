@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-step-four">
+  <title>Element Domain Specialization Step 4: Integrate The Module Into a Document Type Shell</title>
+  <shortdesc><term>Integration</term> is the process of modifying a document type shell DTD to include different modules. It is also a purely mechanical process.</shortdesc>
+  <body>
+    <p>The first thing you should do is make local copies of all the DITA-provided shell DTDs, even
+            if you don't change them in any way. This prepares you for the inevitable time when you
+            want to add or remove domains or otherwise configure or extend from the base DITA
+            types.</p>
+    <p>Note that the order in which the .ent and .mod files are included into the shell DTD is very
+            important. This is because in DTDs, the order of occurrence of parameter entity
+            declarations is significant. In XML, the first declaration of a given entity name wins,
+            so to override entities defined in other included files, you must declare that entity
+            first. Thus, you import the .ent files first, which provides the module-specific entity
+            declarations that override the default definitions provided in the .mod files. Then you
+            define the values of any configuration parameter entities, and then you include the .mod
+            files, which use the configuration parameter entities to define the effective values for
+            content models and attribute lists.</p>
+  </body>
+</subsection>

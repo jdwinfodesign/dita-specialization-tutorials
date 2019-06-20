@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>DTD Topic Type Shell Tutorial Step 3: Add Reference to a New Domain</title>
+  <body>
+    <p>In this step we will to integrate the XML domain defined in <xref
+                href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
+                format="dita"/>.<note>You can get the worked result of that tutorial from the
+                tutorial materials.</note>
+        </p>
+    <p>To integrate a new domain, we add the following four components:<ul
+      id="ul_dd4b885a-75db-4756-aec9-1c1b21f1b9b8">
+      <li>A declaration and reference to the domain's .ent file</li>
+      <li>A reference to the domain's domain extension parameter entities, one for each different base element type the domain extends.</li>
+      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute text entity in the <textent>included-domains</textent> text entity declaration.</li>
+      <li>A declaration and reference to the domain's .mod file.</li>
+      </ul></p>
+    <p>For a given domain to be integrated you need to know the following:<ul
+      id="ul_62d8248c-b64c-423d-b780-0ca8d28a37fa">
+      <li>The public IDs of the .ent and .mod files. This should be in the entity resolution catalog
+                    for the domain. If the domain is packaged using the pattern described here, then
+                    the catalog file should be in the same directory as the .ent and .mod files for
+                    the domain. If you are integrating a standard DITA domain, you can look in the
+                    DITA standard itself or in the <filepath>catalog_dita.xml</filepath> file in the
+                    Open Toolkit's top-level directory.</li>
+      <li>The set of domain extension parameter entities the module defines. These should be defined in the .ent file for the domain. For example, the file <filepath>softwareDomain.ent</filepath> has these declarations:<codeblock>
+&lt;!ENTITY % sw-d-pre     
+  "msgblock
+  "
+>
+&lt;!ENTITY % sw-d-ph      
+  "filepath | 
+   msgph |
+   systemoutput  | 
+   userinput
+  "
+>
+&lt;!ENTITY % sw-d-keyword 
+  "cmdname  | 
+   msgnum | 
+   varname
+  "
+></codeblock><p>Reflecting the fact that the software domain specializes from <xmlelement>pre</xmlelement>, <xmlelement>ph</xmlelement>, and <xmlelement>keyword</xmlelement>.</p></li>
+      <li>The name of the <xmlatt>domains</xmlatt> attribute text entity, which should be named
+                            <q><varname>domainShortName-d-att</varname>,</q> e.g., <q>sw-d-att.</q>
+                    This should also be declared in the .ent file for the domain. For the software
+                    domain it looks like
+                    this:<codeblock>&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ENTITY DECLARATION                  -->
+&lt;!-- ============================================================= -->
+
+<b>&lt;!ENTITY sw-d-att       
+  "(topic sw-d)"
+></b>
+</codeblock></li>
+      </ul></p>
+    <p>We want to integrate the XML domain defined in the Element Domain Specialization tutorial. The information we need for the XML domain is:<dl>
+      <dlentry>
+        <dt>.ent file public ID</dt>
+        <dd><q>urn:pubid:example.org:doctypes:dita:modules:xml:entities</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>.mod file public ID</dt>
+        <dd><q>urn:pubid:example.org:doctypes:dita:modules:xml:declarations</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domain extension parameter entities</dt>
+        <dd><parameterentity>xml-d-keyword</parameterentity></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domains attribute text entity</dt>
+        <dd><textent>xml-d-att</textent></dd>
+      </dlentry>
+      </dl></p>
+    <p>Armed with this knowledge, the process of integrating the domain is as follows:<ol>
+      <li>Find the declaration and reference for the <parameterentity>hi-d-dec</parameterentity> parameter entity. Copy it and paste a new copy into <filepath>myTopic.dtd</filepath> immediately after the original:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ENTITY DECLARATIONS                 -->
+&lt;!-- ============================================================= -->
+
+
+&lt;!ENTITY % hi-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.ent"
+>%hi-d-dec;
+
+<b>&lt;!ENTITY % hi-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.ent"
+>%hi-d-dec;</b>
+
+...</codeblock></li>
+      <li>In the copy, change <q>hi-d-dec</q> to <q>xml-d-dec</q> in both places where it
+                    occurs:<codeblock>&lt;!ENTITY % <b>xml-d-dec</b>     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.ent"
+>%<b>xml-d-dec</b>;</codeblock></li>
+      <li>Replace the public identifier string with the URN for the XML domain:<codeblock>&lt;!ENTITY % xml-d-dec     
+  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:xml:entities</b>" 
+         "../../base/dtd/highlightDomain.ent"
+>%xml-d-dec;</codeblock></li>
+      <li>Replace the system identifier with
+                    <q>xmlDomain.ent</q>:<codeblock>&lt;!ENTITY % xml-d-dec     
+  PUBLIC "urn:pubid:example.org:doctypes:dita:modules:xml:entities" 
+         "<b>xmlDomain.ent</b>"
+>%xml-d-dec;</codeblock></li>
+      <li>Find the comment <q>DOMAIN EXTENSIONS</q> and add a reference to the
+                        <parameterentity>xml-d-keyword</parameterentity> parameter entity to the declaration of the
+                        <parameterentity>keyword</parameterentity> parameter
+                        entity:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN EXTENSIONS                          -->
+&lt;!-- ============================================================= -->
+&lt;!--                    One for each extended base element, with
+                        the name of the domain(s) in which the
+                        extension was declared                     -->
+
+&lt;!ENTITY % pre          "pre
+                        ">
+&lt;!ENTITY % keyword      "keyword<b> |
+                         %xml-d-keyword;</b>
+                        ">
+
+...</codeblock><p>Note
+                        the leading <q>|</q> character added after <q>keyword </q> in the original
+                        declaration. This parameter entity is used to build up an OR group of
+                        element type names, so you need to add the <q>|</q> (OR) connector between
+                            <q>keyword</q> and <q>%xml-d-keyword;.</q></p><note type="other"
+                        othertype="Common Error">If you forget the <q>|</q> character or
+                        accidentally leave one out you will get validation errors that may be
+                        cryptic or misleading, because they will often point to the declarations for
+                        elements somewhere deep in the DITA declaration sets, usually the first
+                        element type encountered that happens to use the parameter entity you just
+                        modified. When you get this type of error, the first thing to check is your
+                        domain extension parameter entities—that is likely the cause of the error,
+                        especially if you are integrating pre-existing domains that you know are
+                        otherwise valid.</note></li>
+      <li>Find the comment <q>DOMAINS ATTRIBUTE OVERRIDE</q> and then the declaration for the
+                        <textent>included-domains</textent> text entity. Add a reference to the
+                        <textent>xml-d-att</textent> text
+                    entity:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
+&lt;!-- ============================================================= -->
+&lt;!--                    Must be declared ahead of the DTDs, which
+                        puts @domains first in order               -->
+
+&lt;!ENTITY included-domains 
+                          "&amp;hi-d-att; 
+                           &amp;ut-d-att; 
+                           &amp;indexing-d-att;
+                           &amp;abbrev-d-att;
+                           <b>&amp;xml-d-att;</b>
+  "
+>
+
+...</codeblock></li>
+      <li>Find the declaration and reference for the <parameterentity>hi-d-def</parameterentity> parameter entity. Copy it and paste a new copy immediately after the original:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ELEMENT INTEGRATION                 -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY % hi-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.mod"
+>%hi-d-def;
+
+<b>&lt;!ENTITY % hi-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.mod"
+>%hi-d-def;</b>
+
+...</codeblock></li>
+      <li>Change <q>hi-d-def</q> to <q>xml-d-def</q> everywhere it
+                    occurs:<codeblock>&lt;!ENTITY % <b>xml-d-def</b>     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.mod"
+>%<b>xml-d-def</b>;</codeblock></li>
+      <li>Change the public identifier to the public ID for
+                        <filepath>xmlDomain.mod</filepath>:<codeblock>&lt;!ENTITY % xml-d-def     
+  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:xml:declarations</b>" 
+         "../../base/dtd/highlightDomain.mod"
+>%xml-d-def;</codeblock><note
+                        type="other" othertype="Common Error">If you are copying the public ID or
+                        URN from a catalog file, it is easy to accidentally copy the public ID for
+                        the .ent file instead of the .mod file and vice versa. If you get mysterious
+                        errors, like duplicate declaration messages or <q>element type not
+                            declared</q> messages even though you know you included the module,
+                        check the public ID value to make sure you didn't mix up the .ent and .mod
+                        public IDs.</note></li>
+      <li>Change the system identifier to
+                    <q>xmlDomain.mod</q>:<codeblock>&lt;!ENTITY % xml-d-def     
+  PUBLIC "urn:pubid:example.org:doctypes:dita:modules:xml:declarations" 
+         "<b>xmlDomain.mod</b>"
+>%xml-d-def;</codeblock></li>
+      <li>Validate your test document. Assuming that the XML domain module is already deployed (you can find it in the materials package for the tutorials), then your document should validate if you haven't made any syntax errors in the shell DTD.<p>If the document validates, see if you can enter any of the element types from the domain, such as <xmlelement>xmlelem</xmlelement> or <xmlelement>xmlatt</xmlelement>, into a paragraph. You should be able to.</p></li>
+      </ol></p>
+    <p>That's it, you're done. You've successfully created a new topic type shell that removes domains you don't want and adds a new domain you do want.</p>
+    <p>It should be clear from following this tutorial that creating document type shells is an entirely mechanical process and that once you've done it once or twice it becomes very easy and quick.</p>
+    <p>This tutorial did not show how to package your new shell as a Toolkit plugin. For that, see <xref
+      href="../../packaging-vocabulary-as-plugins.xml#topic-id"
+      format="dita"/>.</p>
+    <p>This tutorial shows how to create a topic type shell. Creating map type shells is exactly the same.</p>
+  </body>
+</subsection>

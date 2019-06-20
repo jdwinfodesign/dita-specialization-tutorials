@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss5">
+  <title>DITA Document Types, Configuration, and Specialization</title>
+  <body>
+    <p>In DITA, a "<term>DITA document type</term>" is nothing more or less than a unique set of
+      vocabulary and constraint modules used together in a document. For example, a
+        <xmlelement>concept</xmlelement> document that uses the highlight and indexing domain modules (and
+      no others) reflects the DITA document type consisting of the concept topic type module and the
+      highlight and indexing domain modules. This combination can be expressed by the string
+        <q>topic concept hi-d indexing-d,</q> read as <q>the 'concept' topic type, which extends the
+        'topic' topic type, integrated with the highlight and indexing domains.</q>
+    </p>
+    <p>This simple list of module names tells you everything you need to know about how to process
+      the document, and how to tell whether or not elements from another DITA document are
+      consistent with the elements in this document.</p>
+    <p>In DITA documents, this declaration of the set of modules used is specified by the required <xmlatt>domains</xmlatt> attribute. e.g.:<codeblock>&lt;concept id="topic-id"
+  <b>domains="(topic concept hi-d indexing-d)"</b>
+>
+ &lt;title>My Concept&lt;/title>
+&lt;/concept></codeblock></p>
+    <p>Note that you don't need the actual DTD or XSD declarations for the modules, you only need to know the module names.</p>
+    <p>One implication of this is that DITA documents do not need to have DOCTYPE declarations or
+      XSD schema associations, <i>as long as</i> they specify the set of vocabulary modules they
+      use. Likewise, when a document does have a DOCTYPE or schema association, it doesn't matter
+        <i>what</i> DTD file or XSD document it uses as long as that DTD or XSD accurately reflects
+      the set of modules the document declares it uses.<draft-comment>Isn't the second sentence
+        above true of any vocabulary defined by a DTD or XSD? I can structure the DocBook RelaxNG
+        schema in many ways that would still work. In fact, I would argue that a DocBook processor
+        that required one specific RNG or XSD file would be fundamentally broken, too.<p>Clearly,
+          there is an important distinction, but I don't see it from the paragraph above or the
+          following paragraphs.</p></draft-comment></p>
+    <p>This means that DITA processors should <i>never</i> depend on a specific DTD or XSD file,
+      because the use of a specific file means nothing. Two DTD or XSD document type shells that
+      reflect the same set of modules define <i>identical</i> DITA document types. This is a
+      fundamental difference between DITA and traditional XML and SGML applications, where the
+        <i>only thing</i> you could know for sure was the specific DTD or XSD file a document
+      used.</p>
+    <p>For this reason, any system that claims to be a general DITA-aware processor that also
+      requires or expects the use of specific DTD or XSD files is fundamentally broken because it
+      demonstrates a lack of understanding of how DITA document types work.</p>
+    <p>(Keep in mind that the DITA way of viewing document types is so different from traditional
+      XML practice that it's no surprise that tools and many practitioners would get it wrong,
+      especially tools that reflect an SGML heritage, where the DTD was everything. Unfortunately,
+      some of these tools reflect unfortunate architectural decisions made decades ago that are
+      difficult or impossible to undo. That doesn't mean those tools are not useful or even
+      compelling, just that they will be harder to adapt to locally-defined document types and
+      non-standard-defined vocabulary modules.)</p>
+    <p>There are three types of module that can be used to define a DITA document type:<ul>
+      <li>Structural modules, which define map types or topics types (<q>map,</q>
+          <q>bookmap,</q>
+          <q>topic,</q>
+          <q>concept,</q> etc.)</li>
+      <li>Domain modules, which define sets of elements usable across map or topic types (the highlighting domain, the programming domain, etc.)</li>
+      <li>Constraint modules, which restrict the content models or attribute lists of specific
+          element types within a specific structural or domain module, for example, the strict task
+          constraint module, which takes the DITA 1.2 general task topic type and restricts it to
+          match the rules of the DITA 1.1 task topic type.</li>
+      </ul></p>
+    <p>In this module-based approach to vocabulary management there are two things you can do to create DITA document types: <term>configuration</term> and <term>specialization</term>.</p>
+    <p>The DITA standard defines specific structural, naming, and coding requirements for document
+      type shells and modules that help ensure consistency of design and implementation and make it
+      easy to combine modules into new document types. While these patterns are not technically
+      needed (they have no bearing on the syntactic validity or processability of DITA documents),
+      they make it easier to use and re-use modules and generally keep things consistent. Once you
+      understand the patterns and how the pieces fit together, you will see that creating new
+      specializations and configurations is remarkably easy.</p>
+    <p>DITA is about interchange and that includes interchange of knowledge and interchange of implementation components, as well as interchange of content. DITA's modular vocabulary approach is designed in part to make the interchange of vocabulary as reliable as the interchange of content. A large part of this is simply standardizing implementation details so that having learned how DITA vocabulary implementation works you should be able to quickly apply that knowledge to any conforming DITA vocabulary, no matter how specialized.</p>
+  </body>
+  
+  
+</subsection>

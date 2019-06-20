@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Pointing to Things: Linking and Addressing in DITA</title>
+  <shortdesc>DITA relies heavily on the use of different kinds of links. DITA links may use direct addresses (URI references) or indirect addresses (key references).</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>addressing</indexterm>
+        <indexterm>key reference<indexterm>for linking</indexterm></indexterm>
+        <indexterm>href</indexterm>
+        <indexterm>linking</indexterm>
+        <indexterm>hyperlink <index-see-also>link</index-see-also></indexterm>
+        <indexterm>DITA<indexterm>linking</indexterm></indexterm>
+        <indexterm>DITA<indexterm>addressing</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>DITA’s linking and addressing capabilities are heavily influenced by IBM IDDoc, the HyTime
+            standard, and other formal models of hyperlinking and hypertext, but they also reflect
+            the practical recognition that linking is essential for reuse and for optimizing the
+            usability of information. While DITA was not originally designed primarily as a
+            hypertext application, in fact it has become a sophisticated hypertext application with
+            a reasonably consistent linking and addressing architecture.</p>
+    <p>To talk about the hyperlinking and addressing features of DITA it is
+      necessary to use some jargon. The following sections first explain general
+      linking and addressing concepts and then discuss how those concepts are
+      implemented in DITA.</p>
+  </body>
+  <sidebar
+    id="sidebar_zrq_szq_1f">
+    <title>Hypertext Jargon: A Twisty Maze of Passages</title>
+    <body>
+      <p>There is no single accepted vocabulary for talking about links. However, there is a fairly
+                well-established vocabulary that comes out of work done on computer hypertext
+                systems in the 1980s and early 1990s and is reflected in things like the HyTime
+                standard. The terminology used here is the terminology I have used for the last 20
+                years or so in my work both applying hypertext and hyperlinking to large-scale
+                systems of documents and as a co-editor of the HyTime standard. I can’t claim that
+                it is universally understood, but I think it’s well enough established that anyone
+                already well versed in hypertext formalisms would understand the jargon. I have
+                presented the terminology I use as received, without bothering to qualify it, since
+                I consider it to be common vocabulary and not jargon specific to this book. As
+                relatively few people today give much thought to the formalisms behind hyperlinking
+                systems, I figure both that my jargon is as good as anyone’s and that you’re not
+                likely to run into anyone with a competing set of jargon and a reason to argue with
+                my particular use of terms.</p>
+      <p>However, the jargon I use will not necessarily be reflected in other
+        applications that do hyperlinking so you may need to work out the
+        mapping between the general concepts and abstractions presented here and
+        the details of any particular application or markup design. One purpose
+        of presenting this abstract model of linking is to separate the general
+        from the specifics of markup and implementation details so that it is in
+        fact possible to meaningfully compare and analyze how different
+        applications handle linking, which can be very important for generating
+        specific interactive renditions of DITA content from DITA source. </p>
+    </body>
+  </sidebar>
+</chapter>

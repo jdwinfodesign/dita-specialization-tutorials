@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Configuring and Extending Xopus</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Xopus editor</indexterm>
+        <indexterm>DITA-aware editors<indexterm>Xopus</indexterm></indexterm>
+        <indexterm>editors (software)<indexterm>DITA-aware<indexterm>Xopus</indexterm></indexterm></indexterm>
+        <indexterm>tools, commercial<indexterm>Xopus</indexterm></indexterm>
+        <indexterm>SDL<indexterm>Xopus</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <draft-comment
+        author="WEK">Discuss how to configure Xopus to use new vocabulary modules. Discuss Xopus's extension facilities.</draft-comment>
+    </p>
+  </body>
+</subsection>

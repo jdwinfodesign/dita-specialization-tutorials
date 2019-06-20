@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Configuring DITA-Aware Output Processors</title>
+  <shortdesc>The DITA Open Toolkit is the best known tool for producing different outputs from DITA content. Other tools, such as DITA2Go provide similar features.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>DITA-aware processors<indexterm>configuration of</indexterm></indexterm>
+        <indexterm>processors<indexterm>configuration of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p/>
+  </body>
+</chapter>

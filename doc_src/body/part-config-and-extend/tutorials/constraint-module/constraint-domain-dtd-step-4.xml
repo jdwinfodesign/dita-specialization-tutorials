@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Constraint Module Step 4: Integrate the Constraint Module in a Document Type Shell</title>
+  <body>
+    <p>For testing purposes, copy the standard <filepath>topic.dtd</filepath> file to a convenient
+            location, either in the same directory as the constraint module file or in a nearby
+            directory. To make its purpose clear, you can name it something like
+                <filepath>topic-with-highlight-constraint.dtd</filepath> if you want.</p>
+    <p>Edit the copied topic DTD file, search for the comment <q>DOMAINS ATTRIBUTE OVERRIDE,</q> and
+            update the declaration of the <textent>included-domains</textent> text entity to include
+            a reference to the <textent>topic-constraints</textent> text
+            entity:<codeblock>
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
+&lt;!-- ============================================================= -->
+&lt;!--                    Must be declared ahead of the DTDs, which
+                        puts @domains first in order               -->
+
+&lt;!ENTITY included-domains 
+                          "&amp;hi-d-att; 
+                           &amp;ut-d-att; 
+                           &amp;indexing-d-att;
+                           &amp;hazard-d-att;
+                           &amp;abbrev-d-att;
+                           &amp;pr-d-att; 
+                           &amp;sw-d-att;
+                           &amp;ui-d-att; 
+                           <b>&amp;topic-constraints;</b>
+  "
+>
+</codeblock></p>
+    <p>This adds the declaration of the topic-element-type constraint module to the <xmlatt>domains</xmlatt> attribute for the <xmlelement>topic</xmlelement> element as configured in this document type shell.</p>
+    <p>Now search for the comment <q>TOPIC ELEMENT INTEGRATION</q> and add this parameter entity
+            declaration and
+            reference:<codeblock>...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    CONTENT CONSTRAINT INTEGRATION             -->
+&lt;!-- ============================================================= -->
+
+<b>&lt;!ENTITY % hiOnlyTopic-c-def  
+  SYSTEM "highlightOnlyTopicConstraint.mod">
+%hiOnlyTopic-c-def;</b>
+
+&lt;!-- ============================================================= -->
+&lt;!--                    TOPIC ELEMENT INTEGRATION                  -->
+&lt;!-- ============================================================= -->
+
+...</codeblock></p>
+    <p>The topic.dtd file you started with may or may not have the <q>CONTENT CONSTRAINT
+                INTEGRATION</q> comment. If it's not there, add it.</p>
+  </body>
+</subsection>

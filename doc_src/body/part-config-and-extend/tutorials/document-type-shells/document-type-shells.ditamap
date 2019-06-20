@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <title>Document Type Shell Tutorial</title>
+  <keydefs>
+    <topicmeta>
+      <navtitle>Key Definitions</navtitle>
+    </topicmeta>
+  </keydefs>
+  <chapter
+    href="creating-document-type-shells.xml">
+    <topicref
+      href="creating-a-dtd-shell.xml">
+      <subsection
+        href="dtd-topic-shell-step-01.xml"/>
+      <subsection
+        href="dtd-topic-shell-step-02.xml"/>
+      <subsection
+        href="dtd-topic-shell-step-03.xml"/>
+    </topicref>
+    <topicref
+      href="creating-an-xsd-shell.xml">
+      <subsection
+        href="xsd-topic-shell-step-01.xml"/>
+      <subsection
+        href="xsd-topic-shell-step-02.xml"/>
+      <subsection
+        href="xsd-topic-shell-step-03.xml"/>
+    </topicref>
+  </chapter>
+</pub-component-map>

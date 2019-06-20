@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="types-of-specialization">
+  <title>The Types of Specialization</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </prolog>
+  <body>
+    <p>The DITA architecture defines three types of specialization:
+          <ul>
+        <li>Structural specialization (topics and maps)</li>
+        <li>Domain specialization</li>
+        <li>Domain attribute specialization</li>
+      </ul>
+    </p>
+    <p>Structural specializations declare new top-level topic types and map types. You use structural 
+          specializations to define entirely new document structures. With structural specializations,
+    you can specialize any base element type, including <xmlelement>topic</xmlelement> and <xmlelement>map</xmlelement>,
+    as well as elements in any topic or map specialization.</p>
+    <p>Domain specializations define new elements that can be used within any topic or map types. Note that
+        the map-specific elements <xmlelement>topicref</xmlelement>, <xmlelement>topichead</xmlelement>, and 
+          <xmlelement>topicgroup</xmlelement> are defined as domain elements, even though you might expect
+        them to be part of the base map type. Thus, defining specializations of <xmlelement>topicref</xmlelement>
+          or <xmlelement>topichead</xmlelement> is domain specialization, not map specialization. Using domain
+      specializations, you can specialize any base DITA element that is an allowed descendant of <xmlelement>topic</xmlelement>
+      or <xmlelement>map</xmlelement> or any element in any other domain module.
+        </p>
+    <p>Domain attribute specializations define new <i>global</i> base attributes or new <i>global</i> property (conditional processing)
+        attributes. You use attribute specializations most often to define new property attributes that
+        reflect conditions specific to your documents and business processes.</p>
+    <p>While the basic syntactic mechanisms are the same for all the types of specialization, domain 
+        specializations are easier to define and integrate than structural specializations, simply because
+    they can be as simple as specializing to create a single new element type, while topic and map specializations require you
+    to specialize a number of element types, account for more complex content models,
+      and generally require more up-front design effort than the typical domain specialization.</p>
+  </body>
+</subsection>

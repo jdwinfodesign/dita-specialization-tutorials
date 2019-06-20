@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subjectScheme PUBLIC "-//OASIS//DTD DITA Subject Scheme Map//EN" "map.dtd">
+<subjectScheme>
+  <title>HIPAA Health Care Provider Taxonomy Codes</title>
+  <topicmeta>
+    <source>http://www.adldata.com/Downloads/Glossaries/taxonomy_80.pdf</source>
+  </topicmeta>
+  <subjectdef keys="193000000X">
+    <topicmeta>
+      <navtitle>Group</navtitle>
+      <shortdesc>A business entity under which one or more individuals practice.</shortdesc>
+    </topicmeta>
+    <subjectdef keys="193200000X">
+      <topicmeta>
+        <navtitle>Multi-Specialty</navtitle>
+        <shortdesc>A business group of one or more
+individual practitioners, who practice with different
+areas of specialization.</shortdesc>
+      </topicmeta>
+    </subjectdef>
+    <subjectdef keys="193400000X">
+      <topicmeta>
+        <navtitle>Single-Specialty</navtitle>
+        <shortdesc>A business group of one or more
+individual practitioners, who all practice with the same
+area of specialization.</shortdesc>
+      </topicmeta>
+    </subjectdef>
+  </subjectdef>
+  <subjectdef keys="201000000X">
+    <topicmeta>
+      <navtitle>Allopathic &amp; Osteopathic Physicians</navtitle>
+      <shortdesc>A broad category grouping state licensed providers
+in allopathic or osteopathic medicine whose scope of practice is
+determined by education.</shortdesc>
+    </topicmeta>
+    <subjectdef keys="207K00000X">
+      <topicmeta>
+        <navtitle>Allergy &amp; Immunology</navtitle>
+        <shortdesc>An allergist-immunologist is....</shortdesc>
+      </topicmeta>
+    </subjectdef>
+    <subjectdef keys="207L00000X">
+      <topicmeta>
+        <navtitle>Anesthesiology</navtitle>
+        <shortdesc>An anesthesiologist is trained....</shortdesc>
+      </topicmeta>
+    </subjectdef>
+  </subjectdef>
+</subjectScheme>

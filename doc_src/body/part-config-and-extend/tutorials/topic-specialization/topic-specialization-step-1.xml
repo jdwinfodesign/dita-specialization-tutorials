@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-specialization-step-1">
+  <title>Topic Specialization Step 1: Design The Topic Element Types</title>
+  <body>
+    <p>For topic specialization you have to think about several things in designing your specialization: <ul>
+      <li>What should the new topic element type name be?</li>
+      <li>What should be allowed within the topic body?</li>
+      <li>Should the topic allow any nested topics?</li>
+      <li>Does the topic require specialized topic-level metadata?</li>
+      </ul></p>
+    <p>Of course, to answer these questions, you have to first understand the requirements, both for
+    the information content and the information presentation and processing.</p>
+    <p>For this tutorial, our task is to create a specialization of <xmlelement>concept</xmlelement>
+    that supports the requirements of FAQ information, that is, questions and answers.</p>
+    <note>If you just want to know what the mechanics are and don't really care about how
+    we arrived at the design used in the rest of the tutorial, you can skip on to step
+    2 at this point. But once you've worked through the tutorial I'd urge you to come back
+    here and read this step all the way through.</note>
+    <p>I chose FAQs as the subject of the tutorial because they are familiar to most Web users (and
+            now even non-Web users), they are relatively simple (at least on their face) but not so
+            trivial as to be boring, and they have some potential sophistications that could make
+            for interesting exploration beyond the immediate task of <q>what are the mechanics of
+                defining and implementing a new topic type?</q> In addition, there are any number of
+            useful and reasonable ways that FAQs could be constructed using DITA; this tutorial
+            presents only one, and not necessarily the best one.</p>
+    <p>For this tutorial I have decided that the each question should be a separate topic, rather
+            than having one topic that contains multiple question/answer pairs. I have found that
+            making <xmlelement>topic</xmlelement> the primary unit of organization and granularity works
+            well, even if it leads to topics that some people might initially or intuitively think
+            are too small. But I wouldn't go to the mat to defend this design decision, and I don't
+            claim it's necessarily the best. It has a logic I can defend, but that's as far as I'll
+            go.</p>
+    <p>As you work through the tutorial, take the time to ask yourself how you would have done it
+            and why a different way would or wouldn't be better for some reason. This type of
+            analytical thought is all part of understanding your requirements and mapping them to
+            implementations to create the best possible solution.</p>
+    <p>For this tutorial, let's define an FAQ as a set of one or more question and answer pairs,
+            where the question is a relatively short statement and the answer may be as short or
+            long as needed. We would like the markup to reflect this essential nature, that is,
+            there should be something named something like <q>question</q> and something named
+            something like <q>answer.</q> There are no particular requirements for the contents of
+            answers themselves. We would like the rendering to clearly identify the question and
+            answer, for example, <q>Q. Question statement,</q>
+            <q>A. Answer response.</q> The default topic presentation would <i>not</i> be sufficient
+            in this case.</p>
+    <p>Note that these requirements are pretty simple. In any sort of engineering activity, it is
+            best to start off as simply as you can and use iterative refinement to satisfy new
+            requirements as you discover them. In the world of agile methods this is known as <q>the
+                simplest thing that could possibly work.</q>
+        </p>
+    <p>This approach does several things: it lets you get something working quickly, it gives you
+            immediate practical experience that will feed back into the design and implementation,
+            and it avoids designing and implementing things you don't need. When designing XML
+            markup it is quite easy to over-design and build complex markup structures that nobody
+            actually wants, needs, or perhaps, can understand how to use. I've certainly done my
+            share of this in the past.</p>
+        <p>I now find it much more effective to start small and build up as needed. Often this
+            refinement process happens over the course of a few hours as I implement a new document
+            type or specialization and start testing it with real data, but sometimes it happens
+            over weeks or months as the new markup design is tested by its target users. In any
+            case, for this tutorial, we will start small and, once we have something working that
+            minimally meets our requirements, we can start thinking about other things we might
+            need.</p>
+    <p>Another characteristic of agile development methods is <q>test-driven development,</q> that
+            is, using test cases to drive the implementation, rather than implementing first and
+            testing later. The basic idea is that you write the test case first, which will of
+            course initially fail (because there's no code yet), and then you do the implementation
+            until the test case passes, at which point you know you're done. The test cases reflect
+            the requirements as you understand them, and if the requirements change, you update the
+            test case to reflect your new understanding.</p> 
+    <p>For markup design, this means you first create document instances and then implement the DTD
+            or schema that will validate those instances. When the instances are valid, you know
+            you're done (as long as your instances reflect all the important cases the schema needs
+            to support). This is in contrast to simply going from requirements straight to markup
+            declarations, and then only creating instances after the fact, which is the way we had
+            to do it back in SGML days. One of the nice things about XML is that you can have
+            documents with no document type, so you can start with instances and add DTDs or schemas
+            later. </p>
+    <p>Names are always important and in this case there is a slight problem with the name to use
+            for the topic element itself, namely <q>faq,</q> which would be the obvious choice. The
+            problem is that the term "FAQ" can be read as either singular or plural (a set of
+            questions) but here we want a single topic to reflect a single question/answer pair. The
+            name <q>question-and-answer</q> might work, except that could also imply a testing
+            environment rather than an FAQ environment. Thus, I have arrived at the name
+                <q>faq-question</q>&#x2014;it's technically redundant but fairly clear and not too
+            long: <codeblock>
+&lt;faq-question id="q1">
+&lt;/faq-question></codeblock></p>
+    <p>The topic title will be the question statement, and it's probably useful to specialize
+                <xmlelement>title</xmlelement> to <xmlelement>faq-question-statement</xmlelement> to make that
+            clear:
+            <codeblock>
+&lt;faq-question id="q1">
+  &lt;faq-question-statement>Can I add attributes to specific element types?&lt;/faq-question-statement>
+&lt;/faq-question> </codeblock></p>
+    <p>In this case we don't have any particular requirements for the topic body content, so we
+            could leave <xmlelement>body</xmlelement> unspecialized, but since the body will be the FAQ
+            answer, it makes sense to rename <xmlelement>body</xmlelement> to
+                <xmlelement>faq-answer</xmlelement>. </p>
+    <p>Note that just <q>answer</q> is probably too generic. One challenge with DITA 1.x is that
+            because you cannot use namespaces, all element types, including all specialized element
+            types, must be unique. While you can't guarantee that your specialized types won't
+            conflict with somebody else's, it helps if you use names that are specific to your
+            content. This can sometimes lead to names that are longer or more cumbersome than they
+            would need to be if we could use namespaces in DITA 1.x. A good example is the element
+            types defined by the DITA 1.2 Learning and Training vocabulary modules, which all start
+            with <q>lc</q> (for <q>learning content</q>), which functions as a sort of <q>namespace
+                prefix</q> and helps ensure that no other vocabularies will have names that collide
+            with the Learning and Training types.<draft-comment>It's not clear if lc is a good
+                example of things being more cumbersome or a good example of how to use prefixes.
+                Unless you really consider the lc prefix to be too cumbersome, I'd say something
+                like, "An example that isn't too cumbersome is the ..."</draft-comment></p>
+    <p>So our topic body should look like this: <codeblock>
+&lt;faq-question id="question-id">
+  &lt;faq-question-statement>Can I add attributes to specific element types?&lt;/faq-question-statement>
+  &lt;faq-answer >
+    &lt;p>No, you can only define global attributes, specialized either from &amp;lt;base&amp;gt;
+    or @props.&lt;/p>
+  &lt;/faq-answer>
+&lt;/faq-question></codeblock></p>
+    <p>This design should be sufficient to get us going. Note that we are deferring all issues of how to organize the FAQ questions into FAQs using maps, where we know we already have everything we need to create sets of questions and to do things like group questions into titled groups.</p>
+  </body>  
+</subsection>

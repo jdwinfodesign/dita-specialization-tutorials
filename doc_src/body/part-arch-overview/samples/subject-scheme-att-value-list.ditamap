@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subjectScheme PUBLIC "-//OASIS//DTD DITA Subject Scheme Map//EN" "map.dtd">
+<subjectScheme>
+  <title>Product Attribute Value Lists</title>
+  <subjectdef keys="product-set-01">
+    <subjectdef keys="prod-A">
+      <subjectdef keys="prod-A-community"/>
+      <subjectdef keys="prod-A-enterprise"/>
+      <subjectdef keys="prod-A-pro"/>
+    </subjectdef>      
+    <subjectdef keys="prod-B"/>
+    <subjectdef keys="prod-C"/>
+  </subjectdef>
+  
+  <enumerationdef>
+    <elementdef name="table"/>
+    <attributedef name="product"/>    
+    <subjectdef keyref="product-set-01"/>
+    <defaultSubject href="prod-B"/>
+  </enumerationdef>
+</subjectScheme>

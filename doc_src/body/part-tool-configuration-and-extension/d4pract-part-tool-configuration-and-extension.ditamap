@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <title>Tool Configuration and Extension</title>
+  <part
+    href="part-03.xml">
+    <keydefs>
+      <topicmeta>
+        <navtitle>Key Definitions</navtitle>
+      </topicmeta>
+    </keydefs>
+    <chapter
+      href="overview-of-dita-aware-tools.xml"/>
+    <chapter
+      href="config-and-extend-dita-ot.xml"/>
+  </part>
+</pub-component-map>

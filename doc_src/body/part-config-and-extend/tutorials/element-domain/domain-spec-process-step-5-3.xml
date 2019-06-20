@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-process-step-5-3">
+  <title>Element Domain Specialization Step 5-3: Test The Stylesheet</title>
+  <body>
+    <p>To test the stylesheet, deploy the plugin to your Toolkit and run the Toolkit's HTML transformation type against the test topic you created in Step 2</p>
+    <p>If you have an XSLT development environment such as OxygenXML or XMLSpy, you can also run the stylesheet directly against a topic&#x2014;you won't get any processing that requires resolution of conrefs or generation of links but you'll be able to validate that the XSLT is producing the correct XSLT markup.</p>
+    <p>To deploy the plugin to your Toolkit, do the following:<ol
+      id="ol_fc2cb282-eab3-4843-9929-8db8257a210c">
+      <li>Copy the plugin's directory to your Toolkit's <filepath>plugins</filepath> directory.</li>
+      <li>Run the integrator.xml Ant task:<codeblock>c:\DITA-OT > ant -f integrator.xml</codeblock><p>You should see output like this:<codeblock>Buildfile: integrator.xml
+
+integrate:
+[integrate] Using XERCES.
+
+BUILD SUCCESSFUL
+Total time: 2 seconds</codeblock></p></li>
+      </ol></p>
+    <p>Now run the Toolkit's HTML transformation type against your test topic as you normally would. You should see the new formatting for the various element types.</p>
+  </body>
+</subsection>  

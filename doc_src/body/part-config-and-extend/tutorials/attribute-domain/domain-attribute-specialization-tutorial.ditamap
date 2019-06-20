@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <title>Attribute Specialization Tutorial</title>
+  <chapter
+    href="domain-att-spec-process.xml"
+    collection-type="sequence"
+    keys="attribute-specialization-tutorial">
+    <subsection
+      href="domain-att-spec-process-step-1.xml"/>
+    <subsection
+      href="domain-att-spec-process-step-2.xml"/>
+    <subsection
+      href="domain-att-spec-process-step-3.xml"/>
+    <subsection
+      href="xsd-attribute-specialization.xml"/>
+  </chapter>
+</pub-component-map>

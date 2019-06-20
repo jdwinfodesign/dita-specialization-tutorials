@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-spec-step-4-3">
+  <title>Topic Specialization Step 4-3: Copy Template Contents from Base XSLTs</title>
+  <body>
+    <p>In the Open Toolkit distribution, find the file <filepath>dita2htmlImpl.xsl</filepath>. It should be in the <filepath>xsl/xslhtml</filepath> directory.</p>
+    <p>Within this file, find the template that matches on <q> topic/title </q> within <q>
+                topic/topic </q> (again, the spaces at the beginning and end are significant). This
+            can sometimes be a challenge because the indirect nature of the matches can make it hard
+            to find the specific template you need. One technique is to search on <q> topic/title
+            </q> and keep repeating the search until you find the template you're looking for. In
+            this case, you should find this template:
+            <codeblock>&lt;!-- NESTED TOPIC TITLES (sensitive to nesting depth, but are still processed for contained markup) -->
+&lt;!-- 1st level - topic/title -->
+&lt;!-- Condensed topic title into single template without priorities; use $headinglevel to set heading.
+     If desired, somebody could pass in the value to manually set the heading level -->
+&lt;xsl:template match="*[contains(@class,' topic/topic ')]/*[contains(@class,' topic/title ')]">
+  &lt;xsl:param name="headinglevel">
+      &lt;xsl:choose>
+          &lt;xsl:when test="count(ancestor::*[contains(@class,' topic/topic ')]) > 6">6&lt;/xsl:when>
+          &lt;xsl:otherwise>&lt;xsl:value-of select="count(ancestor::*[contains(@class,' topic/topic ')])"/>&lt;/xsl:otherwise>
+      &lt;/xsl:choose>
+  &lt;/xsl:param>
+  &lt;xsl:element name="h{$headinglevel}">
+      &lt;xsl:attribute name="class">topictitle&lt;xsl:value-of select="$headinglevel"/>&lt;/xsl:attribute>
+      &lt;xsl:call-template name="commonattributes"/>
+      &lt;xsl:apply-templates/>
+  &lt;/xsl:element>
+  &lt;xsl:value-of select="$newline"/>
+&lt;/xsl:template>      </codeblock></p>
+    <p>Copy everything inside the <xmlelement>xsl:template</xmlelement> element and paste it into the
+            template for <xmlelement>faq-question-statement</xmlelement> in
+                <filepath>faq-question2html.xsl</filepath>, which should now look like this:
+            <codeblock>
+&lt;xsl:template match="*[contains(@class, ' faq-question/faq-question-statement ')]">
+  <b>&lt;xsl:param name="headinglevel">
+      &lt;xsl:choose>
+          &lt;xsl:when test="count(ancestor::*[contains(@class,' topic/topic ')]) > 6">6&lt;/xsl:when>
+          &lt;xsl:otherwise>&lt;xsl:value-of select="count(ancestor::*[contains(@class,' topic/topic ')])"/>&lt;/xsl:otherwise>
+      &lt;/xsl:choose>
+  &lt;/xsl:param>
+  &lt;xsl:element name="h{$headinglevel}">
+      &lt;xsl:attribute name="class">topictitle&lt;xsl:value-of select="$headinglevel"/>&lt;/xsl:attribute>
+      &lt;xsl:call-template name="commonattributes"/>
+      &lt;xsl:apply-templates/>
+  &lt;/xsl:element>
+  &lt;xsl:value-of select="$newline"/></b>
+&lt;/xsl:template>  
+ </codeblock></p>
+    <p>For <xmlelement>faq-answer</xmlelement>, we want the processing applied to concept/conbody.
+            However, if you search for <q> concept/conbody </q> you won't find anything, which means
+            that there is no special processing for <xmlelement>conbody</xmlelement>. That means you must
+            search for the next level up the specialization hierarchy (<q> topic/body </q>). Copy
+            the contents of that template into the template for <xmlelement>faq-answer</xmlelement>:
+            <codeblock>
+&lt;xsl:template match="*[contains(@class, ' faq-question/faq-answer ')]">
+<b>  &lt;xsl:variable name="flagrules">
+    &lt;xsl:call-template name="getrules"/>
+  &lt;/xsl:variable>
+&lt;div>
+  &lt;xsl:call-template name="commonattributes"/>
+  &lt;xsl:call-template name="gen-style">
+    &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param>
+  &lt;/xsl:call-template>
+  &lt;xsl:call-template name="setidaname"/>
+  &lt;xsl:call-template name="start-flagit">
+    &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param>     
+  &lt;/xsl:call-template>
+  &lt;xsl:call-template name="start-revflag">
+    &lt;xsl:with-param name="flagrules" select="$flagrules"/>  
+  &lt;/xsl:call-template>
+  &lt;!-- here, you can generate a toc based on what's a child of body -->
+  &lt;!--xsl:call-template name="gen-sect-ptoc"/-->&lt;!-- Works; not always wanted, though; could add a param to enable it.-->
+
+  &lt;!-- Insert prev/next links. since they need to be scoped by who they're 'pooled' with, apply-templates in 'hierarchylink' mode to linkpools (or related-links itself) when they have children that have any of the following characteristics:
+       - role=ancestor (used for breadcrumb)
+       - role=next or role=previous (used for left-arrow and right-arrow before the breadcrumb)
+       - importance=required AND no role, or role=sibling or role=friend or role=previous or role=cousin (to generate prerequisite links)
+       - we can't just assume that links with importance=required are prerequisites, since a topic with eg role='next' might be required, while at the same time by definition not a prerequisite -->
+
+  &lt;!-- Added for DITA 1.1 "Shortdesc proposal" -->
+  &lt;!-- get the abstract para -->
+  &lt;xsl:apply-templates select="preceding-sibling::*[contains(@class,' topic/abstract ')]" mode="outofline"/>
+  
+  &lt;!-- get the shortdesc para -->
+  &lt;xsl:apply-templates select="preceding-sibling::*[contains(@class,' topic/shortdesc ')]" mode="outofline"/>
+  
+  &lt;!-- Insert pre-req links - after shortdesc - unless there is a prereq section about -->
+  &lt;xsl:apply-templates select="following-sibling::*[contains(@class,' topic/related-links ')]" mode="prereqs"/>
+
+  &lt;xsl:apply-templates/>
+  &lt;xsl:call-template name="end-revflag">
+    &lt;xsl:with-param name="flagrules" select="$flagrules"/>  
+  &lt;/xsl:call-template>
+  &lt;xsl:call-template name="end-flagit">
+    &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param> 
+  &lt;/xsl:call-template>
+&lt;/div>&lt;xsl:value-of select="$newline"/>
+</b>
+&lt;/xsl:template>
+</codeblock></p>
+    <p>For <xmlelement>faq-question</xmlelement>, add a next-match statement to the template body: <codeblock>
+&lt;xsl:template match="*[contains(@class, ' faq-question/faq-question ')]">
+  <b>&lt;xsl:next-match/></b>
+&lt;/xsl:template></codeblock></p>
+    <p>The next-match simply says <q>take the context node (that is, the
+                    <xmlelement>faq-question</xmlelement> element) and apply whatever template would have
+                matched if this template hadn't matched.</q> This has the effect of just applying
+            the default formatting for concept topics, but it also gives us a ready-made place to
+            add new or different processing should we need it. It also demonstrates the use of
+            next-match.</p>
+    <p>If you redeploy the plugin and apply the Toolkit to your FAQ topics, you should again get the normal output. You can verify that you are really using your stylesheet by either introducing a syntax error and verifying that the processing fails, or by adding something to a template that will have a visual effect in the output. You can also use <xmlelement>xsl:message</xmlelement> to emit messages in the Toolkit log.</p>
+    <p>Once you have verified that everything is working as expected, you are ready to start modifying
+    the processing.</p>
+  </body>
+</subsection>  

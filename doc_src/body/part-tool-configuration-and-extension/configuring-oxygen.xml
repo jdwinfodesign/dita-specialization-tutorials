@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Configuring and Extending OxygenXML</title>
+  <shortdesc>It is almost trivially easy to configure OxygenXML to enable editing of new map and topic types. OxygenXML also provides a number of extension facilities you can use to extend the editor.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>OxygenXML editor</indexterm>
+        <indexterm>DITA-aware editors<indexterm>OxygenXML</indexterm></indexterm>
+        <indexterm>editors (software)<indexterm>DITA-aware<indexterm>OxygenXML</indexterm></indexterm></indexterm>
+        <indexterm>tools, commercial<indexterm>OxygenXML</indexterm></indexterm>
+        <indexterm>SyncroSoft<indexterm>OxygenXML</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <draft-comment
+        author="WEK">talk about OxygenXML configuration, namely deploying vocabulary plugins to Oxygen's toolkit. Provide an overview of extension mechanisms in Oxygen.</draft-comment>
+    </p>
+  </body>
+</subsection>

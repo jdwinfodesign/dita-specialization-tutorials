@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-process-step-5-2">
+  <title>Element Domain Specialization Step 5-2: Implement Type-Specific XSLT Templates</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </prolog>
+  <body>
+    <p>The different element types in the XML domain require different "decorations" on output to visually distinguish them. This could be done via CSS if we put appropriate <xmlatt>class</xmlatt> values on the HTML output or it can be done here using literal text. The advantage of using literal text is that it will work even when the CSS isn't present or supported by the browser. The advantage of using CSS is that you can change the look without regenerating the HTML. For this tutorial the point is to learn to do some stuff with XSLT so we are going to use literal text.</p>
+    <p>The pattern for each element's template is the same: <codeblock>
+  &lt;xsl:template match="*[contains(@class, ' xml-d/<i>typename</i> ')]">
+    &lt;code>
+      &lt;xsl:text><i>text before</i>&lt;/xsl:text>
+      &lt;xsl:apply-templates/>
+      &lt;xsl:text><i>text after</i>&lt;/xsl:text>
+    &lt;/code>
+  &lt;/xsl:template>
+</codeblock></p>
+    <p>The <xmlelement>xsl:text</xmlelement> elements hold the generated text. This could be replaced with other HTML elements if you wanted some more complicated effect, like blue brackets or a superscript or something.</p>
+    <p>Note the leading and trailing spaces around the class attribute value ("<codeph> xml-d/xmlelem </codeph>"). It is very important to include those spaces so that you only match on the specific element types you want and not on types whose name happens to begin with the same letters.</p>
+    <p>The template uses the <xmlelement>code</xmlelement> element as the main HTML element for the XML components as it seems to be the closest match for the semantic of these keywords and we want the default HTML behavior of putting the text into a monospaced font.</p>
+    <p>For the <xmlelement>xmlelem</xmlelement> element, we need to generate the bounding angle brackets. Using the above template as a model, create this template following the include statement in the xmlDomain2HTML.xsl file: <codeblock>
+  &lt;xsl:template match="*[contains(@class, ' xml-d/xmlelem ')]">
+    &lt;code>
+      &lt;xsl:text>&amp;lt;&lt;/xsl:text>
+      &lt;xsl:apply-templates/>
+      &lt;xsl:text>&amp;gt;&lt;/xsl:text>
+    &lt;/code>
+  &lt;/xsl:template>
+</codeblock></p>
+    <p>The other templates are just like this one, differing only in the text before and text after they produce. Simply cut and paste the template for <xmlelement>xmlelem</xmlelement> and modify it as needed for each of the other types.</p>
+    <p>The complete XSLT stylesheet should look like this: <codeblock>
+&lt;?xml version="1.0" encoding="UTF-8" ?>
+&lt;!-- ===========================================================
+     HTML generation templates for the xmlDomain DITA domain.
+     
+     Copyright (c) 2011 Your Name Here
+     
+     =========================================================== -->
+
+&lt;xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  &lt;xsl:template match="*[contains(@class, ' xml-d/xmlelem ')]">
+    &lt;code>
+      &lt;xsl:text>&amp;lt;&lt;/xsl:text>
+      &lt;xsl:apply-templates/>
+      &lt;xsl:text>&gt;&lt;/xsl:text>
+    &lt;/code>
+  &lt;/xsl:template>
+
+  &lt;xsl:template match="*[contains(@class, ' xml-d/xmlatt ')]">
+    &lt;code>
+      &lt;xsl:text>@&lt;/xsl:text>
+      &lt;xsl:apply-templates/>
+    &lt;/code>
+  &lt;/xsl:template>
+
+  &lt;xsl:template match="*[contains(@class, ' xml-d/textent ')]">
+    &lt;code>
+      &lt;xsl:text>&amp;amp;&lt;/xsl:text>
+      &lt;xsl:apply-templates/>
+      &lt;xsl:text>;&lt;/xsl:text>
+    &lt;/code>
+  &lt;/xsl:template>
+
+  &lt;xsl:template match="*[contains(@class, ' xml-d/parment ')]">
+    &lt;code>
+      &lt;xsl:text>%&lt;/xsl:text>
+      &lt;xsl:apply-templates/>
+      &lt;xsl:text>;&lt;/xsl:text>
+    &lt;/code>
+  &lt;/xsl:template>
+
+  &lt;xsl:template match="*[contains(@class, ' xml-d/numcharref ')]">
+    &lt;code>
+      &lt;xsl:text>&amp;amp;#&lt;/xsl:text>
+      &lt;xsl:apply-templates/>
+      &lt;xsl:text>;&lt;/xsl:text>
+    &lt;/code>
+  &lt;/xsl:template>
+&lt;/xsl:stylesheet></codeblock> </p>
+    <p>That's all there is to it, at least for these relatively simple keyword-based
+    specializations. A specialization of something more sophisticated, like <xmlelement>simple-table</xmlelement>
+    or <xmlelement>dl</xmlelement> could, of course, require more work. But just adding a few <xmlelement>ph</xmlelement>
+    or <xmlelement>keyword</xmlelement> specializations and styling them is simple enough that anyone should
+    be able to do it if they need to.</p>
+    <p>For XSL-FO output, the stylesheet would be almost the same, except that you would be generating
+    <xmlelement>fo:inline</xmlelement> elements instead of HTML <xmlelement>code</xmlelement> or <xmlelement>span</xmlelement>
+    elements.</p>
+  </body>
+</subsection>  

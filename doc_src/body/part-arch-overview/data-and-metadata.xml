@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" 
+"subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Data and Metadata in DITA</title>
+  <shortdesc>DITA makes a fundamental distinction between data and metadata and provides general elements (<xmlelement>data</xmlelement>, <xmlelement>data-about</xmlelement>, <xmlelement>indexterm</xmlelement>, etc.) for capturing arbitrary metadata in almost any context.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm><xmlelement>data</xmlelement> element</indexterm>
+        <indexterm>data<indexterm>distinguished from
+          metadata</indexterm></indexterm>
+        <indexterm>metadata<indexterm>DITA architecture
+          for</indexterm><indexterm/></indexterm>
+        <indexterm>metadata<indexterm>distinguished from
+          data</indexterm></indexterm>
+        <indexterm>metadata<indexterm><xmlelement>data</xmlelement>
+          element</indexterm></indexterm>
+        <indexterm>DITA<indexterm>metadata architecture</indexterm></indexterm>
+        <indexterm>custom attributes<indexterm>using <xmlelement>data</xmlelement>
+          for</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In philosophical terms, what is <q>data</q> and what is <q>metadata</q> is often a matter of
+            opinion, and it is certainly the case that what is metadata in one context is data in
+            another. DITA tries to make the distinction by saying that information intended
+                <i>primarily</i> to be presented to readers for direct consumption is <q>data</q>
+            and information that serves to classify, identify, or otherwise describe the content is
+                <q>metadata.</q><fn>As I write this topic I realize that it’s a little odd that the
+                primary element for holding arbitrary <i>meta</i>data is named
+                    <xmlelement>data</xmlelement>, but there it is.</fn>
+        </p>
+    <p>In general, a given piece of metadata serves one of the following purposes:<ul
+      id="ul_tli_zrp_mb">
+      <li>Identifies: associates a distinct label, name, or identifier with the content. DITA <xmlatt>id</xmlatt> attributes, DITA keys, and CMS-specific object IDs are all examples of identifying metadata. Identifying metadata usually serves the needs of more-or-less direct and persistent addressing or reader recognition of objects through descriptive or well-known labels or names, such as citation strings for journal articles, digital object identifiers (DOIs), or part numbers for mechanical parts.</li>
+      <li>Classifies: associates one or more classifying values with the data. For example, DITA
+                    keywords within <xmlelement>prolog</xmlelement> serve as classifiers, as do index
+                    entries. Classifying metadata generally serves the needs of search and retrieval
+                    or query-based association (as opposed to direct addressing using identifiers).
+                    Classifying metadata is often bound to taxonomies or ontologies that define the
+                    vocabulary of classification values and their relation to each other or to other
+                    taxonomies or ontologies<fn>By <term>taxonomy</term> I mean a strictly or mostly
+                        hierarchical system of classifications from more general to more specific,
+                        of which the Linaean taxonomy of living things is the most obvious example.
+                        By <term>ontology</term> I mean a directed graph of relationships among
+                        classifications or <q>subjects.</q> That distinction seems to be the most
+                        generally accepted and useful definitions of these terms, at least in the
+                        context of applying them to DITA-based content. I have zero patience for
+                        arguments about what is or isn’t an ontology. One can, of course, argue that
+                        a taxonomy is just a degenerate form of ontology and one would be right, but
+                        so what? It’s useful to distinguish the purely (or mostly) hierarchical from
+                        the very much not hierarchical. In particular, defining taxonomies and
+                        creating user interfaces that reflect them is easy. Defining ontologies and
+                        user interfaces that reflect them is hard. Note that the DITA 1.2 Subject
+                        Scheme map type is capable of representing both taxonomies and ontologies
+                        with equal ease, although the Topic Map standard is more optimized for
+                        representing ontologies (Topic Maps have no direct relationship to DITA
+                        other than coincidence of names and the fact that a DITA map could be
+                        expressed as a topic map). See <xref keyref="subject-scheme-maps" 
+                            format="dita"/>.</fn></li>
+      <li>Describes: associates one or more descriptive properties with the content. Obvious
+                    examples are the DITA author, product, and copyright metadata elements allowed
+                    within <xmlelement>prolog</xmlelement>. These capture properties of the map or topic
+                    that are neither identifying nor classifying, but descriptive or associative.
+                    For example, one can think of the <xmlelement>author</xmlelement> element as
+                    establishing a relationship between the topic as an object and the author as an
+                    object, even though the author may not be represented literally in the DITA
+                    content other than as a string value within the <xmlelement>author</xmlelement>
+                    element. But in many Publishing-related systems, authors are represented by
+                    specific content, for example, author biographies and other metadata about
+                    authors as business objects within the publishing process and there is a
+                    definite business and information management requirement for there to be an
+                    explicit, not implicit, association between a map or topic and its author
+                    objects. In a real Publishing information system, just having the author value
+                        <q>John Brown</q> is not sufficient because there could be any number of
+                    John Browns who are authors of works published by the same publisher. So while
+                    we tend to think of descriptive metadata as name/value pairs, they may need to
+                    be more sophisticated.</li>
+      <li>Annotates: associates some form of commentary with the content, such as editorial notes, historical background, etc. It is annotative metadata that is most obviously both metadata from the standpoint of the thing annotated and content from the standpoint of the person interested more in the commentary than the commentary subject. </li>
+      </ul></p>
+    <p>Within maps and topicrefs, metadata about the topicref as a whole or the map as a whole is
+            held within <xmlelement>topicmeta</xmlelement>. Within topics, the <xmlelement>prolog</xmlelement>
+            element holds metadata that applies to the topic as a whole. The <xmlelement>data</xmlelement>
+            element is used for most other metadata and can occur in most contexts. Metadata on
+            topicrefs that point to topics cascades, by default, to the referenced topic, adding to
+            or overriding the metadata on the topic in that use context.</p>
+    <p>When used outside of <xmlelement>topicmeta</xmlelement>, the
+      <xmlelement>data</xmlelement> element applies to the element that directly
+      contains it. For example, if you put a <xmlelement>data</xmlelement> element
+      inside a <xmlelement>p</xmlelement> element, then the <xmlelement>data</xmlelement>
+      element is metadata for the <xmlelement>p</xmlelement> element. When used inside
+      <xmlelement>topicmeta</xmlelement>, the <xmlelement>data</xmlelement> element applies
+      to the same scope as the <xmlelement>topicmeta</xmlelement> element that
+      contains it, that is, the topicref (and referenced topic, if any) or map
+      as a whole.</p>
+    <p>By default, <xmlelement>data</xmlelement> is not rendered. This means that all
+        <xmlelement>data</xmlelement> elements are suppressed in most outputs unless you say otherwise.
+      You are, of course, free to render <xmlelement>data</xmlelement> elements if you wish to, but they
+      should not be rendered by generic DITA processors using only default presentation rules.</p>
+    <p>Note that <q>not rendered</q> is not the same as <q>not processed</q>—processors that
+      generate intermediate versions of DITA content as they perform DITA preprocessing (content
+      reference resolution, link resolution, link text construction, and so forth) should pass any
+      metadata elements through to the final rendition stage. It is the rendition processor (that
+      is, the last stage before the data is presented to the reader) that decides what to do with
+      each metadata element. Not carrying metadata through in earlier stages would deny rendition
+      stages the opportunity to present some or all of the metadata if it so desires.</p>
+    <p>Because DITA’s specialization mechanism does not allow you to define new attributes for
+            individual element types (you can only define global attributes through specialization),
+            you must use <xmlelement>data</xmlelement> or specializations of <xmlelement>data</xmlelement> where
+            you would otherwise use element-type-specific attributes. (Attribute specializations are
+            global because any specialization declaration syntax that allowed you to add attributes
+            to individual elements would be prohibitively complex, at least in the context of the
+            current attribute-based syntax.)</p>
+    <p>The use of nested <xmlelement>data</xmlelement> elements as though they were attributes does pose a
+            problem for DTD-syntax content models because you cannot have a content model that both
+            allows #PCDATA and requires specific elements before any text. You can do that with XSD
+            schemas. However, there’s no point in worrying about this because the semantics of
+                <xmlelement>data</xmlelement> are, or should be, independent of where the
+                <xmlelement>data</xmlelement> elements occur within the element they apply to. By
+            convention they are usually collected at the beginning, like attributes, or at the
+            end.</p>
+    <p>Custom processing that reflects <xmlelement>data</xmlelement> elements in the rendition should not
+      depend on the elements being at any particular location within the content. Rather, processing
+      code should treat child <xmlelement>data</xmlelement> elements like attributes and process them
+      without regard to where they occur. </p>
+    <p>Note that <xmlelement>data</xmlelement> can contain <xmlelement>data</xmlelement> to any level of nesting, so you can construct sophisticated metadata structures if you need to.</p>
+    <p>It is absolutely wrong to use <xmlelement>data</xmlelement> to created titled hierarchies within topic bodies. That is, you must not specialize from <xmlelement>data</xmlelement> and then customize your processing to render the <xmlelement>data</xmlelement> elements simply to get around the prohibition on the nesting of sections or similar constraints.  The DITA specification has an explicit statement to this effect. DITA 1.2 provides two arbitrarily-nesting content elements, <xmlelement>bodydiv</xmlelement> and <xmlelement>sectiondiv</xmlelement>, that can be used to create arbitrary <i>untitled</i> content structures without the need to abuse <xmlelement>data</xmlelement>.</p>
+    <p>The <xmlelement>data</xmlelement> element takes two attributes:<ul id="ul_zlp_kho_mb">
+        <li><xmlatt>name</xmlatt> specifies the name of the metadata item, for example,
+                        <codeph>&lt;data <b>name="clause-number"</b>></codeph>.</li>
+        <li><xmlatt>value</xmlatt> specifies the value of the metadata item, for example,
+                        <codeph>&lt;data name="clause-number <b>value="12.4.3"</b>/></codeph></li>
+      </ul></p>
+    <p>You can choose to put the metadata value in the <xmlatt>value</xmlatt> attribute or in the
+      content of the <xmlelement>data</xmlelement> element. In general, you should do one or the other,
+      but not both, for a given element instance. In specializations you can set defaults for either
+      or both attributes. As a matter of practice, you should always set a default for the
+        <xmlatt>name</xmlatt> attribute on specializations of <xmlelement>data</xmlelement> so that
+      general-purpose processors will report it just as they would for an unspecialized
+        <xmlelement>data</xmlelement> element.</p>
+    <p>The <xmlelement>data-about</xmlelement> element is used to associate metadata with an element by
+            pointing at the element to which the metadata applies, rather than having the metadata
+            literally nested. This allows you to apply metadata to existing content that you cannot
+            or do not want to modify. This could be a handy feature, but at the time of writing I’m
+            not aware of anyone who depends on this feature of DITA or any tools that support it,
+            including the Open Toolkit (as of version 1.5.3).</p>
+    <p><xmlelement>data-about</xmlelement> presents implementation challenges for information management,
+            especially if you want to enable search based on metadata. To support efficient search
+            would require you to maintain indexes to associate <xmlelement>data-about</xmlelement>
+            elements with the elements they annotate. This isn’t hard to implement, but it does
+            require thought when designing your search and retrieval system.</p>
+    <p>In a sequential processing application like the Open Toolkit you could simply push
+        <xmlelement>data-about</xmlelement> elements into the content of the elements they point to,
+      changing the <xmlelement>data-about</xmlelement> elements into <xmlelement>data</xmlelement> elements, and
+      then let subsequent processing operate as it would normally operate on nested
+        <xmlelement>data</xmlelement> elements.</p>
+    <p>Another base form of metadata is index entries, <indexterm>index
+      entries<indexterm>as
+      metadata</indexterm></indexterm><indexterm>metadata<indexterm>index
+      entries as</indexterm></indexterm>represented by the
+      <xmlelement>indexterm</xmlelement>
+      element<indexterm><xmlelement>indexterm</xmlelement></indexterm>. Like
+      <xmlelement>data</xmlelement>, index terms are not presented by default at the
+      point of occurrence, but are used to construct back-of-the-book indexes or
+      similar navigation or retrieval structures. You can put index terms either
+      within map or topic metadata using
+      <xmlelement>keywords</xmlelement><indexterm><xmlelement>keywords</xmlelement></indexterm>
+      within
+      <xmlelement>metadata</xmlelement><indexterm><xmlelement>metadata</xmlelement></indexterm>
+      within
+      <xmlelement>topicmeta</xmlelement><indexterm><xmlelement>topicmeta</xmlelement></indexterm>
+      or<xmlelement>prolog</xmlelement><indexterm><xmlelement>prolog</xmlelement></indexterm>,
+      or you can put them inline in content elements. Normal practice for
+      modular content is to put index entries in topic metadata rather than
+      inline, where they contribute to the general classifying metadata for the
+      topic. But you can put index terms inline if you want to or where it is
+      required, such as when topics tend to span multiple pages in printed
+      output, meaning that entries in the topic metadata might not result in
+      accurate page number references in a print index.</p>
+  </body>
+</subsection>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Document Type Shell Tutorial</title>
+  <shortdesc>Goal: Define a document type shell that omits domains you don't want and integrates a third-party domain you do want.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>document type shell</indexterm>
+        <indexterm>shell<indexterm>document type</indexterm><indexterm>DTD</indexterm><indexterm>XSD</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Most, if not all, production uses of DITA require the creation of document type shells. Fortunately, it's easy to do.</p>
+    <p>Document type shells serve to <term>integrate</term> vocabulary and constraint modules into a working DTD or XSD document that can be used to validate documents that should conform to the document type.</p>
+    <p>Often the only thing you need to do to configure your DITA environment is create document
+      type shells, at least initially. For example, it is likely your writers do not need all the
+      domains defined by the DITA standard and included in the OASIS-provided document type shells.
+      You may also want to allow the nesting of different topic types or similar configurations that
+      do not, themselves, require new specialization or constraint modules.</p>
+    <p>In a production DITA environment (meaning one where you will be doing real work as opposed to simply evaluating DITA technology) you should <i>always</i> create local shells even if you have no immediate need to impose constraints, adjust domain usage, or do specialization. </p>
+    <p>The reason for this requirement to create local document type shells is that as soon as you <i>do</i> need to do any of these things (and you will, sooner rather than later), you <i>must</i> have local document type shells. If you have not created local shells in advance, then any existing documents will have to be modified to point to the new shells you must now create. That could be a very disruptive change depending on how your documents are managed and which tools you are using to manage and author them.</p>
+    <p>Much better to set up your local shells first, get the configuration and deployment details worked out, and then you don't have to worry about future requirements that will require changes to the shells because you can modify the shells themselves without the need to modify existing documents (because the DTD or XSD pointers in the documents don't need to change in that case).</p>
+    <p>The overall process for creating a document type shell is:<ol
+      id="ol_0e766439-51f1-4242-9a69-64c1c054170d">
+      <li>Find an existing shell that is close to what you want to end up with and copy it to a new location.</li>
+      <li>Add or remove references to constraint or vocabulary modules as needed.</li>
+      <li>Assign an appropriate public identifier or URN for the new shell.</li>
+      <li>Deploy the new shell so that it is available to authors and processing components</li>
+      </ol></p>
+    <p>The details of public ID or URN assignment and deployment depend on what specific tools you are using. In the case of the Open Toolkit, the best thing to do is to package the shell as part of a Toolkit plugin that contains an entity resolution catalog entry for the shell (which serves to assign the public identifier) and integrates the catalog into the Toolkit's master catalog (which serves to deploy the shell, making it available to anything that uses the Toolkit, including the Toolkit itself). See <xref
+      href="../../packaging-vocabulary-as-plugins.xml#topic-id"
+      format="dita"/> for details.</p>
+    <p>(There is an implicit message here, which is that tools that depend on the Toolkit tend to simplify the overall task of DITA system configuration and maintenance by limiting the number of system components that have to be created or updated to reflect a change to vocabulary components. This is one reason that OxygenXML, in particular, serves as an effective DITA development and authoring environment: it uses the Toolkit directly to access all DITA-related vocabulary components. This, coupled with Oxygen's built-in specialization awareness, means that you can deploy your local shells, constraint modules, and vocabulary modules to one place and all DITA editing and processing through Oxygen just works.)</p>
+  </body>
+</chapter>

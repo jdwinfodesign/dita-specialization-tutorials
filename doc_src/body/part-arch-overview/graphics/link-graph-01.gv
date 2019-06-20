@@ -1,0 +1,36 @@
+    digraph map_link_graph {
+    
+    // Graph properties:
+    rankdir=LR;ordering=out;label="Map Link Graph ";
+
+    "concept-01" [label="concept-01",]
+    "concept-02" [label="concept-02",]
+    "reference-01" [label="reference-01",]
+    "reference-02" [label="reference-02",]
+
+"concept-01" -> {
+  "reference-01"
+  }
+  
+  "concept-01" -> {
+  "reference-02"
+  } 
+  
+   "concept-02" -> {
+  "reference-02"
+  } 
+
+  "reference-01"  -> {
+    "concept-01"
+  } 
+  
+  "reference-02"  -> {
+    "concept-01"
+  } 
+  
+  "reference-02"  -> {
+    "concept-02"
+  } 
+  
+  }
+ 

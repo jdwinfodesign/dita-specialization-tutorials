@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Packaging Document Type Shells and Vocabulary Modules as Toolkit Plugins</title>
+  <shortdesc>You can simplify deployment and testing of document type shells and vocabulary modules by packaging them as Open Toolkit plugins.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Open Toolkit<indexterm>vocabulary modules as plugins</indexterm><indexterm>plugins<indexterm>vocabulary modules</indexterm></indexterm></indexterm>
+        <indexterm>vocabulary modules<indexterm>packaging as Open Toolkit plugins</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The DITA Open Toolkit provides a general plugin facility that makes it easy to integrate
+      local shells and new vocabulary modules into the Toolkit's master entity resolution catalog.
+      This makes the shells and modules immediately available to all processors that use the
+      Toolkit's catalog, including, of course, the Toolkit itself. </p>
+    <p>If your DITA-aware editor uses the Toolkit's catalog to resolve DTD and XSD references, then
+      by deploying your modules to the Toolkit, you should be able to immediately start validating
+      and editing with your shells and modules. For example, the OxygenXML editor is configured by
+      default to use the master catalog of the Open Toolkit. By deploying your shells and modules as
+      Toolkit plugins, Oxygen can immediately use them with no additional configuration. This makes
+      it very quick to develop and test new shells and vocabulary modules.</p>
+    <p>Entity resolution catalogs are an OASIS standard supported by most XML-aware tools. A catalog
+      provides a mapping from public identifiers, system identifiers (such as URNs) and URIs, to
+      files on a local system.</p>
+    <p>The Open Toolkit's plugin mechanism works through pre-defined extension points that plugins
+      can plug into <draft-comment>[FIXME: see general section on creating Toolkit
+        plugins].</draft-comment> One extension point is in the master entity resolution catalog,
+        <filepath>catalog-dita_template.xml</filepath>.</p>
+    <p>Neither the Toolkit nor the DITA standard dictate how to organize your document type shells
+      and modules. The practice I use is to package all the document type shells and modules for a
+      given project into a single plugin, named
+        <q><varname>unique-package-prefix</varname>.doctypes,</q> where
+        <varname>unique-package-prefix</varname> is a Java-style reverse Internet domain name, for
+      example, <q>com.planetsizedbrains,</q> resulting in a plugin named
+        <q>com.planetsizedbrains.doctypes.</q> The point of the Java-style name is to ensure that
+      the plugin's name will be unique in any Toolkit instance.</p>
+    <p>As deployed to the Toolkit, a plugin is just a directory containing the files that make up
+      the plugin. </p>
+    <p>My normal practice is to have within the plugin a directory named
+        <filepath>doctypes</filepath> that contains one subdirectory for each distinct vocabulary
+      module or document type shell. For example, if I have a shell for each of the base topic
+      types, plus a new attribute domain module, the directory structure in my plugin would
+      be:<codeblock>com.planetsizedbrains.doctypes/
+  doctypes/
+    concept/
+    phase-of-moon-AttDomain/
+    reference/
+    task/
+    topic</codeblock></p>
+    <p>At the root of the plugin are two files:<ul>
+      <li><filepath>plugin.xml</filepath>, which defines the plugin to the Toolkit and controls how
+          it is integrated with the extension point.</li>
+      <li><filepath>catalog.xml</filepath>, which is the file that will be integrated with the extension point in the main <filepath>catalog-dita_template.xml</filepath> file. </li>
+      </ul></p>
+    <p>The <filepath>doctypes/</filepath> directory under the main plugin directory contains a
+      master catalog file that includes the catalogs from each module-specific directory. This
+      organization provides a general-purpose root directory for your doctypes regardless of how
+      they might be packaged for different tools.</p>
+    <p>Within each subdirectory are the working DTD or XSD files and a <filepath>catalog.xml</filepath> file providing the appropriate catalog entries for the files in that subdirectory. If I expect to have both DTD and XSD versions of my shells or modules, I create another level of subdirectory, one for DTDs and one for XSDs, like so:<codeblock>com.planetsizedbrains.doctypes/
+  doctypes/
+    concept/
+      dtd/
+      xsd/
+    phase-of-moon-AttDomain/
+      dtd/
+      xsd/
+    reference/
+      dtd/
+      xsd/
+    task/
+      dtd/
+      xsd/
+    topic
+      dtd/
+      xsd/</codeblock></p>
+    <p>With this organization, the <filepath>catalog.xml</filepath> files that map public IDs or
+      schema location URNs to files go in the <filepath>dtd</filepath> or <filepath>xsd</filepath>
+      directories. Each module's main directory contains a <filepath>catalog.xml</filepath> file
+      that simply includes the catalog files from each of the subdirectories. This approach keeps
+      everything self contained at each level. If you add or remove a module from your plugin you
+      simply update the top-level catalog file in the <filepath>doctypes/</filepath> directory to
+      add or remove a reference to that module's top-level catalog file and everything just
+      works.</p>
+    <p>For this example, the <filepath>catalog.xml</filepath> file under the <filepath>com.planetsizedbrains.doctypes</filepath> directory would look like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  &lt;!-- NOTE: The following catalog entries will be added to the Toolkit's
+             top-level catalog-dita.xml without modification, so they
+             need to work as they will be in that catalog, not as they
+             exist within the plugin's directory.
+    -->
+  
+  &lt;nextCatalog catalog="doctypes/catalog.xml"/>
+  
+&lt;/catalog></codeblock></p>
+    <p>The catalog file in the <filepath>com.planetsizedbrains.doctypes/doctypes/</filepath> directory looks like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  
+  &lt;nextCatalog catalog="topic/catalog.xml"/>
+  &lt;nextCatalog catalog="concept/catalog.xml"/>
+  &lt;nextCatalog catalog="reference/catalog.xml"/>
+  &lt;nextCatalog catalog="task/catalog.xml"/>
+
+  &lt;nextCatalog catalog="phase-of-moon-AttDomain/catalog.xml"/>
+
+&lt;/catalog></codeblock></p>
+    <p>This is the catalog that will be included by the <xmlelement>nextCatalog</xmlelement> entry added to the main <filepath>catalog-dita.xml</filepath> file.</p>
+    <p>Within each of the module directories the catalog looks like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  
+  &lt;nextCatalog catalog="dtd/catalog.xml"/>
+  &lt;nextCatalog catalog="xsd/catalog.xml"/>
+    
+&lt;/catalog></codeblock></p>
+    <p>Within the <filepath>dtd</filepath> or <filepath>xsd</filepath> directory for a document type shell, the catalog would look something like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"          
+  prefer="public">  
+
+  &lt;public publicId="urn:pubid:dita4practitioners.com:doctypes:dita:topic"
+    uri="topic.dtd"
+  />
+  &lt;system systemId="urn:pubid:dita4practitioners.com:doctypes:dita:topic.dtd"
+    uri="topic.dtd"
+  />
+&lt;/catalog>  </codeblock></p>
+    <p>The general pattern here is that there is a catalog in each directory that points down into the next directory. Only the top-level catalog and leaf catalogs vary—the intermediate catalogs are always the same. This makes it easy to copy an existing module or shell's directory tree as the starting point for a new module or shell. This also makes it easier to reorganize the directories if necessary, since no single catalog points down more than one directory level.</p>
+    <p>The <filepath>plugin.xml</filepath> file goes in the top-level directory. For a document type plugin it looks like this:<codeblock>&lt;plugin id="<b>com.planetsizedbrains.doctypes</b>">
+  &lt;feature extension="dita.specialization.catalog.relative" value="catalog.xml" type="file"/>
+&lt;/plugin></codeblock></p>
+    <p>The bit in bold is the plugin identifier and is the only part you must change for your own module. The <xmlelement>feature</xmlelement> element is always the same for a doctype plugin. The plugin name must be unique across all plugins in your Toolkit, so the easiest and most reliable thing is to use the same Java-style name for the plugin ID as you used for the plugin's directory.</p>
+    <p>To deploy the plugin, simply copy the directory into the <filepath>plugins/</filepath> directory of your Toolkit and run the <filepath>integrator.xml</filepath> Ant script, e.g., from the root directory of the Toolkit:<codeblock>ant -f integrator.xml</codeblock></p>
+    <p>Your shells and modules should be ready to use. You can verify the integration by opening the
+      Toolkit's <filepath>catalog-dita.xml</filepath> file and looking for a reference to your
+      plugin's top-level catalog file. If you are using an editor like OxygenXML that lets you
+      follow file references (in Oxygen you put your cursor on a line that contains a reference to a
+      file and press "ctrl+enter"), you can use that feature to follow the chain of references from
+      catalog to catalog to make sure you have everything hooked up correctly. But if you followed
+      the file organization pattern shown here, it should be good.</p>
+    <p>
+      <draft-comment>[Need a reference to a general topic on troubleshooting entity resolution
+        issues.]</draft-comment>
+    </p>
+  </body>
+</subsection>

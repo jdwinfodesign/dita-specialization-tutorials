@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>DTD Topic Type Shell Tutorial Step 1: Copy Existing Shell</title>
+  <body>
+    <p>Create a directory in your workspace to hold the new document type shell, e.g.,
+                <filepath>workspace/myTopicShell</filepath>. In the
+                <filepath>myTopicShell</filepath> directory create the directory
+                <filepath>dtd</filepath>.</p>
+    <p>Find the file <filepath>topic.dtd</filepath> in the technical content area of the standard DITA DTD distribution (<filepath>dtd/technicalContent/dtd/topic.dtd</filepath> in the files packaged with the Open Toolkit) and copy it into the <filepath>workspace/myTopicShell/dtd</filepath> working directory as file <filepath>myTopic.dtd</filepath>.</p>
+    <note>The DITA 1.2 DTD distribution includes two document type shells for
+                <xmlelement>topic</xmlelement>: <filepath>topic.dtd</filepath>, in the technical
+            documentation area, and <filepath>basetopic.dtd</filepath>, in the base area. The
+                <filepath>topic.dtd</filepath> shell integrates all the different topic domains that
+            are part of the standard DITA vocabulary. The <filepath>basetopic.dtd</filepath> only
+            integrates the highlighting, indexing, and utility domains. For this tutorial I'm having
+            you use <filepath>topic.dtd</filepath> so that you get experience removing
+            things.</note>
+    <p>In the <filepath>myTopicShell</filepath> directory, create a new XML document named <filepath>mytopic-test-dtd.xml</filepath> that uses <filepath>myTopic.dtd</filepath> as its document type with this content:<codeblock>&lt;?xml version='1.0' encoding='UTF-8'?>
+&lt;!DOCTYPE topic SYSTEM "dtd/myTopic.dtd">
+&lt;topic id="topic-1">
+  &lt;title>Topic title&lt;/title>
+  &lt;body>
+    &lt;p>Topic paragraph&lt;/p>
+  &lt;/body>
+&lt;/topic></codeblock></p>
+    <p>This document serves as your test document to verify that you haven't made any syntax errors in the new shell.</p>
+    <p>Open this document in your XML editor (e.g., in OxygenXML) and validate it. It should be valid.</p>
+  </body>
+</subsection>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>DTD or XSD?</title>
+  <shortdesc>DITA vocabulary modules can be implemented using DTDs or XML schema documents (XSD). Which should you use?</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>DTD</indexterm>
+        <indexterm>XSD</indexterm>
+        <indexterm>redefine<indexterm>feature of XSD</indexterm></indexterm>
+        <indexterm>override<indexterm>feature of XSD 1.1</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>At the time of writing, most DITA users use DTD-based vocabulary modules. However, you can use XSD-based modules if you want to or must in order to accommodate the tools you're using or the demands of a particular user community. For example, the Syntext Serna editor only uses XSDs to drive in-editor tag awareness (it can also use DTDs for validation, but not for in-editor tag awareness).</p>
+    <p>Which raises the question: should I use DTDs, XSDs, or both?</p>
+    <p>The short answer is <q>use DTDs unless you absolutely have to use XSDs</q> for now. This
+      answer will hopefully change in the future.</p>
+    <p>The reason for choosing DTDs is simple: DITA's XSDs currently depend on the redefine feature
+      of XSD. Unfortunately, the definition of redefine in the XSD 1.0 specifications is ambiguous
+      to the point that different conforming XSD processors will produce different results for the
+      same set of XSD documents. For this reason, the redefine feature is deprecated in XSD 1.1 (at
+      Candidate Recommendation stage at the time of writing). Unfortunately, as currently
+      formulated, DITA's XSDs depend on one particular interpretation of redefine, the one
+      implemented by the Xerces 2.x parser.</p>
+    <p>This means that some conforming XSD processors consider DITA XSDs invalid and will not
+      process them. This means, in turn, that you cannot reliably interchange XSD-based vocabulary
+      modules and document type shells unless all of the interchange partners are using compatible
+      XSD processors.</p>
+    <p>However, because the Xerces parser does the right thing, and because so many tools use the
+      Xerces parser (or can use it), including the Open Toolkit, and because all the major
+      commercial DITA-aware editors support DITA XSDs, you can create environments where XSD-based
+      DITA documents can be processed reliably. However, a schema-aware XML processor that is not
+      specifically DITA-aware, may not be able to process XSD-based DITA documents.</p>
+    <p>I find this frustrating because, except for the redefine issue, I prefer XSD over DTDs for
+      the following reasons:<ol>
+        <li>XSDs are fully namespace aware and namespaces are good.</li>
+        <li>XSDs are more expressive than DTDs.</li>
+        <li>Because they are XML documents, you can embed complete XML-based documentation in your
+          XSD in a way you cannot in DTDs.</li>
+        <li>As XML documents, XSDs are more convenient to process than DTDs (however, there are DTD
+          parsers that make processing DTDs almost as convenient as XSDs)</li>
+      </ol></p>
+    <p>DITA 1.x can't use namespaces, which eliminates the namespace advantage of XSDs (you could
+      use namespace-based XSDs to create document type modules that are functionally equivalent to
+      DITA's modularity features. However, DITA's modularity features do not use namespaces).</p>
+    <p>The XSD 1.1 specification defines a new feature, <q>override,</q> that is intended to
+      functionally replace the redefine feature and provide a more flexible extension mechanism, one
+      that is a better match to what DITA needs. If the override feature works as we want it to (the
+      DITA TC has provided input about DITA's requirements to the XSD Working Group) and it is
+      implemented by XSD-aware processors, then it will be possible to rework the DITA XSDs to use
+      override rather than redefine, at which point XSDs will become a better choice for vocabulary
+      module implementation.</p>
+    <p>Until that time, however, the easiest and safest route is to stick with DTD-based shells and vocabulary modules.</p>
+  </body>
+</subsection>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-step-4-7">
+  <title>Step 4-7. Test the integration</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>    
+  </prolog>
+  <body>
+    <p>Using an XML editor and the test concept you created in step 2
+        above, first verify that the document is still valid, which verifies that you didn't break
+        anything in doing the integration of concept.dtd. If that succeeds, then 
+        add a <xmlelement>conbody</xmlelement>, a <xmlelement>p</xmlelement>, and verify that you can now
+        add any of the XML domain elements within a paragraph.</p>
+    <p>If this succeeds, you're done. You have successfully defined a new domain and integrated
+        it into a shell document type. Now all you have to do is repeat (that is copy) the 
+        shell integrations into the other shells you'll be using the domain with.</p>
+    <p>The next step, if needed, is to add domain-specific functionality to your DITA processors.
+        For the XML domain, that means updating output processors to create the formatting
+        effects for the different XML component mention elements.</p>
+  </body>
+</subsection>

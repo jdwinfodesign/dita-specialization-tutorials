@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-spec-step-4-4cont">
+  <title>Topic Specialization Step 4-4 (continued): Implement Specialization-Specific XSLT Processing</title>
+  <body>
+    <p>Having reworked the markup design to provide a short answer and answer details, pop back up to step 4-4
+    and continue implementing the XSLT processing.</p>
+    <p>The first thing to do is update the existing templates to reflect our new element type names,
+            which means changing the template for <xmlelement>faq-answer</xmlelement> to match on
+                <q>faq-answer-details</q> instead of <q>faq-answer</q>:
+            <codeblock>
+  &lt;xsl:template match="*[contains(@class, <b>' faq-question/faq-answer-details '</b>)]">
+</codeblock></p>
+    <p>Now the challenge is to modify the code within this template to give us the result we want. Modify the template as follows: <ol
+      id="ol_8d223a01-6b4c-4d40-b14a-2330e6fd1529">
+      <li>Delete all the comments between the call-template to <q>start-revtag</q> and the
+                    apply-templates for <q>topic/abstract.</q></li>
+      <li>Because we have removed <xmlelement>abstract</xmlelement> from the content model for
+                        <xmlelement>faq-question</xmlelement>, you can delete the apply-templates
+                    instruction that matches on <q>topic/abstract.</q> Having the instruction there
+                    wouldn't hurt anything (there will never be an abstract to match on), but it
+                    might confuse somebody who knows the content model for
+                        <xmlelement>faq-question</xmlelement>. However, since somebody who knows the
+                    content model for topic might expect there to be a match on
+                        <xmlelement>abstract</xmlelement>, it's probably a good idea to provide a comment
+                    to the effect that <xmlelement>faq-question</xmlelement> doesn't allow
+                        <xmlelement>abstract</xmlelement>.</li>
+      <li>Put a <xmlelement>div</xmlelement> with a <xmlatt>class</xmlatt> attribute value of
+                        <q>faq-answer-details</q> around the last <q>apply-templates</q> call: <codeblock>
+  <b>&lt;div class="faq-answer-details"></b>
+    &lt;xsl:apply-templates/>
+  <b>&lt;/div></b></codeblock>
+                    <p>This <xmlelement>div</xmlelement> clearly separates the answer details from the
+                        short answer and the <xmlatt>class</xmlatt> value provides a hook that can
+                        be used in CSS styles or JavaScript to add additional formatting or behavior
+                        to the answer details.</p></li>
+      </ol></p>
+    <p>The reworked template should look like this (changed bits are shown in bold):<codeblock>  &lt;xsl:template match="*[contains(@class, ' faq-question/<b>faq-answer-details</b> ')]">
+    &lt;xsl:variable name="flagrules">
+      &lt;xsl:call-template name="getrules"/>
+    &lt;/xsl:variable>
+    &lt;div>
+      &lt;xsl:call-template name="commonattributes"/>
+      &lt;xsl:call-template name="gen-style">
+        &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param>
+      &lt;/xsl:call-template>
+      &lt;xsl:call-template name="setidaname"/>
+      &lt;xsl:call-template name="start-flagit">
+        &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param>     
+      &lt;/xsl:call-template>
+      &lt;xsl:call-template name="start-revflag">
+        &lt;xsl:with-param name="flagrules" select="$flagrules"/>  
+      &lt;/xsl:call-template>
+      <b>&lt;!-- Abstract not allowed in faq-question topic type --> </b>     
+      &lt;!-- get the shortdesc para -->
+      &lt;xsl:apply-templates select="preceding-sibling::*[contains(@class,' topic/shortdesc ')]" mode="outofline"/>
+      
+      &lt;!-- Insert pre-req links - after shortdesc - unless there is a prereq section about -->
+      &lt;xsl:apply-templates select="following-sibling::*[contains(@class,' topic/related-links ')]" mode="prereqs"/>
+      
+      <b>&lt;div class="faq-answer-details">
+        &lt;xsl:apply-templates/>
+      &lt;/div></b>
+      &lt;xsl:call-template name="end-revflag">
+        &lt;xsl:with-param name="flagrules" select="$flagrules"/>  
+      &lt;/xsl:call-template>
+      &lt;xsl:call-template name="end-flagit">
+        &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param> 
+      &lt;/xsl:call-template>
+    &lt;/div>&lt;xsl:value-of select="$newline"/>
+  &lt;/xsl:template>
+</codeblock></p>
+    <p>Without having tested it yet, the template now looks like it should be right: it's not getting the
+    abstract, it is processing the short description (our new <xmlelement>faq-short-answer</xmlelement>) and the
+    rest of the processing should be appropriate.</p>
+    <p>Redeploy the Toolkit plugin and run the transform against your sample FAQ question. You should get the same output you got before since all we really did was change the template match value and cut away stuff we didn't need.</p>
+    <p>The next step in the implementation is to handle the <xmlelement>faq-short-answer</xmlelement> element. </p>
+    <p>The formatting specification says to output <q>A. </q> followed by the answer text. To do
+            this we need a template that matches on <q> faq-question/faq-short-answer </q>. Note
+            that even though <xmlelement>faq-short-answer</xmlelement> is specialized from
+                <xmlelement>shortdesc</xmlelement>, it would not make sense to simply override the
+            processing for <xmlelement>shortdesc</xmlelement>, as that would change the formatting for all
+            other topic types.</p>
+    <p>Create the following template: <codeblock>
+  &lt;xsl:template match="*[contains(@class, ' faq-question/faq-short-answer ')]" mode="outofline">
+    &lt;div class="faq-short-answer">
+      &lt;span class="faq-short-answer-a">A. &lt;/span>
+      &lt;xsl:apply-templates/>
+    &lt;/div>
+  &lt;/xsl:template> 
+</codeblock></p>
+    <p>Note the <xmlatt>mode</xmlatt> attribute with the value <q>outofline.</q> This is necessary
+            because the short description is being processed out of its normal source order, that is
+            from within the processing for the topic body (to which <xmlelement>shortdesc</xmlelement> is
+            a sibling) rather than from with the processing of <xmlelement>topic</xmlelement> (of which it
+            is a child). The base DITA stylesheets provide a generic way to handle this using the
+            mode <q>outofline</q> for all templates that handle elements processed out of their
+            normal document order. You can see that the mode is used on the apply templates in the
+            template for <xmlelement>faq-question</xmlelement>:
+            <codeblock>
+  &lt;xsl:template match="*[contains(@class, ' faq-question/faq-answer-details ')]" priority="10">
+    &lt;div>
+       
+      ...
+
+      &lt;!-- get the shortdesc para -->
+      <b>&lt;xsl:apply-templates select="preceding-sibling::*[contains(@class,' topic/shortdesc ')]"
+        mode="outofline"/></b>
+
+      ...
+
+    &lt;/div>
+    &lt;xsl:value-of select="$newline"/>
+  &lt;/xsl:template>
+</codeblock></p>
+    <p>If you didn't specify the corresponding mode on the match template for
+                <xmlelement>faq-short-answer</xmlelement>, you would get the answer text twice, once from
+            base outofline mode template that matches on <q> topic/shortdesc </q> and once for the
+            default mode template that matches on <q> faq-question/faq-short-answer </q>.</p>
+    <p>This template will put out <q>A. </q> before the short description. The
+                <xmlatt>class</xmlatt> values are there to support styling the result using CSS.</p>
+    <p>Redeploy the Toolkit plugin, run the sample FAQ answer through the Toolkit, and inspect the
+            results. You should now see the <q>A. </q> before the short answer text (the first
+            paragraph of the result). This means that the XSLT is done. The next step is to create
+            or update the applicable CSS stylesheet to add the appropriate styling to the HTML
+            pages. </p>
+  </body>
+</subsection>  

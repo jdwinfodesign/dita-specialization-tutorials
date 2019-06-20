@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Value Lists, Taxonomies, and Ontologies: SubjectScheme Maps</title>
+  <shortdesc>The SubjectScheme map specialization provides general facilities
+    for defining enumerated lists for attribute values, classification
+    taxonomies, and ontologies.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>maps<indexterm>subject scheme</indexterm></indexterm>
+        <indexterm>subject scheme map</indexterm>
+        <indexterm>value lists</indexterm>
+        <indexterm>enumerated values<indexterm>defining with subject scheme
+          maps</indexterm><indexterm/></indexterm>
+        <indexterm>ontology<indexterm>defining with subject scheme
+          maps</indexterm></indexterm>
+        <indexterm>taxonomy<indexterm>defining with subject scheme
+          maps</indexterm></indexterm>
+        <indexterm>RDF</indexterm>
+        <indexterm>topic maps</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>A general challenge in XML is the management of enumerated lists of values, usually for use
+      in attributes. While it is possible to declare attributes with enumerated value lists, often
+      the lists of values either change frequently or need to be different for different authors or
+      uses of the XML. For example, for conditional processing attributes, such as
+        <xmlatt>product</xmlatt>, the set of possible values is both specific to your local set of
+      products and may be different for different groups within the same enterprise or even
+      department. Likewise, the set of products changes constantly over time. It would be impossible
+      to have a single DTD that provided value lists for different sets of users and difficult at
+      best to keep the DTD up to date as the set of products changed over time.</p>
+    <p>The general solution is to have a separate definition of the values and a means to use that
+      definition within editors. DITA provides the subject scheme map specialization for defining
+      enumerated value lists and associating them with attributes. DITA-aware editors may use such
+      maps to provide value lists for attribute editing. A typical use is to define the values for
+      conditional attributes. Subject scheme maps can also define taxonomies and ontologies. The
+      subject scheme map vocabulary is documented in the <q>Classification elements</q> section of
+      the <cite>DITA Language Reference</cite>. Please read that for a complete discussion of
+      subject scheme maps with many more examples than I can provide here.</p>
+    <p>For this discussion I define <term>taxonomy</term> as a hierarchical organization of subjects
+      from general to specific, usually used for classification, and <term>ontology</term> as a
+      graph of relationships among subjects. These are not universally-accepted definitions, but
+      this is not a treatise on knowledge representation, so these definitions will work for our
+      purposes here. </p>
+    <p>The Linnaean taxonomy for biological classification is the textbook example of a taxonomy.
+      Taxonomies are often used in documentation as subject classification schemes, website
+      structures for online stores, or for faceted searching within a website. For example, an
+      online bookstore may have an organizing taxonomy to classify the books they sell.</p>
+    <p>An example of an ontology would be the sort of graphs popular in knowledge representation
+      where you have entities like <q>Shakespeare,</q>
+      <q>Richard III,</q> and <q>Play</q> and then use associations to say Richard III is a Play
+      written by Shakespeare.</p>
+    <p>Subject scheme maps can represent simple enumeration definitions, strict taxonomies, and
+            ontologies. Although subject scheme maps can represent ontologies, the DITA architects
+            are not trying to replicate or compete with other ontology and knowledge representation
+            schemes such as RDF and topic maps. There is nothing that prevents you from using RDF,
+            topic maps, or any other scheme for your knowledge representation needs. By the same
+            token, it is possible to generate RDF assertions or topic maps from subject scheme maps,
+            for example, to serve websites or other information systems. </p>
+  </body>
+  <subsection
+    id="subsection_nwb_424_lf">
+    <title>Defining and Using Attribute Value Lists</title>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm><xmlelement>enumerationdef</xmlelement></indexterm>
+          <indexterm><xmlelement>subjectdef</xmlelement></indexterm>
+          <indexterm><xmlelement>schemaref</xmlelement></indexterm>
+          <indexterm><xmlelement>attributedef</xmlelement></indexterm>
+          <indexterm>attribute value lists<indexterm>defining with subject
+            scheme maps</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>To define attribute value lists you create a subject scheme map and use the
+                    <xmlelement>subjectdef</xmlelement> element to define the values to use. You bind
+                lists of values to attributes using <xmlelement>enumerationdef</xmlelement> within the
+                subject scheme map. You can define the values for an attribute globally or for a
+                specific element type.</p>
+      <p>Editors provide different ways for authors to indicate which subject scheme to use. For
+                example, the oXygenXML editor uses the currently-selected map as the source for
+                values used in the attribute editor. This means you could either have a standalone
+                subject scheme map or include the subject scheme map into a publication’s map,
+                whichever makes more sense.</p>
+      <p>You define the set of values as a subject definition and point to the subject set from
+                    <xmlelement>enumerationdef</xmlelement> to bind the list to a specific attribute or
+                element/attribute pair. A set of values is represented by a single
+                    <xmlelement>subjectdef</xmlelement> element that contains zero or more child
+                    <xmlelement>subjectdef</xmlelement> elements, one for each value. The
+                    <xmlatt>keys</xmlatt> value used on each child <xmlelement>subjectdef</xmlelement>
+                defines the value to use in
+                attributes:<codeblock>&lt;subjectScheme>
+  &lt;title>Product Attribute Value Lists&lt;/title>
+  &lt;subjectdef keys="product-set-01">
+    &lt;subjectdef keys="prod-A"/>
+    &lt;subjectdef keys="prod-B"/>
+    &lt;subjectdef keys="prod-C"/>
+  &lt;/subjectdef>
+  &lt;enumerationdef>
+    &lt;attributedef name="product"/>
+    &lt;subjectdef keyref="product-set-01"/>
+  &lt;/enumerationdef>
+&lt;/subjectScheme></codeblock></p>
+      <p>The values of the <xmlatt>keys</xmlatt> attributes on the <xmlelement>subjectdef</xmlelement>
+                elements are used as the allowed values for the attribute <xmlatt>product</xmlatt>,
+                for example, <q>prod-A,</q>
+                <q>prod-B,</q> and <q>prod-C.</q> The key associated with the parent
+                    <xmlelement>subjectdef</xmlelement> is used to refer to the list as a unit from the
+                    <xmlelement>enumerationdef</xmlelement> element.</p>
+      <p>This is a very simple example but it demonstrates the principle. If a
+                    <xmlelement>subjectdef</xmlelement> has no child <xmlelement>subjectdef</xmlelement>
+                elements, then it defines an empty list, meaning that attributes that use that list
+                do not allow any value to be specified.</p>
+      <p>In practice you would likely have one map that defines sets of values for different
+                purposes and other maps that use <xmlelement>enumerationdef</xmlelement> to bind
+                attributes to value sets as needed. For example, the example above could be
+                refactored into two
+                maps:<codeblock><b>Value-list-defining map value-lists.ditamap:</b>
+
+&lt;subjectScheme>
+  &lt;title>Product Attribute Value Lists&lt;/title>
+  &lt;subjectdef keys="product-set-01">
+    &lt;subjectdef keys="prod-A"/>
+    &lt;subjectdef keys="prod-B"/>
+    &lt;subjectdef keys="prod-C"/>
+  &lt;/subjectdef>
+  &lt;subjectdef keys="product-set-02">
+    &lt;subjectdef keyref="prod-A"/>
+    &lt;subjectdef keys="prod-D"/>
+    &lt;subjectdef keys="prod-E"/>
+  &lt;/subjectdef>
+&lt;/subjectScheme></codeblock><codeblock><b>Enumeration-defining map:</b>
+
+&lt;subjectScheme>
+  &lt;title>My Product List Bindings&lt;/title>
+  &lt;schemaref href="value-lists.ditamap"/>
+  &lt;enumerationdef>
+    &lt;attributedef name="product"/>
+    &lt;subjectdef keyref="product-set-01"/>
+  &lt;/enumerationdef>
+&lt;/subjectScheme></codeblock></p>
+      <p>The value-lists.ditamap now defines two different value lists from which separate subject
+                scheme maps can choose as needed. Note that the second set, product-set-02, reuses
+                the subject <q>prod-A</q> by making a key reference to the key <q>prod-A.</q> You
+                have to do this because if you had a second <xmlelement>subjectdef</xmlelement> element
+                with the key <q>prod-A,</q> that key would never be effective because the first
+                definition of key within a map always wins. So the second
+                    <xmlelement>subjectdef</xmlelement> would effectively be invisible. Thus, you must use
+                    <xmlatt>keyref</xmlatt> to point to any subject already defined elsewhere in the
+                map.</p>
+      <p>That is, for a given subject identified by a given key name, that subject definition can
+                occur exactly once in the subject scheme map and must be used by reference in all
+                the other places where it is needed.</p>
+      <p>You can define the default value for an attribute using <xmlelement>defaultSubject</xmlelement>
+                within
+                <xmlelement>enumerationdef</xmlelement>:<codeblock>&lt;subjectScheme>
+  &lt;title>My Product List Bindings&lt;/title>
+  &lt;schemaref href="value-lists.ditamap"/>
+  &lt;enumerationdef>
+    &lt;attributedef name="product"/>
+    &lt;subjectdef keyref="product-set-01"/>
+    <b>&lt;defaultSubject href="prod-B"/></b>
+  &lt;/enumerationdef>
+&lt;/subjectScheme></codeblock></p>
+      <p>The default specified in a subject scheme enumeration is used if there
+        is no default specified in the governing DTD or schema and there is no
+        value specified in the document instance. In DITA, most
+        potentially-enumerable attributes, such as the selection attributes, do
+        not have DTD- or schema-defined defaults, meaning that defaults defined
+        in subject-scheme maps should take effect in processors that support the
+        use of subject scheme maps.</p>
+      <p>The enumeration definition shown above applies to all uses of the
+        <xmlatt>product</xmlatt> attribute. However, you can limit it to a
+        specific element type by using <xmlelement>elementdef</xmlelement> within
+        <xmlelement>enumerationdef</xmlelement>. For example, to use the list
+        product-set-01 only on <xmlelement>table</xmlelement> elements, you would do
+        this:<codeblock>&lt;subjectScheme>
+  &lt;title>My Product List Bindings&lt;/title>
+  &lt;schemaref href="value-lists.ditamap"/>
+  &lt;enumerationdef>
+    <b>&lt;elementdef name="table"/></b>
+    &lt;attributedef name="product"/>
+    &lt;subjectdef keyref="product-set-01"/>
+    &lt;defaultSubject href="prod-B"/>
+  &lt;/enumerationdef>
+&lt;/subjectScheme></codeblock></p>
+      <p>Note that <xmlelement>elementdef</xmlelement> only applies to the element type named, not to
+                specializations of it.</p>
+      <p>When defining sets of subjects to use as values, you can nest
+        <xmlelement>subjectdef</xmlelement> elements to create a hierarchy. At least
+        for the purposes of doing DITA-defined filtering, the implication of the
+        hierarchy is that lower (more-specific) values match to higher
+        (more-general) values as specified in a DITAVAL document or similar
+        run-time conditional processing specification.</p>
+      <p>For example, you might have products and variants within a given main product, where
+                anything that applies to a product’s variant also applies to the product. You could
+                model that like
+                so:<codeblock>  ...
+  &lt;subjectdef keys="product-set-01">
+    <b>&lt;subjectdef keys="prod-A"></b>
+      <b>&lt;subjectdef keys="prod-A-community"/></b>
+      <b>&lt;subjectdef keys="prod-A-enterprise"/></b>
+      <b>&lt;subjectdef keys="prod-A-pro"/></b>
+    <b>&lt;/subjectdef></b>      
+    &lt;subjectdef keys="prod-B"/>
+    &lt;subjectdef keys="prod-C"/>
+  &lt;/subjectdef>
+  ...</codeblock></p>
+      <p>For the purposes of setting attribute values, the hierarchy is treated as a flat list, for
+                example, <q>prod-A,</q>
+                <q>prod-A-community,</q>
+                <q>prod-A-enterprise,</q> etc.</p>
+      <p>For conditional processing, if the <xmlatt>product</xmlatt> value <q>prod-A</q> is set to
+                    <q>include</q> and <q>prod-B</q> and <q>prod-C</q> are set to <q>exclude,</q>
+                then you would expect a subject-scheme-aware processor to include elements with a
+                    <xmlatt>product</xmlatt> value of <q>prod-A-community,
+                    </q><q>prod-A-enterprise,</q> or <q>prod-A-pro</q> in addition to those with a
+                value of <q>prod-A.</q> Or said another way, by explicitly setting <q>prod-A</q> to
+                    <q>include</q> you implicitly set all the subordinate values of subject
+                    <q>prod-A</q> to <q>include.</q> This ability to have hierarchical subject lists
+                can make it much easier to manage and use complex conditional processing values.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="subsection_txm_gw4_lf">
+    <title>Defining General Taxonomies</title>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>taxonomy<indexterm>defining with subject scheme
+            maps</indexterm></indexterm>
+          <indexterm>subject scheme map<indexterm>defining taxonomies
+            with</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>Subject scheme maps are not limited to defining enumerated attribute values. They can be
+                used to represent general taxonomies, whether for use with DITA-based content or as
+                a convenient XML markup for taxonomies. Because <xmlelement>subjectdef</xmlelement>
+                elements are specializations of <xmlelement>topicref</xmlelement>, they can point to
+                topics or other resources. This lets you bind the definition of a subject within the
+                taxonomy to supporting information, such as the documentation of the subject itself.
+                For example, you might have a set of glossary entry topics that define the terms
+                within a given classification taxonomy. You can create a subject scheme map to
+                define the taxonomy and link each <xmlelement>subjectdef</xmlelement> to its corresponding
+                glossary entry. </p>
+      <p>In the case of the DITA language itself, there are reference entries for each topic type
+                defined by the DITA standard. These topic types exist in a specialization hierarchy
+                that reflects the taxonomic relationships of the topic types as they apply to
+                technical documentation or instructional design practice. This means we can define a
+                subject scheme map that formally defines the topic type hierarchy and literally
+                links to the reference entries for each
+                topic:<codeblock>&lt;subjectScheme>
+  &lt;title>DITA Topic Type Taxonomy&lt;/title>
+  &lt;subjectHead>
+    &lt;subjectHeadMeta>
+      &lt;navtitle>DITA Topic Types&lt;/navtitle>
+    &lt;/subjectHeadMeta>
+  &lt;/subjectHead>
+  &lt;mapref href="urn:dita:language-reference:key-definitions"/>
+  &lt;subjectdef keys="topic" keyref="topic-refentry">
+    &lt;subjectdef keys="concept" keyref="concept-refentry">
+      &lt;subjectdef keys="glossentry" keyref="glossentry-refentry"/>
+    &lt;/subjectdef>
+    &lt;subjectdef keys="reference" keyref="reference-refentry"/>
+    &lt;subjectdef keys="task" keyref="task-refentry">
+    &lt;/subjectdef>
+    &lt;subjectdef keys="learningBase" keyref="learningBase-refentry">
+      &lt;subjectdef keys="learningAssessment"
+                  keyref="learningAssessment-refentry"/>
+      &lt;subjectdef keys="learningContent"
+                  keyref="learningContent-refentry"/>
+      &lt;subjectdef keys="learningOverview"
+                  keyref="learningOverview-refentry"/>
+      &lt;subjectdef keys="learningPlan"
+                  keyref="learningPlan-refentry"/>
+      &lt;subjectdef keys="learningOverview"
+                  keyref="learningOverview-refentry"/>
+    &lt;/subjectdef>
+  &lt;/subjectdef>
+&lt;/subjectScheme></codeblock></p>
+      <p>Note the <xmlelement>mapref</xmlelement> element that represents inclusion of the key definitions
+                for the DITA language reference. Here I’m using a URN to make the point that these
+                are coming from somewhere else and I’m avoiding the issue of where that is for this
+                example.</p>
+      <p>In this example, each <xmlelement>subjectdef</xmlelement> defines the subjects <q>topic,</q>
+        <q>reference,</q>
+        <q>task,</q> etc., and also pointing to the reference entry topics for the topic types.
+        Given the correct key bindings for the reference entries, this map can be processed like any
+        other map, and the result will be those topics formatted the same as a generic map.</p>
+      <p>Note that, by default, <xmlelement>subjectdef</xmlelement> topic references have a processing
+        role of <q>normal,</q> so normal map processing applied to this map will treat the
+          <xmlelement>subjectdef</xmlelement> elements as if they were generic <xmlelement>topicref</xmlelement>
+        elements.</p>
+      <p>Because the <xmlelement>subjectdef</xmlelement> elements are normal topicrefs, they can have the
+        usual topicref metadata, including a navigation title and a short description. For many
+        taxonomies the <xmlatt>keys</xmlatt> value will be some more-or-less opaque ID, so you can
+        include navigation titles to provide a human-understandable representation of the taxonomy
+        item.</p>
+      <p>For example, the <cite> HIPAA Health Care Provider Taxonomy Codes </cite> (<xref
+                    href="http://www.adldata.com/Downloads/Provider-Taxonomy.html" format="html"
+                    scope="external">http://www.adldata.com/Downloads/Provider-Taxonomy.html</xref>)
+                is a taxonomy with opaque codes and human-readable values. A bit of that taxonomy
+                could be represented in a subject scheme map like
+                so:<codeblock>&lt;subjectScheme>
+  &lt;title>HIPAA Health Care Provider Taxonomy Codes&lt;/title>
+  &lt;topicmeta>
+    &lt;source>http://www.adldata.com/Downloads/Glossaries/taxonomy_80.pdf&lt;/source>
+  &lt;/topicmeta>
+  &lt;subjectdef keys="193000000X">
+    &lt;topicmeta>
+      &lt;navtitle>Group&lt;/navtitle>
+      &lt;shortdesc>A business entity under which one or more 
+individuals practice.&lt;/shortdesc>
+    &lt;/topicmeta>
+    &lt;subjectdef keys="193200000X">
+      &lt;topicmeta>
+        &lt;navtitle>Multi-Specialty&lt;/navtitle>
+        &lt;shortdesc>A business group of one or more
+individual practitioners, who practice with different
+areas of specialization.&lt;/shortdesc>
+      &lt;/topicmeta>
+    &lt;/subjectdef>
+    &lt;subjectdef keys="193400000X">
+      &lt;topicmeta>
+        &lt;navtitle>Single-Specialty&lt;/navtitle>
+        &lt;shortdesc>A business group of one or more
+individual practitioners, who all practice with the same
+area of specialization.&lt;/shortdesc>
+      &lt;/topicmeta>
+    &lt;/subjectdef>
+  &lt;/subjectdef>
+  &lt;subjectdef keys="201000000X">
+    &lt;topicmeta>
+      &lt;navtitle>Allopathic &amp;amp; Osteopathic Physicians&lt;/navtitle>
+      &lt;shortdesc>A broad category grouping state licensed providers
+in allopathic or osteopathic medicine whose scope of practice is
+determined by education.&lt;/shortdesc>
+    &lt;/topicmeta>
+    &lt;subjectdef keys="207K00000X">
+      &lt;topicmeta>
+        &lt;navtitle>Allergy &amp;amp; Immunology&lt;/navtitle>
+        &lt;shortdesc>An allergist-immunologist is....&lt;/shortdesc>
+      &lt;/topicmeta>
+    &lt;/subjectdef>
+    &lt;subjectdef keys="207L00000X">
+      &lt;topicmeta>
+        &lt;navtitle>Anesthesiology&lt;/navtitle>
+        &lt;shortdesc>An anesthesiologist is trained....&lt;/shortdesc>
+      &lt;/topicmeta>
+    &lt;/subjectdef>
+    ...
+  &lt;/subjectdef>
+  ...
+&lt;/subjectScheme></codeblock></p>
+      <p>Here, each <xmlatt>keys</xmlatt> value is the taxonomic code value, the navigation title is
+                the label, and the short description is the formal definition of the code. It’s hard
+                to see it by just looking at the raw markup, but the taxonomy defined is:<ul
+                    id="ul_mdg_kbp_lf">
+                    <li>Group<ul id="ul_c2m_kbp_lf">
+                            <li>Multi-specialty</li>
+                            <li>Single-specialty</li>
+                        </ul></li>
+                    <li>Allopathic &amp; Osteopathic Physicians<ul id="ul_nqr_mbp_lf">
+                            <li>Allergy &amp; Immunology</li>
+                            <li>Anesthesiology</li>
+                        </ul></li>
+                </ul></p>
+      <p>Because each subject in the taxonomy has a key, you can use references to those keys to
+        build up a complete taxonomy from separate taxonomies. For example, one subject scheme map
+        can include another map and augment existing subjects by adding additional subjects to them
+        or by including them in new subjects.</p>
+      <p>The DITA specification’s discussion of the subject scheme map type has many good examples
+                and much more detail on the subject of combining schemas.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="subsection_fkr_zdv_lf">
+    <title>Defining Ontologies with Subject Scheme Maps</title>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>ontology<indexterm>defining with subject scheme
+            maps</indexterm></indexterm>
+          <indexterm>subject scheme map<indexterm>defining ontologies
+            with</indexterm></indexterm>
+          <indexterm>knowledge representation</indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>For this discussion I define <term>ontology</term> as a graph of typed relationships among
+                subjects. That is, more generally, the representation of knowledge about things
+                using typed relationships. Subject scheme maps are capable of representing graphs of
+                relationships of typed links and therefore of representing ontologies.</p>
+            <p>This is not to say that subject scheme maps are necessarily capable of complete
+                knowledge representation, whatever that might mean. Knowledge representation was not
+                the main design goal for subject scheme maps, and they are not an attempt to
+                replicate or replace other knowledge representation approaches such as RDF/OWL or
+                topic maps.</p>
+      <p>However, subject scheme maps do provide a DITA-specific and convenient format for
+                reasonably complete knowledge representation that can be processed using the normal
+                DITA processing infrastructure. So if you don’t already have some other knowledge
+                representation system in place, subject scheme maps may be just the thing. At a
+                minimum, they provide a way to bring knowledge represented in other ways into a DITA
+                context, for example, to enable navigation of topics through associations using
+                normal DITA navigation and presentation tools.</p>
+      <p>If we take <xmlelement>subjectdef</xmlelement> elements as defining <q>subjects</q> in the
+                knowledge representation sense, that is, named things we want to talk about, such as
+                people, places, ideas, or components of a product, then a subject scheme map does
+                two things: <ul id="ul_yxj_11j_yf">
+                    <li>it defines a set of subjects, and</li>
+                    <li>it establishes relationships among those subjects. </li>
+                </ul></p>
+      <p>In the taxonomy examples shown in <xref href="#subsection_txm_gw4_lf" format="dita"/>, the
+                relationships among subjects are all implicitly <q>is-a</q> relationships, as
+                taxonomies define type or class hierarchies where each child subject is implicitly a
+                more specialized instance of its parent type (for example, <q>concept</q> is a
+                    <q>topic</q>). But of course there is an unbounded set of possible relationship
+                types that might exist between any two subjects.</p>
+      <p>For the purposes of general data modeling there is a well-understood set of relationship
+        types, and the subject scheme map vocabulary provides markup for them. Each of these
+        elements represents a relationship type that applies down the hierarchy of subjects it
+        contains, such that the relationship type applies to each parent/child pair in the subject
+        tree descending from the relationship-defining element. This markup approach avoids the need
+        to explicitly state each relationship among a large number of subjects. </p>
+      <p>For example, the topic-type taxonomy example can be refined by adding the
+                    <xmlelement>hasKind</xmlelement> relationship-type-defining element as a wrapper
+                around the original taxonomy-defining
+                subjects:<codeblock>&lt;subjectScheme>
+  &lt;title>DITA Topic Type Taxonomy&lt;/title>
+  &lt;subjectHead>
+    &lt;subjectHeadMeta>
+      &lt;navtitle>DITA Topic Types&lt;/navtitle>
+    &lt;/subjectHeadMeta>
+  &lt;/subjectHead>
+  &lt;mapref href="urn:dita:language-reference:key-definitions"/>
+  <b>&lt;hasKind></b>
+    &lt;subjectdef keys="topic" keyref="topic-refentry">
+      &lt;subjectdef keys="concept" keyref="concept-refentry">
+        &lt;subjectdef keys="glossentry" keyref="glossentry-refentry"/>
+      &lt;/subjectdef>
+      &lt;subjectdef keys="reference" keyref="reference-refentry"/>
+      &lt;subjectdef keys="task" keyref="task-refentry">
+      &lt;/subjectdef>
+      &lt;subjectdef keys="learningBase" keyref="learningBase-refentry">
+        &lt;subjectdef keys="learningAssessment"
+                    keyref="learningAssessment-refentry"/>
+        &lt;subjectdef keys="learningContent"
+                    keyref="learningContent-refentry"/>
+        &lt;subjectdef keys="learningOverview"
+                    keyref="learningOverview-refentry"/>
+        &lt;subjectdef keys="learningPlan"
+                    keyref="learningPlan-refentry"/>
+        &lt;subjectdef keys="learningOverview"
+                    keyref="learningOverview-refentry"/>
+      &lt;/subjectdef>
+    &lt;/subjectdef>
+  <b>&lt;/hasKind></b>
+&lt;/subjectScheme></codeblock></p>
+      <p>The addition of the <xmlelement>hasKind</xmlelement> element makes it explicit that each
+        descendant of the <q>topic</q> subject is a specialization of (is a kind of) topic.</p>
+      <p>The relationship type elements are:<dl>
+          <dlentry>
+              <dt><xmlelement>hasKind</xmlelement></dt>
+              <dd>Indicates that the child subjects of the containing subjects are types of (kinds of)
+                  the containing subject, as shown in the topic type taxonomy example
+                  above, for example, <q>topic</q> has-kind <q>concept.</q> The has-kind
+                  relationship is transitive and the inverse is <q>is a, </q>that is, for
+                  a has-kind hierarchy you can read up the tree as <q>is-a</q>
+                  relationships, for example, <q>concept</q> is a <q>topic.</q></dd>
+          </dlentry>
+          <dlentry>
+          <dt><xmlelement>hasInstance</xmlelement></dt>
+          <dd>Indicates that the child subjects of the containing subjects are instances of the
+                            containing subject. For
+                                example:<codeblock>&lt;hasInstance>
+  &lt;subjectdef keys="vampire">
+    &lt;subjectdef keys="Lestat"/>
+    &lt;subjectdef keys="Dracula"/>
+    &lt;subjectdef keys="Mr-Burns"/>
+  &lt;/subjectdef>
+  &lt;subjectdef keys="werewolf">
+    &lt;subjectdef keys="LonChaney"/>
+    &lt;subjectdef keys="EddieMuster"/>
+    &lt;subjectdef keys="DavidNaughton"/>
+    &lt;subjectdef keys="DelphineAngua"/>
+  &lt;/subjectdef>
+&lt;/hasInstance></codeblock><p>That
+                                is, Dracula is a vampire and Delphine Angua is a werewolf.</p></dd>
+        </dlentry>
+        
+        <dlentry>
+          <dt><xmlelement>hasNarrower</xmlelement></dt>
+          <dd>The contained subjects are <q>narrower</q> than the containing subjects. The DITA
+              standard does not say what <q>narrower</q> means. One use might be to indicate that a
+              topic about Shakespeare plays is narrower than a subject on plays in general.</dd>
+        </dlentry>
+        <dlentry>
+          <dt><xmlelement>hasPart</xmlelement></dt>
+          <dd>Indicates that the child subjects are parts of the containing subjects. The has-part
+              relationship is transitive and the inverse is <q>is part of.</q> For example, the
+              structural rules for topics could be expressed
+              as:<codeblock>&lt;hasPart>
+  &lt;subject keys="topic">
+    &lt;subject keyref="title"/>
+    &lt;subject keyref="titlealts"/>
+    &lt;subject keyref="abstract"/>
+    &lt;subject keyref="shortdesc"/>
+    &lt;subject keyref="prolog"/>
+    &lt;subject keyref="body"/>
+    &lt;subject keyref="related-links"/>
+    &lt;subject keyref="topic"/>
+  &lt;/subject>
+&lt;/hasPart></codeblock></dd>
+        </dlentry>
+        <dlentry>
+          <dt><xmlelement>hasRelated</xmlelement></dt>
+          <dd>Represents a typed relationship among the containing and contained subjects. The
+                            relationship type is defined by the <xmlatt>keys</xmlatt> attribute
+                            value or the subject referenced via key reference. You can use
+                                <xmlelement>hasRelated</xmlelement> to establish any relationships you
+                            might need. For example, you could define marriage relationships like
+                                so:<codeblock>...
+ &lt;hasKind>
+  &lt;subjectdef keys="relationship-type">
+   &lt;subjectdef keys="married-to">
+     &lt;topicmeta>
+      &lt;navtitle>is-married-to&lt;/navtitle>
+      &lt;shortdesc>A transitive relationship between two parties, each of which plays the
+role "spouse".&lt;/shortdesc>
+     &lt;/topicmeta>
+   &lt;/subjectdef>
+  &lt;/subjectdef>
+ &lt;/hasKind>
+...
+ <b>&lt;hasRelated keyref="married-to"></b>
+   &lt;subjectdef keyref="SamuelVimes">
+    &lt;subjectdef keyref="SybilDeidreOlgivannaVimes"/>
+   &lt;/subjectdef>
+ <b>&lt;/hasRelated></b>
+...</codeblock><p>Note
+                                that in this example I’ve formally defined the relationship
+                                    <q>married-to</q> within a <q>kind-of</q> hierarchy to make my
+                                intent a bit more explicit. In this context, the
+                                    <xmlelement>hasRelated</xmlelement> relationship functions like an RDF
+                                predicate in that it is making a formal assertion about two other
+                                subjects. By taking this idea as far as you need you could clearly
+                                use subject scheme maps to represent knowledge to pretty much any
+                                level of detail. However, as DITA maps were not designed
+                                specifically for that purpose, you would need to define markup
+                                specializations and metadata conventions to fully represent all the
+                                details that go into representing knowledge with appropriate
+                                precision and clarity.</p></dd>
+        </dlentry>
+        </dl></p>
+      <p>Subject scheme maps are maps, which means they can contain relationship tables. You would
+        naturally expect to be able to also use relationship tables to establish relationships among
+        subjects, and you can. The subject scheme map vocabulary includes a specialization of
+          <xmlelement>reltable</xmlelement>, <xmlelement>subjectRelTable</xmlelement>, that is intended
+        specifically to establish arbitrary <i>n</i>-ary relationships among subjects. There is
+        nothing special about <xmlelement>subjectRelTable</xmlelement>, except that it uses the subject
+        scheme map elements exclusively. See <xref keyref="relationship-tables"/> for a general discussion of relationship tables. See the <q>Classification
+          elements</q> section in the <cite>DITA Language Reference</cite> for a detailed discussion
+        of subject relationship tables.</p>
+    </body>
+  </subsection>
+</chapter>

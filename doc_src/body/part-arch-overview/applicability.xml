@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Conditional Processing: Filtering and Flagging</title>
+  <shortdesc>DITA provides a general facility for binding elements to specific conditions to which they apply. This facility enables filtering and flagging of elements during processing.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>applicability<index-see>conditional processing</index-see></indexterm>
+        <indexterm>conditional processing</indexterm>
+        <indexterm><xmlatt>props</xmlatt></indexterm>
+        <indexterm>DITAVAL</indexterm>
+        <indexterm>selection attributes<index-see-also>conditional processing</index-see-also></indexterm>
+        <indexterm>effectivity<index-see>applicability</index-see></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><term>Filtering</term> means information components are either filtered out (suppressed or
+      removed) or filtered in (allowed to be processed).</p>
+    <p><term>Flagging</term> means information components are differentiated in the rendered output
+      based on a condition. The rendered output could be differentiated using techniques such as
+      setting a text or background color, generating a change indicator, or generating an
+      effectivity statement.</p>
+    <p>In DITA, conditional processing is enabled through globally-available attributes that let you
+      associate any number of distinct conditions with elements. At processing time you specify
+      which condition values should result in filtering out (exclusion), filtering in (inclusion),
+      or flagging. For flagging, you also define the flagging details for each condition.</p>
+    <p>Other XML standards may use different terminology for their conditional processing features—
+      applicability, profiling, effectivity—but they are all different expressions of the same basic
+      requirement and the same basic facility.</p>
+    <p>I prefer the term <term>applicability</term> for what DITA calls variously <q>conditional
+        processing</q> and <q>selection</q> because applicability is a more general term and better
+      separates the properties of elements from they way processors might use those properties.</p>
+  </body>
+  <subsection
+    id="subsection_bbj_suf_jb">
+    <title>Applicability vs. Effectivity</title>
+    <shortdesc>Associating an element with selection properties is <term>applicability</term>. Using those properties to generate a specific statement or visual indicator is <term>effectivity</term>.</shortdesc>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>applicability</indexterm>
+          <indexterm/>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>Some well-known XML applications, such as ATA 2100 and S1000D, use the term
+          <term>effectivity</term> to mean <q>conditions for which an element is
+            <term>effective</term>,</q> and this use is usually reflected by the generation of
+          <term>effectivity statements</term> in the published content with statements like <q>For
+          use at high altitudes</q> or <q>For GE engines.</q></p>
+      <p>The key distinction here is that applicability is a property of the elements in the source
+                and is independent of any particular processing or rendition of that content. For
+                example, an element’s content either applies to high altitude conditions or it does
+                not.</p>
+      <p>Effectivity is an aspect of rendition that reflects applicability plus processor-specific
+        configuration for how a given applicability value or set of values should be represented in
+        the output. Effectivity is a property of the rendition, and different renditions of the same
+        content can produce different effectivity representations for the same applicability.</p>
+      <p>For example, if you published a high-altitude-specific version of the manual that only
+        included content that is applicable to high-altitude applications, there would be no need
+        for the effectivity statement <q>For use at high altitudes</q> on individual elements
+        because the whole rendition is for high altitudes.</p>
+      <p>DITA makes a clear separation between applicability, which is a property of the content as
+        authored, and effectivity, which is a function of renderers. DITA supports applicability
+        through the select attributes, which include <xmlatt>props</xmlatt> and its specializations,
+        as well as several built-in select attributes, which are not specialized from
+          <xmlatt>props</xmlatt>.</p>
+      <p>Effectivity is fundamentally an implementation issue, and therefore, DITA does not fully
+        standardize it. It does provide a method for defining filtering and flagging configurations,
+        the DITAVAL document type, but the use of DITAVAL is not required by DITA-aware processors,
+        and the DITAVAL facility is not necessarily complete for all possible ways that effectivity
+        could be implemented.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="ss1">
+    <title>The DITA Conditional Processing Attributes</title>
+    <shortdesc>DITA provides a built-in set of applicability attributes  as well as a general attribute, <xmlatt>props</xmlatt>, from which you can create specialized applicability attributes.</shortdesc>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>conditional processing attributes</indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>By defining specific attributes for conditional processing, DITA makes an architectural
+        distinction between element metadata in general and metadata specifically intended to enable
+        conditional processing.</p>
+      <p>This is an important distinction because there are many places where it’s important for a
+                general processor to know whether a given element is conditional, and if so, what
+                conditions apply to that element. An example of such processing is key space
+                construction, where you may need to construct a provisional key space that reflects
+                all potentially-applicable definitions of each key name. In this case, the processor
+                needs to know which key definitions and map references are conditional and what the
+                conditions are so it can determine the set of potentially-applicable and
+                potentially-effective keys for a give name. It’s not doing actual filtering or
+                flagging, it’s just collecting data, but that data collection depends on knowing
+                which attributes of each element are or are not conditional processing
+                attributes.</p>
+      <p>While processors could use any property of any element to do conditional processing, you
+        should avoid doing this if interchange is a requirement or you need to use a general-purpose
+        DITA-aware processor. DITA codifies the concept of conditional attributes specifically so
+        that generalized processors can do the right thing for all DITA documents.</p>
+      <p>The DITA conditional processing attributes are:<dl>
+        <dlentry>
+          <dt><xmlatt>audience</xmlatt></dt>
+          <dd>Specifies the audience to which the element applies, for example, <q>expert,</q>
+                            <q>novice,</q> etc.</dd>
+        </dlentry>
+        <dlentry>
+          <dt><xmlatt>platform</xmlatt></dt>
+          <dd>Specifies the platform to which the element applies. For software this normally means
+                            the operating system, but DITA doesn’t mandate a specific meaning for
+                                <q>platform.</q></dd>
+        </dlentry>
+        <dlentry>
+          <dt><xmlatt>product</xmlatt></dt>
+          <dd>The product to which the element applies.</dd>
+        </dlentry>
+        <dlentry>
+          <dt><xmlatt>rev</xmlatt></dt>
+          <dd>The revision to which the element applies. Here <q>revision</q> normally means
+                            revision of the content, but it could also be used to reflect revisions
+                            of the thing being documented. The <xmlatt>rev</xmlatt> attribute is
+                            used only for flagging, not filtering. It’s designed to enable
+                            generation of change bars or equivalent revision marking or
+                            highlighting.</dd>
+        </dlentry>
+        <dlentry>
+          <dt><xmlatt>otherprops</xmlatt></dt>
+          <dd>A catch-all attribute that allows you to specify your own selection property names and
+                            values. It is effectively obsolete. It predates DITA 1.1, which
+                            introduced the ability to specialize from the <xmlatt>props</xmlatt>
+                            attribute, which is the better way to define custom select attributes.
+                            You can specify arbitrary values in <xmlatt>otherprops</xmlatt>, but
+                            they won’t be associated with a meaningful condition name (the condition
+                            is effectively <q>otherprops</q>).</dd>
+        </dlentry>
+        <dlentry>
+          <dt><xmlatt>props</xmlatt></dt>
+          <dd>The base attribute for creating custom select attributes through specialization.
+                            Specializing from <xmlatt>props</xmlatt> is the easiest specialization
+                            to do, and it allows you unbounded freedom to create whatever
+                            conditional properties you need to address your business and information
+                            requirements. <p>While <xmlatt>props</xmlatt> is intended primarily as a
+                                base for specialization, you are allowed to author
+                                    <xmlatt>props</xmlatt> directly in content. The main danger with
+                                direct-authoring of <xmlatt>props</xmlatt> is consistency in the
+                                names for the properties you are using—there’s no easy way for XML
+                                editors to assist in setting <xmlatt>props</xmlatt> values correctly
+                                because of its syntax rules. So for production use you should always
+                                specialize. But for casual use or to do something in advance of
+                                getting a proper <xmlatt>props</xmlatt> specialization in place, you
+                                can specify <xmlatt>props</xmlatt> directly.</p><p>The value of
+                                    <xmlatt>props</xmlatt> when directly authored is a sequence of
+                                one or more parenthesized property name/value pairs, for example,
+                                    <codeph>(platform windows)</codeph>. You can specify any
+                                property name and any value name, for example, <codeph>(myprop
+                                    somevalue)</codeph>, where <codeph>myprop</codeph> is a property
+                                name you just made up. If you were to create the equivalent
+                                specialization of <xmlatt>props</xmlatt>, the attribute name would
+                                be <xmlatt>myprop</xmlatt>. You can specify multiple parenthesized
+                                groups, for
+                                example:<codeblock>&lt;p props="(myprop somevalue) (yourprop anothervalue)">...&lt;/p></codeblock></p></dd>
+        </dlentry>
+        </dl></p>
+      <p>You can think of <xmlatt>audience</xmlatt>, <xmlatt>platform</xmlatt>, and
+                    <xmlatt>product</xmlatt> as a starter set of conditional properties, sufficient
+                for many computer documentation requirements but clearly not sufficient for all
+                possible users.</p>
+      <p>This means that you should expect to specialize from
+        <xmlatt>props</xmlatt> early in your production use of DITA, if not
+        immediately. Fortunately, specializing from <xmlatt>props</xmlatt> is
+        about as easy as specialization can be. See <xref
+        href="#ss3"
+        format="dita"/> and <xref
+        keyref="attribute-specialization-tutorial"/> for details. If you
+        specialize from props as described there, you can use your specialized
+        attributes in the same way you use the built-in attributes.</p>
+      <p>DITA doesn’t define values for any of these attributes. That’s because the set of
+                potentially useful values is unbounded and will always be specific to a given user,
+                information set, and documentation subject.</p>
+      <p>You will probably want to define values for each of the conditional attributes your authors
+        need. There are a number of different ways you can do this, including creating constraint
+        modules that set the values for each select attribute, using editor-specific features, and
+        using subject scheme maps to define sets of values for specific attributes. </p>
+      <p>Using constraint modules<indexterm>constraint module<indexterm>for
+        conditional attribute values</indexterm></indexterm> is the most general
+        approach because it uses normal DTD or schema features that all XML
+        editors should support. However, this requires either that all documents
+        use the same sets of values or that you have different constraint
+        modules and different document type shells for each set of documents
+        that needs a different value set.</p>
+      <p>Because conditional attributes usually reflect details of the things being documented, it
+        is often the case that different sets of authors or different product groups will need
+        different sets of values and those values are likely to change over time. Thus, having the
+        values baked into DTDs or even constraint modules can be bad. Addressing the need for more
+        flexible value lists is one of the motivations for the Subject Scheme map type as well as
+        for similar facilities for managing lists of values, such as the genericode standard
+        (another OASIS specification, <xref href="http://www.genericode.org/" format="html"
+          scope="external">http://www.genericode.org/</xref>). See <xref
+          href="subject-scheme-maps.xml#topic-id" format="dita"/>.</p>
+      <p>Select attributes take blank-delimited lists of keywords as their values, where each
+                keyword reflects a distinct value for the property represented by the attribute, for
+                example <codeph>audience="expert trainee"</codeph>. This means that the element
+                applies to both the expert audience and the trainee audience, that is, a logical OR
+                    (<q>expert or trainee</q>).</p>
+      <p>You might expect that there would be some way to express more complicated boolean
+        expressions such as <q>not beginner,</q> but there is not, for the simple reason that you
+        would quickly end up with a full boolean expression language and all the complexity that
+        entails.</p>
+      <p>So if you need things like <q>not x</q> you need to define property values that mean <q>not
+          x,</q> for example, <codeph>audience="notBeginner"</codeph>, and then do the right thing
+        in your processing configuration to get the appropriate result.</p>
+      <p>Using DITAVAL you can also negate all instances of a given attribute by default. See <xref
+        href="#ss2"
+        format="dita"/>.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="ss2">
+    <title>Filtering and Flagging During Processing (DITAVAL)</title>
+    <shortdesc>The DITAVAL facility provides a standard way to configure and control how filtering and flagging is done for a given processing instance.</shortdesc>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>flagging</indexterm>
+          <indexterm>filtering</indexterm>
+          <indexterm>conditional processing<indexterm>filtering</indexterm></indexterm>
+          <indexterm>conditional processing<indexterm>flagging</indexterm></indexterm>
+          <indexterm>change marking</indexterm>
+          <indexterm>change bars</indexterm>
+          <indexterm>revision marking</indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>When you place a conditional processing attribute on an element and specify a value or
+        values for that attribute, you effectively bind the element to a set of conditions. You are
+        saying <q>this element applies to the value <i>x</i> for condition <i>y</i>.</q></p>
+      <p>At processing time a processor can choose to exclude or include the element (filtering), or
+        it can choose to highlight or otherwise make the element visually or behaviorally distinct
+        (flagging).</p>
+      <p>When evaluating elements to determine if they are included or excluded, you need to look at
+                all of the conditional attributes on that element. If any single conditional
+                attribute on an element evaluates to <q>exclude</q> then the element is excluded.
+                That is, it is only necessary for one of the element’s conditional attributes to
+                evaluate to <q>exclude</q> for the element to be excluded. If this weren’t the case,
+                then to exclude an element, you’d have to configure your filtering such that all
+                possible conditional attributes evaluated to <q>exclude,</q> which is clearly not
+                going to work.</p>
+      <p>To determine whether a particular conditional attribute evaluates to <q>exclude,</q> you
+        need to look at the list of values assigned to that attribute. If all of those values
+        evaluate to exclude, then the attribute evaluates to <q>exclude.</q>
+      </p>
+      <p>So, within a given attribute instance, all of the values must be set to <q>exclude</q> for
+        that attribute to evaluate to <q>exclude,</q> but once any attribute does evaluate to
+          <q>exclude</q> the element is excluded.</p>
+      <p>To apply the appropriate filtering or flagging, the processor must be told what processing
+                to perform for each property/value pair. The meaning of DITA’s conditional
+                attributes is always the same, but the implementation is processor specific.</p>
+      <p>DITA provides a general-purpose facility for configuring filtering and flagging: the
+        DITAVAL document type. Conforming DITA processors are not required to support DITAVAL, but
+        they should if DITAVAL is at all close to matching their filtering and flagging
+        semantics.</p>
+      <p>The DITAVAL document type is used to create XML documents that serve as configuration
+        specifications for processors. DITAVAL documents are not <q>DITA documents</q> in the sense
+        that maps and topics are. They are not intended to be included in maps. Although it might be
+        useful to be able to specify DITAVAL documents from maps, where a given map reflects an
+        invariant filtering and flagging configuration, DITA 1.2 does not provide such a feature,
+        though you could create a private implementation.</p>
+      <p>A typical DITAVAL document looks like
+        this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;val>
+  &lt;prop action="exclude" att="platform"/>
+  &lt;prop action="exclude" att="audience"/>
+  &lt;prop action="include" att="audience" val="expert"/>
+  &lt;prop action="flag" att="platform" val="windows" color="red" >
+    &lt;startflag>&lt;alt-text>[Win]&lt;/alt-text>&lt;/startflag>
+  &lt;/prop>
+  &lt;prop action="flag" att="platform" val="osx" color="blue" >
+    &lt;startflag>&lt;alt-text>[OSX]&lt;/alt-text>&lt;/startflag>
+  &lt;/prop>
+&lt;/val></codeblock></p>
+        <p>A DITVAL document has a root element type of <xmlelement>val</xmlelement> and
+        contains zero or more <xmlelement>prop</xmlelement> elements. </p>
+      <p>Each <xmlelement>prop</xmlelement> element takes the following attributes:<dl>
+          <dlentry>
+            <dt><xmlatt>action</xmlatt></dt>
+            <dd>Specifies the action to apply for the specified condition and value. The
+                <xmlatt>action</xmlatt> attribute is required. </dd>
+          </dlentry>
+          <dlentry>
+            <dt><xmlatt>att</xmlatt></dt>
+            <dd>Specifies the property (condition attribute) to which the <xmlelement>prop</xmlelement>
+                            element applies, for example, <q>audience,</q>
+                            <q>platform,</q> etc. This can also be used for property names used in
+                                <xmlatt>props</xmlatt> and <xmlatt>otherprops</xmlatt>. For example,
+                            if you have <codeph>props="(mycondition value1)"</codeph>, then you
+                            would specify <q>mycondition</q> as the value of the
+                                <xmlatt>att</xmlatt> attribute. If <xmlatt>att</xmlatt> is not
+                            specified, then the <xmlelement>prop</xmlelement> element applies to all
+                            properties.</dd>
+          </dlentry>
+          <dlentry>
+            <dt><xmlatt>val</xmlatt></dt>
+            <dd>Specifies the value of the condition to which the <xmlelement>prop</xmlelement> element
+              applies. If not specified, then the <xmlelement>prop</xmlelement> element applies to all
+              values of the property specified by the <xmlatt>att</xmlatt> attribute, thus setting
+              the default action. The <xmlatt>val</xmlatt> attribute should only be specified if
+                <xmlatt>att</xmlatt> is also specified.</dd>
+          </dlentry>
+        </dl></p>
+      <p>You should have at most one <xmlelement>prop</xmlelement> element for a given combination of
+          <xmlatt>att</xmlatt> and <xmlatt>val</xmlatt> values, meaning at most one
+          <xmlelement>prop</xmlelement> with only an <xmlatt>action</xmlatt> attribute, at most one
+          <xmlatt>prop</xmlatt> with a given <xmlatt>att</xmlatt> attribute value and no
+          <xmlatt>val</xmlatt> attribute, and at most one <xmlelement>prop</xmlelement> for a given
+          <xmlatt>att</xmlatt> and <xmlatt>val</xmlatt> pair.</p>
+      <p>A <xmlelement>prop</xmlelement> element with only an <xmlatt>action</xmlatt> attribute defines
+        the global default value for all properties. A <xmlelement>prop</xmlelement> element with
+          <xmlatt>action</xmlatt> and <xmlatt>att</xmlatt> attributes, but no <xmlatt>val</xmlatt>
+        attribute, defines the default value for the property named by the <xmlatt>att</xmlatt>
+        attribute. And a <xmlelement>prop</xmlelement> element with all three attributes defines the
+        value for the property named by the <xmlatt>att</xmlatt> attribute with the value named by
+        the <xmlatt>val</xmlatt> attribute.</p>
+      <p>The possible values for <xmlatt>action</xmlatt> are:<dl>
+        <dlentry>
+          <dt>include</dt>
+          <dd>The element is included. This is the default for all properties and values.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>exclude</dt>
+          <dd>The element is excluded. You can make this the default for all properties by
+              specifying <codeph>&lt;prop action="exclude"/></codeph>. You can make this the default
+              for a particular property by specifying <codeph>&lt;prop action="exclude"
+                  att="<varname>property</varname>"/></codeph>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>flag</dt>
+          <dd>The element is flagged according to the settings defined on the <xmlelement>prop</xmlelement> element.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>passthrough</dt>
+          <dd>The element is included in the output preserving the conditional attribute so that a
+              processor applied to the output can itself do filtering or flagging. How the value is
+              preserved is specific to a given output type and processor.</dd>
+        </dlentry>
+        </dl></p>
+      <p>The DITAVAL configuration works as follows:<ul
+        id="ul_cxs_alu_jb">
+        <li>For a given attribute value you can either filter on it (include or exclude) or you can
+            flag on it, as in the example above. Setting the action to <q>flag</q> implies
+              <q>include.</q></li>
+        <li>Any value that is not explicitly defined as excluded by the DITAVAL document is
+                        included. For elements that specify multiple values for a given attribute,
+                        if any of those values are <i>included</i> then the element is included.
+                        That is, an element is excluded if and only if all of the values for at
+                        least one of its conditional attributes are set to <q>exclude.</q> The
+                        default setting for all attributes is <q>include,</q> so by default all
+                        content is included.</li>
+        <li>You can set the default behavior on a per <i>attribute</i> basis by setting
+                            <xmlatt>action</xmlatt> to <q>exclude</q> and omitting
+                            <xmlatt>val</xmlatt>. In the sample DITAVAL file above,
+                            <xmlatt>audience</xmlatt> and <xmlatt>platform</xmlatt> have been set to
+                            <q>exclude,</q> meaning that any value specified for
+                            <xmlatt>audience</xmlatt> or <xmlatt>platform</xmlatt> means
+                            <q>exclude</q> unless explicitly set to <q>include</q> or <q>flag</q>
+                        (which implies inclusion) in another <xmlelement>props</xmlelement> element. In
+                        the example, the only time the <xmlatt>audience</xmlatt> attribute will
+                        evaluate to <q>include</q> is if the value is <q>expert.</q><p>You normally
+                            use this to include only a subset of possible values without having to
+                            define both explicit positive keywords and explicit negative keywords
+                            for the same property values. For example, using the sample DITAVAL file
+                            again, if you have a variety of possible audiences, you can filter to
+                            produce output reflecting any subset of those audiences. To do this, you
+                            set the default for the <xmlatt>audience</xmlatt> property to
+                                <q>exclude,</q> then add a <xmlelement>prop</xmlelement> element with
+                                <xmlatt>action</xmlatt> set to <q>include</q> for each of the
+                            audiences you want to include. The result is that any element that
+                            includes the <xmlatt>audience</xmlatt> attribute will be included if the
+                            value of that attribute is given an action of <q>include.</q> Otherwise
+                            it will be excluded. In the example, the only value that would be
+                            included is <q>expert.</q></p></li>
+        </ul></p>
+      <p>Looking at the preceding example DITAVAL document, it is saying the following:<ul
+        id="ul_zqr_ixu_jb">
+        <li>The value "windows" for <xmlatt>platform</xmlatt> is flagged using the color "red" and the text "[Win]".</li>
+        <li>The value "osx" for <xmlatt>platform</xmlatt> is flagged using the color "blue" and the text "[OSX]".</li>
+        <li>Any value for <xmlatt>platform</xmlatt> other than "windows" or
+          "osx" should be excluded. This is the implication of the first
+          <xmlelement>prop</xmlelement> element, which sets the default action for
+          <xmlatt>platform</xmlatt> to "exclude".</li>
+        <li>Any value for <xmlatt>audience</xmlatt> other than "expert" will be
+          excluded because the second <xmlelement>prop</xmlelement> element sets the
+          default action for <xmlatt>audience</xmlatt> to "exclude".</li>
+        </ul></p>
+      <p>For flagging, you can specify foreground and background colors for the flagged text using
+                the <xmlatt>color</xmlatt> and <xmlatt>backcolor</xmlatt> attributes of the
+                    <xmlelement>prop</xmlelement> element, and you can also specify a text
+                style:<codeblock>&lt;prop att="platform" val="linux"
+<b>  action="flag" 
+  color="red"
+  backcolor="yellow"
+  style="double-underline"
+</b>/></codeblock></p>
+      <p>The possible style values are <q>underline,</q>
+                <q>double-underline,</q>
+                <q>italics,</q>
+                <q>overline,</q> or <q>bold.</q> The color values should either be HTML color names
+                or 6-digit hexadecimal color numbers of the form <q>#aabbcc.</q></p>
+      <p>You can also add graphic or text indicators before or after the flagged element using the
+                    <xmlelement>startflag</xmlelement> and <xmlelement>endflag</xmlelement> subelements of
+                    <xmlelement>prop</xmlelement>. Both elements can point to a graphic, define text, or
+                both. Normally you would use a small icon for a graphic, although the rendering
+                details are processor-specific. Use the <xmlatt>imageref</xmlatt> attribute to
+                specify the URI of the graphic. Use the <xmlelement>alt-text</xmlelement> subelement to
+                contain the alt text. For example, to flag the platform with icons rather than text,
+                you could do something like
+                this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;val>
+  &lt;prop action="exclude" att="platform"/>
+  &lt;prop action="flag" att="platform" val="windows" color="red" >
+    &lt;startflag <b>imageref="icons/windows-icon.jpg"</b>
+      >&lt;alt-text>[Win]&lt;/alt-text>&lt;/startflag>
+  &lt;/prop>
+  &lt;prop action="flag" att="platform" val="osx" color="blue" >
+    &lt;startflag <b>imageref="icons/osx-icon.jpg"</b>
+      >&lt;alt-text>[OSX]&lt;/alt-text>&lt;/startflag>
+  &lt;/prop>
+&lt;/val></codeblock></p>
+      <p>If both <xmlatt>imageref</xmlatt> and <xmlelement>alt-text</xmlelement> are present, then the
+        image is used and the value of <xmlelement>alt-text</xmlelement> becomes the alternate text for
+        the image. If only <xmlelement>alt-text</xmlelement> is present, then the text is used as the
+        flag. Relative image reference URLs are relative to the location of the DITAVAL file.</p>
+      <p>For revision flagging you use the <xmlelement>revprop</xmlelement> element instead of
+                    <xmlelement>prop</xmlelement>. The <xmlelement>revprop</xmlelement> element lets you specify
+                change bars or their functional equivalent based on the value of the
+                    <xmlatt>rev</xmlatt> attribute. (Note: not all DITA processors or rendition
+                types support the generation of change bars.) In addition to the attributes allowed
+                on <xmlelement>prop</xmlelement> you can specify the <xmlatt>changebar</xmlatt> attribute,
+                where the value of <xmlatt>changebar</xmlatt> is a processor-specific specification
+                of the character, color, or style to use for the change bar. For example, to flag
+                different revisions you can do something like
+                this:<codeblock>&lt;val>
+    &lt;prop action="exclude" att="platform"/>
+    &lt;prop action="flag" att="platform" val="osx">
+      &lt;startflag imageref="graphics/osx-icon.jpg">
+        &lt;alt-text>[OSX]&lt;/alt-text>
+      &lt;/startflag>
+    &lt;/prop>
+<b>  &lt;revprop action="flag" 
+    val="1.0"
+    changebar="1"
+  />
+  &lt;revprop action="flag" 
+    val="1.1"
+    changebar="2"
+  />
+  &lt;revprop action="flag" 
+    val="1.2"
+    changebar="3"
+    color="red"
+    style="underline"
+  />
+</b>&lt;/val></codeblock></p>
+      <p>Note that the DITA specification specifically disallows the use of
+        <xmlatt>rev</xmlatt><indexterm><xmlatt>rev</xmlatt></indexterm> for
+        filtering. This is because <xmlatt>rev</xmlatt> is supposed to represent
+        logical revision identifiers, normally reflecting product releases or
+        similar revision labels, not literal revisions of the source. Trying to
+        use <xmlatt>rev</xmlatt> and DITA for version-specific configuration
+        management would be madness. Version management is best done with
+        versioning component management systems<indexterm>component management
+        system<indexterm>version management
+        with</indexterm></indexterm><indexterm>version management</indexterm>
+        and code control systems.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="ss3">
+    <title>Custom Conditional Processing Attributes</title>
+    <shortdesc>You can define your own applicability attributes by specializing from the <xmlatt>props</xmlatt> attribute.</shortdesc>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm><xmlatt>base</xmlatt> attribute</indexterm>
+          <indexterm><xmlatt>props</xmlatt> attribute</indexterm>
+          <indexterm>attributes<indexterm><xmlatt>props</xmlatt></indexterm></indexterm>
+          <indexterm>attributes<indexterm><xmlatt>base</xmlatt></indexterm></indexterm>
+          <indexterm>attribute domain module</indexterm>
+          <indexterm>domain module<indexterm>attribute</indexterm></indexterm>
+          <indexterm>attribute specialization</indexterm>
+          <indexterm>selection attribute specialization</indexterm>
+          <indexterm>specialization<indexterm>of <xmlatt>props</xmlatt></indexterm></indexterm>
+          <indexterm>specialization<indexterm>of select attributes</indexterm></indexterm>
+          <indexterm>vocabulary module<indexterm>attribute specialization</indexterm></indexterm>
+          <indexterm>customization<indexterm>of <xmlatt>props</xmlatt>
+            attribute</indexterm></indexterm>
+          <indexterm>customization<indexterm>of selection
+            attributes</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>See <xref
+        keyref="attribute-specialization-tutorial"/> for a complete tutorial on
+        creating attribute specializations.</p>
+      
+      <p>The built-in set of conditional processing attributes is small and tailored to the needs of
+                primarily software documentation. Thus it’s highly likely that you will require
+                additional conditional processing attributes that reflect the details of your
+                content and business processes. Even if the base DITA vocabulary provided a long
+                list of conditional processing attributes you would still likely need your own
+                because everyone’s business processes are different.</p>
+      <p>Conditional processing is one place where the details of business processes and the nature
+                of what you’re documenting or writing about intrude on your markup. Another is
+                classifying metadata. You should therefore expect to need to specialize for both
+                custom conditional processing attributes and custom classifying metadata, even if
+                you otherwise have no need for specialized markup.</p>
+      <p>I have heard many people say <q>we don’t need specialization.</q> What they really mean is
+                    <q>we don’t need specialized markup for our content.</q> But everybody needs
+                specialized conditional processing attributes or classifying metadata sooner or
+                later.</p>
+      <p>Fortunately both are easy to define.</p>
+      <p>The <xmlatt>props</xmlatt> attribute is the base for all specialized conditional processing
+        attributes. You specialize from it by creating an attribute domain module.</p>
+      <p>An attribute domain module defines exactly one attribute, which must be specialized from
+        either <xmlatt>base</xmlatt> or <xmlatt>props</xmlatt>. The <xmlatt>base</xmlatt> attribute
+        is used for attributes that are not conditional processing attributes. Attributes
+        specialized from <xmlatt>props</xmlatt> are by definition conditional processing attributes,
+        and all specialization-aware DITA-aware processors should recognize them as such.</p>
+      <p>All specializations of <xmlatt>base</xmlatt> and <xmlatt>props</xmlatt> must be global,
+        meaning that they are allowed on all element types. The only exception is that you can use
+        constraint modules to remove global attributes from specific element types. </p>
+      <p>An attribute domain module consists of a single file named
+        "<varname>attname</varname>AttDomain.ent", where <varname>attname</varname> is the name of
+        your specialized attribute. For example, to create a new attribute named
+          <xmlatt>region</xmlatt> for selecting content based on geographical region, you would
+        create the module file <filepath>regionAttDomain.ent</filepath>.</p>
+      <p>The module contains two declarations: a parameter entity declaration for the attribute
+                itself and a general text entity that provides the <xmlatt>domains</xmlatt>
+                attribute
+                contribution:<codeblock>&lt;!-- @props attribute specialization module for attribute "region" -->
+
+&lt;!ENTITY % regionAtt-d-attribute "region   CDATA #IMPLIED">
+
+&lt;!ENTITY regionAtt-d-att       "a(props region)"  >
+
+&lt;!-- End of module --></codeblock></p>
+      <p>That’s the entire attribute module declaration file, just two declarations and some
+                comments. I know it looks like it’s too little, but that’s all you need. The
+                parameter entity <parameterentity>regionAtt-d-attribute</parameterentity> contains the attribute
+                list declaration fragment that is used to add the new attribute to the attribute
+                list declarations for all element types (remember that specialized attributes are
+                always global).</p>
+      <p>The general entity <q>regionAtt-d-att</q> contains the <xmlatt>domains</xmlatt>
+                contribution for this attribute. The leading <q>a</q> before the left parenthesis
+                indicates an attribute specialization. The keyword <q>props</q> indicates a
+                specialization of <xmlatt>props</xmlatt> and <q>region</q> is the name of the
+                specialized attribute. This declaration tells processors that
+                    <xmlatt>region</xmlatt> is a conditional processing attribute. If you don’t have
+                this declaration properly integrated, processors will not see your attribute as a
+                conditional processing attribute.</p>
+      <p>You integrate your specialized attributes into shell DTDs by including the module file,
+                adding a reference to the parameter entity to the
+                    <parameterentity>props-attribute-extensions</parameterentity> parameter entity in the shell, and
+                adding a reference to the <xmlatt>domains</xmlatt> contribution general entity in
+                the included-domains general entity
+                declaration:<codeblock>...
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ATTRIBUTE DECLARATIONS              -->
+&lt;!-- ============================================================= -->
+
+<b>&lt;!ENTITY % regionAtt-d-dec PUBLIC
+    "urn:example.org:dita:vocabulary:props:region"
+    "regionAttDomain.ent"
+>%regionAtt-d-dec;</b>
+...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAIN ATTRIBUTE EXTENSIONS                -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY % props-attribute-extensions  "
+<b>%regionAtt-d-attribute;</b>
+" >
+&lt;!ENTITY % base-attribute-extensions   "" >
+...
+
+&lt;!-- ============================================================= -->
+&lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY included-domains
+    "&amp;hi-d-att; 
+     <b>&amp;regionAtt-d-att;</b>
+    "
+>
+...</codeblock></p>
+      <p>The highlighted text shows the three integration components for the region attribute domain:<ul
+        id="ul_wdc_rht_lb">
+        <li>An external parameter entity declaration and reference for the .ent file that is the attribute specialization module.</li>
+        <li>A reference to the <parameterentity>regionAtt-d-attribute</parameterentity> parameter entity within the <parameterentity>props-attribute-extensions</parameterentity> parameter entity, which adds the entity declaration to the global attribute list declaration for all element types.</li>
+        <li>A reference to the "regionAtt-d-att" general entity within the "included-domains" general entity, which adds the <xmlatt>domains</xmlatt> attribute contribution for the new attribute.</li>
+        </ul></p>
+      <p>That’s all there is to it. Once you have created the .ent module and integrated it into
+                your shells, you should be able to refer to your new attribute in DITAVAL files or
+                in the equivalent tool-specific conditional processing configuration mechanism for
+                whatever tool you’re using.</p><p>When an element has multiple specializations of <xmlatt>props</xmlatt> specified on it, those
+        multiple attributes can be generalized to a single <xmlatt>props</xmlatt> attribute, with
+        each specialized attribute/value pair replaced by a parenthesized group of
+            <codeph>(<varname>propname</varname>
+          <varname>value</varname>)</codeph>. For example, if you have two specializations of
+          <xmlatt>props</xmlatt>, <xmlatt>prop-a</xmlatt> and <xmlatt>prop-b</xmlatt> and they are
+        both used on an
+        element:<codeblock>&lt;p prop-a="cond-one" prop-b="cond-two"/></codeblock></p>
+      <p>Then if the <xmlelement>p</xmlelement> element was generalized, the result
+        would
+        be:<codeblock>&lt;p props="(prop-a cond-one) (prop-b cond-two)"></codeblock></p>
+      <p>DITA-aware processors should process both the specialized attributes
+        and the <xmlatt>props</xmlatt> attribute in exactly the same way, so
+        that the filtering or flagging result should be the same for both ways
+        of specifying the conditions.</p>
+    </body>
+  </subsection>
+  <subsection
+    id="ss4">
+    <title>Processing Implications Of Filtering</title>
+    <shortdesc>The timing of when filtering is applied relative to other processing, such as content reference resolution and key space construction, can affect processing results.</shortdesc>
+    <prolog>
+      <metadata>
+        <keywords>
+          <indexterm>filtering<indexterm>processing implications for</indexterm></indexterm>
+          <indexterm>conref<indexterm>interaction with filtering</indexterm></indexterm>
+        </keywords>
+      </metadata>
+    </prolog>
+    <body>
+      <p>DITA 1.x does not mandate when a processor must perform filtering relative to other DITA
+        processing such as content reference resolution and key space construction. In particular,
+        this means that processors can choose to do filtering before or after conref resolution.</p>
+      <p>The order in which these operations are performed can change the result of content
+        references. In particular, because the attributes of referencing elements take precedence
+        over the attributes of referenced elements by default, you can have a situation where an
+        element would be included if conref resolution is done before filtering but excluded if
+        conref resolution is done after filtering.</p>
+      <p>Consider these two elements:<codeblock>&lt;p id="para-01"
+  platform="osx" 
+  conref="#topicid/para-02"/>
+&lt;p id="para-02"
+  platform="linux"
+>This happens to be true for linux and OSX&lt;/p></codeblock></p>
+      <p>The first element, paragraph <q>para-01,</q> makes a content reference to paragraph
+          <q>para-02.</q> These two paragraphs have different values for the
+          <xmlatt>platform</xmlatt> selection attribute.</p>
+      <p>If the filtering specification is set to include platform <q>osx</q> and exclude platform
+                    <q>linux,</q> then if filtering is done first the target of the conref gets
+                filtered out <i>before</i> the conref is resolved, meaning that the conref target
+                doesn’t exist when conrefs are being resolved. This should result in an error
+                message like, <q>cannot find conref target topicid/para-02.</q>
+                <fn>This is something of an artificial example. In real life, it might be that the
+                    two paragraphs are in different topics and the <xmlatt>platform</xmlatt>
+                    attribute on para-02 was added after the initial content reference from
+                    paragraph para-01 was created.</fn></p>
+      <p>However, if conref resolution is done first, then the effective value of paragraph
+          <q>para-01</q>
+        is:<codeblock>&lt;p id="para-01"
+   platform="osx"
+>This happens to be true for linux and OSX&lt;/p></codeblock></p>
+      <p>And subsequent filtering will cause this paragraph to be included.</p>
+      <p>As of version 1.5.3, the Open Toolkit performs filtering <i>first</i> by default, although
+        you can change that by reworking the Open Toolkit Ant scripts. Other processors may do
+        filtering before or after conref resolution or give you a way to control the behavior.</p>
+      <p>My own analysis is that conref processing should <i>always</i> be performed first,
+        otherwise, because of the attribute merging precedence rules, it is impossible for a
+        processor to correctly reflect the intent of the author.  However, the Toolkit performs it
+        second for historical reasons that may have made sense in the deep mists of time but are no
+        longer necessary or appropriate. However, because large communities of Toolkit users depend
+        on this behavior, it cannot be changed.</p>
+    </body>
+  </subsection>
+</chapter>

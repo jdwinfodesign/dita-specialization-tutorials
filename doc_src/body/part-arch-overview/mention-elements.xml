@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Mention Elements: Term and Keyword</title>
+  <shortdesc>DITA provides a general set of element types for capturing mentions of things that are often defined elsewhere in the information set and to which the mention may be implicitly or explicitly linked.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>mention<indexterm>elements for</indexterm></indexterm>
+        <indexterm><xmlelement>keyword</xmlelement> element</indexterm>
+        <indexterm>keywords<indexterm>as mentions</indexterm></indexterm>
+        <indexterm><keyword>term</keyword> element</indexterm>
+        <indexterm>terms<indexterm>as mentions</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In pretty much all writing, but in technical documentation especially, clearly identifying
+      the mentions of things can be very important.</p>
+    <p>By a <q>mentions of a thing</q> I mean an occurrence in the content of the name or other
+            identifier of a specific thing, such as a person, place, part number, API construct, or
+            any other abstract or real-world thing to which a name is or can be associated. For
+            example, in the sentence <q>Use the ant command to run build scripts,</q>
+            <q>ant</q> is a mention of a thing. A human can tell from context that it must be a
+            command, but a computer can’t necessarily make that inference. Thus, you often need to
+            tag mentions to indicate the kind of thing the mention is of, for example, <q>Use the
+                    <codeph>&lt;cmdname>ant&lt;/cmdname></codeph> command to run build scripts.</q>
+            The <xmlelement>cmdname</xmlelement> element identifies the string <q>ant</q> as a mention of
+            a command name and not, for example, the name of a family of insects.</p>
+    <p>DITA provides specific markup for tagging such mentions. The main DITA
+      elements for tagging mentions are <xmlelement>keyword</xmlelement> and
+      <xmlelement>term</xmlelement> and their specializations, such as
+      <xmlelement>cmdname</xmlelement> and <xmlelement>apiname</xmlelement>.<fn>Meta note:
+      The markup that produces the typographic distinction for the element types
+      in this paragraph is an example of a specialized mention element, the
+      element type <xmlelement>xmlelem</xmlelement> from the DITA for Publishers XML
+      domain (and this footnote just used that element to mark a mention of
+      itself. Dude. That is so wild).</fn></p>
+    <p>The primary reasons for using mention elements include:<ul
+      id="ul_egf_ixp_mb">
+      <li>Creating typographic distinctions. For example, the XML domain used in this book’s source
+                    defines the <xmlelement>xmlelem</xmlelement> element, a specialization of
+                        <xmlelement>keyword</xmlelement>. It enables generation of the appropriate font
+                    and, in most renderings, the left and right angle brackets.</li>
+      <li>Enabling you to find mentions by the type of thing mentioned. If I want to find (or more
+          likely, index) all of the different element types mentioned in this document I can simply
+          search for all occurrences of <xmlelement>xmlelem</xmlelement>, group them by string value, and
+          report the list.</li>
+      <li>Enabling implicit association between things mentioned and the definitions of those
+          things. For example, in the documentation for a document type, you could implement
+          automatic linking between <xmlelement>xmlelem</xmlelement> elements and their reference entries.
+          This technique works when the names of the things mentioned are reliably unique or
+          otherwise discriminated, but it breaks down when you can have different base names in
+          different contexts, such as the same class name (<q>Element</q>) in different Java
+          libraries. In that type of case, a simple name is not sufficient to determine the correct
+          link target (this is one reason DITA has the keyref facility).</li>
+      <li>Enabling explicit association between things mentioned and their definitions. In DITA this
+          is through the use of <xmlatt>keyref</xmlatt> on <xmlelement>keyword</xmlelement> and
+            <xmlelement>term</xmlelement>.</li>
+      <li>Acting as classifying metadata when used in an explicit metadata context, such as within <xmlelement>topicmeta</xmlelement>.</li>
+      </ul></p>
+    <p>Mention elements are very useful, and therefore you are likely to specialize new mention
+            elements sooner rather than later (along with creating custom conditional attributes).
+            If you’re writing about wangdoodlers, hornswagglers, and vermitious knids you probably
+            need corresponding specialized mention elements to distinguish mentions of specific
+            wangdoodler instances from specific knid instances.</p>
+    <p>Fortunately, defining specialized mention elements is the second-easiest form of specialization, after attribute specialization. See <xref
+      keyref="element-domain-specialization-tutorial"/>.</p>
+    <p>Within the DITA vocabulary, the <xmlelement>keyword</xmlelement> element is the more general
+            mention element, meaning essentially any mention that isn’t a term. The
+                <xmlelement>term</xmlelement> element is intended for words that have, or could be
+            expected to have, a glossary definition. The distinction is essentially,
+                <xmlelement>keyword</xmlelement> is for mentions of things that could or should have
+            corresponding reference topics and <xmlelement>term</xmlelement> is for things that are
+            defined terms. If you are creating specialized mention element domains you will usually
+            specialize from <xmlelement>keyword</xmlelement> unless you are explicitly creating distinct
+            forms of <xmlelement>term</xmlelement>, for example, to indicate different target glossaries.
+            For example, you might specialize term into <xmlelement>common-term</xmlelement> and
+                <xmlelement>jargon-term</xmlelement> to distinguish terms that are defined in common
+            dictionaries (and thus not in your glossary) and terms that are specific jargon that are
+            in your glossary. Or you might specialize <xmlelement>term</xmlelement> to reflect the
+            taxonomy or ontology the term is defined in (see the footnote on taxonomies and
+            ontologies in <xref keyref="data-and-metadata" format="dita"/>).</p>
+    <p>Note that the mention element for keywords in programming languages and command line interfaces is the <xmlelement>kwd</xmlelement> element defined in the Technical Content software domain. Do not confuse with <xmlelement>keyword</xmlelement>.</p>
+    <p>I use the term <q>mention</q> because it is general to all documentation-related information
+            structuring systems, XML and non-XML. That is, all computer-based systems for authoring
+            and storing content with even a modicum of semantic identification have the notion of
+            mentions, or at least the ability to represent them. Think of Microsoft Word and similar
+            word processing systems that are limited to essentially paragraphs and inlines. As long
+            as you can have named inline styles you have what you need to create
+            semantically-distinct mentions, and most people who use tools like Word for anything at
+            all sophisticated will have created mention styles in exactly the way I mean here, even
+            if they didn’t realize that was what they were doing. Thus mentions are a fundamental
+            concept in markup design and it’s useful to have a generic term for them. The DITA
+            architecture doesn’t (or didn’t before DITA 1.2) use the term <q>mention</q> in a formal
+            way, but what DITA means by <xmlelement>keyword</xmlelement> and <xmlelement>term</xmlelement> is
+            exactly what I mean by <q>mention.</q></p>
+  </body>
+</subsection>

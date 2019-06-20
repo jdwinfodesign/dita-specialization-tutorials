@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Configuring the PTC Arbortext Editor </title>
+  <shortdesc>The PTC Arbortext Editor provides a full-featured DITA authoring environment.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Arbortext Editor</indexterm>
+        <indexterm>DITA-aware editors<indexterm>Arbortext Editor</indexterm></indexterm>
+        <indexterm>editors (software)<indexterm>DITA-aware<indexterm>Arbortext Editor</indexterm></indexterm></indexterm>
+        <indexterm>tools, commercial<indexterm>Arbortext Editor</indexterm></indexterm>
+        <indexterm>PTC<indexterm>Arbortext Editor</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <draft-comment
+        author="WEK">Discuss how to configure Arbortext to use new vocabulary modules. Discuss Arbortext's extension and customization facilities.</draft-comment>
+    </p>
+  </body>
+</chapter>

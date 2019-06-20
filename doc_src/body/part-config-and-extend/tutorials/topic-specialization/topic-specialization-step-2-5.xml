@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-specialization-step-2-5">
+  <title>Step 2-5. Declare Element Type Parameter Entities</title>
+  <body>
+    <p>In <filepath>faq-question.mod</filepath>, find the comment labeled <q>ELEMENT NAME
+                ENTITIES.</q></p>
+    <p>These parameter entities allow document type shell DTDs to extend the base content models
+            that reference these element types by redeclaring these parameter entities to either
+            include additional element types (for example, specializations of the parameter entity's
+            associated element type) or replace the original type with new types.</p>
+    <p>In this section of the file, make the following changes to the parameter entity declarations:
+        <ul>
+        <li>Change <q>concept</q> to <q>faq-question</q> for both the parameter entity name and
+                    value.</li>
+        <li>Change <q>conbody</q> to <q>faq-answer</q> for both the parameter entity name and
+                    value.</li>
+        <li>Declare a new parameter entity <parameterentity>faq-question-statement</parameterentity> like so: <codeblock>
+&lt;!ENTITY % faq-question-statement "faq-question-statement" ></codeblock> </li>
+      </ul>
+    </p>
+    <p>The element name entities section should now look like this: <codeblock>
+&lt;!-- ============================================================= -->
+&lt;!--                   ELEMENT NAME ENTITIES                       -->
+&lt;!-- ============================================================= -->
+ 
+
+&lt;!ENTITY % faq-question           "faq-question" >
+&lt;!ENTITY % faq-answer             "faq-answer"   >
+&lt;!ENTITY % faq-question-statement "faq-question-statement" >
+ </codeblock></p>
+    <p>Validate the test document again. The test document should validate.</p>
+    <p>If it does validate, then we know that the declarations are correct in the module, at least
+            as far allowing our new element types, and that the document type shell DTD is hooked up
+            correctly.</p>
+    <p>At this point another test would be to see if our requirement that no nested topics or nested
+            FAQ questions are allowed is satisfied. Only the <xmlelement>no-topic-nesting</xmlelement>
+            element should be allowed.</p>
+    <p>Note that if you wanted to be really forceful about the requirement for no topic nesting, you
+            could simply modify the content model of <xmlelement>faq-question</xmlelement> to remove the
+            reference to <parameterentity>faq-question-info-types</parameterentity> entirely. That would be a
+            statement that nested topics should <i>never</i> be allowed, while the
+                <xmlelement>no-topic-nesting</xmlelement> element simply says <q>for this configuration, I
+                don't want to allow topics.</q></p>
+        <p>The content model of <xmlelement>faq-question</xmlelement> as it is currently defined would
+            enable users to configure a document type shell DTD that would allow nested topics, and
+            would enable developers to allow nested topics in a specialization of
+                <xmlelement>faq-question</xmlelement>. If it was essential to the semantic of FAQ
+            questions that nested topics <i>never</i> be allowed, it would be better to remove the
+            reference to <parameterentity>info-types</parameterentity>. But that would probably be too constraining
+            in this case. In general, when designing an element type that is general enough that it
+            is likely to itself be a base for specialization, you should err on the side of laxity,
+            and let configurators and specializers add in the constraints they want.</p>
+        <p>While the declarations are now sufficient for us to create FAQ question instances, it's
+            not complete because we haven't declared the DITA <xmlatt>class</xmlatt> attributes that
+            define the specialization hierarchies for the new element types. This means that if we
+            try to process our test document with the DITA Open Toolkit we won't get any output
+            because the toolkit will not know that <xmlelement>faq-question</xmlelement> is actually a
+            specialization of <xmlelement>concept</xmlelement>.</p>
+  </body>
+</subsection>

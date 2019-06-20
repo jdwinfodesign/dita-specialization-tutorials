@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="subsection-id">
+  <title>DITA Configuration and Specialization Tutorials</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear
+        year="2010"        
+      />
+      <copyryear year="2014"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+    <metadata>
+      <prodinfo>
+        <prodname>DITA Configuration and Specialization Tutorials</prodname>
+        <vrmlist>
+          <vrm version="2" release="1" modification="0"/>
+        </vrmlist>
+      </prodinfo>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This information set provides a set of tutorials on DITA 1.2 configuration and extension. These tutorials replace the DITA 1.1 "Specialization Tutorials" originally published in 2007.</p>
+    <p>These tutorials are excerpted from the book <xref href="http://xmlpress.net/publications/dita/practitioners" format="html" scope="external"
+      ><i>DITA for Practitioners</i></xref>, to be published by <xref href="http://www.xmlpress.net" format="html" scope="external">XML Press</xref>.</p>
+    <p>While these tutorials are taken from the copyrighted book, you are free to use these tutorials however you would like, including creating derivative works, as long as an appropriate attribution crediting the author, W. Eliot Kimber, and the original source, <cite>DITA for Practitioners</cite>, is included. That is, this notice serves as blanket written permission to quote from or use in their entirety these tutorials in other works. I do, however, ask that you inform me in advance of any significant use just so that I'm aware of it.</p>
+    <p>You can find the working results of all the tutorials at <xref
+      href="http://www.xiruss.org/tutorials/materials/dita-tutorial-materials.zip"
+      format="html"
+      scope="external">http://www.xiruss.org/tutorials/materials/dita-tutorial-materials.zip</xref>.</p>
+    <p>This tutorial is published in the following versions in addition to the HTML version served at <xref
+      format="html"
+      scope="external"
+      href="http://http://dita4practitioners.github.io/dita-specialization-tutorials">http://dita4practitioners.github.io/dita-specialization-tutorials</xref>:<ul>
+      <li>PDF: <xref
+        href="http://xiruss.org/tutorials/dita-specialization/dita-specialization-tutorial.pdf"
+        format="html"
+        scope="external">http://xiruss.org/tutorials/dita-specialization/dita-specialization-tutorial.pdf</xref></li>
+      <li>EPUB: <xref
+        href="http://xiruss.org/tutorials/dita-specialization/dita-specialization-tutorial.epub"
+        format="html"
+        scope="external">http://xiruss.org/tutorials/dita-specialization/dita-specialization-tutorial.epub</xref></li>
+      <li>Kindle (Mobipocket): <xref
+        href="http://xiruss.org/tutorials/dita-specialization/dita-specialization-tutorial.mobi"
+        format="html"
+        scope="external">http://xiruss.org/tutorials/dita-specialization/dita-specialization-tutorial.mobi</xref></li>
+      </ul></p>
+    <p>The tutorials assume you have a copy of the DITA Open Toolkit and an XML-aware editing environment of some sort. I generally recommend <xref
+      href="http://www.oxygenxml.com"
+      format="html"
+      scope="external">OxygenXML</xref> as a high-value XML and DITA development environment but you can of course use any comparable tool set.</p>
+    <p>The tutorials are arranged in order from least-involved to most-involved. If all you need to do is create a local document type shell, you can jump right to <xref
+      href="../body/part-config-and-extend/tutorials/document-type-shells/creating-document-type-shells.xml"
+      format="dita"/>.</p>
+  </body>
+</subsection>

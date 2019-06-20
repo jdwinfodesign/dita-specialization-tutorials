@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-spec-step-4">
+  <title>Topic Specialization Step 4: Extending the Toolkit To Support the Specialization</title>
+  <body>
+    <p>For many topic specializations you won't need to change the base Open Toolkit processing
+            because you're using the specialization primarily to support authoring requirements,
+            impose editorial rules, or define specific reference structures or task structures that
+            don't require any special processing. However, sometimes you need additional
+            functionality, in which case you have to extend the Toolkit (or whatever tools you're
+            using to process your DITA-based information). </p>
+    <p>There are two ways to extend a given transformation type in the Open Toolkit,
+                <q>extension</q> and <q>override</q>:<ul
+                id="ul_84c4bbf0-a0b3-434d-a4c4-9e9d866032dc">
+                <li>Extension uses any extension points provided by the transformation type to hook
+                    in additional processing needed by a specific vocabulary module.</li>
+                <li>Override involves creating a new transformation type that includes and overrides
+                    the base transformation type.</li>
+            </ul></p>
+    <p>Which you use depends on what you need to accomplish.</p>
+    <p>If you are adding support for new element types or attributes, then you should use extension,
+            since the processing for your new types cannot (or rather, should not) interfere with
+            any base processing. For most vocabulary modules, including the FAQ question topic type
+            module, you will use extension.</p>
+    <p>If you need to implement processing that is specific to a particular publication type, user group within a larger organization, or otherwise limited to specific cases, then you should normally use overrides so you do not modify the base processing for users of the base transformation type. For example, you might have different customizations of the PDF processor for different product groups within an enterprise. These customizations should be overrides not extensions.</p>
+    <p>If you need to implement processing that modifies the default processing, but that should be
+            used universally within a given organization, then you should use extensions. For
+            example, you might have a corporate standard for specific HTML elements that should be
+            reflected in any HTML output. In that case it would be appropriate to define an
+            extension plugin that overrides the base processing.</p>
+    <p>Also, for HTML output, you can customize some presentation aspects through the use of custom
+            CSS stylesheets without modifying the HTML generation itself.</p>
+    <p>See <xref
+      href="../../../part-tool-configuration-and-extension/config-and-extend-dita-ot.xml#topic-id"
+      format="dita"/> for a more complete discussion of extending and overriding Toolkit processing.</p>
+    <p>For the purposes of this tutorial we will extend the HTML generation to reflect the formatting specifications for FAQ Question. </p>
+    <p>For the FAQ Question specialization, the HTML formatting specifications are: <ul>
+      <li>The question statement (the topic title) should be introduced with <q>Q. </q> and the
+                    title itself should have a light pastel background.</li>
+      <li>The answer should be introduced with <q>A.  </q> in the same size and font as the title. </li>
+      </ul></p>
+    <p>There are several ways to achieve this effect, including defining default values for the
+                <xmlatt>outputclass</xmlatt> attribute in the DTDs (which would then let you style
+            the HTML using a CSS stylesheet). However, for this tutorial we will create a transform
+            if for no other reason than to see how it's done.</p>
+    <p>As for creation of the DTDs themselves, the process of creating a specialization-specific
+            XSLT script can be fairly mechanical and may not require any great depth of XSLT
+            knowledge, especially if all you're doing is tweaking the HTML output.</p>
+    <p>The basic process is as follows:
+      <ol>
+        <li>Create a directory to contain your Toolkit plugin, which will consist of the plugin descriptor file (<filepath>plugin.xml</filepath>) and the XSLT modules that implement your custom processing.</li>
+      <li>Create an empty XSLT stylesheet that will hold the templates specific to your specialization.</li>
+      <li>Create the plugin descriptor document that integrates your XSLT modules into the base transformation type.</li>
+        <li>Create match templates for each element type and context you'll need to handle.</li>
+        <li>In the base Toolkit-supplied stylesheets, find the template that would otherwise handle
+                    one of your specialized elements, copy its content, and paste it into your local
+                    template.</li>
+        <li>Modify the local template to do whatever you need it to do.</li>
+        <li>Repeat steps 4 through 6 for each specialized element type that needs different processing.</li>
+      </ol>
+    </p>
+  </body>
+</subsection>  

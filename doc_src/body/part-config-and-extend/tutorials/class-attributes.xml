@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="class-attributes">
+  <title>Specialization Hierarchy and the <xmlatt>class</xmlatt> Attribute</title>
+  <prolog>
+    <author>W. Eliot Kimber</author>
+    <copyright>
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>
+  </prolog>
+  <body>
+    <p>In DITA, a given specialized element may be specialized from elements that
+        are themselves specializations of more general elements, forming a 
+        specialization hierarchy. Syntactically, this hierarchy is expressed 
+        as a sequence of module/type name pairs as the value of the global <xmlatt>class</xmlatt>
+        attribute. In DITA-based document types, all element types must have
+        a <xmlatt>class</xmlatt> attribute and must be ultimately specialized 
+        from one of the base DITA-defined types.</p>
+    <p>The value of the <xmlatt>class</xmlatt> attribute is a blank-delimited 
+          sequence of module/element name pairs, preceded by a "-" or "+" and followed
+        by a trailing blank character:
+        <pre>
+&lt;!ATTRIBUTE foo
+    <b>class="+ topic/ph mydomain/foo "</b>
+&gt;
+&lt;!ATTRIBUTE bar
+    <b>class="- topic/p concept/p mytopic/my-p "</b>
+&gt;</pre>
+    </p>
+    <p>The leading "+" or "-" and the trailing blank ensure that processors can 
+    reliably match on the module/name pairs.</p>
+    <p>A leading "-" is used for topic or map specialization modules, a "+" is
+        used for domain specialization modules.</p>
+    <p>When a specialized type specializes a type that is not specialized by 
+    intermediate specializations, the intermediate specializations must still
+    be listed. In the second example, the topic specialization module "mytopic"
+    specializes the <xmlelement>p</xmlelement> element, which is defined in the base topic
+    module. Even though the <xmlelement>p</xmlelement> element is not further specialized
+    by the concept module, it is listed in the class value. This makes
+    it easy for processors to know exactly what the module hierarchy
+    is for any specialized element should that information be useful.</p>
+    <p>All DITA-aware processing should be defined in terms
+            of the <xmlatt>class</xmlatt> attribute values rather than tag names.
+        For example, in an XSLT match
+        statement you would do this:
+        <pre>
+&lt;xsl:template match="*[contains(@class, <b>' mydomain/foo '</b>)]"&gt;</pre>
+    </p>
+    <p>The leading and trailing spaces in the match string ensure that you only match
+        the specific string you want and not one that happens to also match if you 
+        omitted the spaces. For example, if you defined a module named "mytopic" which
+        declared the element "p-norm", a match string of "topic/p" would match both
+        "topic/p" and "mytopic/p-norm", while a match string of " topic/p " would
+        only match "topic/p".</p>
+    <p>The <xmlatt>class</xmlatt> attribute allows processors to process elements
+        in terms of any element type in its specialization hierarchy. This means that
+        all specialized elements, when processed by specialization-aware processors,
+        will always get the default behavior for their base types. This means that
+        you can declare specialized element types without necessarily having to 
+        do any additional implementation work to support the processing of those elements.
+        That is, documents with specialized elements should "just work" when processed
+        by generic DITA-aware processors (e.g., the DITA Open Toolkit). Of course,
+        not all tools that claim to support DITA are specialization aware so your
+        mileage may vary. Certainly the DITA Open Toolkit is fully specialization
+        aware.</p>
+  </body>
+</subsection>

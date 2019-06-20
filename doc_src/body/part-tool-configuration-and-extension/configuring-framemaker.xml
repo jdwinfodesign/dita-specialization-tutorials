@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Configuring and Extending FrameMaker</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>FrameMaker editor</indexterm>
+        <indexterm>DITA-aware editors<indexterm>FrameMaker</indexterm></indexterm>
+        <indexterm>editors (software)<indexterm>DITA-aware<indexterm>FrameMaker</indexterm></indexterm></indexterm>
+        <indexterm>tools, commercial<indexterm>FrameMaker</indexterm></indexterm>
+        <indexterm>Adobe Systems Inc.<indexterm>FrameMaker</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <draft-comment
+        author="WEK">Discuss how to configure FrameMaker to use new vocabulary modules. Discuss FrameMaker's extension facilities.</draft-comment>
+    </p>
+  </body>
+</chapter>

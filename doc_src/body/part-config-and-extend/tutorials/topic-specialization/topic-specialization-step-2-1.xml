@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="topic-specialization-step-2-1">
+  <title>Step 2-1. Create Test Case Document Instance</title>
+  <body>
+    <p>In your working area create a directory named <filepath>faq-question</filepath> and under
+            that create the directory <filepath>dtd</filepath>. This will hold all the DTD-related
+            materials for the topic specialization. You should create this directory outside the
+            scope of the DITA Open Toolkit. (In the tutorial materials there are two directories,
+                <filepath>faq-question-v1</filepath> and <filepath>faq-question</filepath>. The
+                <filepath>faq-question-v1</filepath> directory contains the first iteration of the
+            module, the <filepath>faq-question</filepath> directory contains the final, refined
+            version.)</p>
+    <p>In the faq-question directory, create the file <filepath>faq-question-test-01.xml</filepath>
+            with this content:
+            <codeblock>
+&lt;?xml version="1.0"?>          
+&lt;!DOCTYPE faq-question SYSTEM "dtd/faq-question.dtd">          
+&lt;faq-question id="question-id">
+  &lt;faq-question-statement>Can I add attributes to specific element types?&lt;/faq-question-statement>
+  &lt;faq-answer >
+    &lt;p>No, you can only define global attributes, specialized either from &amp;lt;base&amp;gt;
+    or @props.&lt;/p>
+  &lt;/faq-answer>
+&lt;/faq-question></codeblock></p>
+    <p>Note that the SYSTEM ID of the DTD is a local, relative URL. This is to keep things simple
+            for testing purposes and to avoid the added complexity of mapping PUBLIC or SYSTEM IDs
+            through catalogs. Later we will set up the necessary catalog entries so documents can
+            use an absolute URI for the faq-question shell DTD.</p>
+    <p>Open this document in an XML-aware editor. It should either fail to open with a <q>can't find
+                the DTD</q> message or open but say that it can't be validated. Now our goal is to
+            make this file validate.</p>
+  </body>
+</subsection>

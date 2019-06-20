@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization XSD Step 2: Define faq-mapDomain Map Domain</title>
+  <body>
+    <p>Create the FAQ-map map domain module as follows:<ol>
+      <li>Edit the file <filepath>faq-mapDomain/xsd/faq-mapDomain.xsd</filepath>.</li>
+      <li>In <filepath>mapGrp.xsd</filepath> from the standard DITA schema distribution, find the
+                    group for <q>topicref</q> and copy it into
+                        <filepath>faq-mapDomain.xsd</filepath> after the
+                        <xmlelement>xs:import</xmlelement>
+                    element:<codeblock>&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+  
+  &lt;xs:import namespace="http://www.w3.org/XML/1998/namespace" 
+    schemaLocation="urn:oasis:names:tc:dita:xsd:xml.xsd:1.2"/>
+  
+  <b>&lt;xs:group name="topicref">
+    &lt;xs:sequence>
+      &lt;xs:choice>
+        &lt;xs:element ref="topicref"/>
+      &lt;/xs:choice>
+    &lt;/xs:sequence>
+  &lt;/xs:group></b>
+  
+  ...
+
+&lt;/xs:schema></codeblock></li>
+      <li>In <filepath>mapMod.xsd</filepath> find the declarations for <xmlelement>topicref</xmlelement> and copy them to <filepath>faq-mapDomain.xsd</filepath>:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+  
+  &lt;xs:import namespace="http://www.w3.org/XML/1998/namespace" 
+    schemaLocation="urn:oasis:names:tc:dita:xsd:xml.xsd:1.2"/>
+
+  &lt;xs:group name="topicref">
+    &lt;xs:sequence>
+      &lt;xs:choice>
+        &lt;xs:element ref="topicref"/>
+      &lt;/xs:choice>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+
+  <b>&lt;xs:element name="topicref">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        The &amp;lt;&lt;keyword>topicref&lt;/keyword>&amp;gt; element designates a topic
+        (such as a concept, task, or reference) as a link in a DITA map. A &amp;lt;&lt;keyword>topicref&lt;/keyword>&amp;gt;
+        can contain other&amp;lt;&lt;keyword>topicref&lt;/keyword>&amp;gt; elements, allowing you to
+        express navigation or table-of-contents hierarchies, as well as implying relationships
+        between the containing &amp;lt;&lt;keyword>topicref&lt;/keyword>&amp;gt; and its children.
+        You can set the collection-type of a container &amp;lt;&lt;keyword>topicref&lt;/keyword>&amp;gt;
+        to determine how its children are related to each other. Relationships end
+        up expressed as links in the output (with each participant in a relationship
+        having links to the other participants). 
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="topicref.class">
+          &lt;xs:attribute ref="class" default="- map/topicref " />
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:complexType name="topicref.class">
+    &lt;xs:sequence>
+      &lt;xs:group ref="topicref.content"/>
+    &lt;/xs:sequence>
+    &lt;xs:attributeGroup ref="topicref.attributes"/>
+  &lt;/xs:complexType>
+  
+  &lt;xs:group name="topicref.content">
+    &lt;xs:sequence>
+      &lt;xs:sequence>
+        &lt;xs:group ref="topicmeta" minOccurs="0"/>
+        &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+          &lt;xs:group ref="navref" />
+          &lt;xs:group ref="anchor" />
+          &lt;xs:group ref="topicref" />
+          &lt;xs:group ref="data.elements.incl" />
+        &lt;/xs:choice>
+      &lt;/xs:sequence>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+  &lt;xs:attributeGroup name="topicref.attributes">
+    &lt;xs:attribute name="navtitle" type="xs:string"/>
+    &lt;xs:attribute name="href" type="xs:string"/>
+    &lt;xs:attribute name="keys" type="xs:string"/>
+    &lt;xs:attribute name="keyref" type="xs:string"/>
+    &lt;xs:attribute name="query" type="xs:string"/>
+    &lt;xs:attribute name="copy-to" type="xs:string"/>
+    &lt;xs:attributeGroup ref="topicref-atts" />
+    &lt;xs:attributeGroup ref="univ-atts" />
+    &lt;xs:attribute name="outputclass" type="xs:string"/>
+    &lt;xs:attributeGroup ref="global-atts" />
+  &lt;/xs:attributeGroup></b>
+  
+&lt;/xs:schema>
+</codeblock></li>
+      <li>Change <q>topicref</q> to <q>faq-question-set</q> everywhere but in the default value for
+                    the <xmlatt>class</xmlatt> attribute and in the reference to the
+                        <q>topicref-atts</q> attribute
+                    group:<codeblock>  
+  &lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+  
+  &lt;xs:import namespace="http://www.w3.org/XML/1998/namespace" 
+    schemaLocation="urn:oasis:names:tc:dita:xsd:xml.xsd:1.2"/>
+  
+  &lt;xs:group name="<b>faq-question-set</b>">
+    &lt;xs:sequence>
+      &lt;xs:choice>
+        &lt;xs:element ref="<b>faq-question-set</b>"/>
+      &lt;/xs:choice>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+  &lt;xs:element name="<b>faq-question-set</b>">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        The &amp;lt;&lt;keyword>faq-question-set&lt;/keyword>&amp;gt; element 
+        groups sets of &lt;keyword>faq-question&lt;/keyword> references
+        together. The question set should either point to a topic
+        that provides a title for the question set or specify
+        a navigation title.
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="<b>faq-question-set</b>.class">
+          &lt;xs:attribute ref="class" default="- map/topicref " />
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:complexType name="<b>faq-question-set</b>.class">
+    &lt;xs:sequence>
+      &lt;xs:group ref="<b>faq-question-set</b>.content"/>
+    &lt;/xs:sequence>
+    &lt;xs:attributeGroup ref="<b>faq-question-set</b>.attributes"/>
+  &lt;/xs:complexType>
+  
+  &lt;xs:group name="<b>faq-question-set</b>.content">
+    &lt;xs:sequence>
+      &lt;xs:sequence>
+        &lt;xs:group ref="topicmeta" minOccurs="0"/>
+        &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+          &lt;xs:group ref="navref" />
+          &lt;xs:group ref="anchor" />
+          &lt;xs:group ref="faq-question-set" />
+          &lt;xs:group ref="data.elements.incl" />
+        &lt;/xs:choice>
+      &lt;/xs:sequence>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+  &lt;xs:attributeGroup name="<b>faq-question-set</b>.attributes">
+    &lt;xs:attribute name="navtitle" type="xs:string"/>
+    &lt;xs:attribute name="href" type="xs:string"/>
+    &lt;xs:attribute name="keys" type="xs:string"/>
+    &lt;xs:attribute name="keyref" type="xs:string"/>
+    &lt;xs:attribute name="query" type="xs:string"/>
+    &lt;xs:attribute name="copy-to" type="xs:string"/>
+    &lt;xs:attributeGroup ref="topicref-atts" />
+    &lt;xs:attributeGroup ref="univ-atts" />
+    &lt;xs:attribute name="outputclass" type="xs:string"/>
+    &lt;xs:attributeGroup ref="global-atts" />
+  &lt;/xs:attributeGroup>
+</codeblock></li>
+      <li>Validate your test document. You should now get a message to the effect that the content of <xmlelement>faq-question-set</xmlelement> is invalid starting with <xmlelement>faq-question</xmlelement>.</li>
+      <li>Modify the content model for <xmlelement>faq-question-set</xmlelement> to:<codeblock>  &lt;xs:group name="faq-question-set.content">
+    &lt;xs:sequence>
+      &lt;xs:sequence>
+        &lt;xs:group ref="topicmeta" minOccurs="0"/>
+        <b>&lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+          &lt;xs:group ref="faq-question" />
+        &lt;/xs:choice></b>
+      &lt;/xs:sequence>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  </codeblock></li>
+      <li>Modify the value of the <xmlatt>class</xmlatt> attribute to <q>+ map/topicref
+                        faq-map-d/faq-question-set
+                    </q>:<codeblock>  &lt;xs:element name="faq-question-set">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        The &amp;lt;&lt;keyword>faq-question-set&lt;/keyword>&amp;gt; element 
+        groups sets of &lt;keyword>faq-question&lt;/keyword> references
+        together. The question set should either point to a topic
+        that provides a title for the question set or specify
+        a navigation title.
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="faq-question-set.class">
+          &lt;xs:attribute ref="class" default=<b>"+ map/topicref faq-map-d/faq-question-set </b>" />
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+</codeblock></li>
+      <li>Validate your test document. You should now get a message to the effect that the group
+                        <q>faq-question</q> cannot be resolved.</li>
+      <li>Copy all the declarations for <xmlelement>faq-question-set</xmlelement> and rename
+                        <q>faq-question-set</q> to <q>faq-question,</q> resulting in these
+                    declarations:<codeblock>  &lt;xs:group name="faq-question">
+    &lt;xs:sequence>
+      &lt;xs:choice>
+        &lt;xs:element ref="faq-question"/>
+      &lt;/xs:choice>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+  &lt;xs:element name="faq-question">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        The &amp;lt;&lt;keyword>faq-question&lt;/keyword>&amp;gt; element 
+        represents a single FAQ question within a larger
+        FAQ question set.
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="faq-question.class">
+          &lt;xs:attribute ref="class" default="+ map/topicref faq-map-d/faq-question " />
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:complexType name="faq-question.class">
+    &lt;xs:sequence>
+      &lt;xs:group ref="faq-question.content"/>
+    &lt;/xs:sequence>
+    &lt;xs:attributeGroup ref="faq-question.attributes"/>
+  &lt;/xs:complexType>
+  
+  &lt;xs:group name="faq-question.content">
+    &lt;xs:sequence>
+      &lt;xs:sequence>
+        &lt;xs:group ref="topicmeta" minOccurs="0"/>
+        &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+          &lt;xs:group ref="faq-question" />
+        &lt;/xs:choice>
+      &lt;/xs:sequence>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+  &lt;xs:attributeGroup name="faq-question.attributes">
+    &lt;xs:attribute name="navtitle" type="xs:string"/>
+    &lt;xs:attribute name="href" type="xs:string"/>
+    &lt;xs:attribute name="keys" type="xs:string"/>
+    &lt;xs:attribute name="keyref" type="xs:string"/>
+    &lt;xs:attribute name="query" type="xs:string"/>
+    &lt;xs:attribute name="copy-to" type="xs:string"/>
+    &lt;xs:attributeGroup ref="topicref-atts" />
+    &lt;xs:attributeGroup ref="univ-atts" />
+    &lt;xs:attribute name="outputclass" type="xs:string"/>
+    &lt;xs:attributeGroup ref="global-atts" />
+  &lt;/xs:attributeGroup>
+</codeblock></li>
+      <li>Validate your test document. It should be valid.</li>
+      <li>Modify the content model of <xmlelement>faq-question</xmlelement> to remove the reference to <xmlelement>faq-question-set</xmlelement>:<codeblock>  &lt;xs:group name="faq-question.content">
+    &lt;xs:sequence>
+      &lt;xs:sequence>
+        &lt;xs:group ref="topicmeta" minOccurs="0"/>
+      &lt;/xs:sequence>
+    &lt;/xs:sequence>
+  &lt;/xs:group></codeblock></li>
+      <li>Validate your test document. It should still be valid. Verify that you cannot add any subelements to <xmlelement>faq-question</xmlelement> other than <xmlelement>topicmeta</xmlelement>.</li>
+      </ol></p>
+    <p>At this point the FAQ map and FAQ-map map domain declarations are complete. All that remains
+            is to define appropriate URNs for the schema locations, modify the document type shell
+            to use the URNs rather than relative URLs, and package it all up as a Toolkit
+            plugin.</p>
+  </body>
+</subsection>

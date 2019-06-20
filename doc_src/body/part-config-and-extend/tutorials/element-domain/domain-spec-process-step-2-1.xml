@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="step2-1">
+  <title>Step 2-1. Create New .mod File</title>
+  <body>
+    <p>Create a new file named "xmlDomain.mod" and put a descriptive header comment at the top: <codeblock>
+&lt;!-- ====================================================
+     XML Construct Domain Module
+    
+     Author: <i>your name here</i>
+
+     Copyright (c) 2011 <i>copyright holder</i>
+     
+     <i>license to use or not use or whatever</i>
+          
+     ==================================================== --></codeblock> </p>
+  </body>
+</subsection>

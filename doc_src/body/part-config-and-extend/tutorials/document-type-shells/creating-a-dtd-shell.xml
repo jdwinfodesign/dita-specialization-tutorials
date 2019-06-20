@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>DTD Topic Type Shell Creation Tutorial</title>
+  <shortdesc>This tutorial demonstrates the process of creating a DTD-syntax document type shell.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>DTD</indexterm>
+        <indexterm>document type shell<indexterm>DTD syntax</indexterm><indexterm>DTD syntax<indexterm>document type shell</indexterm></indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In this tutorial you will create a document type shell for <xmlelement>topic</xmlelement> that
+            removes the technical-documentation-specific domains and adds a reference to the XML
+            markup domain (defined in <xref
+                href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
+                format="dita"/>).</p>
+    <p>The other tutorials also include instructions for creating shells that integrate the components created in those tutorials. This tutorial shows you the basic process for shell creation, showing both removing existing references and adding new references.</p>
+  </body>
+</subsection>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>About These Tutorials</title>
+  <body>
+    <p>These tutorials are authored as a set of DITA 1.2-conforming maps and topics using topic types from the <xref href="http://dita4publishers.org" format="html" scope="external"
+      >DITA for Publishers</xref> project as configured for use in the <xref href="http://xmlpress.net/publications/dita/practitioners-1/" format="html" scope="external"
+      ><i>DITA for Practitioners</i></xref> book from which these tutorials are drawn. I use <xref href="http://oxygenxml.com" format="html" scope="external"
+      >OxygenXML</xref> as my day-to-day authoring environment. The HTML, PDF, and EPUB versions were produced using the <xref href="http://dita-ot.sourceforge.net" format="html" scope="external"
+      >DITA Open Toolkit</xref>. The EPUB plugin is currently available through the DITA for Publishers project.</p>
+    <p>Please report any comments, bug reports, or technical inaccuracies on the project's GitHub issue tracker: <xref href="https://github.com/dita4practitioners/dita-specialization-tutorials/issues"
+      format="html" scope="external"
+      >https://github.com/dita4practitioners/dita-specialization-tutorials/issues</xref>. I'm also happy to discuss any aspect of the tutorial on the DITA users Yahoo! group, <xref
+      href="dita-users@groups.yahoo.com" format="html" scope="external">dita-users@groups.yahoo.com</xref>.</p>
+  </body>
+</subsection>

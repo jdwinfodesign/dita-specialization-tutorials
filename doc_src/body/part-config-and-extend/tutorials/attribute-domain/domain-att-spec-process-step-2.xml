@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-att-spec-step-2">
+  <title>Attribute Specialization Step 2: Integrate With Document Type Shell</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>integration<indexterm>of attribute domain module</indexterm></indexterm>
+        <indexterm>attribute domain<indexterm>integration of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Step 2 is to integrate the vocabulary module into your local copy of each of your document type shells. The pattern is the same for each shell. </p>
+    <p>For this tutorial, use a copy of the <filepath>concept.dtd</filepath> shell, as for the
+            element domain specialization tutorial.</p>
+    <p>Edit the copy of <filepath>concept.dtd</filepath> and find the comment that reads <q>DOMAIN
+                ATTRIBUTE DECLARATIONS.</q> Following that comment, add this declaration:
+            <codeblock>&lt;!ENTITY % phase-of-moon-d-dec     
+  SYSTEM "phase-of-moonAttDomain.ent"                                                
+>
+%phase-of-moon-d-dec;</codeblock></p>
+    <p>This pulls in the attribute domain module.</p>
+    <p>Find the comment that reads <q>DOMAIN ATTRIBUTE EXTENSIONS.</q> Following that comment you
+            should see a declaration for the <parameterentity>props-attribute-extensions</parameterentity> parameter
+            entity. It will probably be declared as an empty string.</p>
+    <p>Modify the entity replacement text (the bit inside the double quotes) to include a reference to the <parameterentity>phase-of-moon-d-attribute</parameterentity> parameter entity: <codeblock>&lt;!ENTITY % props-attribute-extensions  
+  "%phase-of-moon-d-attribute;"
+></codeblock></p>
+    <p>This adds the <xmlatt>phase-of-moon</xmlatt> attribute to the
+                <parameterentity>selection-atts</parameterentity> parameter entity, which is then included in the
+                <parameterentity>univ-atts</parameterentity> parameter entity, making this new attribute available
+            on most elements (some elements, such as title, are not selection candidates).</p>
+    <p>Find the comment that reads <q>DOMAINS ATTRIBUTE OVERRIDE.</q> Following that you should see
+            the declaration of the text entity <textent>included-domains</textent> and it should
+            include references to a number of <q><i>x</i>-d</q> text entities.</p>
+    <p>To this entity add a reference to the <textent>phase-of-moon-d-att</textent> text entity: <codeblock>&lt;!ENTITY included-domains 
+   "&amp;hi-d-att;
+    &amp;ut-d-att;
+    <b>&amp;phase-of-moon-d-att;</b>
+   "                
+></codeblock></p>
+    <p>This formally declares your <xmlatt>props</xmlatt> attribute specialization so that DITA processors will know that <xmlatt>phase-of-moon</xmlatt> is in fact a conditional attribute and that they should filter on it as appropriate.</p>
+    <note>Observe the difference between <i>parameter</i> entities, which start with <q>%,</q> and
+                <i>general</i> entities, which start with <q>&amp;.</q> Parameter entities are used
+            within DTD declarations. Text entities are used within document content. Because the
+                <q>included-domains</q> entity is contributing to the value of an attribute it is a
+            general entity, not a parameter entity, and the entities used to build up its value are
+            also general entities, not parameter entities.</note>
+    <p>That's all there is to it. Now just repeat Step 2 for each document type shell you use and you're done.</p>
+    <note
+      type="other"
+      othertype="Common Errors">Common mistakes to watch out for:<ul
+      id="ul_d3631d38-e278-4265-962f-bbdfbfdaa04e">
+      <li>Forgetting the closing <q>;</q> (semicolon) on entity references.</li>
+      <li>Using <q>&amp;</q> for parameter entities or <q>%</q> for general entities. A parameter
+                    entity reference within an attribute value is parsed as literal text, so it
+                    won't be reported by XML parsers.</li>
+      </ul></note>
+  </body>
+</subsection>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Constraint Module Step 1: Create The Constraint Module File</title>
+  <body>
+    <p>A DTD-syntax constraint module consists of a single file that contains the overrides for the base elements or attributes.</p>
+    <p>Constraint modules should be named
+                <q><varname>qualifier</varname><varname>tagname</varname>Constraints.mod</q> where
+                <varname>qualifier</varname> is descriptive of the constraints applied and
+                <varname>tagname</varname> is the topic type, map type, or domain to which the
+            constraint is applied. </p>
+    <p>Note that a given constraint module can only define constraints for a single topic type, map type, or domain. This ensures that constraint modules map one-to-one with the vocabulary modules they constrain. Likewise, for a given element type or attribute you can have at most one constraint module.</p>
+    <p>For this tutorial the constraint domain should be called
+                    <q><filepath>highlightOnlyTopicConstraint.mod</filepath>.</q></p>
+    <p>Create a directory named <q>highlightOnlyTopicConstraint</q> and in that directory create the
+            file <filepath>highlightOnlyTopicConstraint.mod</filepath>.</p>
+    <p>Edit the file <filepath>highlightOnlyTopicConstraint.mod</filepath> and add a descriptive header comment:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- ======================================
+     Constraint Domain: Paragraphs with
+     only highlight domain elements.
+     
+     Copyright (c) 2011 Your Name Here
+     
+     ====================================== -->
+     
+&lt;!-- ============ End of constraint module --></codeblock></p>
+  </body>
+</subsection>

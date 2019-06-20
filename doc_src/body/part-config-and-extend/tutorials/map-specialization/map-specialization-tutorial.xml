@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization Tutorial</title>
+  <shortdesc>Goal: Define a new map type that represents an FAQ publication.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>tutorial<indexterm>map specialization</indexterm></indexterm>
+        <indexterm>specialization<indexterm>of maps</indexterm><indexterm>tutorials<indexterm>map</indexterm></indexterm></indexterm>
+        <indexterm>tutorials<indexterm>structural specialization<indexterm>map</indexterm></indexterm></indexterm>
+        <indexterm>FAQ<indexterm>map type for</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Having defined a new topic type for FAQ questions (<xref
+      href="../topic-specialization/topic-specialization-tutorial.xml#topic-specialization-tutorial"
+      format="dita"/>), we can now define a corresponding map type for creating complete FAQ sets.</p>
+    <p>New map types are used to either represent specific types of publications (what most people
+            would call a <q>document type</q> in the generic sense, not the XML sense) or to
+            represent specific combinations of topic types. For example, a common pattern is to
+            combine a task with associated concept and reference topics into a single unit. It could
+            be useful to define a separate map type that codifies this structure<fn><xref
+                    href="http://www.ibm.com/developerworks/xml/library/x-dita7/" format="html"
+                    scope="external">Design patterns for information architecture with DITA map
+                    domains</xref>, Erik Hennum, Don Day, John Hunt, and Dave Schell, September
+                2004, <xref href="http://www.ibm.com/developerworks/xml/library/x-dita7/"
+                    format="html" scope="external"
+                    >http://www.ibm.com/developerworks/xml/library/x-dita7/</xref>. </fn></p>
+    <p>For this tutorial, we want to define frequently asked question publications that consist of
+            FAQ question topics.</p>
+    <p>While you could do this by defining a new map type that defined topicref types specifically
+            for organizing FAQ entries, in practice it is usually better to define new topicref
+            types as map domains so they can be used in any map type. If you still want a specific
+            map type you can define a map type that depends on the new map domain in order to define
+            appropriately-constrained content models.</p>
+    <p>The Learning and Training learningMapDomain and learningMap modules are a good example of this approach. The learningMap domain lets you use learning-specific topicrefs in any map type while the learningMap gives you a ready-to-use map specifically for learning content. The DITA for Publishers vocabulary takes the same approach with the publication map domains and pubmap map types.</p>
+    <p>Thus, this tutorial defines two vocabulary modules:<ul
+      id="ul_c6875872-d469-4d13-aa23-590a3a717f23">
+      <li>An FAQ map domain that defines new topic types for organizing sets of FAQ entries</li>
+      <li>An FAQ map type that uses the map domain to define a map that is exclusively an FAQ set.</li>
+      </ul></p>
+    <p>To implement the domain and the map type that uses it, we could start by defining the map
+            domain and then defining the map type that uses it. However, the principle of
+            test-driven development suggests that we start with the map type and work toward
+            implementing the map domain. </p>
+  </body>
+</subsection>

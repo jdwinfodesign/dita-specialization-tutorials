@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Constraint Module Step 2: Declare The <xmlatt>domains</xmlatt> Attribute Text Entity</title>
+  <body>
+    <p>Like vocabulary modules, constraint modules must be declared in the <xmlatt>domains</xmlatt> attribute of each top-level map or topic file that uses the constraint.</p>
+    <p>Constraint modules are indicated by names of the form <q><varname>moduleName</varname>-c,</q>
+            for example, <q>highlightOnlyTopic-c.</q> As for vocabulary modules, you declare a text
+            entity that holds the <xmlatt>domains</xmlatt> attribute contribution. This entity is
+            named <q><varname>tagname</varname>-constraints,</q> reflecting the fact that there can
+            be at most one constraint module for a given element type in a given document type
+            shell.</p>
+    <p>For the highlight-only constraint module, add the declaration shown to the
+                <filepath>highlightOnlyTopicConstraint.mod</filepath>
+            file:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- ======================================
+     Constraint Domain: Paragraphs with
+     only highlight domain elements.
+     
+     Copyright (c) 2011 Your Name Here
+     
+     ====================================== -->
+
+<b>&lt;!ENTITY topic-constraints "(topic highlightOnlyTopic-c)" ></b>
+     
+&lt;!-- ============ End of constraint module --></codeblock></p>
+    <bodydiv
+      outputclass="what-about">
+      <p
+        outputclass="what-about-question">What do you do if you have multiple constraint modules for a given element type that you want to use together? </p>
+      <p>In that case you must create a new constraint module that combines the multiple constraint
+                modules. For example, if someone gave you another topic constraint module that
+                constrained a different element type, you would combine those declarations with the
+                declarations in the highlight-only topic constraint module.</p>
+      <p>When the two constraints constrain different element types, then combining them is easy:
+                just copy all the declarations from one constraint module into the other and save
+                the result as a new file with a new module name.</p>
+      <p>If the constraints constrain the same element types, then you must work out how the
+                constraints should be combined in order to create a new constraint module.</p>
+    </bodydiv>
+  </body>
+</subsection>

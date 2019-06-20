@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Configuring and Extending the XMetal Editor</title>
+  <shortdesc>The commercial XMetal editor from Just Systems provides a full-featured DITA authoring environment.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>XMetal editor</indexterm>
+        <indexterm>DITA-aware editors<indexterm>XMetal</indexterm></indexterm>
+        <indexterm>editors (software)<indexterm>DITA-aware<indexterm>XMetal</indexterm></indexterm></indexterm>
+        <indexterm>tools, commercial<indexterm>XMetal</indexterm></indexterm>
+        <indexterm>Just Systems<indexterm>XMetal Editor</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <draft-comment
+      author="WEK">Discuss how configure XMetal to use new vocabulary modules. Discuss the various extension facilities of XMetal.</draft-comment>
+  </body>
+</chapter>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
+<chapter
+  id="topic-id">
+  <title>Configuring and Extending DITA2Go</title>
+  <shortdesc>The DITA2Go product is a general-purpose DITA-aware transformation framework similar to the DITA Open Toolkit. </shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>DITA2Go</indexterm>
+        <indexterm>DITA-aware processors<indexterm>DITA2Go</indexterm></indexterm>
+        <indexterm>processors<indexterm>DITA-aware<indexterm>DITA2Go</indexterm></indexterm></indexterm>
+        <indexterm>tools, commercial<indexterm>DITA2Go</indexterm></indexterm>
+        <indexterm>Omni Systems<indexterm>DITA2Go</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <draft-comment
+        author="WEK">Discuss how to configure DITA2Go to use new vocabulary modules and its various extension facilities.</draft-comment>
+    </p>
+  </body>
+</chapter>

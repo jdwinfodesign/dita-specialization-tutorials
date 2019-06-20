@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="keyref-using-elements">
+  <title>Elements that can make key references</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>key reference</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Key references can be used in a number of ways:<ul
+      id="ul_ouq_vhp_eb">
+      <li>For topic references (<xmlelement>topicref</xmlelement>)</li>
+      <li>For cross-references (<xmlelement>xref</xmlelement>, <xmlelement>longquoteref</xmlelement>, etc.)</li>
+      <li>For image references (image)</li>
+      <li>For inline elements to <xmlelement>make</xmlelement> them into links, including
+            <xmlelement>ph</xmlelement>, <xmlelement>keyword</xmlelement>, and <xmlelement>term</xmlelement>.</li>
+      <li>For content references from any element that allows the <codeph>@conref</codeph> attribute
+          (most elements except a few like <xmlelement>title</xmlelement>).</li>
+    </ul></p>
+    <p>Topic reference elements can use key references in place of URI references to point
+      indirectly to topics, maps, or non-DITA resources. A key-defining topicref can itself use a
+      key reference, which means there can be any number of levels of indirection between a key
+      definition and its bound resource. This can be useful for example for imposing your own set of
+      keys onto content that already uses a different set of keys, essentially creating new aliases
+      for the pre-existing keys. It is a basic tenet of computer science that any problem can be
+      solved with another layer of indirection, and the key reference facility lets you add as much
+      indirection as your tools and authors will tolerate.</p>
+    <p>When elements allow both <xmlatt>href</xmlatt> and <xmlatt>keyref</xmlatt>,
+        <xmlatt>keyref</xmlatt> is used, unless the key reference cannot be resolved, in which case
+        <xmlatt>href</xmlatt> is used. This can happen if the key is not defined or the resource it
+      points to cannot be retrieved.</p>
+    <p>Elements that allow <xmlatt>keyref</xmlatt> but not <xmlatt>href</xmlatt>, such as
+                <xmlelement>ph</xmlelement>, <xmlelement>keyword</xmlelement>, and <xmlelement>term</xmlelement>,
+            become links when they specify <xmlatt>keyref</xmlatt> and the key is bound to a
+            resource. If the element’s content is empty then the <q>link text</q> (that is, the text
+            rendered for the element) is taken from a <xmlelement>linktext</xmlelement> or
+                <xmlelement>keyword</xmlelement> element contained within the <xmlelement>topicref</xmlelement>
+            element that defined the key. This mechanism makes it easier to author links that will
+            work in different map contexts. </p>
+    <p>If there are multiple levels of indirection (that is, a key definition points to another key
+      definition and so forth, creating a chain of key definitions), the first definition in the
+      chain that has link text is used for the link text. For example, consider this chain of key
+      definitions:<codeblock>&lt;keydef keys="term-x" 
+  keyref="term-x-gloss-01"/>
+&lt;keydef keys="term-x-gloss-01
+  keyref="term-x-gloss-02">
+  &lt;topicmeta>
+   &lt;linktext>Term X&lt;/linktext>
+  &lt;/topicmeta>
+&lt;/keydef>
+&lt;keydef keys="term-x-gloss-02
+  href="topics/gloss-term-x.dita">
+  &lt;topicmeta>
+   &lt;linktext>Term Echs&lt;/linktext>
+  &lt;/topicmeta>
+&lt;/keydef> </codeblock></p>
+    <p>In this case, the keyword <codeph>&lt;keyword keyref="term-x"/></codeph> will get the link
+      text <q>Term X,</q> not <q>Term Echs,</q> because the first key definition in the chain from
+      term-x to term-x-gloss-01 to term-x-gloss-02 with link text is the one that contains a
+        <xmlelement>linktext</xmlelement> element with the contents<q>Term X.</q>
+    </p>
+    <p>First mentions of technical terms are often linked to their glossary definitions. You can do
+            this using <xmlatt>keyref</xmlatt> from <xmlelement>term</xmlelement> or
+                <xmlelement>keyword</xmlelement> rather than a separate cross-reference. In addition, the
+            key definition can provide the actual text of the term so you don’t have to change the
+            reference if the term changes.</p>
+    <p>For example, in the printer example it would make sense to have the printer model number
+            defined in the map, since we know that each publication will be specific to a single
+            printer model. Within the task you would have something like
+            this:<codeblock>&lt;task id="changing-toner-cartridge">
+  ...
+  &lt;context>
+    &lt;figure>
+      &lt;title><b>&lt;keyword keyref="printer-model-number"/></b> 
+Toner Cartridge Access Panel&lt;/title>
+      &lt;image keyref="illustration-toner-cartridge-access-panel"/>
+    &lt;/figure>
+    &lt;p>For toner cartridge specifications see
+    &lt;href keyref="printer-specs-topic/toner-cartridge-specs-table" 
+          type="table"/>.
+  &lt;/context>
+  ...
+&lt;/task></codeblock></p>
+    <p>This example adds a <xmlelement>keyword</xmlelement> element with a <xmlatt>keyref</xmlatt>
+      attribute containing the key name <q>printer-model-number.</q> Note that the
+        <xmlelement>keyword</xmlelement> element is empty.</p>
+    <p>Within the printer-specific maps we add a definition for the key name
+                <q>printer-model-number</q>:<codeblock>&lt;bookmap>
+  &lt;title>Printer PR3604 Operator Manual&lt;/title>
+  ...
+  <b>&lt;keydef keys="printer-model-number"></b>
+    &lt;topicmeta>
+      <b>&lt;linktext>PR3604&lt;/linktext></b>
+    &lt;/topicmeta>
+  <b>&lt;/keydef></b>
+  &lt;topicref
+    keys="illustration-toner-cartridge-access-panel"
+    href="graphics/PR3604-toner-cartridge-access-panel.svg"
+    format="svg"
+    processing-role="resource-only"
+  />
+  ...
+  &lt;chapter <b>keys="maintenance-chapter"</b> href="maintenance.dita">
+    ...
+    &lt;topicref 
+       <b>keys="changing-printer-cartridge-task"</b>
+       href="common/changing-the-printer-cartridge.dita"/>
+    ...
+  &lt;/chapter>
+  ...
+&lt;/bookmap></codeblock></p>
+    <p>When the task topic is processed, the <xmlelement>keyword</xmlelement> element will be rendered as
+            though the text of the <xmlelement>linktext</xmlelement> element in the key definition was its
+            content. Because the key definition does not also point to a resource the
+                <xmlelement>keyword</xmlelement> element will not be a link, since there’s nothing to link
+            to.</p>
+    <p>For navigation links, content references can use key references in place of, or in addition
+      to, URI references. This allows you to have re-useable content references without having to
+      know in advance what topic will provide the specific element referenced.</p>
+    <p>For example, say the changing-the-toner-cartridge task is generic except for one step which
+      must be model-specific for some reason. For the illustration and the model number, you can use
+      a <xmlatt>conkeyref</xmlatt> attribute to establish the requirement for a model-specific step
+      and let each model-specific map hook up the appropriate topic.</p>
+    <p>The conkeyref in the task topic would look like
+            this:<codeblock>&lt;task id="changing-toner-cartridge">
+ ...
+ &lt;context>
+   &lt;figure>
+     &lt;title>&lt;keyword keyref="printer-model-number"/> 
+Toner Cartridge Access Panel&lt;/title>
+     &lt;image keyref="illustration-toner-cartridge-access-panel"/>
+   &lt;/figure>
+   &lt;p>For toner cartridge specifications see
+&lt;href keyref="printer-specs-topic/toner-cartridge-specs-table" 
+      type="table"/>.
+ &lt;/context>
+ &lt;steps>
+   <b>&lt;step conkeyref="model-specific-steps/changing-toner-cartridge-step-one"/></b>
+   &lt;step>
+     &lt;cmd>...&lt;/cmd>
+   &lt;/step>
+    ...
+ &lt;/steps>
+  ...
+&lt;/task></codeblock></p>
+    <p>Here the <xmlelement>step</xmlelement> element uses the <xmlatt>conkeyref</xmlatt> attribute rather
+      than <xmlatt>conref</xmlatt>. The semantic is the same (content use by reference) but the
+      pointer is indirect rather than direct.</p>
+    <p>The topic that provides the step would be a <q>resource</q> topic, intended only as a
+      container of steps and other elements to be used by reference. It could look something like
+      this:<codeblock>&lt;task id="reusable-steps">
+  &lt;title>Task Component Resource Topic for Printer Model PR3604&lt;/title>
+  &lt;taskbody>
+    &lt;steps>
+      <b>&lt;step id="changing-toner-cartridge-step-one">
+        &lt;cmd>Lift the handle...&lt;/cmd>
+      &lt;/step></b>
+      ...
+    &lt;/steps>
+  &lt;/taskbody>
+&lt;/task></codeblock></p>
+    <p>Each model-specific version of this topic would need to use the <xmlatt>id</xmlatt> value
+        <q>changing-toner-cartridge-step-one</q> for its version of that step.</p>
+    <p>Within each product-specific map you would have a key definition that binds the key name
+        <q>model-specific-steps</q> to the appropriate resource topic:</p>
+    <codeblock>&lt;bookmap>
+  &lt;title>Printer PR3604 Operator Manual&lt;/title>
+  ...
+  &lt;keydef keys="printer-model-number">
+    &lt;topicmeta>
+      &lt;linktext>PR3604&lt;/linktext>
+    &lt;/topicmeta>
+  &lt;/keydef>
+  <b>&lt;keydef keys="model-specific-steps"
+          href="resources/PR3604/PR3604-reusable-steps.dita"
+  /></b>
+  &lt;keydef
+    keys="illustration-toner-cartridge-access-panel"
+    href="graphics/PR3604-toner-cartridge-access-panel.svg"
+    format="svg"
+  />
+  ...
+  &lt;chapter 
+     keys="maintenance-chapter"
+     href="maintenance.dita">
+    ...
+    &lt;topicref 
+       <b>keys="changing-printer-cartridge-task"</b>
+       href="common/changing-the-printer-cartridge.dita"/>
+    ...
+  &lt;/chapter>
+  ...
+&lt;/bookmap></codeblock>
+    <p>Note that this example uses <xmlelement>keydef</xmlelement> rather than <xmlelement>topicref</xmlelement>
+      because <xmlelement>keydef</xmlelement> sets the <xmlatt>processing-role</xmlatt> attribute to
+        <q>resource-only</q> by default, which is what we want for our reusable steps topic, since
+      it is literally a resource used from other topics. Because keys are global you can only use this technique for root maps that reflect a
+      single model. You cannot have two different models in the same publication and use a single
+      key to get different results in different parts of the publication, at least not in DITA
+      1.2.</p>
+  </body>
+</subsection>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="ss3">
+  <title>Specialization</title>
+  <body>
+    <p>Specialization is the process of creating structural or domain vocabulary modules that
+      provide new markup for specific requirements.</p>
+    <p>The essential aspect of specialization is that every element type or attribute defined in a vocabulary module must be based on and consistent with an element type or attribute defined in a more-general vocabulary module or in the base topic or map type.</p>
+    <p>This requirement ensures that any element, no matter how specialized, can always be mapped back to some known type and therefore understood and processed in terms of that known type. This ensures that all DITA documents, no matter how specialized, can always be processed in some way. That is, new markup should never break existing specialization-aware DITA processing.</p>
+    <p>Every element type exists in a <term>specialization hierarchy</term> that goes from the base
+      module (topic or map) through any intermediate modules to the element itself.</p>
+    <p>For example, if you defined a specialization of <xmlelement>concept</xmlelement> called
+        <xmlelement>myConcept</xmlelement>, its specialization hierarchy would be <xmlelement>topic</xmlelement>
+      -> <xmlelement>concept</xmlelement> -> <xmlelement>myConcept</xmlelement>. A processor given a
+        <xmlelement>myConcept</xmlelement> document would be able to process it as a
+        <xmlelement>myConcept</xmlelement> topic,  a <xmlelement>concept</xmlelement> topic, or a generic
+        <xmlelement>topic</xmlelement>, as appropriate.</p>
+    <p>The magic of specialization is the <xmlatt>class</xmlatt> attribute.</p>
+    <p>Every DITA element must have a <xmlatt>class</xmlatt> attribute. The value of the class attribute is the specification of the specialization hierarchy for the element. The syntax of the <xmlatt>class</xmlatt> attribute is:<ul>
+      <li>A leading <q>-</q> or <q>+</q> character: <q>-</q> for structural types, <q>+</q> for
+          domain types.</li>
+      <li>One or more space-separated module/element-type pairs: <q>topic/p,</q>
+          <q>topic/body,</q>
+          <q>hi-d/i,</q> etc.</li>
+      <li>A trailing space character, which ensures accurate string matching on the last term in the hierarchy</li>
+    </ul></p>
+    <p>For the <xmlelement>myConcept</xmlelement> topic type the <xmlatt>class</xmlatt> value would be <codeblock>"- topic/topic concept/concept myConcept/myConcept "</codeblock></p>
+    <p>Which you read right to left as:<lq>The <xmlelement>myConcept</xmlelement> element in the "myConcept" module, which specializes <xmlelement>concept</xmlelement> from the "concept" module, which in turn specializes <xmlelement>topic</xmlelement> from the "topic" module.</lq></p>
+    <p>If the <xmlelement>myConcept</xmlelement> topic type defined a specialized body element, say
+        <xmlelement>myConceptBody</xmlelement>, then its <xmlatt>class</xmlatt> value would
+      be:<codeblock>"- topic/body concept/conbody myConcept/myConceptBody "</codeblock></p>
+    <p>Looking at an instance of the <xmlelement>myConcept</xmlelement> element, you would find these
+        <xmlatt>class</xmlatt>
+      attributes:<codeblock>&lt;myConcept id="topicid"
+  <b>class="- topic/topic concept/concept myConcept/myConcept "</b>
+>
+  &lt;title>My Concept&lt;/title>
+  &lt;myConceptBody
+    <b>class="- topic/body concept/conbody myConcept/myConceptBody "</b>
+  >
+&lt;/myConcept></codeblock></p>
+    <p>Note that these are attributes of element instances. While we tend to think of the <xmlatt>class</xmlatt> attribute as something that is set in DTDs or XSDs, that is merely a convenience. What's really important is that the attributes are available to XML processors, which will be the case whether they are defaulted in DTDs or specified explicitly in instances—the two are identical to XML processors.</p>
+    <p>The magic of the <xmlatt>class</xmlatt> attribute is that specialized DITA documents can
+        <q>just work</q> when processed by general-purpose specialization-aware processors, such as
+      the DITA Open Toolkit. </p>
+    <p>One implication of this magic is that you can define new markup without needing to also
+      implement all the different forms of processing that might be applied to that markup—it will
+      just work. To the degree that your specialized markup doesn't require any specialized
+      processing, then you will <i>never</i> need to implement new processing for it. </p>
+    <p>If your specialized markup does require specific processing, DITA-aware tools will tend to make adding that processing easier because they tend themselves to be modular. For example, the DITA Open Toolkit provides a general plugin mechanism that makes it easy to implement and deploy specialization-specific processing that extends the out-of-the-box processing using the smallest amount of custom code possible.</p>
+  </body>
+</subsection>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:pub-component-map" "pub-component-map.dtd">
+<pub-component-map>
+  <title>Topic Constraint Module Tutorial</title>
+  <chapter
+    href="creating-constraint-module.xml">
+    <subsection
+      href="constraint-domain-dtd-step-1.xml"/>
+    <subsection
+      href="constraint-domain-dtd-step-2.xml"/>
+    <subsection
+      href="constraint-domain-dtd-step-3.xml"/>
+    <subsection
+      href="constraint-domain-dtd-step-4.xml"/>
+    <subsection
+      href="constraint-domain-dtd-step-5.xml"/>
+    <subsection
+      href="creating-an-xsd-constraint-module.xml"/>
+  </chapter>
+</pub-component-map>

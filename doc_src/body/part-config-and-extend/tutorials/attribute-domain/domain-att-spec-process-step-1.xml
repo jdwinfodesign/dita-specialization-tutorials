@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-att-spec-step-1">
+  <title>Attribute Specialization Step 1: Create Domain Module Files</title>
+  <body>
+    <p>Step 1 is to create the attribute domain declaration as follows.<draft-comment>Are these two
+                separate files?</draft-comment></p>
+    <p>First, create a file named <filepath>phase-of-moonAttDomain.ent</filepath>.</p>
+    <p>In <filepath>moonPhasePropsDomain.ent</filepath>, create these two declarations:
+            <codeblock>
+&lt;!ENTITY % phase-of-moon-d-attribute 
+  "phase-of-moon 
+    CDATA 
+    #IMPLIED
+  "
+>
+&lt;!ENTITY phase-of-moon-d-att
+   "a(props  phase-of-moon)"
+></codeblock></p>
+      <p>The first declaration declares the <xmlatt>phase-of-moon</xmlatt> attribute and puts it in a parameter entity so we can add it to the DITA-defined <parameterentity>selection-atts</parameterentity> parameter entity via the <parameterentity>props-attribute-extensions</parameterentity> configuration parameter entity in document type shells. </p>        
+    <p>The second declaration is the domain declaration string for the attribute domain. It will be
+            added to the value of the <xmlatt>domains</xmlatt> attribute declared for each topic or
+            map element type. In the value, the <q>props</q> keyword indicates that the attribute is
+            a <xmlatt>props</xmlatt> attribute specialization and not a <xmlatt>base</xmlatt>
+            attribute specialization.</p>
+    <p>You should of course add an appropriate descriptive header to the file as well as a little documentation for the attribute itself.</p>
+    <p>This is all that is required for the attribute domain module (there is no separate .mod file, as there is for element domains).</p>
+  </body>
+</subsection>

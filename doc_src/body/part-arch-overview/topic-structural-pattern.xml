@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Structural Patterns</title>
+  <shortdesc>The primary unit of information organization in DITA is the topic. A topic is a titled, potentially-hierarchical container of content and metadata.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm><xmlelement>topic</xmlelement> element</indexterm>
+        <indexterm>topic<indexterm>structural patterns</indexterm></indexterm>
+        <indexterm>structural patterns<indexterm>topic</indexterm></indexterm>
+        <indexterm/>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Topics correspond to titled divisions in other document types, for example, chapter, section,
+            subsection in more traditional documentation document types.</p>
+    <p>A topic must have a title—that<indexterm>title<indexterm>hierarchies
+      of</indexterm></indexterm><indexterm>title<indexterm>required by
+      topics</indexterm></indexterm> is the only required content of a topic.
+      That’s why I stress the titled aspect of topics. Topics are the only
+      hierarchical titled construct in DITA. That means that if you want to
+      create a titled hierarchy in a publication you must do it with topics. Any
+      other way of creating a hierarchy of titled things is, by definition,
+      wrong. This is why
+      <xmlelement>section</xmlelement><indexterm><xmlelement>section</xmlelement></indexterm><indexterm>section<indexterm>titles
+      for</indexterm></indexterm><indexterm>title<indexterm>of
+      sections</indexterm></indexterm> cannot nest.</p>
+    <p>There are other titled elements in DITA: <xmlelement>section</xmlelement>,
+      <xmlelement>fig</xmlelement>, and <xmlelement>table</xmlelement> all allow
+      <xmlelement>title</xmlelement>. (Lists<indexterm>lists<indexterm>titles
+      for</indexterm></indexterm><indexterm>title<indexterm>of
+      lists</indexterm></indexterm> allow
+      <xmlatt>spectitle</xmlatt><indexterm><xmlatt>spectitle</xmlatt></indexterm>
+      but not <xmlelement>title</xmlelement>.) But they are not hierarchical, meaning
+      they are not intended to be nested. Lists can nest but using nested lists
+      simply to get a hierarchy of titles would be misuse of the markup. Figures
+      and tables cannot directly nest and should not be nested even though the
+      schema cannot prevent their nesting.</p>
+    <p>You might be saying <q>but I can have a hierarchy of topicheads—those are titled and they
+        create a hierarchy.</q> Yes and no. Yes, you can create the hierarchy, but topicheads are
+      really just a shortcut for topicrefs to title-only topics. So I maintain that such a hierarchy
+      is, in fact, a hierarchy of topics. That is, there is no functional difference between a
+      hierarchy of topicheads and the equivalent hierarchy of topicrefs to title-only topics. In
+      fact, DITA 1.2 makes it clear that authors can indicate that processors explicitly treat
+      specific topicheads this way by specifying specific <xmlatt>chunk</xmlatt> values on
+      topicheads.</p>
+    <p>Topics must have titles and may contain any of the following substructures after the title, in this order:<ol>
+      <li><xmlelement>titlealts</xmlelement>. Contains alternative navigation or search titles for the topic.</li>
+      <li><xmlelement>shortdesc</xmlelement> or <xmlelement>abstract</xmlelement>.
+                            <p><xmlelement>shortdesc</xmlelement> contains a short description of the
+                        topic, in general what would be the first sentence or two of the first
+                        paragraph of the topic.</p><p><xmlelement>abstract</xmlelement> contains one or
+                        more block-level elements that serve as the abstract of the topic and may
+                        also contain a short description element.</p></li>
+      <li><xmlelement>prolog</xmlelement>. Contains the metadata for the topic as a whole, including
+          authorship information, classifying metadata, keywords, and index entries.</li>
+      <li><xmlelement>body</xmlelement>. Contains the <i>non-hierarchical</i> content of the topic, that
+                    is, the paragraphs and such that occur before any nested topics. By definition,
+                    any titled elements, such as <xmlelement>section</xmlelement>, that occur within
+                        <xmlelement>body</xmlelement> do not affect or contribute to the hierarchy of
+                    titles the topic participates in. <p>In particular, <xmlelement>section</xmlelement>
+                        elements should not be reflected in tables of contents and similar
+                        navigation structures, and the formatting of <xmlelement>section</xmlelement>
+                        titles should be the same regardless of the hierarchical level of the topic
+                        that contains it. For example, in HTML, <xmlelement>section</xmlelement> titles
+                      should always map to the same <codeph>&lt;h<varname>n</varname>&gt;</codeph>
+                        element or to an HTML <xmlatt>class</xmlatt> value that will result in
+                        consistent styling for all <xmlelement>section</xmlelement> titles.</p></li>
+      <li><xmlelement>related-links</xmlelement>. Contains links to other resources (topics, publications, or non-DITA resources) to which this topic is related in some way. Usually intended to be generated from relationships established in maps or by other means.</li>
+      <li><xmlelement>topic</xmlelement>. A topic may contain nested topics. Nested topics form a
+          hierarchy of titles. There should be no functional difference between a hierarchy of
+          topics created using nested <xmlelement>topicref</xmlelement> elements and one created by
+          directly nesting topics within a single XML document. However, even though there is
+          absolutely no requirement in the DITA standard for each topic to be in its own XML
+          document, some processors may treat them differently.</li>
+      </ol></p>
+    <p>Every topic, no matter how specialized, must reflect this pattern. Specialized topics may
+      omit anything except the title and may require anything that is optional, but they may not add
+      things or change the order of things. Likewise, except for nested topics, none of the child
+      elements of <xmlelement>topic</xmlelement> are repeatable, so you may not have a specialized topic
+      that has multiple bodies or multiple abstracts, for example.</p>
+    <p>If you need to have multiple distinct containers within any of the children of <xmlelement>topic</xmlelement> you have several choices:<ul
+      id="ul_lpm_mbo_mb">
+      <li>Within <xmlelement>title</xmlelement> or <xmlelement>shortdesc</xmlelement> use <xmlelement>ph</xmlelement> to contain distinct text. For example, to have two different title values with different conditional attributes, you would use <xmlelement>ph</xmlelement> like so:<codeblock>&lt;title
+ ><b>&lt;ph audience="beginner"></b>DITA is Fun!&lt;/ph
+ ><b>&lt;ph audience="expert"></b>Getting Started with DITA&lt;/ph
+>&lt;/title></codeblock></li>
+      <li>Within <xmlelement>abstract</xmlelement> use multiple <xmlelement>p</xmlelement> elements.</li>
+      <li>Within <xmlelement>prolog</xmlelement> use <xmlelement>data</xmlelement> to create groups of
+            <xmlelement>data</xmlelement> elements.</li>
+        <li>Within <xmlelement>metadata</xmlelement> within <xmlelement>prolog</xmlelement> use multiple
+            <xmlelement>data</xmlelement> elements or multiple <xmlelement>keywords</xmlelement> elements.</li>
+      <li>Within <xmlelement>body</xmlelement> use <xmlelement>bodydiv</xmlelement> to create separate, untitled groups of elements.</li>
+      <li>Within <xmlelement>section</xmlelement> within <xmlelement>body</xmlelement> use <xmlelement>sectiondiv</xmlelement> to create separate, untitled groups of elements. See <xref
+        href="sections-and-divs.xml#topic-id"
+        format="dita"/>.</li>
+      </ul></p>
+    <p>There are many schools of thought about the <q>right</q> rhetorical use of topics. The
+      discussion here is concerned only with the markup rules. </p>
+    <p>What is appropriate rhetorically depends entirely on the nature of the information and the
+      purpose of the publications that use it. Whether you use a strict minimalist and modular
+      approach or treat DITA as though it were a markup language for narrative documents is entirely
+      a matter of local policy. The DITA standard does not require the former nor disallow the
+      latter. Depending on the circumstances, topics consisting of nothing but titles are just as
+      sensible and correct as topics with deeply nested subtopics in a single document. There is no
+      DITA-defined requirement that each topic be a separate XML document, although that is a fairly
+      typical practice.</p>
+  </body>
+</subsection>
