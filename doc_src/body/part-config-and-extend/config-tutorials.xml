@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE chapter PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:chapter" "chapter.dtd">
+<!DOCTYPE chapter PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:chapter" "chapter.dtd">
 <chapter
   id="chapter-id">
   <title>Introduction to the Configuration and Extension Tutorials</title>
@@ -40,8 +40,6 @@
       design. A lot of specializations simply add new mention elements (specializations of
         <xmlelement>keyword</xmlelement> or <xmlelement>term</xmlelement>) or metadata elements. The easiest
       specialization to implement is an attribute domain that adds a new <xmlatt>props</xmlatt>
-        specialization.<draft-comment>In the last paragraph, the first sentence is a nice seque to
-        what follows, but the last two sentences seem out of place. I suggest you drop them. They
-        don't add anything you haven't said elsewhere.</draft-comment></p>
+        specialization.</p>
   </body>
 </chapter>
