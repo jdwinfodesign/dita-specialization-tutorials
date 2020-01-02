@@ -3,8 +3,7 @@
 <subsection id="domain-att-spec-step-1">
   <title>Attribute Specialization Step 1: Create Domain Module Files</title>
   <body>
-    <p>Step 1 is to create the attribute domain declaration as follows.<draft-comment>Are these two
-                separate files?</draft-comment></p>
+    <p>Step 1 is to create the attribute domain declaration as follows.</p>
     <p>First, create a file named <filepath>phase-of-moonAttDomain.ent</filepath>.</p>
     <p>In <filepath>moonPhasePropsDomain.ent</filepath>, create these two declarations:
             <codeblock>

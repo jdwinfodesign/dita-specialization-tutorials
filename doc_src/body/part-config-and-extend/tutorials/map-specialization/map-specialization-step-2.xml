@@ -42,10 +42,7 @@
 >%faq-map-d-dec;
 </b></codeblock><p>Remember
                         that we haven't created the FAQ map domain yet, so this reference currently
-                        points to a file that doesn't exist.<draft-comment>I'm not sure if topicref
-                            in the next section should be marked up as parment or xmlelem. I'm not
-                            sure if this is the way you set it up, or if I messed it up at some
-                            point in the copy-edit.</draft-comment></p></li>
+                        points to a file that doesn't exist.</p></li>
       <li>Find the comment <q>DOMAIN EXTENSIONS</q> and delete the declaration for
                         <parameterentity>topicref</parameterentity>.<p>You are deleting the declaration for
                             <parameterentity>topicref</parameterentity> because while we need the mapGroup domain so

@@ -31,10 +31,7 @@
 </codeblock></p>
     <p>To use your custom CSS stylesheet you supply the full path of the CSS file, wherever you've
             put it, with the <q>/css</q> parameter of the HTML transformation type and specify
-                <q>/csscopy</q> as <q>yes.</q><draft-comment>Where do you set /css and /csscopy? It
-                looks like they would be set in your build.xml file using args.css and args.copycss,
-                which I would state if that's the case. Also, is /csscopy correct, given that your
-                build.xml file has args.copycss?</draft-comment></p>
+                <q>/csscopy</q> as <q>yes.</q></p>
     <p>The main thing this CSS needs to do is make the <q>A. </q> before the short answer big and
             bold to match the <q>Q. </q> for the question statement. Do this like so:
             <codeblock>

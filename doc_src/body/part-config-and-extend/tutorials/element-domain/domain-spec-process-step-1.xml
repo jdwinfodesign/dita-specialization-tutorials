@@ -4,8 +4,7 @@
   <title>Element Domain Specialization Step 1: Design The Domain Element Types</title>
   <shortdesc>The first step in specialization is designing your markup.</shortdesc>
   <body>
-    <p><draft-comment>[Reference to more general discussion of markup analysis and
-                design.]</draft-comment> For this exercise, the element types to be declared are all
+    <p>For this exercise, the element types to be declared are all
             specializations of <xmlelement>keyword</xmlelement>, which is a pretty typical use case: you
             just need a few additional keyword-type elements to mark up mentions of things that are
             specific to your documentation.</p>
