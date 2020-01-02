@@ -78,12 +78,15 @@ PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map"
          "../../base/dtd/indexingDomain.ent"                                                 
 >%indexing-d-dec;
 
-
-
 <!-- ============================================================= -->
 <!--                    DOMAIN ATTRIBUTE DECLARATIONS              -->
 <!-- ============================================================= -->
 
+<!ENTITY % d4p_renditionTargetAtt-d-dec     
+  PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:modules:d4p_renditionTargetAttDomain:entities" 
+         "d4p_renditionTargetAttDomain.ent"                                                
+>
+%d4p_renditionTargetAtt-d-dec;
 
 <!-- ============================================================= -->
 <!--                    DOMAIN EXTENSIONS                          -->
@@ -128,7 +131,7 @@ PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map"
 <!-- ============================================================= -->
 <!--                    DOMAIN ATTRIBUTE EXTENSIONS                -->
 <!-- ============================================================= -->
-<!ENTITY % props-attribute-extensions  ""                            >
+<!ENTITY % props-attribute-extensions "%d4p_renditionTargetAtt-d-attribute;" >
 <!ENTITY % base-attribute-extensions   ""                            >
 
 <!-- ============================================================= -->
@@ -143,6 +146,7 @@ PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map"
                          &mapgroup-d-att;
                          &indexing-d-att;
                          &pub-component-map-att;
+                         &d4p_renditionTargetAtt-d-att;
                          &d4p_simpleEnumerationMap-d-att;
                         ">
 
@@ -202,7 +206,5 @@ PUBLIC "urn:pubid:dita4publishers.org:doctypes:dita:dtd:pub-component-map"
   PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Indexing Domain//EN" 
          "../../base/dtd/indexingDomain.mod"                                                 
 >%indexing-d-def;
-
-
 
 <!-- ================== End DITA pub-component-map DTD  ==================== -->
