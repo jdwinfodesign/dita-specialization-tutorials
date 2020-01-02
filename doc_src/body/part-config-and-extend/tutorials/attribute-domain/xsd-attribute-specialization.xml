@@ -15,10 +15,7 @@
             document whose name is <q><varname>attributeName</varname>AttDomain.xsd,</q> e.g.,
                 <filepath>phase-of-moonAttDomain.xsd</filepath>. </p>
     <p>The XSD document contains a single <xmlelement>xs:attributeGroup</xmlelement>
-                declaration:<draft-comment>I removed the line, "&lt;/xs:schema>buteGroup>" from the
-                example below. It was just above the closing tag for xs:schema, and sure looks like
-                a typo to
-            me.</draft-comment><codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+                declaration:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
   &lt;xs:attributeGroup name="phase-of-moon-d-attribute">

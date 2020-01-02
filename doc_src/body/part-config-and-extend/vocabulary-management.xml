@@ -23,10 +23,7 @@
       syntactic—they provided no way to examine a <i>document</i> and know how that document's
       vocabulary related with any other vocabulary. Therefore, there was no way you could, for sure,
       whether your processing environment could handle that document, or if you could share content
-      from that document with your documents.<draft-comment>Actually, DocBook is pretty clear that
-        if you extend DocBook, the result is no longer DocBook. therefore, it's not quite true to
-        say that you "nominally" have a DocBook document. I've edited this a bit to avoid that
-        point.</draft-comment></p>
+      from that document with your documents.</p>
     <p>For example, DocBook supports extension by providing the syntactic hooks
       needed to locally modify the content model. This allows you to define your
       own element and attribute types. However, once you have done that, you no
@@ -42,13 +39,7 @@
       standards-based implementation.</fn></p>
     <p>In particular, there are no DocBook-defined constraints on <i>how</i> to extend DocBook,
       which means that a general-purpose processor cannot <q>fall back,</q> like DITA can, to a
-      usable default when it encounters an unknown element or attribute.<draft-comment>I'm not sure
-        the following is necessarily true. After all, DITA uses DTDs as a syntactic tool, and isn't
-        the mechanism that allows DITA processors to identify and handle specializations a syntactic
-        device, too? <p>It seems like the strength of your point isn't that syntactic tools are
-          incapable of managing XML vocabularies, but rather that the methods used in previous
-          schemas have not succeeded in making extension and customization
-        manageable.</p></draft-comment></p>
+      usable default when it encounters an unknown element or attribute.</p>
     <p>That is, using only the syntactic tools provided by DTDs or XSD schemas (or any other available form of XML document constraint, such as RelaxNG) extension and customization of XML vocabularies is inherently <i>unmanageable</i> because there is no machine-processable mechanism for communicating or understanding the relationship between any two vocabularies.</p>
     <p>If customization is not manageable then the only way to ensure interchange is to disallow
       customization. This was the approach taken by <q>interchange</q> document types, such as ATA

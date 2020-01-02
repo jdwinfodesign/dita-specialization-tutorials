@@ -37,9 +37,7 @@
                                 references, they should be resolved through URI entries in
                                 catalogs). Other systems that use the catalog will likely do the
                                 correct thing and use URI entries to resolve schema locations. So
-                                you need both forms of entry.</p><p><draft-comment>should public and
-                                    system below be tagged as xmlelem? Seems
-                                    strange.</draft-comment>If you want to cover all bases you can
+                                you need both forms of entry.</p><p>If you want to cover all bases you can
                                 make yet another copy of the entries and change
                                     <xmlelement>public</xmlelement> to <xmlelement>system</xmlelement> and
                                     <q>publicId</q> to <q>systemId.</q> That covers the case where a

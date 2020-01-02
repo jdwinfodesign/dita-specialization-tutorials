@@ -25,12 +25,7 @@
       XSD schema associations, <i>as long as</i> they specify the set of vocabulary modules they
       use. Likewise, when a document does have a DOCTYPE or schema association, it doesn't matter
         <i>what</i> DTD file or XSD document it uses as long as that DTD or XSD accurately reflects
-      the set of modules the document declares it uses.<draft-comment>Isn't the second sentence
-        above true of any vocabulary defined by a DTD or XSD? I can structure the DocBook RelaxNG
-        schema in many ways that would still work. In fact, I would argue that a DocBook processor
-        that required one specific RNG or XSD file would be fundamentally broken, too.<p>Clearly,
-          there is an important distinction, but I don't see it from the paragraph above or the
-          following paragraphs.</p></draft-comment></p>
+      the set of modules the document declares it uses.</p>
     <p>This means that DITA processors should <i>never</i> depend on a specific DTD or XSD file,
       because the use of a specific file means nothing. Two DTD or XSD document type shells that
       reflect the same set of modules define <i>identical</i> DITA document types. This is a
