@@ -3,6 +3,7 @@
 <pub-component-map>
   <title>Element Domain Specialization Tutorial</title>
   <chapter
+  	href="domain_specialization_tutorial.xml"
     collection-type="sequence"
     keys="element-domain-specialization-tutorial">
     <subsection

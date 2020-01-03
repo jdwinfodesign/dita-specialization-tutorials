@@ -10,15 +10,19 @@
     </copyright>    
   </prolog>
   <body>
-    <p>Add the XML domain to the <xmlatt>domains</xmlatt> attribute declaration. In concept.dtd, find the comment that says "DOMAINS ATTRIBUTE OVERRIDE". Update the <textent>included-domains</textent> entity declaration to include the <textent>xml-d-att</textent> text entity: <codeblock>
+    <p>Add the XML domain to the <xmlatt>domains</xmlatt> attribute declaration. In concept.dtd,
+			find the comment that says "DOMAINS ATTRIBUTE OVERRIDE". Update the
+				<textentity>included-domains</textentity> entity declaration to include the
+				<textentity>xml-d-att</textentity> text entity:
+			<codeblock>
 &lt;!ENTITY included-domains 
    "&amp;hi-d-att; 
     &amp;ut-d-att; 
     <b>&amp;xml-d-att;</b> 
    "                
 ></codeblock></p>
-    <p>Note that your <textent>included-domains</textent> value may be different. The example
-        shows the value used for the concept shell used by this tutorial's topics, which 
-        includes only the highlight and utility domains.</p>
+    <p>Note that your <textentity>included-domains</textentity> value may be different. The example
+			shows the value used for the concept shell used by this tutorial's topics, which includes only
+			the highlight and utility domains.</p>
   </body>
 </subsection>

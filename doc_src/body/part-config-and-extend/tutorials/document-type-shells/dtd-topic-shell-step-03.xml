@@ -13,7 +13,7 @@
       id="ul_dd4b885a-75db-4756-aec9-1c1b21f1b9b8">
       <li>A declaration and reference to the domain's .ent file</li>
       <li>A reference to the domain's domain extension parameter entities, one for each different base element type the domain extends.</li>
-      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute text entity in the <textent>included-domains</textent> text entity declaration.</li>
+      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute text entity in the <textentity>included-domains</textentity> text entity declaration.</li>
       <li>A declaration and reference to the domain's .mod file.</li>
       </ul></p>
     <p>For a given domain to be integrated you need to know the following:<ul
@@ -70,7 +70,7 @@
       </dlentry>
       <dlentry>
         <dt>domains attribute text entity</dt>
-        <dd><textent>xml-d-att</textent></dd>
+        <dd><textentity>xml-d-att</textentity></dd>
       </dlentry>
       </dl></p>
     <p>Armed with this knowledge, the process of integrating the domain is as follows:<ol>
@@ -139,8 +139,8 @@
                         especially if you are integrating pre-existing domains that you know are
                         otherwise valid.</note></li>
       <li>Find the comment <q>DOMAINS ATTRIBUTE OVERRIDE</q> and then the declaration for the
-                        <textent>included-domains</textent> text entity. Add a reference to the
-                        <textent>xml-d-att</textent> text
+                        <textentity>included-domains</textentity> text entity. Add a reference to the
+                        <textentity>xml-d-att</textentity> text
                     entity:<codeblock>...
 
 &lt;!-- ============================================================= -->

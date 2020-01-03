@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sidebar PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:sidebar" "sidebar.dtd">
-<topic id="public-identifiers">
+<sidebar id="public-identifiers">
     <title>Public Identfiers</title>
-    <sidebar>
-        <p><draft-comment author="jdwin">The sidebar directory was not included in the repo fork.</draft-comment></p>
-    </sidebar>
-</topic>
+	<body>
+		<p>
+			<draft-comment author="jdwin">The sidebar directory was not included in the repo fork.</draft-comment>
+		</p>
+	</body>
+</sidebar>

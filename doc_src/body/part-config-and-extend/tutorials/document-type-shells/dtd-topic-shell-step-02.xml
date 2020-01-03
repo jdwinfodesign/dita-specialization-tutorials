@@ -8,7 +8,8 @@
       id="ul_30c2ce01-d0a4-4640-acdf-9c4c96f1e34b">
       <li>A reference to the domain's .ent file</li>
       <li>References to the domain's extension parameter entities (one or more) in the domain extension parameter entities section of the shell.</li>
-      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute component text entity in the <textent>included-domains</textent> entity.</li>
+      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute component text entity in
+					the <textentity>included-domains</textentity> entity.</li>
       <li>A reference to the domain's .mod file.</li>
       </ul></p>
     <p>Deleting a domain module means removing all four of these bits for a given domain.</p>
@@ -118,9 +119,9 @@
                         ">
 </codeblock></p></li>
       <li>Find the comment <q>DOMAINS ATTRIBUTE OVERRIDE,</q> which is the section that contains the
-                    declaration for the <textent>included-domains</textent> entity. Delete the
-                    reference to the <textent>pr-d-att</textent>
-                        entity:<codeblock>...
+					declaration for the <textentity>included-domains</textentity> entity. Delete the reference
+					to the <textentity>pr-d-att</textentity>
+						entity:<codeblock>...
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
@@ -141,8 +142,8 @@
 >
 
 ...</codeblock><p>The
-                        result should
-                        be:<codeblock>...
+						result should
+						be:<codeblock>...
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->

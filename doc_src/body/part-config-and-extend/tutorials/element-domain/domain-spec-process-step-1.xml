@@ -30,16 +30,15 @@
             <xmlelement>textent</xmlelement>
           </dt>
           <dd>Identifies mentions of XML text entities. Intended typographic effect is to put the
-                        name in monospaced font with a leading ampersand and trailing semicolon:
-                            <textent>a-text-entity-name</textent>. (To be pedantic about it, the
-                        formatting specification actually produces an entity <i>reference</i> rather
-                        than a mention of an entity <i>name</i>, but Charles Goldfarb and I are
-                        probably the only people on the planet who would both notice the difference
-                        and care about the distinction. So we add the closing semicolon (<q>entity
-                            reference close</q>), because that's how people expect something
-                        starting with an ampersand to look. Alternatively, I could have used a
-                        different typographic convention—maybe small caps—and omitted the ampersand,
-                        but that would probably have just made it more confusing.)</dd>
+						name in monospaced font with a leading ampersand and trailing semicolon:
+							<textentity>a-text-entity-name</textentity>. (To be pedantic about it, the formatting
+						specification actually produces an entity <i>reference</i> rather than a mention of an
+						entity <i>name</i>, but Charles Goldfarb and I are probably the only people on the
+						planet who would both notice the difference and care about the distinction. So we add
+						the closing semicolon (<q>entity reference close</q>), because that's how people expect
+						something starting with an ampersand to look. Alternatively, I could have used a
+						different typographic convention—maybe small caps—and omitted the ampersand, but that
+						would probably have just made it more confusing.)</dd>
         </dlentry>
         <dlentry>
           <dt>

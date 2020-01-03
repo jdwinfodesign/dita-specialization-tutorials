@@ -9,9 +9,9 @@
             directory. To make its purpose clear, you can name it something like
                 <filepath>topic-with-highlight-constraint.dtd</filepath> if you want.</p>
     <p>Edit the copied topic DTD file, search for the comment <q>DOMAINS ATTRIBUTE OVERRIDE,</q> and
-            update the declaration of the <textent>included-domains</textent> text entity to include
-            a reference to the <textent>topic-constraints</textent> text
-            entity:<codeblock>
+			update the declaration of the <textentity>included-domains</textentity> text entity to include
+			a reference to the <textentity>topic-constraints</textentity> text
+			entity:<codeblock>
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
 &lt;!-- ============================================================= -->
