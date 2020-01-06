@@ -13,13 +13,11 @@
     </metadata>
   </prolog>
   <body>
-    <p>In this tutorial you will create a document type shell for <xmlelement>topic</xmlelement>
-			that removes the technical-documentation-specific domains and adds a reference to the
-			<?oxy_delete author="jdwin" timestamp="20200106T113504-0500" content="XML markup"?><?oxy_insert_start author="jdwin" timestamp="20200106T113504-0500"?>new<?oxy_insert_end?>
-			domain (defined in <xref
-				href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
-				format="dita"/>).</p>
+    <p>In this tutorial you will create a document type shell for <xmlelement>topic</xmlelement> that
+            removes the technical-documentation-specific domains and adds a reference to the XML
+            markup domain (defined in <xref
+                href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
+                format="dita"/>).</p>
     <p>The other tutorials also include instructions for creating shells that integrate the components created in those tutorials. This tutorial shows you the basic process for shell creation, showing both removing existing references and adding new references.</p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

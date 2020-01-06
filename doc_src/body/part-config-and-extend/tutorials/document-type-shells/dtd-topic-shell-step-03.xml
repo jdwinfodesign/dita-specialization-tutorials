@@ -4,13 +4,11 @@
   id="topic-id">
   <title>DTD Topic Type Shell Tutorial Step 3: Add Reference to a New Domain</title>
   <body>
-    <p>In this step we will to integrate the
-			<?oxy_delete author="jdwin" timestamp="20200106T160611-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200106T160611-0500"?>new<?oxy_insert_end?>
-			domain defined in <xref
-				href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
-				format="dita"/>.<note>You can get the worked result of that tutorial from the tutorial
-				materials.</note>
-		</p>
+    <p>In this step we will to integrate the XML domain defined in <xref
+                href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
+                format="dita"/>.<note>You can get the worked result of that tutorial from the
+                tutorial materials.</note>
+        </p>
     <p>To integrate a new domain, we add the following four components:<ul
       id="ul_dd4b885a-75db-4756-aec9-1c1b21f1b9b8">
       <li>A declaration and reference to the domain's .ent file</li>
@@ -210,4 +208,3 @@
     <p>This tutorial shows how to create a topic type shell. Creating map type shells is exactly the same.</p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>
