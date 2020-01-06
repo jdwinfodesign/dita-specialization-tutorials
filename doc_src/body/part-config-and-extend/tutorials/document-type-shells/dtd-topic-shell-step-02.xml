@@ -79,45 +79,94 @@
                          %hazard-d-note;
                         ">
 
-...</codeblock><p>The
-                        result of these deletions should look like
-                        this:<codeblock>...
+...</codeblock><p>The result of these deletions should look like
+						this:<codeblock>...<?oxy_delete author="jdwin" timestamp="20200106T134405-0500" content="
 
-&lt;!-- ============================================================= -->
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAIN EXTENSIONS                          --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    One for each extended base element, with
+                        the name of the domain(s) in which the
+                        extension was declared                     --&gt;
+
+&amp;lt;!ENTITY % pre          &quot;pre | 
+                         %sw-d-pre; | 
+                         %ui-d-pre;
+                        &quot;&gt;
+&amp;lt;!ENTITY % keyword      &quot;keyword | 
+                         %sw-d-keyword; |
+                         %ui-d-keyword;
+                        &quot;&gt;
+&amp;lt;!ENTITY % ph           &quot;ph | 
+                         %hi-d-ph; | 
+                         %sw-d-ph; | 
+                         %ui-d-ph;
+                        &quot;&gt;
+&amp;lt;!ENTITY % term         &quot;term | 
+                         %abbrev-d-term;
+                        &quot;&gt;
+&amp;lt;!ENTITY % fig          &quot;fig |
+                         %ut-d-fig;
+                        &quot;&gt;
+&amp;lt;!ENTITY % dl           &quot;dl
+                        &quot;&gt;
+&amp;lt;!ENTITY % index-base   &quot;index-base | 
+                         %indexing-d-index-base;
+                        &quot;&gt;
+&amp;lt;!ENTITY % note         &quot;note | 
+                         %hazard-d-note;
+                        &quot;&gt;"?>
+<?oxy_insert_start author="jdwin" timestamp="20200106T134421-0500"?>&lt;!-- ============================================================= -->
 &lt;!--                    DOMAIN EXTENSIONS                          -->
 &lt;!-- ============================================================= -->
 &lt;!--                    One for each extended base element, with
                         the name of the domain(s) in which the
                         extension was declared                     -->
 
-&lt;!ENTITY % pre          "pre | 
-                         %sw-d-pre; | 
-                         %ui-d-pre;
+&lt;!ENTITY % index-base   "index-base |
+                         %indexing-d-index-base;
                         ">
-&lt;!ENTITY % keyword      "keyword | 
-                         %sw-d-keyword; |
-                         %ui-d-keyword;
+&lt;!ENTITY % note         "note |
+                         %hazard-d-note;
                         ">
-&lt;!ENTITY % ph           "ph | 
-                         %hi-d-ph; | 
-                         %sw-d-ph; | 
-                         %ui-d-ph;
-                        ">
-&lt;!ENTITY % term         "term | 
-                         %abbrev-d-term;
+&lt;!ENTITY % ph           "ph |
+                         %hi-d-ph; |
+                         %sw-d-ph; |
+                         %ui-d-ph; |
+                         %equation-d-ph;
                         ">
 &lt;!ENTITY % fig          "fig |
-                         %ut-d-fig;
+                         %ut-d-fig; |
+                         %equation-d-fig;
+                        ">
+&lt;!ENTITY % data         "data |
+                         %ut-d-data;
+                        ">
+&lt;!ENTITY % term         "term |
+                         %abbrev-d-term;
+                        ">
+&lt;!ENTITY % keyword      "keyword |
+                         %markup-d-keyword; |
+                         %sw-d-keyword; |
+                         %ui-d-keyword; |
+                         %xml-d-keyword;
+                        ">
+&lt;!ENTITY % pre          "pre |
+                         %sw-d-pre; |
+                         %ui-d-pre;
                         ">
 &lt;!ENTITY % dl           "dl
                         ">
-&lt;!ENTITY % index-base   "index-base | 
-                         %indexing-d-index-base;
+&lt;!ENTITY % metadata     "metadata |
+                         %relmgmt-d-metadata;
                         ">
-&lt;!ENTITY % note         "note | 
-                         %hazard-d-note;
+&lt;!ENTITY % foreign      "foreign |
+                         %svg-d-foreign; |
+                         %mathml-d-foreign;
                         ">
-</codeblock></p></li>
+&lt;!ENTITY % div          "div |
+                         %equation-d-div;
+                        "><?oxy_insert_end?></codeblock></p></li>
       <li>Find the comment <q>DOMAINS ATTRIBUTE OVERRIDE,</q> which is the section that contains the
 					declaration for the <textentity>included-domains</textentity> entity. Delete the reference
 					to the <textentity>pr-d-att</textentity>
@@ -141,27 +190,42 @@
   "
 >
 
-...</codeblock><p>The
-						result should
+...</codeblock><p>The result should
 						be:<codeblock>...
+<?oxy_delete author="jdwin" timestamp="20200106T134519-0500" content="
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    Must be declared ahead of the DTDs, which
+                        puts @domains first in order               --&gt;
 
-&lt;!-- ============================================================= -->
-&lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
-&lt;!-- ============================================================= -->
-&lt;!--                    Must be declared ahead of the DTDs, which
-                        puts @domains first in order               -->
-
-&lt;!ENTITY included-domains 
-                          "&amp;hi-d-att; 
-                           &amp;ut-d-att; 
-                           &amp;indexing-d-att;
+&amp;lt;!ENTITY included-domains 
+                          &quot;&amp;amp;hi-d-att; 
+                           &amp;amp;ut-d-att; 
+                           &amp;amp;indexing-d-att;
+                           &amp;amp;hazard-d-att;
+                           &amp;amp;abbrev-d-att;
+                           &amp;amp;sw-d-att;
+                           &amp;amp;ui-d-att; 
+  &quot;
+&gt;"?>
+<?oxy_insert_start author="jdwin" timestamp="20200106T134523-0500"?>&lt;!ENTITY included-domains
+                          "&amp;abbrev-d-att;
+                           &amp;deliveryTargetAtt-d-att;
+                           &amp;equation-d-att;
                            &amp;hazard-d-att;
-                           &amp;abbrev-d-att;
+                           &amp;hi-d-att;
+                           &amp;indexing-d-att;
+                           &amp;markup-d-att;
+                           &amp;mathml-d-att;
+                           &amp;relmgmt-d-att;
                            &amp;sw-d-att;
-                           &amp;ui-d-att; 
+                           &amp;svg-d-att;
+                           &amp;ui-d-att;
+                           &amp;ut-d-att;
+                           &amp;xml-d-att;
   "
->
-
+><?oxy_insert_end?>
 ...</codeblock></p></li>
       <li>Find the declaration and reference to the <parameterentity>pr-d-def</parameterentity> parameter entity and delete it:<codeblock>...
 
@@ -190,7 +254,11 @@
                 <q>pr,</q>
             <q>ui,</q>
             <q>sw,</q> etc.</p>
-    <p>If you remove the programming (pr), software (sw), user interface (ui), and hazard statement (hazard) domains from this shell, the final result should look like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+    <p>If you remove the programming (pr), software (sw),
+			<?oxy_insert_start author="jdwin" timestamp="20200106T135848-0500"?>and <?oxy_insert_end?>user
+			interface (ui)<?oxy_delete author="jdwin" timestamp="20200106T140002-0500" content=", and hazard statement (hazard) " comment="Hazard is included in 1.3 basetopic,"?><?oxy_insert_start author="jdwin" timestamp="20200106T140002-0500"?>
+			<?oxy_insert_end?>domains from this shell, the final result should look like
+			this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;!-- ============================================================= 
 
      My Topic Shell
@@ -204,36 +272,205 @@
 &lt;!-- ============================================================= -->
 &lt;!--                    TOPIC ENTITY DECLARATIONS                  -->
 &lt;!-- ============================================================= -->
+<?oxy_delete author="jdwin" timestamp="20200106T140301-0500" content="
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAIN ENTITY DECLARATIONS                 --&gt;
+&amp;lt;!-- ============================================================= --&gt;
 
+
+&amp;lt;!ENTITY % hi-d-dec     
+  PUBLIC &quot;-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN&quot; 
+         &quot;../../base/dtd/highlightDomain.ent&quot;
+&gt;%hi-d-dec;
+
+&amp;lt;!ENTITY % ut-d-dec     
+  PUBLIC &quot;-//OASIS//ENTITIES DITA 1.2 Utilities Domain//EN&quot; 
+         &quot;../../base/dtd/utilitiesDomain.ent&quot;                                                
+&gt;%ut-d-dec;
+
+&amp;lt;!ENTITY % indexing-d-dec     
+  PUBLIC &quot;-//OASIS//ENTITIES DITA 1.2 Indexing Domain//EN&quot; 
+         &quot;../../base/dtd/indexingDomain.ent&quot;                                                 
+&gt;%indexing-d-dec;
+
+&amp;lt;!ENTITY % abbrev-d-dec     
+  PUBLIC &quot;-//OASIS//ENTITIES DITA 1.2 Abbreviated Form Domain//EN&quot; 
+         &quot;abbreviateDomain.ent&quot;
+&gt;%abbrev-d-dec;
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAIN ATTRIBUTE DECLARATIONS              --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAIN EXTENSIONS                          --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    One for each extended base element, with
+                        the name of the domain(s) in which the
+                        extension was declared                     --&gt;
+
+&amp;lt;!ENTITY % pre          &quot;pre
+                        &quot;&gt;
+&amp;lt;!ENTITY % keyword      &quot;keyword
+                        &quot;&gt;
+&amp;lt;!ENTITY % ph           &quot;ph | 
+                         %hi-d-ph;
+                        &quot;&gt;
+&amp;lt;!ENTITY % term         &quot;term | 
+                         %abbrev-d-term;
+                        &quot;&gt;
+&amp;lt;!ENTITY % fig          &quot;fig |
+                         %ut-d-fig;
+                        &quot;&gt;
+&amp;lt;!ENTITY % dl           &quot;dl
+                        &quot;&gt;
+&amp;lt;!ENTITY % index-base   &quot;index-base | 
+                         %indexing-d-index-base;
+                        &quot;&gt;
+&amp;lt;!ENTITY % note         &quot;note
+                        &quot;&gt;
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAIN ATTRIBUTE EXTENSIONS                --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!ENTITY % props-attribute-extensions  
+  &quot;&quot;
+&gt;
+&amp;lt;!ENTITY % base-attribute-extensions   
+  &quot;&quot;
+&gt;
+
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    TOPIC NESTING OVERRIDE                     --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+
+&amp;lt;!--                    Redefine the infotype entity to exclude 
+                        other topic types and disallow nesting     --&gt;
+&amp;lt;!ENTITY % topic-info-types 
+  &quot;topic
+  &quot;
+&gt;
+
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    Must be declared ahead of the DTDs, which
+                        puts @domains first in order               --&gt;
+
+&amp;lt;!ENTITY included-domains 
+                          &quot;&amp;amp;hi-d-att; 
+                           &amp;amp;ut-d-att; 
+                           &amp;amp;indexing-d-att;
+                           &amp;amp;abbrev-d-att;
+  &quot;
+&gt;
+
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    TOPIC ELEMENT INTEGRATION                  --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+
+&amp;lt;!--                    Embed topic to get generic elements        --&gt;
+&amp;lt;!ENTITY % topic-type   
+  PUBLIC &quot;-//OASIS//ELEMENTS DITA 1.2 Topic//EN&quot; 
+         &quot;../../base/dtd/topic.mod&quot;
+&gt;
+%topic-type;
+
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    DOMAIN ELEMENT INTEGRATION                 --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+
+&amp;lt;!ENTITY % hi-d-def     
+  PUBLIC &quot;-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN&quot; 
+         &quot;../../base/dtd/highlightDomain.mod&quot;
+&gt;%hi-d-def;
+
+&amp;lt;!ENTITY % ut-d-def     
+  PUBLIC &quot;-//OASIS//ELEMENTS DITA 1.2 Utilities Domain//EN&quot; 
+         &quot;../../base/dtd/utilitiesDomain.mod&quot;
+&gt;%ut-d-def;
+
+&amp;lt;!ENTITY % indexing-d-def     
+  PUBLIC &quot;-//OASIS//ELEMENTS DITA 1.2 Indexing Domain//EN&quot; 
+         &quot;../../base/dtd/indexingDomain.mod&quot;
+&gt;%indexing-d-def;
+
+&amp;lt;!ENTITY % abbrev-d-def     
+  PUBLIC &quot;-//OASIS//ELEMENTS DITA 1.2 Abbreviated Form Domain//EN&quot; 
+         &quot;abbreviateDomain.mod&quot;
+&gt;%abbrev-d-def;"?>
+<?oxy_insert_start author="jdwin" timestamp="20200106T140335-0500"?>&lt;!-- ============================================================= -->
+&lt;!--             DOMAIN ENTITY DECLARATIONS                        -->
 &lt;!-- ============================================================= -->
-&lt;!--                    DOMAIN ENTITY DECLARATIONS                 -->
-&lt;!-- ============================================================= -->
 
-
-&lt;!ENTITY % hi-d-dec     
-  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
-         "../../base/dtd/highlightDomain.ent"
->%hi-d-dec;
-
-&lt;!ENTITY % ut-d-dec     
-  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Utilities Domain//EN" 
-         "../../base/dtd/utilitiesDomain.ent"                                                
->%ut-d-dec;
-
-&lt;!ENTITY % indexing-d-dec     
-  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Indexing Domain//EN" 
-         "../../base/dtd/indexingDomain.ent"                                                 
->%indexing-d-dec;
-
-&lt;!ENTITY % abbrev-d-dec     
-  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Abbreviated Form Domain//EN" 
+&lt;!ENTITY % abbrev-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Abbreviated Form Domain//EN"
          "abbreviateDomain.ent"
 >%abbrev-d-dec;
 
+&lt;!ENTITY % equation-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Equation Domain//EN"
+         "equationDomain.ent"
+>%equation-d-dec;
+
+&lt;!ENTITY % hazard-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Hazard Statement Domain//EN"
+         "../../base/dtd/hazardstatementDomain.ent"
+>%hazard-d-dec;
+
+&lt;!ENTITY % hi-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Highlight Domain//EN"
+         "../../base/dtd/highlightDomain.ent"
+>%hi-d-dec;
+
+&lt;!ENTITY % indexing-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Indexing Domain//EN"
+         "../../base/dtd/indexingDomain.ent"
+>%indexing-d-dec;
+
+&lt;!ENTITY % markup-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Markup Domain//EN"
+         "markupDomain.ent"
+>%markup-d-dec;
+
+&lt;!ENTITY % mathml-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 MathML Domain//EN"
+         "mathmlDomain.ent"
+>%mathml-d-dec;
+
+&lt;!ENTITY % relmgmt-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Release Management Domain//EN"
+         "releaseManagementDomain.ent"
+>%relmgmt-d-dec;
+
+&lt;!ENTITY % svg-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 SVG Domain//EN"
+         "svgDomain.ent"
+>%svg-d-dec;
+
+&lt;!ENTITY % ut-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Utilities Domain//EN"
+         "../../base/dtd/utilitiesDomain.ent"
+>%ut-d-dec;
+
+&lt;!ENTITY % xml-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 XML Domain//EN"
+         "xmlDomain.ent"
+>%xml-d-dec;
+
 &lt;!-- ============================================================= -->
-&lt;!--                    DOMAIN ATTRIBUTE DECLARATIONS              -->
+&lt;!--             DOMAIN ATTRIBUTES DECLARATIONS                    -->
 &lt;!-- ============================================================= -->
 
+&lt;!ENTITY % deliveryTargetAtt-d-dec
+  PUBLIC "-//OASIS//ENTITIES DITA 1.3 Delivery Target Attribute Domain//EN"
+         "../../base/dtd/deliveryTargetAttDomain.ent"
+>%deliveryTargetAtt-d-dec;
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAIN EXTENSIONS                          -->
@@ -242,101 +479,155 @@
                         the name of the domain(s) in which the
                         extension was declared                     -->
 
-&lt;!ENTITY % pre          "pre
+&lt;!ENTITY % index-base   "index-base |
+                         %indexing-d-index-base;
                         ">
-&lt;!ENTITY % keyword      "keyword
+&lt;!ENTITY % note         "note |
+                         %hazard-d-note;
                         ">
-&lt;!ENTITY % ph           "ph | 
-                         %hi-d-ph;
-                        ">
-&lt;!ENTITY % term         "term | 
-                         %abbrev-d-term;
+&lt;!ENTITY % ph           "ph |
+                         %hi-d-ph; |
+                         %equation-d-ph;
                         ">
 &lt;!ENTITY % fig          "fig |
-                         %ut-d-fig;
+                         %ut-d-fig; |
+                         %equation-d-fig;
+                        ">
+&lt;!ENTITY % data         "data |
+                         %ut-d-data;
+                        ">
+&lt;!ENTITY % term         "term |
+                         %abbrev-d-term;
+                        ">
+&lt;!ENTITY % keyword      "keyword |
+                         %markup-d-keyword; |
+                         %xml-d-keyword;
+                        ">
+&lt;!ENTITY % pre          "pre
                         ">
 &lt;!ENTITY % dl           "dl
                         ">
-&lt;!ENTITY % index-base   "index-base | 
-                         %indexing-d-index-base;
+&lt;!ENTITY % metadata     "metadata |
+                         %relmgmt-d-metadata;
                         ">
-&lt;!ENTITY % note         "note
+&lt;!ENTITY % foreign      "foreign |
+                         %svg-d-foreign; |
+                         %mathml-d-foreign;
+                        ">
+&lt;!ENTITY % div          "div |
+                         %equation-d-div;
                         ">
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAIN ATTRIBUTE EXTENSIONS                -->
 &lt;!-- ============================================================= -->
-&lt;!ENTITY % props-attribute-extensions  
-  ""
->
-&lt;!ENTITY % base-attribute-extensions   
-  ""
->
 
+&lt;!ENTITY % props-attribute-extensions
+  "%deliveryTargetAtt-d-attribute;"
+>
+&lt;!ENTITY % base-attribute-extensions
+  ""
+>
 
 &lt;!-- ============================================================= -->
 &lt;!--                    TOPIC NESTING OVERRIDE                     -->
 &lt;!-- ============================================================= -->
 
-&lt;!--                    Redefine the infotype entity to exclude 
-                        other topic types and disallow nesting     -->
-&lt;!ENTITY % topic-info-types 
-  "topic
-  "
+&lt;!ENTITY % topic-info-types
+              "topic"
 >
-
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
 &lt;!-- ============================================================= -->
-&lt;!--                    Must be declared ahead of the DTDs, which
-                        puts @domains first in order               -->
 
-&lt;!ENTITY included-domains 
-                          "&amp;hi-d-att; 
-                           &amp;ut-d-att; 
+&lt;!ENTITY included-domains
+                          "&amp;abbrev-d-att;
+                           &amp;deliveryTargetAtt-d-att;
+                           &amp;equation-d-att;
+                           &amp;hazard-d-att;
+                           &amp;hi-d-att;
                            &amp;indexing-d-att;
-                           &amp;abbrev-d-att;
+                           &amp;markup-d-att;
+                           &amp;mathml-d-att;
+                           &amp;relmgmt-d-att;
+                           &amp;svg-d-att;
+                           &amp;ut-d-att;
+                           &amp;xml-d-att;
   "
 >
 
+&lt;!-- ============================================================= -->
+&lt;!--                    CONTENT CONSTRAINT INTEGRATION             -->
+&lt;!-- ============================================================= -->
 
 &lt;!-- ============================================================= -->
 &lt;!--                    TOPIC ELEMENT INTEGRATION                  -->
 &lt;!-- ============================================================= -->
 
-&lt;!--                    Embed topic to get generic elements        -->
-&lt;!ENTITY % topic-type   
-  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Topic//EN" 
+&lt;!ENTITY % topic-type
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Topic//EN"
          "../../base/dtd/topic.mod"
->
-%topic-type;
-
+>%topic-type;
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAIN ELEMENT INTEGRATION                 -->
 &lt;!-- ============================================================= -->
 
-&lt;!ENTITY % hi-d-def     
-  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
-         "../../base/dtd/highlightDomain.mod"
->%hi-d-def;
-
-&lt;!ENTITY % ut-d-def     
-  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Utilities Domain//EN" 
-         "../../base/dtd/utilitiesDomain.mod"
->%ut-d-def;
-
-&lt;!ENTITY % indexing-d-def     
-  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Indexing Domain//EN" 
-         "../../base/dtd/indexingDomain.mod"
->%indexing-d-def;
-
-&lt;!ENTITY % abbrev-d-def     
-  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Abbreviated Form Domain//EN" 
+&lt;!ENTITY % abbrev-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Abbreviated Form Domain//EN"
          "abbreviateDomain.mod"
 >%abbrev-d-def;
 
+&lt;!ENTITY % equation-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Equation Domain//EN"
+         "equationDomain.mod"
+>%equation-d-def;
+
+&lt;!ENTITY % hazard-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Hazard Statement Domain//EN"
+         "../../base/dtd/hazardstatementDomain.mod"
+>%hazard-d-def;
+
+&lt;!ENTITY % hi-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Highlight Domain//EN"
+         "../../base/dtd/highlightDomain.mod"
+>%hi-d-def;
+
+&lt;!ENTITY % indexing-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Indexing Domain//EN"
+         "../../base/dtd/indexingDomain.mod"
+>%indexing-d-def;
+
+&lt;!ENTITY % markup-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Markup Domain//EN"
+         "markupDomain.mod"
+>%markup-d-def;
+
+&lt;!ENTITY % mathml-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 MathML Domain//EN"
+         "mathmlDomain.mod"
+>%mathml-d-def;
+
+&lt;!ENTITY % relmgmt-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Release Management Domain//EN"
+         "releaseManagementDomain.mod"
+>%relmgmt-d-def;
+
+&lt;!ENTITY % svg-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 SVG Domain//EN"
+         "svgDomain.mod"
+>%svg-d-def;
+
+&lt;!ENTITY % ut-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Utilities Domain//EN"
+         "../../base/dtd/utilitiesDomain.mod"
+>%ut-d-def;
+
+&lt;!ENTITY % xml-d-def
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 XML Domain//EN"
+         "xmlDomain.mod"
+>%xml-d-def;<?oxy_insert_end?>
 
 &lt;!-- ================== End My Topic DTD  ====================== --></codeblock></p>
     <p>Note that in the domain extension area, there are now declarations like this:<codeblock>&lt;!ENTITY % pre          "pre
@@ -347,3 +638,4 @@
             can remove this declaration entirely if you want.</p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>
