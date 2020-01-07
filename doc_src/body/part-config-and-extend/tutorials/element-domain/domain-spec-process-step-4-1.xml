@@ -7,3 +7,4 @@
     <p>Copy the <filepath>concept.dtd</filepath> file from the DITA distribution to some location outside the scope of the DITA Open Toolkit (e.g., c:\mystuff\dita\dtd\concept.dtd). </p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

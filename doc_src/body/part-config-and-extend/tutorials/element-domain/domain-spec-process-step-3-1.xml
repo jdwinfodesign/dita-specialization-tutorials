@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-step-3-1">
-  <title>Step 3-1. Create xmlDomain.ent</title>
-  <body>
-    <p>Create a new file named "<filepath>xmlDomain.ent</filepath>" and put a descriptive header comment at the top: <codeblock>
-&lt;!-- ====================================================
+	<title>Step 3-1. Create xmlDomain.ent</title>
+	<?oxy_delete author="jdwin" timestamp="20200107T164537-0500" content="&lt;body&gt;&lt;p&gt;Create a new file named &quot;&lt;filepath&gt;xmlDomain.ent&lt;/filepath&gt;&quot; and put a descriptive header comment at the top: &lt;codeblock&gt;
+&amp;lt;!-- ====================================================
      XML Construct Domain Module
+    
+     Author: &lt;i&gt;your name here&lt;/i&gt;
+
+     Copyright (c) 2011 &lt;i&gt;copyright holder&lt;/i&gt;
+     
+     &lt;i&gt;license to use or not use or whatever&lt;/i&gt;
+          
+     ==================================================== --&gt;&lt;/codeblock&gt; &lt;/p&gt;&lt;/body&gt;"?>
+	<?oxy_insert_start author="jdwin" timestamp="20200107T164537-0500"?>
+	<body>
+		<p>Create a new file named "<filepath>dbParaDomain.ent</filepath>" and put a descriptive header
+			comment at the top:
+			<codeblock>
+&lt;!-- ====================================================
+     DocBook-like Paragraph Domain Module
     
      Author: <i>your name here</i>
 
-     Copyright (c) 2011 <i>copyright holder</i>
+     Copyright (c) 2019 <i>copyright holder</i>
      
      <i>license to use or not use or whatever</i>
           
-     ==================================================== --></codeblock> </p>
-  </body>
+     ==================================================== --></codeblock>
+		</p>
+	</body>
+	<?oxy_insert_end?>
 </subsection>
+<?oxy_options track_changes="on"?>

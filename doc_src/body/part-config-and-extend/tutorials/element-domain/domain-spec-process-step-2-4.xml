@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="step2-4">
-  <title>Step 2-4. Declare <xmlatt>class</xmlatt> Attributes</title>
-  <body>
-    <p>For each element type, create a separate attribute declaration that defines the <xmlatt>class</xmlatt> attribute value: <codeblock>
-&lt;!-- ====================================================
+	<title>Step 2-4. Declare <xmlatt>class</xmlatt> Attributes</title>
+	<?oxy_delete author="jdwin" timestamp="20200107T163004-0500" content="&lt;body&gt;&lt;p&gt;For each element type, create a separate attribute declaration that defines the &lt;xmlatt&gt;class&lt;/xmlatt&gt; attribute value: &lt;codeblock&gt;
+&amp;lt;!-- ====================================================
      XML Construct Domain Module
     
-     Author: <i>your name here</i>
+     Author: &lt;i&gt;your name here&lt;/i&gt;
 
-     Copyright (c) 2011 <i>copyright holder</i>
+     Copyright (c) 2011 &lt;i&gt;copyright holder&lt;/i&gt;
      
-     <i>license to use or not use or whatever</i>
-     ==================================================== -->
+     &lt;i&gt;license to use or not use or whatever&lt;/i&gt;
+     ==================================================== --&gt;
  
-&lt;!ENTITY % xmlelem    "xmlelem"  >
+&amp;lt;!ENTITY % xmlelem    &quot;xmlelem&quot;  &gt;
 
-&lt;!--                    LONG NAME: XML Element                            -->
-&lt;!ENTITY % xmlelem.content 
-  " 
+&amp;lt;!--                    LONG NAME: XML Element                            --&gt;
+&amp;lt;!ENTITY % xmlelem.content 
+  &quot; 
   (#PCDATA)*
-  "
->
-&lt;!ENTITY % xmlelem.attributes
-  '
+  &quot;
+&gt;
+&amp;lt;!ENTITY % xmlelem.attributes
+  &apos;
   %univ-atts;          
   keyref
     CDATA
@@ -31,52 +30,211 @@
   outputclass 
     CDATA
     #IMPLIED    
-  '
->
-&lt;!ELEMENT xmlelem %xmlelem.content; >
-&lt;!ATTLIST xmlelem %xmlelem.attributes; >
+  &apos;
+&gt;
+&amp;lt;!ELEMENT xmlelem %xmlelem.content; &gt;
+&amp;lt;!ATTLIST xmlelem %xmlelem.attributes; &gt;
           
-<b>&lt;!ATTLIST xmlelem     %global-atts;  class CDATA "+ topic/keyword xml-d/xmlelem "  ></b>
-          </codeblock></p>
-    <p>(The <parameterentity>global-atts</parameterentity> parameter entity is defined in one of the base DITA
-        module files.)</p>
-    <p>There are several reasons for keeping the <xmlatt>class</xmlatt> attribute declaration separate from the main element and attribute declaration. By putting all the class attribute declarations together in one place, it makes it easier to find the declarations and see what the specialization hierarchy is. It also makes it easier to re-use the element declarations by cut and paste. (This pattern becomes much more critical in XSD-based specialization, where the re-use of base element type declarations is by reference rather than via cut and paste.)</p>
-    <p>The complete <filepath>xmlDomain.mod</filepath> file should look this this: <codeblock>
-&lt;!-- =============================================================
+&lt;b&gt;&amp;lt;!ATTLIST xmlelem     %global-atts;  class CDATA &quot;+ topic/keyword xml-d/xmlelem &quot;  &gt;&lt;/b&gt;
+          &lt;/codeblock&gt;&lt;/p&gt;&lt;p&gt;(The &lt;parameterentity&gt;global-atts&lt;/parameterentity&gt; parameter entity is defined in one of the base DITA module files.)&lt;/p&gt;&lt;p&gt;There are several reasons for keeping the &lt;xmlatt&gt;class&lt;/xmlatt&gt; attribute declaration separate from the main element and attribute declaration. By putting all the class attribute declarations together in one place, it makes it easier to find the declarations and see what the specialization hierarchy is. It also makes it easier to re-use the element declarations by cut and paste. (This pattern becomes much more critical in XSD-based specialization, where the re-use of base element type declarations is by reference rather than via cut and paste.)&lt;/p&gt;&lt;p&gt;The complete &lt;filepath&gt;xmlDomain.mod&lt;/filepath&gt; file should look this this: &lt;codeblock&gt;
+&amp;lt;!-- =============================================================
 
      XML construct domain
      
      Provides phrase-level elements for identifying mentions of
      XML constructs: element types, attributes, etc.
      
-     Copyright (c) 2011 <i>copyright holder</i>
+     Copyright (c) 2011 &lt;i&gt;copyright holder&lt;/i&gt;
+     
+     &lt;i&gt;license to use or not use or whatever&lt;/i&gt;
+     
+     ============================================================= --&gt;
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                   ELEMENT NAME ENTITIES                       --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+
+&amp;lt;!ENTITY % xmlelem &quot;xmlelem&quot;  &gt;
+&amp;lt;!ENTITY % xmlatt  &quot;xmlatt&quot;   &gt;
+&amp;lt;!ENTITY % textent &quot;textent&quot;  &gt;     
+&amp;lt;!ENTITY % parment &quot;parment&quot;  &gt;
+&amp;lt;!ENTITY % numcharref &quot;numcharref&quot; &gt;   
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    ELEMENT DECLARATIONS                       --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+
+
+&amp;lt;!--                    LONG NAME: XML Element                            --&gt;
+&amp;lt;!ENTITY % xmlelem.content 
+  &quot; 
+  (#PCDATA)*
+  &quot;
+&gt;
+&amp;lt;!ENTITY % xmlelem.attributes
+  &apos;
+  %univ-atts;          
+  keyref
+    CDATA
+    #IMPLIED
+  outputclass 
+    CDATA
+    #IMPLIED    
+  &apos;
+&gt;
+&amp;lt;!ELEMENT xmlelem %xmlelem.content; &gt;
+&amp;lt;!ATTLIST xmlelem %xmlelem.attributes; &gt;
+
+&amp;lt;!--                    LONG NAME: XML Attribute                            --&gt;
+&amp;lt;!ENTITY % xmlatt.content 
+  &quot; 
+  (#PCDATA)*
+  &quot;
+&gt;
+&amp;lt;!ENTITY % xmlatt.attributes
+  &apos;
+  %univ-atts;          
+  keyref
+    CDATA
+    #IMPLIED
+  outputclass 
+    CDATA
+    #IMPLIED    
+  &apos;
+&gt;
+&amp;lt;!ELEMENT xmlatt %xmlatt.content; &gt;
+&amp;lt;!ATTLIST xmlatt %xmlatt.attributes; &gt;
+
+&amp;lt;!--                    LONG NAME: Text entity --&gt;
+&amp;lt;!ENTITY % textent.content 
+  &quot; 
+  (#PCDATA)*
+  &quot;
+&gt;
+&amp;lt;!ENTITY % textent.attributes
+  &apos;
+  %univ-atts;          
+  keyref
+    CDATA
+    #IMPLIED
+  outputclass 
+    CDATA
+    #IMPLIED    
+  &apos;
+&gt;
+&amp;lt;!ELEMENT textent %textent.content; &gt;
+&amp;lt;!ATTLIST textent %textent.attributes; &gt;
+
+&amp;lt;!--                    LONG NAME: Parameter entity --&gt;
+&amp;lt;!ENTITY % parment.content 
+  &quot; 
+  (#PCDATA)*
+  &quot;
+&gt;
+&amp;lt;!ENTITY % parment.attributes
+  &apos;
+  %univ-atts;          
+  keyref
+    CDATA
+    #IMPLIED
+  outputclass 
+    CDATA
+    #IMPLIED    
+  &apos;
+&gt;
+&amp;lt;!ELEMENT parment %parment.content; &gt;
+&amp;lt;!ATTLIST parment %parment.attributes; &gt;
+
+&amp;lt;!--                    LONG NAME: Numeric character reference --&gt;
+&amp;lt;!ENTITY % numcharref.content 
+  &quot; 
+  (#PCDATA)*
+  &quot;
+&gt;
+&amp;lt;!ENTITY % numcharref.attributes
+  &apos;
+  %univ-atts;          
+  keyref
+    CDATA
+    #IMPLIED
+  outputclass 
+    CDATA
+    #IMPLIED    
+  &apos;
+&gt;
+&amp;lt;!ELEMENT numcharref %numcharref.content; &gt;
+&amp;lt;!ATTLIST numcharref %numcharref.attributes; &gt;
+
+
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    SPECIALIZATION ATTRIBUTE DECLARATIONS      --&gt;
+&amp;lt;!-- ============================================================= --&gt;
+
+
+&amp;lt;!ATTLIST xmlelem     %global-atts;  class CDATA &quot;+ topic/keyword xml-d/xmlelem &quot;  &gt;
+&amp;lt;!ATTLIST xmlatt      %global-atts;  class CDATA &quot;+ topic/keyword xml-d/xmlatt &quot;  &gt;
+&amp;lt;!ATTLIST textent     %global-atts;  class CDATA &quot;+ topic/keyword xml-d/textent &quot;  &gt;
+&amp;lt;!ATTLIST parment     %global-atts;  class CDATA &quot;+ topic/keyword xml-d/parment &quot;  &gt;
+&amp;lt;!ATTLIST numcharref  %global-atts;  class CDATA &quot;+ topic/keyword xml-d/numcharref &quot;  &gt;
+
+
+&amp;lt;!-- ================== End XML Domain ==================== --&gt;&lt;/codeblock&gt; &lt;/p&gt;&lt;p&gt;You should be seeing that this is a largely mechanical process that is mostly cutting and pasting of repeated declaration patterns. All of the actual thinking goes into the element type design. The declaration activity is purely mechanical.&lt;/p&gt;&lt;p&gt;In particular, having created the first declaration for &lt;xmlelement&gt;xmlelem&lt;/xmlelement&gt;, you copy it, paste it, and simply change &quot;xmlelem&quot; to the new element type name everywhere it occurs in that element&apos;s declarations.&lt;/p&gt;&lt;/body&gt;"?>
+	<?oxy_insert_start author="jdwin" timestamp="20200107T163004-0500"?>
+	<body>
+		<p>For each element type, create a separate attribute declaration that defines the
+				<xmlatt>class</xmlatt> attribute value:
+			<codeblock>&lt;!ENTITY % para    "para"  >
+
+&lt;!--                    LONG NAME: DocBook-like Paragraph                            -->
+&lt;!ENTITY % para.content 
+  " 
+  (#PCDATA)*
+  "
+>
+&lt;!ENTITY % para.attributes
+  '
+  %univ-atts;          
+  keyref
+    CDATA
+    #IMPLIED
+  outputclass 
+    CDATA
+    #IMPLIED    
+  '
+>
+&lt;!ELEMENT para %para.content; >
+&lt;!ATTLIST para %para.attributes; >
+          
+<b>&lt;!ATTLIST para     %global-atts;  class CDATA "+ topic/p dbPara-d/para "  ></b></codeblock></p>
+		<p>(The <parameterentity>global-atts</parameterentity> parameter entity is defined in one of the
+			base DITA module files.)</p>
+		<p>There are several reasons for keeping the <xmlatt>class</xmlatt> attribute declaration
+			separate from the main element and attribute declaration. By putting all the class attribute
+			declarations together in one place, it makes it easier to find the declarations and see what
+			the specialization hierarchy is. It also makes it easier to re-use the element declarations by
+			cut and paste. (This pattern becomes much more critical in XSD-based specialization, where the
+			re-use of base element type declarations is by reference rather than via cut and paste.)</p>
+		<p>The complete <filepath>dbParaDomain.mod</filepath> file should look this this:
+			<codeblock>&lt;!-- ====================================================
+     DocBook-like Paragraph Domain Module
+    
+     Author: <i>your name here</i>
+
+     Copyright (c) 2019 <i>copyright holder</i>
      
      <i>license to use or not use or whatever</i>
-     
-     ============================================================= -->
+          
+     ==================================================== -->
+	 
+&lt;!ENTITY % para    "para"  >
 
-&lt;!-- ============================================================= -->
-&lt;!--                   ELEMENT NAME ENTITIES                       -->
-&lt;!-- ============================================================= -->
-
-&lt;!ENTITY % xmlelem "xmlelem"  >
-&lt;!ENTITY % xmlatt  "xmlatt"   >
-&lt;!ENTITY % textent "textent"  >     
-&lt;!ENTITY % parment "parment"  >
-&lt;!ENTITY % numcharref "numcharref" >   
-
-&lt;!-- ============================================================= -->
-&lt;!--                    ELEMENT DECLARATIONS                       -->
-&lt;!-- ============================================================= -->
-
-
-&lt;!--                    LONG NAME: XML Element                            -->
-&lt;!ENTITY % xmlelem.content 
+&lt;!--                    LONG NAME: DocBook-like Paragraph                            -->
+&lt;!ENTITY % para.content 
   " 
   (#PCDATA)*
   "
 >
-&lt;!ENTITY % xmlelem.attributes
+&lt;!ENTITY % para.attributes
   '
   %univ-atts;          
   keyref
@@ -87,104 +245,15 @@
     #IMPLIED    
   '
 >
-&lt;!ELEMENT xmlelem %xmlelem.content; >
-&lt;!ATTLIST xmlelem %xmlelem.attributes; >
+&lt;!ELEMENT para %para.content; >
+&lt;!ATTLIST para %para.attributes; >
 
-&lt;!--                    LONG NAME: XML Attribute                            -->
-&lt;!ENTITY % xmlatt.content 
-  " 
-  (#PCDATA)*
-  "
->
-&lt;!ENTITY % xmlatt.attributes
-  '
-  %univ-atts;          
-  keyref
-    CDATA
-    #IMPLIED
-  outputclass 
-    CDATA
-    #IMPLIED    
-  '
->
-&lt;!ELEMENT xmlatt %xmlatt.content; >
-&lt;!ATTLIST xmlatt %xmlatt.attributes; >
-
-&lt;!--                    LONG NAME: Text entity -->
-&lt;!ENTITY % textent.content 
-  " 
-  (#PCDATA)*
-  "
->
-&lt;!ENTITY % textent.attributes
-  '
-  %univ-atts;          
-  keyref
-    CDATA
-    #IMPLIED
-  outputclass 
-    CDATA
-    #IMPLIED    
-  '
->
-&lt;!ELEMENT textent %textent.content; >
-&lt;!ATTLIST textent %textent.attributes; >
-
-&lt;!--                    LONG NAME: Parameter entity -->
-&lt;!ENTITY % parment.content 
-  " 
-  (#PCDATA)*
-  "
->
-&lt;!ENTITY % parment.attributes
-  '
-  %univ-atts;          
-  keyref
-    CDATA
-    #IMPLIED
-  outputclass 
-    CDATA
-    #IMPLIED    
-  '
->
-&lt;!ELEMENT parment %parment.content; >
-&lt;!ATTLIST parment %parment.attributes; >
-
-&lt;!--                    LONG NAME: Numeric character reference -->
-&lt;!ENTITY % numcharref.content 
-  " 
-  (#PCDATA)*
-  "
->
-&lt;!ENTITY % numcharref.attributes
-  '
-  %univ-atts;          
-  keyref
-    CDATA
-    #IMPLIED
-  outputclass 
-    CDATA
-    #IMPLIED    
-  '
->
-&lt;!ELEMENT numcharref %numcharref.content; >
-&lt;!ATTLIST numcharref %numcharref.attributes; >
-
-
-&lt;!-- ============================================================= -->
-&lt;!--                    SPECIALIZATION ATTRIBUTE DECLARATIONS      -->
-&lt;!-- ============================================================= -->
-
-
-&lt;!ATTLIST xmlelem     %global-atts;  class CDATA "+ topic/keyword xml-d/xmlelem "  >
-&lt;!ATTLIST xmlatt      %global-atts;  class CDATA "+ topic/keyword xml-d/xmlatt "  >
-&lt;!ATTLIST textent     %global-atts;  class CDATA "+ topic/keyword xml-d/textent "  >
-&lt;!ATTLIST parment     %global-atts;  class CDATA "+ topic/keyword xml-d/parment "  >
-&lt;!ATTLIST numcharref  %global-atts;  class CDATA "+ topic/keyword xml-d/numcharref "  >
-
-
-&lt;!-- ================== End XML Domain ==================== --></codeblock> </p>
-    <p>You should be seeing that this is a largely mechanical process that is mostly cutting and pasting of repeated declaration patterns. All of the actual thinking goes into the element type design. The declaration activity is purely mechanical.</p>
-    <p>In particular, having created the first declaration for <xmlelement>xmlelem</xmlelement>, you copy it, paste it, and simply change "xmlelem" to the new element type name everywhere it occurs in that element's declarations.</p>
-  </body>
+&lt;!ATTLIST para     %global-atts;  class CDATA "+ topic/p dbPara-d/para "  ></codeblock>
+		</p>
+		<p>You should be seeing that this is a largely mechanical process that is mostly cutting and
+			pasting of repeated declaration patterns. All of the actual thinking goes into the element
+			type design. The declaration activity is purely mechanical.</p>
+	</body>
+	<?oxy_insert_end?>
 </subsection>
+<?oxy_options track_changes="on"?>

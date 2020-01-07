@@ -2,83 +2,37 @@
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-step-one">
   <title>Element Domain Specialization Step 1: Design The Domain Element Types</title>
-  <shortdesc>The first step in specialization is designing your markup.</shortdesc>
+  <shortdesc><?oxy_comment_start author="jdwin" timestamp="20200107T151138-0500" comment="This should be in an overview for all grammar files, not just DTDs. If you are doing the same elements, the design of them can work for XSD and RNG also."?>The
+		first step in specialization is designing your markup.<?oxy_comment_end?></shortdesc>
   <body>
-    <p>For this exercise, the element types to be declared are all
-            specializations of <xmlelement>keyword</xmlelement>, which is a pretty typical use case: you
-            just need a few additional keyword-type elements to mark up mentions of things that are
-            specific to your documentation.</p>
-    <p>The element types to be declared are:
-          <dl>
-        <dlentry>
-          <dt>
-            <xmlelement>xmlelem</xmlelement>
-          </dt>
-          <dd>Identifies mentions of XML element types. Intended typographic effect is to
-              put the name in a monospaced font, surrounded by angle brackets: <xmlelement>an-element</xmlelement>.</dd>
-        </dlentry>
-        <dlentry>
-          <dt>
-            <xmlelement>xmlatt</xmlelement>
-          </dt>
-          <dd>Identifies mentions of XML attributes. Intended typographic effect is to put the name
-                        in monospaced font with a leading <q>@</q> sign:
-                            <xmlatt>an-attribute</xmlatt>.</dd>
-        </dlentry>
-        <dlentry>
-          <dt>
-            <xmlelement>textent</xmlelement>
-          </dt>
-          <dd>Identifies mentions of XML text entities. Intended typographic effect is to put the
-						name in monospaced font with a leading ampersand and trailing semicolon:
-							<textentity>a-text-entity-name</textentity>. (To be pedantic about it, the formatting
-						specification actually produces an entity <i>reference</i> rather than a mention of an
-						entity <i>name</i>, but Charles Goldfarb and I are probably the only people on the
-						planet who would both notice the difference and care about the distinction. So we add
-						the closing semicolon (<q>entity reference close</q>), because that's how people expect
-						something starting with an ampersand to look. Alternatively, I could have used a
-						different typographic convention—maybe small caps—and omitted the ampersand, but that
-						would probably have just made it more confusing.)</dd>
-        </dlentry>
-        <dlentry>
-          <dt>
-            <xmlelement>parment</xmlelement>
-          </dt>
-          <dd>Identifies mentions of XML parameter entities. Intended typographic effect is to put
-                        the name in monospaced font with a leading percent sign and a trailing
-                        semicolon: <parameterentity>a-parameter-entity-name</parameterentity>. (To be pedantic
-                        again, technically, the <q>%</q> is part of the parameter entity name and
-                        also serves as the entity reference open, so even if for text entities we
-                        didn't show the ampersand we would show the <q>%</q> for parameter entity
-                        references. Again, probably only Charles Goldfarb and I know or care about
-                        the difference. But I am compelled by years of deep standards work and an
-                        uncontrollable pedantic streak to mention that there is in fact a
-                        difference. Not that anyone cares. And yes, I was that kid who always said
-                            <q>technically, a peanut is not a nut, it's a legume.</q>)</dd>
-        </dlentry>
-        <dlentry>
-          <dt>
-            <xmlelement>numcharref</xmlelement>
-          </dt>
-          <dd>Identifies mentions of XML numeric character references. Intended typographic effect
-                        is to put the number in monospaced font with a leading <q>numeric character
-                            reference open</q> (&amp;#) and closing semicolon:
-                            <numcharref>x2014</numcharref>. The content should be the numeric value,
-                        preceded by an <q>x</q> for hex values. (I don't even have to say it do,
-                        I?)</dd>
-        </dlentry>
-      </dl>
-    </p>
-    <p>None of these elements allows any subelements, so their content models will all be just
-            #PCDATA.</p>
-    <p>Domain modules must be given a short name that is used in the filenames, entity names, and in
-            the <xmlatt>class</xmlatt> attributes. For this tutorial, the domain module name is
-                <q>xml.</q> In practice, you should give your domains more distinctive names so
-            there is minimal chance of name collisions with other domains. You see this with the
-            DITA 1.2 Learning and Training specializations, where both the domains and the element
-            types all start with <q>lc</q> (for <q>Learning Content</q>). This is essentially the
-            same as having a namespace prefix on your names, but of course DITA 1.x cannot use
-            namespaces, so you have to make do with the simple convention of distinguishing bits in
-            your names.</p>
-  </body>
+		<?oxy_delete author="jdwin" timestamp="20200107T151153-0500" content="&lt;p&gt;For this exercise, the element types to be declared are all specializations of &lt;xmlelement&gt;keyword&lt;/xmlelement&gt;, which is a pretty typical use case: you just need a few additional keyword-type elements to mark up mentions of things that are specific to your documentation.&lt;/p&gt;&lt;p&gt;The element types to be declared are: &lt;dl&gt;&lt;dlentry&gt;&lt;dt&gt; &lt;xmlelement&gt;xmlelem&lt;/xmlelement&gt; &lt;/dt&gt;&lt;dd&gt;Identifies mentions of XML element types. Intended typographic effect is to put the name in a monospaced font, surrounded by angle brackets: &lt;xmlelement&gt;an-element&lt;/xmlelement&gt;.&lt;/dd&gt;&lt;/dlentry&gt;&lt;dlentry&gt;&lt;dt&gt; &lt;xmlelement&gt;xmlatt&lt;/xmlelement&gt; &lt;/dt&gt;&lt;dd&gt;Identifies mentions of XML attributes. Intended typographic effect is to put the name in monospaced font with a leading &lt;q&gt;@&lt;/q&gt; sign: &lt;xmlatt&gt;an-attribute&lt;/xmlatt&gt;.&lt;/dd&gt;&lt;/dlentry&gt;&lt;dlentry&gt;&lt;dt&gt; &lt;xmlelement&gt;textent&lt;/xmlelement&gt; &lt;/dt&gt;&lt;dd&gt;Identifies mentions of XML text entities. Intended typographic effect is to put the name in monospaced font with a leading ampersand and trailing semicolon: &lt;textentity&gt;a-text-entity-name&lt;/textentity&gt;. (To be pedantic about it, the formatting specification actually produces an entity &lt;i&gt;reference&lt;/i&gt; rather than a mention of an entity &lt;i&gt;name&lt;/i&gt;, but Charles Goldfarb and I are probably the only people on the planet who would both notice the difference and care about the distinction. So we add the closing semicolon (&lt;q&gt;entity reference close&lt;/q&gt;), because that&apos;s how people expect something starting with an ampersand to look. Alternatively, I could have used a different typographic convention—maybe small caps—and omitted the ampersand, but that would probably have just made it more confusing.)&lt;/dd&gt;&lt;/dlentry&gt;&lt;dlentry&gt;&lt;dt&gt; &lt;xmlelement&gt;parment&lt;/xmlelement&gt; &lt;/dt&gt;&lt;dd&gt;Identifies mentions of XML parameter entities. Intended typographic effect is to put the name in monospaced font with a leading percent sign and a trailing semicolon: &lt;parameterentity&gt;a-parameter-entity-name&lt;/parameterentity&gt;. (To be pedantic again, technically, the &lt;q&gt;%&lt;/q&gt; is part of the parameter entity name and also serves as the entity reference open, so even if for text entities we didn&apos;t show the ampersand we would show the &lt;q&gt;%&lt;/q&gt; for parameter entity references. Again, probably only Charles Goldfarb and I know or care about the difference. But I am compelled by years of deep standards work and an uncontrollable pedantic streak to mention that there is in fact a difference. Not that anyone cares. And yes, I was that kid who always said &lt;q&gt;technically, a peanut is not a nut, it&apos;s a legume.&lt;/q&gt;)&lt;/dd&gt;&lt;/dlentry&gt;&lt;dlentry&gt;&lt;dt&gt; &lt;xmlelement&gt;numcharref&lt;/xmlelement&gt; &lt;/dt&gt;&lt;dd&gt;Identifies mentions of XML numeric character references. Intended typographic effect is to put the number in monospaced font with a leading &lt;q&gt;numeric character reference open&lt;/q&gt; (&amp;amp;#) and closing semicolon: &lt;numcharref&gt;x2014&lt;/numcharref&gt;. The content should be the numeric value, preceded by an &lt;q&gt;x&lt;/q&gt; for hex values. (I don&apos;t even have to say it do, I?)&lt;/dd&gt;&lt;/dlentry&gt;&lt;/dl&gt; &lt;/p&gt;&lt;p&gt;None of these elements allows any subelements, so their content models will all be just #PCDATA.&lt;/p&gt;&lt;p&gt;Domain modules must be given a short name that is used in the filenames, entity names, and in the &lt;xmlatt&gt;class&lt;/xmlatt&gt; attributes. For this tutorial, the domain module name is &lt;q&gt;xml.&lt;/q&gt; In practice, you should give your domains more distinctive names so there is minimal chance of name collisions with other domains. You see this with the DITA 1.2 Learning and Training specializations, where both the domains and the element types all start with &lt;q&gt;lc&lt;/q&gt; (for &lt;q&gt;Learning Content&lt;/q&gt;). This is essentially the same as having a namespace prefix on your names, but of course DITA 1.x cannot use namespaces, so you have to make do with the simple convention of distinguishing bits in your names.&lt;/p&gt;"?>
+		<?oxy_insert_start author="jdwin" timestamp="20200107T151434-0500"?>
+		<p>So, for this tutorial, we will create both: a block-level element based on
+				<xmlelement>p</xmlelement>, and a <q>mention</q> element that can appear in our paragraph.
+			Our paragraph will bear a passing resemblance to the DocBook <xmlelement>para</xmlelement> and
+			will contain a DocBook-derived inline element, <xmlelement>wordasword</xmlelement>, which
+			permits discussion of, for example, the word <q>Brown</q> itself, not the surname, color or
+			other referent. </p>
+		<p>After designing your own elements, you can, if needed, provide extensions for DITA processors
+			to apply apecialization-specific processing to your specialized types.</p>
+		<p>For example, if your specializations require a specific formatting effect that is not the
+			default DITA behavior for the base types, you must extend the output processors you use to
+			provide the formatting effect. Typically this means creating extension XSLT scripts for use
+			with the DITA Open Toolkit, but it can also mean extending built-in editor configurations and
+			stylesheets, or extending or customizing content management systems, websites, and so on,
+			depending on the nature of the specialization.</p>
+		<p>Domain modules must be given a short name that is used in the filenames, entity names, and in
+			the <xmlatt>class</xmlatt> attributes. In practice, you should give your domains more
+			distinctive names so there is minimal chance of name collisions with other domains. You see
+			this with the DITA 1.3 Learning and Training specializations, where both the domains and the
+			element types all start with <q>lc</q> (for <q>Learning Content</q>). This is essentially the
+			same as having a namespace prefix on your names, but of course DITA 1.x cannot use namespaces,
+			so you have to make do with the simple convention of distinguishing bits in your names.</p>
+		<p>Our domain will be <q>dbParaDomain</q>. We will make our <xmlelement>para</xmlelement>
+			available wherever a DITA <xmlelement>p</xmlelement> can be used. The
+				<xmlelement>wordasword</xmlelement> element will be unique to
+			<xmlelement>para</xmlelement>.</p>
+		<?oxy_insert_end?>
+	</body>
 </subsection>
+<?oxy_options track_changes="on"?>

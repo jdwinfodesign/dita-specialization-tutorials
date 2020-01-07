@@ -11,7 +11,17 @@
       <li>Declare the elements in the domain's .mod file.</li>
       <li>Declare the integration entities in the domain's .ent file.</li>
       <li>Integrate the domain into one or more document type shell DTDs using the normal integration and configuration mechanisms defined by the DITA architecture</li>
-      <li>If necessary, provide extensions for DITA processors to apply specialization-specific processing to your specialized types.<p>For example, if your specializations require a specific formatting effect that is not the default DITA behavior for the base types, you must extend the output processors you use to provide the formatting effect. Typically this means creating extension XSLT scripts for use with the DITA Open Toolkit, but it can also mean extending built-in editor configurations and stylesheets, or extending or customizing content management systems, websites, and so on, depending on the nature of the specialization.</p></li>
+      <li>If necessary, provide extensions for DITA processors to apply specialization-specific
+					processing to your specialized
+						types.<?oxy_comment_start author="jdwin" timestamp="20200107T150544-0500" comment="This should really be in an overview for ALL grammar file types, not just DTDs."?><p>For
+						example, if your specializations require a specific formatting effect that is not the
+						default DITA behavior for the base types, you must extend the output processors you use
+						to provide the formatting effect. Typically this means creating extension XSLT scripts
+						for use with the DITA Open Toolkit, but it can also mean extending built-in editor
+						configurations and stylesheets, or extending or customizing content management systems,
+						websites, and so on, depending on the nature of the
+						specialization.<?oxy_comment_end?></p></li>
       </ol> </p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

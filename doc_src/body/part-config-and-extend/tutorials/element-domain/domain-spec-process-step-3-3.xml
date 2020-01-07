@@ -1,37 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-step-3-3">
-  <title>Step 3-3. Declare Domain Usage Text Entity</title>
-  <body>
-    <p>Declare the domain usage declaration text entity, which is named "<i>modulename</i>-d-att": <codeblock>
-&lt;!-- ====================================================
+	<title>Step 3-3. Declare Domain Usage Text Entity</title>
+	<?oxy_delete author="jdwin" timestamp="20200107T164613-0500" content="&lt;body&gt;&lt;p&gt;Declare the domain usage declaration text entity, which is named &quot;&lt;i&gt;modulename&lt;/i&gt;-d-att&quot;: &lt;codeblock&gt;
+&amp;lt;!-- ====================================================
      XML Construct Domain Module
     
-     Author: <i>your name here</i>
+     Author: &lt;i&gt;your name here&lt;/i&gt;
 
-     Copyright (c) 2011 <i>copyright holder</i>
+     Copyright (c) 2011 &lt;i&gt;copyright holder&lt;/i&gt;
      
-     <i>license to use or not use or whatever</i>
+     &lt;i&gt;license to use or not use or whatever&lt;/i&gt;
           
-     ==================================================== -->
+     ==================================================== --&gt;
 
-&lt;!ENTITY % xml-d-keyword
-  "xmlelem | 
+&amp;lt;!ENTITY % xml-d-keyword
+  &quot;xmlelem | 
    xmlatt | 
    textent | 
    parment |
    numcharref
-  "                 
-  >
+  &quot;                 
+  &gt;
   
-<b>&lt;!ENTITY   xml-d-att     "(topic xml-d)"
+&lt;b&gt;&amp;lt;!ENTITY   xml-d-att     &quot;(topic xml-d)&quot;
+&gt;&lt;/b&gt;
+&lt;/codeblock&gt;&lt;/p&gt;&lt;note type=&quot;other&quot; othertype=&quot;Common Error&quot;&gt;Do not accidently declare the domains attribute contribution entity as a parameter entity. That is, you want this:&lt;codeblock&gt;&amp;lt;!ENTITY xml-d-att ...&lt;/codeblock&gt;&lt;b-i&gt;not&lt;/b-i&gt; this:&lt;codeblock&gt;&lt;linethrough&gt;&amp;lt;!ENTITY % xml-d-att&lt;/linethrough&gt;&lt;/codeblock&gt;&lt;p&gt;The &quot; % &quot; indicates a &lt;i&gt;parameter&lt;/i&gt; entity and for the domains attribute contribution you want a &lt;i&gt;text&lt;/i&gt; entity.&lt;/p&gt;&lt;/note&gt;&lt;p&gt;The keyword &quot;&lt;keyword&gt;topic&lt;/keyword&gt;&quot; indicates that this is a topic domain rather than a map domain. The value &quot;xml-d&quot; is the name of this module, the &quot;-d&quot; indicating that it is a domain module and not a topic module.&lt;/p&gt;&lt;p&gt;Note however that this domain specializes exclusively from an element type allowed in both maps and topics (&lt;xmlelement&gt;keyword&lt;/xmlelement&gt;), so even though this is a topic domain it may be used with maps as well as topics.&lt;/p&gt;&lt;p&gt;With the &lt;filepath&gt;xmlDomain.mod&lt;/filepath&gt; and &lt;filepath&gt;xmlDomain.ent&lt;/filepath&gt; files you now have a complete module declaration set ready to be integrated with any shell DTDs that need to use it.&lt;/p&gt;&lt;/body&gt;"?>
+	<?oxy_insert_start author="jdwin" timestamp="20200107T164613-0500"?>
+	<body>
+		<p>Declare the domain usage declaration text entity, which is named "<i>modulename</i>-d-att":
+			<codeblock>
+&lt;!-- ====================================================
+     DocBook-like Paragraph Domain Module
+    
+     Author: <i>your name here</i>
+
+     Copyright (c) 2019 <i>copyright holder</i>
+     
+     <i>license to use or not use or whatever</i>
+          
+     ==================================================== -->
+&lt;!ENTITY % dbPara-d-p
+  "para
+  "                 
+  >  
+<b>&lt;!ENTITY   dbPara-d-att     "(topic dbPara-d)"
 ></b>
 </codeblock></p>
-    <note
-      type="other"
-      othertype="Common Error">Do not accidently declare the domains attribute contribution entity as a parameter entity. That is, you want this:<codeblock>&lt;!ENTITY xml-d-att ...</codeblock><b-i>not</b-i> this:<codeblock><linethrough>&lt;!ENTITY % xml-d-att</linethrough></codeblock><p>The " % " indicates a <i>parameter</i> entity and for the domains attribute contribution you want a <i>text</i> entity.</p></note>
-    <p>The keyword "<keyword>topic</keyword>" indicates that this is a topic domain rather than a map domain. The value "xml-d" is the name of this module, the "-d" indicating that it is a domain module and not a topic module.</p>
-    <p>Note however that this domain specializes exclusively from an element type allowed in both maps and topics (<xmlelement>keyword</xmlelement>), so even though this is a topic domain it may be used with maps as well as topics.</p>
-    <p>With the <filepath>xmlDomain.mod</filepath> and <filepath>xmlDomain.ent</filepath> files you now have a complete module declaration set ready to be integrated with any shell DTDs that need to use it.</p>
-  </body>
+		<note type="other" othertype="Common Error">Do not accidently declare the domains attribute
+			contribution entity as a parameter entity. That is, you want
+				this:<codeblock>&lt;!ENTITY dbPara-d-att ...</codeblock><b-i>not</b-i>
+				this:<codeblock><linethrough>&lt;!ENTITY % dbPara-d-att</linethrough></codeblock><p>The " %
+				" indicates a <i>parameter</i> entity and for the domains attribute contribution you want a
+					<i>text</i> entity.</p></note>
+		<p>The keyword "<keyword>topic</keyword>" indicates that this is a topic domain rather than a
+			map domain. The value "xml-d" is the name of this module, the "-d" indicating that it is a
+			domain module and not a topic module.</p>
+		<p>INCLUDE NOTE ABOUT P VS PARA?????????</p>
+		<p>With the <filepath>dbParaDomain.mod</filepath> and <filepath>dbParaDomain.ent</filepath>
+			files you now have a complete module declaration set ready to be integrated with any shell
+			DTDs that need to use it.</p>
+	</body>
+	<?oxy_insert_end?>
 </subsection>
+<?oxy_options track_changes="on"?>

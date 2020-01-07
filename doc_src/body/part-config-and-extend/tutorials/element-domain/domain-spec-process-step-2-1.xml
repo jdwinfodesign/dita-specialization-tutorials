@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="step2-1">
-  <title>Step 2-1. Create New .mod File</title>
-  <body>
-    <p>Create a new file named "xmlDomain.mod" and put a descriptive header comment at the top: <codeblock>
-&lt;!-- ====================================================
+	<title>Step 2-1. Create New .mod File</title>
+	<?oxy_delete author="jdwin" timestamp="20200107T161532-0500" content="&lt;body&gt;&lt;p&gt;Create a new file named &quot;xmlDomain.mod&quot; and put a descriptive header comment at the top: &lt;codeblock&gt;
+&amp;lt;!-- ====================================================
      XML Construct Domain Module
+    
+     Author: &lt;i&gt;your name here&lt;/i&gt;
+
+     Copyright (c) 2011 &lt;i&gt;copyright holder&lt;/i&gt;
+     
+     &lt;i&gt;license to use or not use or whatever&lt;/i&gt;
+          
+     ==================================================== --&gt;&lt;/codeblock&gt; &lt;/p&gt;&lt;/body&gt;"?>
+	<?oxy_insert_start author="jdwin" timestamp="20200107T161532-0500"?>
+	<body>
+		<p>Create a new file named "dbParaDomain.mod" and save it in the same directory as your original
+			topic shell DTD. Then,put a descriptive header comment at the top:
+			<codeblock>&lt;!-- ====================================================
+     DocBook-like Paragraph Domain Module
     
      Author: <i>your name here</i>
 
-     Copyright (c) 2011 <i>copyright holder</i>
+     Copyright (c) 2019 <i>copyright holder</i>
      
      <i>license to use or not use or whatever</i>
           
-     ==================================================== --></codeblock> </p>
-  </body>
+     ==================================================== --></codeblock>
+		</p>
+	</body>
+	<?oxy_insert_end?>
 </subsection>
+<?oxy_options track_changes="on"?>

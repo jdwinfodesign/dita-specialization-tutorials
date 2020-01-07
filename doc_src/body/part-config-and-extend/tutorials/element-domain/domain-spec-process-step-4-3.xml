@@ -24,3 +24,4 @@ add the following parameter entity declaration and reference:
         example assumes that concept.dtd and xmlDomain.ent are in the same directory.</p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>
