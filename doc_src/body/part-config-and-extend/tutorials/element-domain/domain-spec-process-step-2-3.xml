@@ -2,7 +2,9 @@
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="step2-3">
 	<title>Step 2-3. Declare Elements and Attributes</title>
-	<?oxy_delete author="jdwin" timestamp="20200107T162931-0500" content="&lt;body&gt;&lt;p&gt;For each element type, create an element type and attribute declaration: &lt;codeblock&gt;
+	<body>
+		<p>For each element type, create an element type and attribute declaration:
+			<?oxy_delete author="jdwin" timestamp="20200108T130544-0500" content="&lt;codeblock&gt;
 &amp;lt;!-- ====================================================
      XML Construct Domain Module
     
@@ -34,21 +36,7 @@
 &gt;
 &amp;lt;!ELEMENT xmlelem %xmlelem.content; &gt;
 &amp;lt;!ATTLIST xmlelem %xmlelem.attributes; &gt;
-&lt;/b&gt;          &lt;/codeblock&gt;&lt;/p&gt;&lt;p&gt;Note that the content model for each element type must be at least as restrictive as the content model of the specialization base (in this case, &lt;xmlelement&gt;keyword&lt;/xmlelement&gt;, although we haven&apos;t declared that yet). Looking at the DITA language reference (or the declaration in commonElements.mod), we see that the content model for &lt;xmlelement&gt;keyword&lt;/xmlelement&gt; includes both #PCDATA as well as all other phrase-level elements. Since the XML component mentions don&apos;t need or want any subelements, we&apos;ve reduced the content model down to just #PCDATA (just text), which is consistent with the content model of the &lt;xmlelement&gt;keyword&lt;/xmlelement&gt; element.&lt;/p&gt;&lt;p&gt;Note also that the content model and attribute lists are defined as parameter entities that are then used in the actual ELEMENT and ATTLIST declarations. (This is a change from DITA 1.1 to DITA 1.2 made to enable overriding of individual element&apos;s content models and attribute lists through constraint modules. ) In this case the only content model more restrictive than &quot;&lt;codeph&gt;(#PCDATA)*&lt;/codeph&gt;&quot; is &quot;&lt;codeph&gt;EMPTY&lt;/codeph&gt;&quot;.)&lt;/p&gt;&lt;note type=&quot;other&quot; othertype=&quot;Common Errors&quot;&gt;&lt;p&gt;Attributes with quoted default values quoted with the same quote character as the parameter entity text.&lt;/p&gt;&lt;p&gt;In parameter entity declarations you can use either single quotes or double quotes (&quot; or &apos;) to quote the entity value. Because attributes can have literal default values, you have to make sure the quotes used for the attribute value are different from the quotes used for the parameter entity text itself. This is most common with specializations of &lt;xmlelement&gt;data&lt;/xmlelement&gt; where you want to set the &lt;xmlatt&gt;name&lt;/xmlatt&gt; attribute to a specific value (typically the tagname of the specialization).&lt;/p&gt;&lt;p&gt;For attribute declarations it&apos;s usually easiest to use single quotes so that attributes that specify literal default values can use double quotes, which is how most American&apos;s will declare them (and thus what you are most likely to copy from the base DITA declarations). Of course, if you&apos;re British you can swap that around.&lt;/p&gt;&lt;p&gt;An attributes parameter entity with a quoted default value would look like this:&lt;codeblock&gt;&amp;lt;!ENTITY % myDataElem.attributes 
-  &apos;
-    name
-       CDATA
-       &lt;b&gt;&quot;myDataElem&quot;&lt;/b&gt;
-    value
-       CDATA
-       #REQUIRED
-    %univ-atts;
-  &apos;
-&gt;&lt;/codeblock&gt;&lt;/p&gt;&lt;/note&gt;&lt;/body&gt;"?>
-	<?oxy_insert_start author="jdwin" timestamp="20200107T162931-0500"?>
-	<body>
-		<p>For each element type, create an element type and attribute declaration:
-			<codeblock>&lt;!-- ====================================================
+&lt;/b&gt;          &lt;/codeblock&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200108T130615-0500"?><codeblock>&lt;!-- ====================================================
      DocBook-like Paragraph Domain Module
     
      Author: <i>your name here</i>
@@ -79,20 +67,41 @@
   '
 >
 &lt;!ELEMENT para %para.content; >
-&lt;!ATTLIST para %para.attributes; ></b></codeblock></p>
+&lt;!ATTLIST para %para.attributes; ></b></codeblock><?oxy_insert_end?></p>
+		<?oxy_delete author="jdwin" timestamp="20200108T140324-0500" content="&lt;p&gt;Note that the content model for each element type must be at least as restrictive as the content model of the specialization base (in this case, &lt;xmlelement&gt;keyword&lt;/xmlelement&gt;, although we haven&apos;t declared that yet). Looking at the DITA language reference (or the declaration in commonElements.mod), we see that the content model for &lt;xmlelement&gt;keyword&lt;/xmlelement&gt; includes both #PCDATA as well as all other phrase-level elements. Since the XML component mentions don&apos;t need or want any subelements, we&apos;ve reduced the content model down to just #PCDATA (just text), which is consistent with the content model of the &lt;xmlelement&gt;keyword&lt;/xmlelement&gt; element.&lt;/p&gt;"?>
+		<?oxy_insert_start author="jdwin" timestamp="20200108T140316-0500"?>
 		<p>Note that the content model for each element type must be at least as restrictive as the
-			content model of the specialization base (in this case, <xmlelement>keyword</xmlelement>,
-			although we haven't declared that yet). Looking at the DITA language reference (or the
-			declaration in commonElements.mod), we see that the content model for
-				<xmlelement>keyword</xmlelement> includes both #PCDATA as well as all other phrase-level
-			elements. Since the XML component mentions don't need or want any subelements, we've reduced
-			the content model down to just #PCDATA (just text), which is consistent with the content model
-			of the <xmlelement>keyword</xmlelement> element.</p>
+			content model of the specialization base. In this case, we are specializing the
+				<xmlelement>p</xmlelement> element. See the content model in
+				<filepath>commonElements.mod</filepath>. You will find <codeph>&lt;!ELEMENT p
+				%p.content;></codeph>; the <parameterentity>p.content</parameterentity> entity consists of
+				<parameterentity>para.cnt</parameterentity>, which in turn contains mixed content of text
+			and phrase-level elements. </p>
+		<?oxy_insert_end?>
+		<?oxy_comment_start author="jdwin" timestamp="20200108T140848-0500" comment="Leaving this for you without cluttering it up with strikethroughs. "?>
 		<p>Note also that the content model and attribute lists are defined as parameter entities that
 			are then used in the actual ELEMENT and ATTLIST declarations. (This is a change from DITA 1.1
 			to DITA 1.2 made to enable overriding of individual element's content models and attribute
 			lists through constraint modules. ) In this case the only content model more restrictive than
-				"<codeph>(#PCDATA)*</codeph>" is "<codeph>EMPTY</codeph>".)</p>
+				"<codeph>(#PCDATA)*</codeph>" is "<codeph>EMPTY</codeph>".)</p><?oxy_comment_end?>
+		<?oxy_insert_start author="jdwin" timestamp="20200108T140854-0500"?>
+		<p>DocBook 5 content model consists of 147 elements, plus #PCDATA. None of them match the
+			content of the DITA <xmlelement>p</xmlelement>, not in a direct way (not counting #PCDATA) and
+			it would proven more effort than it would be worth for you to force it upon your
+			specialization. For our purposes, we will specialize our <xmlelement>para</xmlelement> element
+			to include everything the DITA <xmlelement>p</xmlelement> does, with the addition of the
+				<xmlelement>wordasword</xmlelement> element.</p>
+		<p><xmlelement>wordasword</xmlelement> is a unique element, in that it allows the discussion of
+			a word itself, regardless of a specific referent. So, instead of talking about <q>Mr.
+				Brown</q> or <q>the color brown</q>, you can discuss the word <q>brown</q> itself--its
+			spelling, pronunciation, the shape of its letters, any aspect of the word <q>as a word</q>.
+			The closest thing DITA has might be <q>term</q>, but strictly speaking, a <q>term</q> is the
+			combination of a word and its specific meaning in a given context. </p>
+		<p>In addition to being an interesting thing to know and think about, this activity should be a
+			simple introduction to developing a domain with a couple of elements. For now, we have our
+				<parameterentity>para.content</parameterentity> which can contain #PCDATA. We can come back
+			and add our <xmlelement>wordasword</xmlelement> later.</p>
+		<?oxy_insert_end?>
 		<note type="other" othertype="Common Errors">
 			<p>Attributes with quoted default values quoted with the same quote character as the parameter
 				entity text.</p>
@@ -120,6 +129,5 @@
 ></codeblock></p>
 		</note>
 	</body>
-	<?oxy_insert_end?>
 </subsection>
 <?oxy_options track_changes="on"?>

@@ -15,8 +15,7 @@
      ==================================================== --&gt;&lt;/codeblock&gt; &lt;/p&gt;&lt;/body&gt;"?>
 	<?oxy_insert_start author="jdwin" timestamp="20200107T161532-0500"?>
 	<body>
-		<p>Create a new file named "dbParaDomain.mod" and save it in the same directory as your original
-			topic shell DTD. Then,put a descriptive header comment at the top:
+		<p>Create a new file named "dbParaDomain.mod" and put a descriptive header comment at the top:
 			<codeblock>&lt;!-- ====================================================
      DocBook-like Paragraph Domain Module
     

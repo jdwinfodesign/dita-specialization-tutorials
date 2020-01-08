@@ -2,48 +2,30 @@
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-step-3-2">
 	<title>Step 3-2. Declare Type-Specific Integration Entities</title>
-	<?oxy_delete author="jdwin" timestamp="20200107T164555-0500" content="&lt;body&gt;&lt;p&gt;Declare a type-specific entity for the keyword-based elements, listing all the element types in the module: &lt;codeblock&gt;
-&amp;lt;!-- ====================================================
-     XML Construct Domain Module
-    
-     Author: &lt;i&gt;your name here&lt;/i&gt;
-
-     Copyright (c) 2011 &lt;i&gt;copyright holder&lt;/i&gt;
-     
-     &lt;i&gt;license to use or not use or whatever&lt;/i&gt;
-          
-     ==================================================== --&gt;
-
-&lt;b&gt;&amp;lt;!ENTITY % xml-d-keyword
-  &quot;xmlelem | 
-   xmlatt | 
-   textent | 
-   parment |
-   numcharref
-  &quot;                 
-  &gt;&lt;/b&gt;
-&lt;/codeblock&gt;&lt;/p&gt;&lt;/body&gt;"?>
-	<?oxy_insert_start author="jdwin" timestamp="20200107T164555-0500"?>
 	<body>
-		<p>Declare a type-specific entity for the paragraph-based element:
+		<p>Declare a type-specific entity for the keyword-based elements, listing all the element types
+			in the module:
 			<codeblock>
 &lt;!-- ====================================================
-     DocBook-like Paragraph Domain Module
+     <?oxy_delete author="jdwin" timestamp="20200108T155327-0500" content="XML Construct "?><?oxy_insert_start author="jdwin" timestamp="20200108T155327-0500"?>DocBook-like Paragraph <?oxy_insert_end?>Domain Module
     
      Author: <i>your name here</i>
 
-     Copyright (c) 2019 <i>copyright holder</i>
+     Copyright (c) 201<?oxy_delete author="jdwin" timestamp="20200108T155331-0500" content="1"?><?oxy_insert_start author="jdwin" timestamp="20200108T155331-0500"?>9<?oxy_insert_end?> <i>copyright holder</i>
      
      <i>license to use or not use or whatever</i>
           
      ==================================================== -->
 
-<b>&lt;!ENTITY % dbPara-d-p
-  "para
+<b>&lt;!ENTITY % <?oxy_delete author="jdwin" timestamp="20200108T155345-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200108T155346-0500"?>dbPara<?oxy_insert_end?>-d-keyword
+  "<?oxy_delete author="jdwin" timestamp="20200108T155712-0500" content="xmlelem | 
+   xmlatt | 
+   textent | 
+   parment |
+   numcharref"?><?oxy_insert_start author="jdwin" timestamp="20200108T155715-0500"?>#PCDATA<?oxy_insert_end?>
   "                 
   ></b>
 </codeblock></p>
 	</body>
-	<?oxy_insert_end?>
 </subsection>
 <?oxy_options track_changes="on"?>
