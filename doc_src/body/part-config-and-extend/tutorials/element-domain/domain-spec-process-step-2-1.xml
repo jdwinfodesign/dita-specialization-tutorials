@@ -15,7 +15,8 @@
      ==================================================== --&gt;&lt;/codeblock&gt; &lt;/p&gt;&lt;/body&gt;"?>
 	<?oxy_insert_start author="jdwin" timestamp="20200107T161532-0500"?>
 	<body>
-		<p>Create a new file named "dbParaDomain.mod" and put a descriptive header comment at the top:
+		<p>In a new directory, named something like <filepath>myElementDomain</filepath>. Create a new
+			file <filepath>dbParaDomain.mod</filepath> and put a descriptive header comment at the top:
 			<codeblock>&lt;!-- ====================================================
      DocBook-like Paragraph Domain Module
     

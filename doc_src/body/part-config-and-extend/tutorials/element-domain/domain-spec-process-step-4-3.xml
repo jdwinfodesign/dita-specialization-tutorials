@@ -5,23 +5,27 @@
   <prolog>
     <author>W. Eliot Kimber</author>
     <copyright>
-      <copyryear year="2007"/>
-      <copyrholder>W. Eliot Kimber</copyrholder>
-    </copyright>    
+			<?oxy_attributes year="&lt;change type=&quot;modified&quot; oldValue=&quot;2007&quot; author=&quot;jdwin&quot; timestamp=&quot;20200109T093827-0500&quot; /&gt;"?>
+			<copyryear year="2020"/>
+			<copyrholder>W. Eliot Kimber</copyrholder>
+		</copyright>    
   </prolog>
   <body>
-    <p>Add the domain entity declaration (.ent) file to concept.dtd. In your copy of
-concept.dtd, find the comment that says "DOMAIN ENTITY DECLARATIONS" and following this comment
-add the following parameter entity declaration and reference:
-<codeblock>
-&lt;!ENTITY % xml-d-dec     
-   SYSTEM "xmlDomain.ent"                                                
+    <p>Add the domain entity declaration (.ent) file to concept.dtd. In your copy of concept.dtd,
+			find the comment that says "DOMAIN ENTITY DECLARATIONS" and following this comment add the
+			following parameter entity declaration and reference:
+			<codeblock>
+&lt;!ENTITY % <?oxy_delete author="jdwin" timestamp="20200109T094051-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200109T094053-0500"?>dbPara<?oxy_insert_end?>-d-dec     
+   SYSTEM "<?oxy_delete author="jdwin" timestamp="20200109T094100-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200109T094102-0500"?>dbPara<?oxy_insert_end?>Domain.ent"                                                
 >
-%xml-d-dec;  
+%<?oxy_delete author="jdwin" timestamp="20200109T094108-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200109T094109-0500"?>dbPara<?oxy_insert_end?>-d-dec;  
 </codeblock>
-    </p>
-    <p>The system identifier needs to reflect the actual location of the xmlDomain.ent file. The
-        example assumes that concept.dtd and xmlDomain.ent are in the same directory.</p>
+		</p>
+    <p>The system identifier needs to reflect the actual location of the
+			<?oxy_delete author="jdwin" timestamp="20200109T094137-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200109T094138-0500"?>dbPara<?oxy_insert_end?>Domain.ent
+			file. The example assumes that concept.dtd and
+			<?oxy_delete author="jdwin" timestamp="20200109T094147-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200109T094149-0500"?>dbPara<?oxy_insert_end?>Domain.ent
+			are in the same directory.</p>
   </body>
 </subsection>
 <?oxy_options track_changes="on"?>
