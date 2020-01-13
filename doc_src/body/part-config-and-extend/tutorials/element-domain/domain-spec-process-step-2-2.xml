@@ -18,18 +18,23 @@
 	<?oxy_insert_start author="jdwin" timestamp="20200107T162824-0500"?>
 	<body>
 		<p>For each element type, declare a parameter entity that reflects the element type name:
-			<codeblock>&lt;!-- ====================================================
+			<codeblock>&lt;!-- =================================================================
      DocBook-like Paragraph Domain Module
     
-     Author: <i>your name here</i>
+     Author: your name here
 
-     Copyright (c) 2019 <i>copyright holder</i>
+     Copyright (c) 2019 copyright holder
      
-     <i>license to use or not use or whatever</i>
+     license to use or not use or whatever
           
-     ==================================================== -->
+     ============================================================= -->
      
-<b>&lt;!ENTITY % para    "para"  ></b>  </codeblock></p>
+&lt;!-- ============================================================= -->
+&lt;!--                   ELEMENT NAME ENTITIES                       -->
+&lt;!-- ============================================================= -->
+
+<b>&lt;!ENTITY % para 				"para" 			>
+&lt;!ENTITY % wordasword 	"wordasword" ></b></codeblock></p>
 		<p>These entities allow the element type to be used in content models via the parameter entity.
 			Document type shells can then integrate further specializations of this element type by
 			redeclaring the parameter entity to include specializations of the element, which then are
