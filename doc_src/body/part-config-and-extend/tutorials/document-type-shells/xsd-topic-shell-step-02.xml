@@ -17,101 +17,184 @@
       </ul></p>
     <p>To remove the programming domain from the <filepath>myTopic.xsd</filepath> shell, do the following:<ol>
                 <li>Find the <xmlelement>xs:include</xmlelement> element for the
-                        <filepath>programmingDomain.xsd</filepath> file and delete it or comment it
-                    out:<codeblock>  ...
+						<filepath>programmingDomain.xsd</filepath> file and delete it or comment it
+					out:<codeblock>  ...
 
-  &lt;!--  ================ TOPIC DOMAINS =====================  -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:uiDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:softwareDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2"/>
-  <b>&lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:programmingDomain.xsd:1.2"/></b>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:indexingDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:hazardstatementDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:abbreviateDomain.xsd:1.2" />
+  &lt;!--  ================ TOPIC DOMAINS =====================  --><?oxy_delete author="jdwin" timestamp="20200117T114259-0500" content="
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:uiDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:softwareDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2&quot;/&gt;
+  &lt;b&gt;&amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:programmingDomain.xsd:1.2&quot;/&gt;&lt;/b&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:indexingDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:hazardstatementDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:abbreviateDomain.xsd:1.2&quot; /&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200117T114303-0500"?>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:abbreviateDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:deliveryTargetAttDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:equationDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:hazardDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:indexingDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:markupDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:mathmlDomain.xsd:1.3"/>
+   <b>&lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:programmingDomain.xsd:1.3"/></b>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:releaseManagementDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:softwareDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:svgDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:uiDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:xmlDomain.xsd:1.3"/><?oxy_insert_end?>
 
   ...</codeblock></li>
                 <li> Find all the <xmlelement>xs:group</xmlelement> elements that refer to a group
-                    starting with <q>pr-d-</q> and delete
-                    them:<codeblock>  ...
+					starting with <q>pr-d-</q> and delete
+					them:<?oxy_delete author="jdwin" timestamp="20200117T115218-0500" content="&lt;codeblock&gt;  ...
   
-  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2">
-    &lt;xs:group name="keyword">
-      &lt;xs:choice>
-        &lt;xs:group ref="keyword"/>
-        <b>&lt;xs:group ref="pr-d-keyword" /></b>
-        &lt;xs:group ref="ui-d-keyword" />
-        &lt;xs:group ref="sw-d-keyword" />
-      &lt;/xs:choice>
-    &lt;/xs:group>
+  &amp;lt;xs:redefine schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2&quot;&gt;
+    &amp;lt;xs:group name=&quot;keyword&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;keyword&quot;/&gt;
+        &lt;b&gt;&amp;lt;xs:group ref=&quot;pr-d-keyword&quot; /&gt;&lt;/b&gt;
+        &amp;lt;xs:group ref=&quot;ui-d-keyword&quot; /&gt;
+        &amp;lt;xs:group ref=&quot;sw-d-keyword&quot; /&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group&gt;
 
-    &lt;xs:group name="ph">
-      &lt;xs:choice>
-        &lt;xs:group ref="ph"/>
-        <b>&lt;xs:group ref="pr-d-ph" /></b>
-        &lt;xs:group ref="ui-d-ph" />
-        &lt;xs:group ref="hi-d-ph" />
-        &lt;xs:group ref="sw-d-ph" />
-      &lt;/xs:choice>
-    &lt;/xs:group>
+    &amp;lt;xs:group name=&quot;ph&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;ph&quot;/&gt;
+        &lt;b&gt;&amp;lt;xs:group ref=&quot;pr-d-ph&quot; /&gt;&lt;/b&gt;
+        &amp;lt;xs:group ref=&quot;ui-d-ph&quot; /&gt;
+        &amp;lt;xs:group ref=&quot;hi-d-ph&quot; /&gt;
+        &amp;lt;xs:group ref=&quot;sw-d-ph&quot; /&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group&gt;
 
-    &lt;xs:group name="pre">
-      &lt;xs:choice>
-        &lt;xs:group ref="pre"/>
-        <b>&lt;xs:group ref="pr-d-pre" /></b>
-        &lt;xs:group ref="ui-d-pre" />
-        &lt;xs:group ref="sw-d-pre" />
-      &lt;/xs:choice>
-    &lt;/xs:group>
-
-
-    &lt;xs:group name="dl">
-      &lt;xs:choice>
-        &lt;xs:group ref="dl"/>
-        &lt;xs:group ref="pr-d-dl"/>
-      &lt;/xs:choice >
-    &lt;/xs:group >
+    &amp;lt;xs:group name=&quot;pre&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;pre&quot;/&gt;
+        &lt;b&gt;&amp;lt;xs:group ref=&quot;pr-d-pre&quot; /&gt;&lt;/b&gt;
+        &amp;lt;xs:group ref=&quot;ui-d-pre&quot; /&gt;
+        &amp;lt;xs:group ref=&quot;sw-d-pre&quot; /&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group&gt;
 
 
-    &lt;xs:group name="fig">
-      &lt;xs:choice>
-        &lt;xs:group ref="fig"/>
-        <b>&lt;xs:group ref="pr-d-fig"/></b>
-        &lt;xs:group ref="ut-d-fig" />
-      &lt;/xs:choice>
-    &lt;/xs:group >
+    &amp;lt;xs:group name=&quot;dl&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;dl&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;pr-d-dl&quot;/&gt;
+      &amp;lt;/xs:choice &gt;
+    &amp;lt;/xs:group &gt;
+
+
+    &amp;lt;xs:group name=&quot;fig&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;fig&quot;/&gt;
+        &lt;b&gt;&amp;lt;xs:group ref=&quot;pr-d-fig&quot;/&gt;&lt;/b&gt;
+        &amp;lt;xs:group ref=&quot;ut-d-fig&quot; /&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
   
-    &lt;xs:group name="index-base">
-      &lt;xs:choice>
-        &lt;xs:group ref="index-base"/>
-        &lt;xs:group ref="indexing-d-index-base"/>
-      &lt;/xs:choice>
-    &lt;/xs:group >
+    &amp;lt;xs:group name=&quot;index-base&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;index-base&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;indexing-d-index-base&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
       
-    &lt;xs:group name="note">
-      &lt;xs:choice>
-        &lt;xs:group ref="note"/>
-        &lt;xs:group ref="hazard-d-note"/>
-      &lt;/xs:choice>
-    &lt;/xs:group >
+    &amp;lt;xs:group name=&quot;note&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;note&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;hazard-d-note&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
     
-    &lt;xs:group name="term">
-      &lt;xs:choice>
-        &lt;xs:group ref="term"/>
-        &lt;xs:group ref="abbrev-d-term"/>
-      &lt;/xs:choice>
-    &lt;/xs:group >
+    &amp;lt;xs:group name=&quot;term&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;term&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;abbrev-d-term&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
     
-  &lt;/xs:redefine>
+  &amp;lt;/xs:redefine&gt;
 
-  ...</codeblock></li>
+  ...&lt;/codeblock&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200117T115223-0500"?><codeblock>&lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.3">
+      ...
+      &lt;xs:group name="dl">
+         &lt;xs:choice>
+            &lt;xs:group ref="dl"/>
+            <b>&lt;xs:group ref="pr-d-dl"/></b>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="fig">
+         &lt;xs:choice>
+            &lt;xs:group ref="fig"/>
+            &lt;xs:group ref="equation-d-fig"/>
+            <b>&lt;xs:group ref="pr-d-fig"/></b>
+            &lt;xs:group ref="ut-d-fig"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="pre">
+         &lt;xs:choice>
+            &lt;xs:group ref="pre"/>
+            <b>&lt;xs:group ref="pr-d-pre"/></b>
+            &lt;xs:group ref="sw-d-pre"/>
+            &lt;xs:group ref="ui-d-pre"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="div">
+         &lt;xs:choice>
+            &lt;xs:group ref="div"/>
+            &lt;xs:group ref="equation-d-div"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="keyword">
+         &lt;xs:choice>
+            &lt;xs:group ref="keyword"/>
+            &lt;xs:group ref="markup-d-keyword"/>
+            <b>&lt;xs:group ref="pr-d-keyword"/></b>
+            &lt;xs:group ref="sw-d-keyword"/>
+            &lt;xs:group ref="ui-d-keyword"/>
+            &lt;xs:group ref="xml-d-keyword"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="term">
+         &lt;xs:choice>
+            &lt;xs:group ref="term"/>
+            &lt;xs:group ref="abbrev-d-term"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="ph">
+         &lt;xs:choice>
+            &lt;xs:group ref="ph"/>
+            &lt;xs:group ref="equation-d-ph"/>
+            &lt;xs:group ref="hi-d-ph"/>
+            <b>&lt;xs:group ref="pr-d-ph"/></b>
+            &lt;xs:group ref="sw-d-ph"/>
+            &lt;xs:group ref="ui-d-ph"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+...
+   &lt;/xs:redefine></codeblock><?oxy_insert_end?></li>
                 <li>Find the declaration for the <q>domains-att</q> attribute group and delete
-                        <q>(topic pr-d)</q> from the
-                    value:<codeblock>  &lt;xs:attributeGroup name="domains-att">
-    &lt;xs:attribute name="domains" type="xs:string"       
-      default="(topic ui-d) (topic hi-d) (topic sw-d) 
-      <b>(topic pr-d) </b>(topic ut-d) (topic indexing-d) 
-      (topic hazard-d) (topic abbrev-d)"/>
+						<q>(topic pr-d)</q> from the
+					value:<codeblock>  &lt;xs:attributeGroup name="domains-att">
+    <?oxy_delete author="jdwin" timestamp="20200117T120844-0500" content="&amp;lt;xs:attribute name=&quot;domains&quot; type=&quot;xs:string&quot;       
+      default=&quot;(topic ui-d) (topic hi-d) (topic sw-d) 
+      &lt;b&gt;(topic pr-d) &lt;/b&gt;(topic ut-d) (topic indexing-d) 
+      (topic hazard-d) (topic abbrev-d)&quot;/&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200117T120849-0500"?>
+    &lt;xs:attribute name="domains"
+                    type="xs:string"
+                    default="(topic abbrev-d) 
+                      (topic equation-d) (topic hazard-d) 
+                      (topic hi-d) (topic indexing-d) 
+                      (topic markup-d xml-d) (topic markup-d) 
+                      (topic mathml-d) <b>(topic pr-d)</b> 
+                      (topic relmgmt-d) (topic svg-d) 
+                      (topic sw-d) (topic ui-d) 
+                      (topic ut-d) a(props deliveryTarget)
+                      "/><?oxy_insert_end?>
   &lt;/xs:attributeGroup></codeblock></li>
                 <li>Validate your test document. It should still be valid.<p>Because XSD uses normal
                         XML markup it's harder to introduce syntax errors than when modifying DTDs,
@@ -123,109 +206,266 @@
                         domain extension groups).</p></li>
             </ol></p>
     <p>Repeat this process for the software, user interface, and hazard domains.  </p>
-    <p>The resulting myTopic.xsd file should look like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+    <p>The resulting myTopic.xsd file should look like
+			this:<?oxy_delete author="jdwin" timestamp="20200117T123142-0500" content="&lt;codeblock&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&amp;lt;!-- ============================================================= 
+     My Topic Shell
+     
+     Shell that demonstrates adding and removing domains.
+     ============================================================= --&gt;
+&amp;lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; elementFormDefault=&quot;qualified&quot; attributeFormDefault=&quot;unqualified&quot; xmlns:ditaarch=&quot;http://dita.oasis-open.org/architecture/2005/&quot;&gt;
+  
+  &amp;lt;!-- Add the domains to the base topic XML Schema --&gt;
+  &amp;lt;!--  ================ TOPIC DOMAINS =====================  --&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:indexingDomain.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:abbreviateDomain.xsd:1.2&quot; /&gt;
+  
+  
+  &amp;lt;!--  ================ GROUP DEFINITIONS =====================  --&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:metaDeclGrp.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:tblDeclGrp.xsd:1.2&quot;/&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:topicGrp.xsd:1.2&quot;/&gt;
+  
+  &amp;lt;!-- =================  MODULE INLCUDE DEFINITION  ==================  --&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:commonElementMod.xsd:1.2&quot;/&gt;
+  &amp;lt;!-- ======== Table elements ======== --&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:tblDeclMod.xsd:1.2&quot;/&gt;    
+  &amp;lt;!-- ======= MetaData elements, plus keyword and indexterm ======= --&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:metaDeclMod.xsd:1.2&quot;/&gt;
+  
+  &amp;lt;xs:redefine schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2&quot;&gt;
+    &amp;lt;xs:group name=&quot;keyword&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;keyword&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group&gt;
+
+    &amp;lt;xs:group name=&quot;ph&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;ph&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;hi-d-ph&quot; /&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group&gt;
+
+    &amp;lt;xs:group name=&quot;pre&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;pre&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group&gt;
+
+
+    &amp;lt;xs:group name=&quot;dl&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;dl&quot;/&gt;
+      &amp;lt;/xs:choice &gt;
+    &amp;lt;/xs:group &gt;
+
+
+    &amp;lt;xs:group name=&quot;fig&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;fig&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;ut-d-fig&quot; /&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
+  
+    &amp;lt;xs:group name=&quot;index-base&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;index-base&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;indexing-d-index-base&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
+      
+    &amp;lt;xs:group name=&quot;note&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;note&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
+    
+    &amp;lt;xs:group name=&quot;term&quot;&gt;
+      &amp;lt;xs:choice&gt;
+        &amp;lt;xs:group ref=&quot;term&quot;/&gt;
+        &amp;lt;xs:group ref=&quot;abbrev-d-term&quot;/&gt;
+      &amp;lt;/xs:choice&gt;
+    &amp;lt;/xs:group &gt;
+    
+    &amp;lt;/xs:redefine&gt;
+
+
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.2&quot;/&gt;
+
+
+  &amp;lt;xs:group name=&quot;info-types&quot;&gt;
+    &amp;lt;xs:sequence/&gt;    
+  &amp;lt;/xs:group&gt;
+  
+  &amp;lt;xs:attributeGroup name=&quot;domains-att&quot;&gt;
+    &amp;lt;xs:attribute name=&quot;domains&quot; type=&quot;xs:string&quot;       
+      default=&quot;(topic abbrev-d)
+      (topic hi-d)  
+      (topic indexing-d) 
+      (topic ut-d) 
+      &quot;/&gt;
+  &amp;lt;/xs:attributeGroup&gt;
+
+&amp;lt;/xs:schema&gt;
+&lt;/codeblock&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200117T123145-0500"?><codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;!-- ============================================================= 
      My Topic Shell
      
      Shell that demonstrates adding and removing domains.
      ============================================================= -->
-&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/">
-  
-  &lt;!-- Add the domains to the base topic XML Schema -->
-  &lt;!--  ================ TOPIC DOMAINS =====================  -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:indexingDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:abbreviateDomain.xsd:1.2" />
-  
-  
-  &lt;!--  ================ GROUP DEFINITIONS =====================  -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:metaDeclGrp.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:tblDeclGrp.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicGrp.xsd:1.2"/>
-  
-  &lt;!-- =================  MODULE INLCUDE DEFINITION  ==================  -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementMod.xsd:1.2"/>
-  &lt;!-- ======== Table elements ======== -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:tblDeclMod.xsd:1.2"/>    
-  &lt;!-- ======= MetaData elements, plus keyword and indexterm ======= -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:metaDeclMod.xsd:1.2"/>
-  
-  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2">
-    &lt;xs:group name="keyword">
+&lt;xs:schema xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+&lt;!-- ================ TOPIC DOMAINS ===================== -->
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:abbreviateDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:deliveryTargetAttDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:equationDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:hazardDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:indexingDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:markupDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:mathmlDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:releaseManagementDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:softwareDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:svgDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:uiDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:xmlDomain.xsd:1.3"/>
+
+   &lt;!-- ================ GROUP DEFINITIONS ===================== -->
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:tblDeclGrp.xsd:1.3"/>
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicGrp.xsd:1.3"/>
+
+   &lt;!-- =================  MODULE INCLUDE DEFINITION  ================== -->
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementMod.xsd:1.3"/>
+
+   &lt;!-- ======== Table elements ======== -->
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:tblDeclMod.xsd:1.3"/>
+
+   &lt;!-- ======= MetaData elements, plus keyword and indexterm ======= -->
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:metaDeclMod.xsd:1.3"/>
+
+   &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.3">
+      &lt;xs:group name="data">
+         &lt;xs:choice>
+            &lt;xs:group ref="data"/>
+            &lt;xs:group ref="ut-d-data"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="foreign">
+         &lt;xs:choice>
+            &lt;xs:group ref="foreign"/>
+            &lt;xs:group ref="mathml-d-foreign"/>
+            &lt;xs:group ref="svg-d-foreign"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="note">
+         &lt;xs:choice>
+            &lt;xs:group ref="note"/>
+            &lt;xs:group ref="hazard-d-note"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="dl">
+         &lt;xs:choice>
+            &lt;xs:group ref="dl"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="fig">
+         &lt;xs:choice>
+            &lt;xs:group ref="fig"/>
+            &lt;xs:group ref="equation-d-fig"/>
+            &lt;xs:group ref="ut-d-fig"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="pre">
+         &lt;xs:choice>
+            &lt;xs:group ref="pre"/>
+            &lt;xs:group ref="sw-d-pre"/>
+            &lt;xs:group ref="ui-d-pre"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="div">
+         &lt;xs:choice>
+            &lt;xs:group ref="div"/>
+            &lt;xs:group ref="equation-d-div"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="keyword">
+         &lt;xs:choice>
+            &lt;xs:group ref="keyword"/>
+            &lt;xs:group ref="markup-d-keyword"/>
+            &lt;xs:group ref="sw-d-keyword"/>
+            &lt;xs:group ref="ui-d-keyword"/>
+            &lt;xs:group ref="xml-d-keyword"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="term">
+         &lt;xs:choice>
+            &lt;xs:group ref="term"/>
+            &lt;xs:group ref="abbrev-d-term"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="ph">
+         &lt;xs:choice>
+            &lt;xs:group ref="ph"/>
+            &lt;xs:group ref="equation-d-ph"/>
+            &lt;xs:group ref="hi-d-ph"/>
+            &lt;xs:group ref="sw-d-ph"/>
+            &lt;xs:group ref="ui-d-ph"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:group name="index-base">
+         &lt;xs:choice>
+            &lt;xs:group ref="index-base"/>
+            &lt;xs:group ref="indexing-d-index-base"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+      &lt;xs:attributeGroup name="props-attribute-extensions">
+         &lt;xs:attributeGroup ref="props-attribute-extensions"/>
+         &lt;xs:attributeGroup ref="deliveryTargetAtt-d-attribute"/>
+      &lt;/xs:attributeGroup>
+   &lt;/xs:redefine>
+   &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:metaDeclGrp.xsd:1.3">
+      &lt;xs:group name="metadata">
+         &lt;xs:choice>
+            &lt;xs:group ref="metadata"/>
+            &lt;xs:group ref="relmgmt-d-metadata"/>
+         &lt;/xs:choice>
+      &lt;/xs:group>
+   &lt;/xs:redefine>
+	
+   &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.3"/>
+   &lt;!--  ================ INFO-TYPES DEFINITION =====================  -->
+   &lt;xs:group name="info-types">
+      &lt;xs:annotation>
+         &lt;xs:documentation>
+This group is referenced in all topic modules but not defined there.
+It must be declared in topic-type shells.
+&lt;/xs:documentation>
+      &lt;/xs:annotation>
       &lt;xs:choice>
-        &lt;xs:group ref="keyword"/>
+         &lt;xs:element ref="no-topic-nesting" maxOccurs="0" minOccurs="0"/>
       &lt;/xs:choice>
-    &lt;/xs:group>
+   &lt;/xs:group>
 
-    &lt;xs:group name="ph">
-      &lt;xs:choice>
-        &lt;xs:group ref="ph"/>
-        &lt;xs:group ref="hi-d-ph" />
-      &lt;/xs:choice>
-    &lt;/xs:group>
-
-    &lt;xs:group name="pre">
-      &lt;xs:choice>
-        &lt;xs:group ref="pre"/>
-      &lt;/xs:choice>
-    &lt;/xs:group>
-
-
-    &lt;xs:group name="dl">
-      &lt;xs:choice>
-        &lt;xs:group ref="dl"/>
-      &lt;/xs:choice >
-    &lt;/xs:group >
-
-
-    &lt;xs:group name="fig">
-      &lt;xs:choice>
-        &lt;xs:group ref="fig"/>
-        &lt;xs:group ref="ut-d-fig" />
-      &lt;/xs:choice>
-    &lt;/xs:group >
-  
-    &lt;xs:group name="index-base">
-      &lt;xs:choice>
-        &lt;xs:group ref="index-base"/>
-        &lt;xs:group ref="indexing-d-index-base"/>
-      &lt;/xs:choice>
-    &lt;/xs:group >
-      
-    &lt;xs:group name="note">
-      &lt;xs:choice>
-        &lt;xs:group ref="note"/>
-      &lt;/xs:choice>
-    &lt;/xs:group >
-    
-    &lt;xs:group name="term">
-      &lt;xs:choice>
-        &lt;xs:group ref="term"/>
-        &lt;xs:group ref="abbrev-d-term"/>
-      &lt;/xs:choice>
-    &lt;/xs:group >
-    
-    &lt;/xs:redefine>
-
-
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.2"/>
-
-
-  &lt;xs:group name="info-types">
-    &lt;xs:sequence/>    
-  &lt;/xs:group>
-  
-  &lt;xs:attributeGroup name="domains-att">
-    &lt;xs:attribute name="domains" type="xs:string"       
-      default="(topic abbrev-d)
-      (topic hi-d)  
-      (topic indexing-d) 
-      (topic ut-d) 
-      "/>
-  &lt;/xs:attributeGroup>
-
+   &lt;xs:attributeGroup name="domains-att">
+      &lt;xs:attribute name="domains"
+                    type="xs:string"
+                    default="(topic abbrev-d) 
+                      (topic equation-d) (topic hazard-d) 
+                      (topic hi-d) (topic indexing-d) 
+                      (topic markup-d xml-d) (topic markup-d) 
+                      (topic mathml-d) 
+                      (topic relmgmt-d) (topic svg-d) 
+                      (topic sw-d) (topic ui-d) 
+                      (topic ut-d) a(props deliveryTarget)"/>
+   &lt;/xs:attributeGroup>
 &lt;/xs:schema>
-</codeblock></p>
+</codeblock><?oxy_insert_end?></p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-xsd-step-1">
+	<title>Create the new domain elements</title>
+	<shortdesc>blah</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>element domain specialization<indexterm>XSD syntax</indexterm></indexterm>
+				<indexterm>XSD<indexterm>element domain specialization</indexterm></indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<body>
+		<p>The <xmlelement>para</xmlelement> element will be an alternative to the default DITA
+				<xmlelement>p</xmlelement>, so the easiest way to create it is simply to copy and paste a
+			DITA <xmlelement>p</xmlelement>. We will do the same thing with the
+				<xmlelement>wordasword</xmlelement>, which will be based on
+			<xmlelement>keyword</xmlelement>. </p>
+		<p>To contain your new domain, create a new XSD. Name it <filepath>dbParaDomain.xsd</filepath>
+			and save it in the same directory as the concept and test document you created earlier. It
+			should contain the following content:
+			<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+&lt;/xs:schema></codeblock></p>
+		<p>The elements are defined in <filepath>commonElementMod.xsd</filepath> in the DITA 1.3 Schema
+			base plugin. In that file, find the components for <xmlelement>p</xmlelement>. There should be
+			four in this file: <ul id="ul_ihn_t3j_lkb">
+				<li>The element containing <xmlatt>name="p"</xmlatt></li>
+				<li>The complex type containing <xmlatt>name="p.class"</xmlatt></li>
+				<li>The group containing <xmlatt>name="p.content"</xmlatt></li>
+				<li>The attribute group containing <xmlatt>name="p.attributes"</xmlatt></li>
+			</ul> Copy all four of these elements and paste them into <filepath>dbPara.xsd</filepath> Now
+			simply replace the <q>p</q> with <q>para</q> where applicable. For example, all instances of
+				<q>p.class</q> would become <q>para.class</q> Be sure not to change <q>para.cnt</q> to
+				<q>paraara.cnt</q>. </p>
+		<p>In the complex type that extends, <q>para.class</q>, change the default value to <q>+ topic/p
+				dbPara-d/para </q></p>
+		<p>Now repeat the preceding steps for the <xmlelement>keyword</xmlelement> element. In
+				<filepath>commonElementMod.xsd</filepath>, copy the four elements required: <ul
+				id="ul_yxh_rqj_lkb">
+				<li>The element containing <xmlatt>name="keyword"</xmlatt></li>
+				<li>The complex type containing <xmlatt>name="keyword.class"</xmlatt></li>
+				<li>The group containing <xmlatt>name="keyword.content"</xmlatt></li>
+				<li>The attribute group containing <xmlatt>name="keyword.attributes"</xmlatt></li>
+			</ul>.Paste these elements into your <filepath>dbParaDomain.xsd</filepath> and change
+			references to <xmlelement>keyword</xmlelement> to <xmlelement>wordasword</xmlelement>. In the
+			line <codeph>&lt;xs:attribute ref="class" default="- topic/keyword "/></codeph>, change the
+			default value to <q>+ topic/keyword dbPara-d/wordasword </q></p>
+		<p>In the introductory paragraph of this tutorial, we said there are <i>five</i> components of a
+			domain module. We still need to add the group that calls the element itself, so it can be
+			included in the content model of our new concept. In <filepath>dbPara.xsd</filepath>, before
+			the <xmlelement>xs:element </xmlelement>
+			<xmlatt>name="para"</xmlatt>, add:
+			<codeblock>&lt;xs:group name="dbPara-d-p">
+		&lt;xs:choice>
+			&lt;xs:element ref="para"/>
+		&lt;/xs:choice>
+	&lt;/xs:group></codeblock></p>
+		<p>Then, do the same thing for <xmlelement>wordasword</xmlelement>:
+			<codeblock>&lt;xs:group name="db-d-keyword">
+		&lt;xs:sequence>
+			&lt;xs:choice>
+				&lt;xs:element ref="wordasword"/>
+			&lt;/xs:choice>
+		&lt;/xs:sequence>
+	&lt;/xs:group></codeblock></p>
+		<p>Your <filepath>dbParaDomain.xsd</filepath> should look something like the following.
+			<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	&lt;xs:annotation>
+		&lt;xs:appinfo>
+			&lt;dita:domainsModule xmlns:dita="http://dita.oasis-open.org/architecture/2005/">(topic dbPara-d)&lt;/dita:domainsModule>
+		&lt;/xs:appinfo>
+	&lt;/xs:annotation>
+	
+	&lt;!-- =============================================== -->
+	&lt;!--                         para                    -->
+	&lt;!-- =============================================== -->
+	
+	&lt;xs:group name="dbPara-d-p">
+		&lt;xs:choice>
+			&lt;xs:element ref="para"/>
+		&lt;/xs:choice>
+	&lt;/xs:group>
+
+	&lt;xs:element name="para">
+		&lt;xs:annotation>
+			&lt;xs:documentation> The dbPara element &amp;lt;para&amp;gt; represents an alternative paragraph.
+			&lt;/xs:documentation>
+		&lt;/xs:annotation>
+		&lt;xs:complexType mixed="true">
+			&lt;xs:complexContent>
+				&lt;xs:extension base="para.class">
+					&lt;xs:attribute ref="class" default="+ topic/p dbPara-d/para "/>
+				&lt;/xs:extension>
+			&lt;/xs:complexContent>
+		&lt;/xs:complexType>
+	&lt;/xs:element>
+	&lt;xs:group name="para.content">
+			&lt;xs:sequence>
+				&lt;xs:group ref="para.cnt" minOccurs="0" maxOccurs="unbounded"/>
+			&lt;/xs:sequence>
+	&lt;/xs:group>
+	&lt;xs:attributeGroup name="para.attributes">
+		&lt;xs:attribute name="outputclass" type="xs:string"/>
+		&lt;xs:attribute name="keyref" type="xs:string"/>
+		&lt;xs:attributeGroup ref="global-atts"/>
+		&lt;xs:attributeGroup ref="univ-atts"/>
+	&lt;/xs:attributeGroup>
+	&lt;xs:complexType name="para.class" mixed="true">
+		&lt;xs:sequence>
+			&lt;xs:group ref="para.content"/>
+		&lt;/xs:sequence>
+		&lt;xs:attributeGroup ref="para.attributes"/>
+	&lt;/xs:complexType>
+	
+	&lt;!-- =============================================== -->
+	&lt;!--                       wordasword                -->
+	&lt;!-- =============================================== -->
+	
+	&lt;xs:group name="dbPara-d-keyword">
+		&lt;xs:choice>
+			&lt;xs:element ref="wordasword"/>
+		&lt;/xs:choice>
+	&lt;/xs:group>
+	
+	&lt;xs:element name="wordasword">
+		&lt;xs:annotation>
+			&lt;xs:documentation/>
+		&lt;/xs:annotation>
+		&lt;xs:complexType>
+			&lt;xs:complexContent>
+				&lt;xs:extension base="wordasword.class">
+					&lt;xs:attribute ref="class" default="+ topic/keyword dbPara-d/wordasword "/>
+				&lt;/xs:extension>
+			&lt;/xs:complexContent>
+		&lt;/xs:complexType>
+	&lt;/xs:element>
+	&lt;xs:complexType name="wordasword.class" mixed="true">
+		&lt;xs:sequence>
+			&lt;xs:group ref="wordasword.content"/>
+		&lt;/xs:sequence>
+		&lt;xs:attributeGroup ref="wordasword.attributes"/>
+	&lt;/xs:complexType>
+	&lt;xs:group name="wordasword.content">
+		&lt;xs:sequence>
+			&lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+				&lt;xs:group ref="draft-comment"/>
+				&lt;xs:group ref="required-cleanup"/>
+				&lt;xs:group ref="text"/>
+			&lt;/xs:choice>
+		&lt;/xs:sequence>
+	&lt;/xs:group>
+	&lt;xs:attributeGroup name="wordasword.attributes">
+		&lt;xs:attributeGroup ref="univ-atts"/>
+		&lt;xs:attribute name="outputclass" type="xs:string"/>
+		&lt;xs:attributeGroup ref="global-atts"/>
+	&lt;/xs:attributeGroup>
+
+&lt;/xs:schema>
+</codeblock></p>
+	</body>
+</subsection>

@@ -28,7 +28,10 @@
 			<subsection href="domain-spec-process-step-4-7.xml"/>
 		</subsection>
 		</subsection>
-		<subsection href="domain-spec-xsd.xml"/>
+		<subsection href="domain-spec-xsd.xml">
+			<subsection href="domain-spec-xsd-step-1.xml"/>
+			<subsection href="domain-spec-xsd-step-2.xml"/>
+		</subsection>
 		<subsection href="domain-spec-process-step-5.xml" collection-type="sequence">
 			<subsection href="domain-spec-process-step-5-1.xml"/>
 			<subsection href="domain-spec-process-step-5-2.xml"/>
