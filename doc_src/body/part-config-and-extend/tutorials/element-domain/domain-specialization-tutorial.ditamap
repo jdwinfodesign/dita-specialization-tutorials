@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pub-component-map PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:pub-component-map" "pub-component-map.dtd">
 <pub-component-map>
-	<title><?oxy_comment_start author="jdwin" timestamp="20200107T124808-0500" comment="Two changes that are not tracked in Track Changes because it clutters things up something fierce: (1) demoted all subsections under Element Domain Specialization (DTDs) and (2) moved extend DITA OT processing subsection to end of this map. Other changes should be tracked."?>Element
+	<title><?oxy_comment_start author="jdwin" timestamp="20200107T124808-0500" comment="Four changes that are not tracked in Track Changes because it clutters things up something fierce: (1) demoted all subsections under Element Domain Specialization (DTDs), (2) moved extend DITA OT processing subsection to end of this map, (3) added two subsections under XSD, (4) added RNG subsection(s). Other changes should be tracked."?>Element
 		Domain Specialization Tutorial<?oxy_comment_end?></title>
 	<chapter href="domain_specialization_tutorial.xml" collection-type="sequence"
 		keys="element-domain-specialization-tutorial">

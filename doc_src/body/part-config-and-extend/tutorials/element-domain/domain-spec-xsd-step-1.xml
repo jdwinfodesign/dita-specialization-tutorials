@@ -2,7 +2,8 @@
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-xsd-step-1">
 	<title>Create the new domain elements</title>
-	<shortdesc>blah</shortdesc>
+	<shortdesc>The new domain module contains the components that define the domain
+		elements.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -17,9 +18,9 @@
 			DITA <xmlelement>p</xmlelement>. We will do the same thing with the
 				<xmlelement>wordasword</xmlelement>, which will be based on
 			<xmlelement>keyword</xmlelement>. </p>
-		<p>To contain your new domain, create a new XSD. Name it <filepath>dbParaDomain.xsd</filepath>
-			and save it in the same directory as the concept and test document you created earlier. It
-			should contain the following content:
+		<p>In your workspace, create a new directory and name it <filepath>xsd</filepath>. Create a new
+			file and save it as<filepath>dbParaDomain.xsd</filepath> in the <filepath>xsd</filepath>
+			subdirectory. The new file should contain the following content:
 			<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
@@ -54,18 +55,18 @@
 			the <xmlelement>xs:element </xmlelement>
 			<xmlatt>name="para"</xmlatt>, add:
 			<codeblock>&lt;xs:group name="dbPara-d-p">
-		&lt;xs:choice>
-			&lt;xs:element ref="para"/>
-		&lt;/xs:choice>
-	&lt;/xs:group></codeblock></p>
+	&lt;xs:choice>
+		&lt;xs:element ref="para"/>
+	&lt;/xs:choice>
+&lt;/xs:group></codeblock></p>
 		<p>Then, do the same thing for <xmlelement>wordasword</xmlelement>:
 			<codeblock>&lt;xs:group name="db-d-keyword">
-		&lt;xs:sequence>
-			&lt;xs:choice>
-				&lt;xs:element ref="wordasword"/>
-			&lt;/xs:choice>
-		&lt;/xs:sequence>
-	&lt;/xs:group></codeblock></p>
+	&lt;xs:sequence>
+		&lt;xs:choice>
+			&lt;xs:element ref="wordasword"/>
+		&lt;/xs:choice>
+	&lt;/xs:sequence>
+&lt;/xs:group></codeblock></p>
 		<p>Your <filepath>dbParaDomain.xsd</filepath> should look something like the following.
 			<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">

@@ -130,9 +130,9 @@ Deleting the last paragraphs and will restore to final sub-subsection I have add
 			<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;concept xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="myConcept.xsd" id="topicid">
-		&lt;title>Test concept&lt;/title>
-	&lt;/concept></codeblock>.
-			Check the file. It should be valid.</p>
+	&lt;title>Test concept&lt;/title>
+&lt;/concept></codeblock>Check
+			the file. It should be valid.</p>
 		<?oxy_insert_end?>
 	</body>
 </subsection>  
