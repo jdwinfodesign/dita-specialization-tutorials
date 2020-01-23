@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>RNG Topic Type Shell Tutorial Step 3: Add Reference to a New Domain</title>
+  <body>
+    <p>To integrate a new domain, we add the following components:<ul
+				id="ul_dd4b885a-75db-4756-aec9-1c1b21f1b9b8">
+				<li>An <xmlelement>include</xmlelement> of the domain's RNG module file.</li>
+				<li>The domain's <xmlatt>domains</xmlatt> attribute contribution in the <q>domains-att</q>
+					attribute group declaration.</li>
+			</ul></p>
+    <p>This should seem familiar, as this is what we did in the first step of this tutorial when we
+			adjusted the <xmlelement>include</xmlelement> elements to integrate the default domains into
+			our new topic shell. We provided the URN for the modules from the entity resolution catalog
+			for each domain. </p>
+		<p>[PROVIDE THE URN FOR THE DBPARA DOMAIN HERE]</p>
+    <p>This tutorial did not show how to package your new shell as a Toolkit plugin. For that, see <xref
+      href="../../packaging-vocabulary-as-plugins.xml#topic-id"
+      format="dita"/>.</p>
+    <p>This tutorial shows how to create a topic type shell. Creating map type shells is exactly the same.</p>
+  </body>
+</subsection>
