@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>RNG Topic Type Shell Tutorial Step 1: Copy Existing Shell</title>
+  <body>
+		<p>Create a directory in your workspace to hold the new document type shell, e.g.,
+				<filepath>workspace/myTopicShell/rng</filepath>.</p>
+		<p>Find the file <filepath>topic.rng</filepath> in the technical content area of the standard
+			DITA 1.3 RNG distribution (<filepath>rng/technicalContent/rng/topic.rng</filepath> in the
+			files packaged with the Open Toolkit) and copy it into the
+				<filepath>workspace/myTopicShell/rng</filepath> directory as file
+				<filepath>myTopic.rng</filepath>.</p>
+		<p>The DITA 1.3 distribution includes two document type shells for
+				<xmlelement>topic</xmlelement>: <filepath>topic.rng</filepath> in the technical
+			documentation area, and <filepath>basetopic.rng</filepath> in the base area. The
+				<filepath>basetopic.rng</filepath> integrates fewer domains than the
+				<filepath>topic.rng</filepath> in the Technical Content area. To get experience removing
+			domain references, we will use the latter.</p>
+		<p>In the <filepath>myTopicShell</filepath> directory, create a new XML document named
+				<filepath>mytopic-test-rng.xml</filepath> that uses <filepath>myTopic.rng</filepath> as its
+			document type with this
+			content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;?xml-model href="rng/topic.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+&lt;topic id="topic-1">
+  &lt;title>Topic title&lt;/title>
+  &lt;body>
+    &lt;p>Topic paragraph&lt;/p>
+  &lt;/body>
+&lt;/topic></codeblock></p>
+		<p>This document serves as your test document to verify that you haven't made any syntax errors
+			in the new shell.</p>
+		<p id="href-fixup">Open this document in your XML editor (e.g., in OxygenXML) and attempt to
+			validate it. You should get an error message containing something similar to this:
+			<codeblock>{your working directory}\base\rng\topicMod.rng 
+(The system cannot find the path specified)</codeblock>Open
+				<filepath>topic.rng</filepath> and find a set of <xmlelement>include</xmlelement> elements.
+			You can either edit these paths to point the the <filepath>base</filepath> and
+				<filepath>technicalContent</filepath> directories in the DITA 1.3 distribution in your DITA
+			Open Toolkit, or you can use the URNs from the catalog entries. To do the latter, in each
+				<xmlelement>include</xmlelement>
+			<xmlatt>href</xmlatt> that points to the <filepath>base</filepath> directory, delete
+			everything before the filename. <note>For <filepath>hazardstatementDomain.rng</filepath>,
+				delete the string <q>statement</q> so that it reads <filepath>hazardDomain.rng</filepath>
+			</note>Finally, paste the following string to the beginning of each <xmlatt>href</xmlatt>:
+			<codeblock>urn:oasis:names:tc:dita:rng:</codeblock></p>
+		<p>These, for example,
+			<codeblock>    &lt;include href="abbreviateDomain.rng"/>
+    &lt;include href="../../base/rng/deliveryTargetAttDomain.rng" dita:since="1.3"/>
+    &lt;include href="equationDomain.rng" dita:since="1.3"/>
+    &lt;include href="../../base/rng/hazardstatementDomain.rng"/>
+...</codeblock>
+			Should become these:
+			<codeblock>  	&lt;include href="urn:oasis:names:tc:dita:rng:abbreviateDomain.rng"/>
+  	&lt;include href="urn:oasis:names:tc:dita:rng:deliveryTargetAttDomain.rng" dita:since="1.3"/>
+  	&lt;include href="urn:oasis:names:tc:dita:rng:equationDomain.rng" dita:since="1.3"/>
+  	&lt;include href="urn:oasis:names:tc:dita:rng:hazardDomain.rng"/></codeblock></p>
+		<p>Now your test file should validate. </p>
+	</body>
+</subsection>

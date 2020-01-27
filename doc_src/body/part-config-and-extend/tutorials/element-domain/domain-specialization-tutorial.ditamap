@@ -6,32 +6,38 @@
 	<chapter href="domain_specialization_tutorial.xml" collection-type="sequence"
 		keys="element-domain-specialization-tutorial">
 		<subsection href="domain-spec-process-overview.xml">
-		<subsection href="domain-spec-process-step-1.xml"/>
-		<subsection href="domain-spec-process-step-2.xml" collection-type="sequence">
-			<subsection href="domain-spec-process-step-2-1.xml"/>
-			<subsection href="domain-spec-process-step-2-2.xml"/>
-			<subsection href="domain-spec-process-step-2-3.xml"/>
-			<subsection href="domain-spec-process-step-2-4.xml"/>
-		</subsection>
-		<subsection href="domain-spec-process-step-3.xml" collection-type="sequence">
-			<subsection href="domain-spec-process-step-3-1.xml"/>
-			<subsection href="domain-spec-process-step-3-2.xml"/>
-			<subsection href="domain-spec-process-step-3-3.xml"/>
-		</subsection>
-		<subsection href="domain-spec-process-step-4.xml" collection-type="sequence">
-			<subsection href="domain-spec-process-step-4-1.xml"/>
-			<subsection href="domain-spec-process-step-4-2.xml"/>
-			<subsection href="domain-spec-process-step-4-3.xml"/>
-			<subsection href="domain-spec-process-step-4-4.xml"/>
-			<subsection href="domain-spec-process-step-4-5.xml"/>
-			<subsection href="domain-spec-process-step-4-6.xml"/>
-			<subsection href="domain-spec-process-step-4-7.xml"/>
-		</subsection>
+			<subsection href="domain-spec-process-step-1.xml"/>
+			<subsection href="domain-spec-process-step-2.xml" collection-type="sequence">
+				<subsection href="domain-spec-process-step-2-1.xml"/>
+				<subsection href="domain-spec-process-step-2-2.xml"/>
+				<subsection href="domain-spec-process-step-2-3.xml"/>
+				<subsection href="domain-spec-process-step-2-4.xml"/>
+			</subsection>
+			<subsection href="domain-spec-process-step-3.xml" collection-type="sequence">
+				<subsection href="domain-spec-process-step-3-1.xml"/>
+				<subsection href="domain-spec-process-step-3-2.xml"/>
+				<subsection href="domain-spec-process-step-3-3.xml"/>
+			</subsection>
+			<subsection href="domain-spec-process-step-4.xml" collection-type="sequence">
+				<subsection href="domain-spec-process-step-4-1.xml"/>
+				<subsection href="domain-spec-process-step-4-2.xml"/>
+				<subsection href="domain-spec-process-step-4-3.xml"/>
+				<subsection href="domain-spec-process-step-4-4.xml"/>
+				<subsection href="domain-spec-process-step-4-5.xml"/>
+				<subsection href="domain-spec-process-step-4-6.xml"/>
+				<subsection href="domain-spec-process-step-4-7.xml"/>
+			</subsection>
 		</subsection>
 		<subsection href="domain-spec-xsd.xml">
 			<subsection href="domain-spec-xsd-step-1.xml"/>
 			<subsection href="domain-spec-xsd-step-2.xml"/>
 		</subsection>
+		<?oxy_insert_start author="jdwin" timestamp="20200123T143357-0500"?>
+		<topicref href="domain-spec-rng.xml">
+			<topicref href="domain-spec-rng-step-1.xml"/>
+			<topicref href="domain-spec-rng-step-2.xml"/>
+		</topicref>
+		<?oxy_insert_end?>
 		<subsection href="domain-spec-process-step-5.xml" collection-type="sequence">
 			<subsection href="domain-spec-process-step-5-1.xml"/>
 			<subsection href="domain-spec-process-step-5-2.xml"/>
