@@ -17,9 +17,9 @@
 			URLs from the shell XSD to the module so you don't have to set up an entity resolution catalog
 			just to test the module. For example, you can just copy the topic.xsd file from the standard
 			DITA schema files.</p>
-		<p>To integrate the new domain and its elements into your concept topic type, you simply include a
-			reference to <filepath>dbParaDomain.xsd</filepath>, then include the groups that refer to the
-			elements themselves.</p>
+		<p>To integrate the new domain and its elements into your concept topic type, you simply include
+			a reference to <filepath>dbParaDomain.xsd</filepath>, then include the groups that refer to
+			the elements themselves.</p>
 		<p>In your shell XSD, find the section marked <codeph>TOPIC DOMAINS</codeph> and add a new
 				<xmlelement>xs:include</xmlelement>:
 			<codeblock>&lt;!-- ================ TOPIC DOMAINS ===================== -->
@@ -56,6 +56,7 @@
 		<p>You should be able to add a <xmlelement>para</xmlelement> to your test document in any
 			location where a <xmlelement>p</xmlelement> is valid. You should also be able to include a
 				<xmlelement>wordasword</xmlelement> element anywhere a <xmlelement>keyword</xmlelement> can
-			occur. </p>
+			occur.
+			<?oxy_comment_start author="jdwin" timestamp="20200127T144241-0500" comment="Note that I am leaving off the step of incorporating a catalog, because it would not be parallel with the DTD version of this tutorial."?></p><?oxy_comment_end?>
 	</body>
 </subsection>
