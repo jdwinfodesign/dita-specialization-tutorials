@@ -69,12 +69,13 @@
 			<?oxy_delete author="jdwin" timestamp="20200117T123348-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200117T123348-0500"?>dbPara<?oxy_insert_end?>
 			domain is:<dl>
 				<dlentry>
-					<dt>.xsd file URN:</dt>
+					<dt><?oxy_comment_start author="jdwin" timestamp="20200127T145916-0500" comment="I could not make this work as written. Instead, I used the path to the dbParaDomain.xsd as the @schemaLocation in the topic shell XSD.
+I could not grok the continuity/parallelism between the DTD and XSD versions of the topic shell and element domain tutorials, so defer to you."?>.xsd
+						file URN:</dt>
 					<dd><q>urn:pubid:exmple.org:doctypes:dita:modules:<?oxy_delete author="jdwin" timestamp="20200117T123401-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200117T123402-0500"?>dbPara<?oxy_insert_end?>Domain</q></dd>
 				</dlentry>
 				<dlentry>
-					<dt><?oxy_comment_start author="jdwin" timestamp="20200117T123433-0500" comment="TBD after domain element XSD version."?>domain
-						extension groups</dt>
+					<dt>domain extension groups</dt>
 					<dd><q>xml-d-keyword</q></dd>
 				</dlentry>
 				<dlentry>
