@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Specialization: RNG Version</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>topic specialization<indexterm>XSD</indexterm></indexterm>
+        <indexterm>XSD<indexterm>topic specialization</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The process for creating an XSD version of the FAQ question topic type is as follows (assuming you have already created the final DTD version of the faq-question topic type):<ol>
+      <li>Create the directory <filepath>faq-question/xsd</filepath> in your working area.</li>
+      <li>Copy the files <filepath>concept.xsd</filepath>, <filepath>conceptGrp.xsd</filepath>, and <filepath>conceptMod.xsd</filepath> from the base DITA schema set to the <filepath>faq-question/xsd</filepath> directory.</li>
+      <li>Rename the files from <q>concept*</q> to <q>faq-question*,</q> resulting in
+                        <filepath>faq-question.xsd</filepath>,
+                        <filepath>faq-questionGrp.xsd</filepath>, and
+                        <filepath>faq-questionMod.xsd</filepath>.</li>
+      <li>Copy the <filepath>catalog.xml</filepath> file from the <filepath>dtd</filepath> directory into the <filepath>xsd</filepath> directory.</li>
+      <li>Edit <filepath>xsd/catalog.xml</filepath> and change it as follows:<ol>
+        <li>Change <q>.dtd</q> to <q>.xsd</q></li>
+        <li>Change <q>.mod</q> to <q>Mod.xsd</q></li>
+        <li>Change <q>.ent</q> to <q>Grp.xsd</q></li>
+        <li>In the public identifiers, append the corresponding last part of the filename to the end
+                            of the URN, e.g.
+                                <q>urn:pubid:example.org:doctypes:dita:modules:faq-question</q>
+                            becomes
+                                <q>urn:pubid:example.org:doctypes:dita:modules:faq-questionMod.xsd</q></li>
+        <li>Copy all the <xmlelement>public</xmlelement> elements and change <q>public</q> to <q>uri</q>
+                            and the <q>publicId</q> attributes to <q>name.</q><p>This is necessary
+                                because the Apache Xerces parser incorrectly uses public ID
+                                resolution to resolve XSD schema locations. It should use URI
+                                entries (because schema locations are URIs and not entity
+                                references, they should be resolved through URI entries in
+                                catalogs). Other systems that use the catalog will likely do the
+                                correct thing and use URI entries to resolve schema locations. So
+                                you need both forms of entry.</p><p>If you want to cover all bases you can
+                                make yet another copy of the entries and change
+                                    <xmlelement>public</xmlelement> to <xmlelement>system</xmlelement> and
+                                    <q>publicId</q> to <q>systemId.</q> That covers the case where a
+                                processor treats a schema location as a system ID rather than a URI.
+                                That would also be wrong but some systems may do it.</p></li>
+        </ol></li>
+      <li>Edit the <filepath>faq-question/catalog.xml</filepath> file, copy the
+                        <xmlelement>nextCatalog</xmlelement> element and change <q>dtd</q> to <q>xsd</q>
+                    in the new copy, resulting in this catalog
+                    file:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  
+  &lt;nextCatalog catalog="dtd/catalog.xml"/>
+  &lt;nextCatalog catalog="xsd/catalog.xml"/>
+  
+&lt;/catalog></codeblock></li>
+      <li>Copy one of the faq-question test documents to test the XSD document type shell. Modify it
+                    as follows:<ol>
+                        <li>Delete the DOCTYPE declaration from the top of the file.</li>
+                        <li>Add the following attributes to the <xmlelement>faq-question</xmlelement>
+                                element:<codeblock>&lt;?xml version="1.0"?>          
+&lt;faq-question 
+  <b>xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</b>
+  <b>xsi:noNamespaceSchemaLocation="xsd/faq-question.xsd"</b>
+  id="question-id">
+ 
+  ...
+
+&lt;/faq-question>
+</codeblock><p>Where
+                                the value of the <xmlatt>xsi:noNamespaceSchemaLocation</xmlatt>
+                                reflects the appropriate relative URL to the
+                                    <filepath>faq-question.xsd</filepath> file.</p><p>The document
+                                should not be valid at this point because the
+                                    <filepath>faq-question.xsd</filepath> file is just an unmodified
+                                copy of the concept XSD shell.</p></li>
+                    </ol></li>
+      <li>Edit <filepath>faq-question.xsd</filepath> and modify it as follows:<ol>
+                        <li>Replace the header comment with something that reflects your
+                            ownership.</li>
+                        <li>Remove the domain module inclusions for all but the highlight and
+                            utility domains, leaving just these
+                            declarations:<codeblock>  &lt;!--  ================ TOPIC DOMAINS INLCUSION =====================  -->
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2"/>
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.2"/>
+
+  &lt;!--  ================ CONCEPT GROUP DEFINITION=====================  -->
+</codeblock></li>
+                        <li>After the <q>CONCEPT GROUP DEFINITION</q> comment, add a reference to
+                            the <filepath>faq-questionGrp.xsd</filepath>
+                            file:<codeblock>  &lt;!--  ================ CONCEPT GROUP DEFINITION=====================  -->
+  <b>&lt;xs:include schemaLocation="faq-questionGrp.xsd"/></b>
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptGrp.xsd:1.2"/>
+</codeblock></li>
+                        <li>From the <xmlelement>xs:redefine</xmlelement> element, delete all the groups
+                            except the groups for <q>ph</q> and
+                            <q>fig</q>:<codeblock>  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2">
+
+    &lt;xs:group name="ph">
+      &lt;xs:choice>
+        &lt;xs:group ref="ph"/>
+        &lt;xs:group ref="pr-d-ph" />
+        &lt;xs:group ref="ui-d-ph" />
+        &lt;xs:group ref="hi-d-ph" />
+        &lt;xs:group ref="sw-d-ph" />
+      &lt;/xs:choice>
+    &lt;/xs:group>
+
+    &lt;xs:group name="fig">
+      &lt;xs:choice>
+        &lt;xs:group ref="fig"/>
+        &lt;xs:group ref="pr-d-fig"/>
+        &lt;xs:group ref="ut-d-fig" />
+      &lt;/xs:choice>
+    &lt;/xs:group >
+    
+  &lt;/xs:redefine></codeblock></li>
+                        <li>From the group for <q>ph,</q> delete the group references for pr-d-ph,
+                            ui-d-ph, and sw-d-ph, leaving this group
+                            definition:<codeblock>    &lt;xs:group name="ph">
+      &lt;xs:choice>
+        &lt;xs:group ref="ph"/>
+        &lt;xs:group ref="hi-d-ph" />
+      &lt;/xs:choice>
+    &lt;/xs:group>
+</codeblock></li>
+                        <li>From the group for <q>fig</q> delete the group reference for pr-d-fig,
+                            leaving this group
+                            definition:<codeblock>    &lt;xs:group name="fig">
+      &lt;xs:choice>
+        &lt;xs:group ref="fig"/>
+        &lt;xs:group ref="ut-d-fig" />
+      &lt;/xs:choice>
+    &lt;/xs:group ></codeblock></li>
+                        <li>After the include for the conceptMod.xsd file, add an include of the
+                            faq-questionMod.xsd
+                            file:<codeblock>  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.2" />  
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptMod.xsd:1.2" />
+  <b>&lt;xs:include schemaLocation="faq-questionMod.xsd" /></b></codeblock></li>
+                        <li>Modify the default value of the <xmlatt>domains</xmlatt> attribute to
+                            reflect the domains and topic types actually
+                            used:<codeblock>  &lt;xs:attributeGroup name="domains-att">
+    &lt;xs:attribute name="domains" type="xs:string" 
+      default="<b>(topic hi-d) (topic ut-d) (topic concept faq-question)</b>"/>
+  &lt;/xs:attributeGroup></codeblock></li>
+                    </ol><p>At this point, the test document is still not valid. When you validate
+                        it you should see messages about the schema containing two occurrences of
+                        global components (concept, conbody, etc.), since
+                            <filepath>faq-questionMod.xsd</filepath> is still just a copy of
+                            <filepath>conceptMod.xsd</filepath>. </p></li>
+      <li> Edit <filepath>faq-questionGrp.xsd</filepath> and modify it as follows:<ol>
+        <li>Replace the header comment with one that reflects your ownership.</li>
+        <li>Change <q>concept</q> to <q>faq-question.</q></li>
+        <li>Change <q>conbody</q> to <q>faq-answer-details.</q></li>
+        <li>Make two copies of one of the groups to create new groups for faq-short-answer and faq-question-statement</li>
+        </ol><p>The resulting XSD file should look like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- =============================================================
+     FAQ Question topic type element-type group definitions
+     
+     Copyright (c) 2011 Your Name Here
+     ============================================================= -->
+
+&lt;xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+  &lt;xs:group name="faq-question">
+      &lt;xs:sequence>
+         &lt;xs:choice>
+            &lt;xs:element ref="faq-question"/>
+         &lt;/xs:choice>
+      &lt;/xs:sequence>
+   &lt;/xs:group>
+
+  &lt;xs:group name="faq-answer-details">
+      &lt;xs:sequence>
+         &lt;xs:choice>
+           &lt;xs:element ref="faq-answer-details"/>
+         &lt;/xs:choice>
+      &lt;/xs:sequence>
+   &lt;/xs:group>
+
+  &lt;xs:group name="faq-short-answer">
+    &lt;xs:sequence>
+      &lt;xs:choice>
+        &lt;xs:element ref="faq-short-answer"/>
+      &lt;/xs:choice>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+  &lt;xs:group name="faq-question-statement">
+    &lt;xs:sequence>
+      &lt;xs:choice>
+        &lt;xs:element ref="faq-question-statement"/>
+      &lt;/xs:choice>
+    &lt;/xs:sequence>
+  &lt;/xs:group>
+  
+&lt;/xs:schema></codeblock></p><p>Validate the test document again. This time you should get messages about being unable to resolve the references to the FAQ-specific element types referenced from the groups you just created.</p></li>
+      <li>Edit <filepath>faq-questionMod.xsd</filepath> and modify it as follows:<ol>
+        <li>Replace the header comment with one that reflects your ownership.</li>
+        <li>Modify the <xmlelement>xs:annotation</xmlelement> element to add <q> faq-question</q> to the
+                            domains value
+                            string:<codeblock>   &lt;xs:annotation>
+    &lt;xs:appinfo>
+      &lt;dita:domainsModule xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+        >(topic concept<b> faq-question</b>)&lt;/dita:domainsModule>
+    &lt;/xs:appinfo>
+    &lt;xs:documentation> 
+    
+    &lt;/xs:documentation>
+  &lt;/xs:annotation></codeblock></li>
+        <li>Make the global change <q>concept.</q> to <q>faq-question.</q>  and <q>conbody.</q> to
+                                <q>"faq-answer-details."</q> (note: the trailing <q>.</q> is very
+                                important).<p>This changes all the building blocks for
+                                    <xmlelement>concept</xmlelement> and <xmlelement>conbody</xmlelement> to
+                                their FAQ question equivalents. The trailing <q>.</q> is essential
+                                because you do not want to change <q>concept</q> or <q>conbody</q>
+                                where it occurs in <xmlatt>class</xmlatt> attribute values.</p></li>
+        <li>In the element type declaration for <q>concept,</q> change
+                                <codeph>name="concept"</codeph> to
+                                <codeph>name="faq-question"</codeph>.</li>
+        <li>In the value of the <xmlatt>class</xmlatt> attribute, append <q>
+                                faq-question/faq-question </q> to the end of the default value.</li>
+        <li>Update the documentation to reflect the semantics for <xmlelement>faq-question</xmlelement>. <p>The resulting declaration should look like this:<codeblock>  &lt;xs:element name="faq-question">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        The &amp;lt;&lt;keyword>faq-question&lt;/keyword>&amp;gt; element is the top-level
+        element for a topic that represents a single question/answer pair representing
+        a single question in a set of frequently asked questions.
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="faq-question.class">
+          &lt;xs:attribute ref="class" default="- topic/topic concept/concept faq-question/faq-question "/>
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+</codeblock></p></li>
+        <li>Modify the <xmlelement>xs:element</xmlelement> for <q>conbody</q> to reflect the
+                                <xmlelement>faq-answer-details</xmlelement>, resulting in this element
+                            declaration:<codeblock>  &lt;xs:element name="<b>faq-answer-details</b>">
+    &lt;xs:annotation>
+      &lt;xs:documentation>
+        <b>The &amp;lt;&lt;keyword>faq-answer-details&lt;/keyword>&amp;gt; element is the main body-level
+        element for an faq-question. It holds any additional details for the FAQ question.
+        Note that the first paragraph of the question answer is always held in the
+        &lt;keyword>faq-short-answer&lt;/keyword> element.</b>
+      &lt;/xs:documentation>
+    &lt;/xs:annotation>
+    &lt;xs:complexType>
+      &lt;xs:complexContent>
+        &lt;xs:extension base="<b>faq-answer-details</b>.class">
+          &lt;xs:attribute ref="class" 
+            default="- topic/body concept/conbody<b> faq-question/faq-answer-details</b> "/>
+        &lt;/xs:extension>
+      &lt;/xs:complexContent>
+    &lt;/xs:complexType>
+  &lt;/xs:element></codeblock></li>
+        <li>Change the group <q>concept-info-types</q> to <q>faq-question-info-types,</q> removing
+                            the reference to the <q>concept</q>
+                            group:<codeblock>  &lt;xs:group name="<b>faq-question-info-types</b>">
+    &lt;xs:choice>
+      &lt;xs:group ref="info-types" />
+      <b>&lt;!-- Removed reference to concept topic type --></b>
+    &lt;/xs:choice>
+  &lt;/xs:group>
+</codeblock></li>
+        <li>Find the group <q>faq-question.content</q> (created by the global change you made
+                            earlier) and modify it to reflect the content model for
+                                <xmlelement>faq-question</xmlelement>:<codeblock>   &lt;xs:group name="<b>faq-question.content</b>">
+     &lt;xs:sequence>
+       &lt;xs:sequence>
+          &lt;xs:group ref="<b>faq-question-statement</b>"/>
+          &lt;xs:group ref="titlealts" minOccurs="0"/>
+          &lt;xs:choice minOccurs="<b>1</b>">
+            &lt;xs:group ref="<b>faq-short-answer</b>" />
+            <b>&lt;!-- Removed reference to abstract --></b>
+          &lt;/xs:choice>
+          &lt;xs:group ref="prolog" minOccurs="0"/>
+          &lt;xs:group ref="<b>faq-answer-details</b>" minOccurs="0"/>
+          &lt;xs:group ref="related-links" minOccurs="0"/>
+          &lt;xs:group ref="<b>faq-question-info-types</b>" minOccurs="0" maxOccurs="unbounded"/>
+        &lt;/xs:sequence>
+     &lt;/xs:sequence>
+   &lt;/xs:group></codeblock></li>
+        <li>Copy the <xmlelement>xs:element</xmlelement> for <q>faq-answer-details</q> and rename it
+                                <q>faq-question-statement. </q>Change <q>faq-answer-details</q> to
+                                <q>faq-question-statement</q> and change the
+                                <xmlatt>domains</xmlatt> attribute value to <q>- topic/title
+                                concept/title faq-question/faq-question-statement
+                            </q>:<codeblock>   &lt;xs:element name="faq-question-statement">
+     &lt;xs:annotation>
+       &lt;xs:documentation>
+         The &amp;lt;&lt;keyword>faq-question-statement&lt;/keyword>&amp;gt; element holds
+         the question part of the question/answer pair (it is the FAQ topic's
+         title).
+       &lt;/xs:documentation>
+     &lt;/xs:annotation>
+     &lt;xs:complexType>
+       &lt;xs:complexContent>
+         &lt;xs:extension base="faq-question-statement.class">
+           &lt;xs:attribute ref="class" 
+             default="- topic/title concept/title faq-question/faq-question-statement "/>
+         &lt;/xs:extension>
+       &lt;/xs:complexContent>
+     &lt;/xs:complexType>
+   &lt;/xs:element></codeblock></li>
+        <li>Copy the <xmlelement>xs:element</xmlelement> for <q>faq-answer-details</q> and rename it
+                                <q>faq-short-answer.</q> Change <q>faq-answer-details</q> to
+                                <q>faq-short-answer</q> and change the <xmlatt>domains</xmlatt>
+                            attribute value to <q>- topic/shortdesc concept/shortdesc
+                                faq-question/faq-short-answer
+                            </q>:<codeblock>   &lt;xs:element name="faq-short-answer">
+     &lt;xs:annotation>
+       &lt;xs:documentation>
+         The &amp;lt;&lt;keyword>faq-short-answer&lt;/keyword>&amp;gt; element holds
+         the first or only paragraph of the answer. This is the short description
+         for the topic.
+       &lt;/xs:documentation>
+     &lt;/xs:annotation>
+     &lt;xs:complexType>
+       &lt;xs:complexContent>
+         &lt;xs:extension base="faq-short-answer.class">
+           &lt;xs:attribute ref="class" 
+             default="- topic/shortdesc concept/shortdesc faq-question/faq-short-answer "/>
+         &lt;/xs:extension>
+       &lt;/xs:complexContent>
+     &lt;/xs:complexType>
+   &lt;/xs:element></codeblock></li>
+        <li>Open the file <filepath>commonElementMod.xsd</filepath> from the standard DITA schema
+                            distribution and find the <xmlelement>xs:complexType</xmlelement> declaration
+                            for <q>title.class.</q> Copy the complexType, title.content group, and
+                            title.attributes group and paste it into
+                                <filepath>faq-questionMod.xsd</filepath>.</li>
+        <li>Change <q>title.</q> to <q>faq-question-statement.</q> in the newly-pasted components
+                            except for the reference to <q>title.cnt.</q> The resulting declarations
+                            should
+                            be:<codeblock>   &lt;xs:complexType name="<b>faq-question-statement.class</b>" mixed="true">
+     &lt;xs:sequence>
+       &lt;xs:group ref="<b>faq-question-statement.content</b>"/>
+     &lt;/xs:sequence>
+     &lt;xs:attributeGroup ref="<b>faq-question-statement.attributes</b>"/>
+   &lt;/xs:complexType>
+   &lt;xs:group name="<b>faq-question-statement.content</b>">
+     &lt;xs:sequence>
+       &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+         &lt;xs:group ref="title.cnt" minOccurs="0"/>
+       &lt;/xs:choice>
+     &lt;/xs:sequence>
+   &lt;/xs:group>
+   &lt;xs:attributeGroup name="<b>faq-question-statement.attributes</b>">
+     &lt;xs:attribute name="outputclass" type="xs:string"/>
+     &lt;xs:attribute name="base" type="xs:string"/>
+     &lt;xs:attributeGroup ref="base-attribute-extensions"/>
+     &lt;xs:attributeGroup ref="id-atts"/>
+     &lt;xs:attributeGroup ref="localization-atts"/>
+     &lt;xs:attributeGroup ref="global-atts"/>
+   &lt;/xs:attributeGroup></codeblock></li>
+        <li>From the <filepath>commonElementMod.xsd</filepath> find the
+                                <xmlelement>xs:complexType</xmlelement> declaration for
+                                <q>shortdesc.class.</q> Copy the complexType, title.content group,
+                            and title.attributes group and paste it into
+                                <filepath>faq-questionMod.xsd</filepath>.</li>
+        <li>Change <filepath>shortdesc.</filepath> to <filepath>faq-short-answer.</filepath>
+                            everywhere, resulting in this set of
+                            declarations:<codeblock>   &lt;xs:complexType name="faq-short-answer.class" mixed="true">
+     &lt;xs:sequence>
+       &lt;xs:group ref="faq-short-answer.content"/>
+     &lt;/xs:sequence>
+     &lt;xs:attributeGroup ref="faq-short-answer.attributes"/>
+   &lt;/xs:complexType>
+   &lt;xs:group name="faq-short-answer.content">
+     &lt;xs:sequence>
+       &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
+         &lt;xs:group ref="title.cnt" minOccurs="0"/>
+         &lt;xs:group ref="draft-comment" minOccurs="0"/>
+       &lt;/xs:choice>
+     &lt;/xs:sequence>
+   &lt;/xs:group>
+   &lt;xs:attributeGroup name="faq-short-answer.attributes">
+     &lt;xs:attribute name="outputclass" type="xs:string"/>
+     &lt;xs:attributeGroup ref="univ-atts"/>
+     &lt;xs:attributeGroup ref="global-atts"/>
+   &lt;/xs:attributeGroup></codeblock></li>
+        </ol></li>
+      <li>Validate the test document. It should be valid.<p>At this point the new topic type
+                        declarations are correct, but to make them usable you need to replace all
+                        the local URL references with the URNs defined in the entity resolution
+                        catalog.</p><p>If you have already packaged the DTD version of the module as
+                        a Toolkit plugin, you can simply redeploy the plugin to hook in the updated
+                        catalog for the XSD components. If you haven't packaged it as a Toolkit
+                        plugin, you should do so now. </p></li>
+      <li>Edit the test document and change the <xmlatt>xsi:noNamespaceSchemaLocation</xmlatt> value
+                    to the URN you associated with the <filepath>faq-question.xsd</filepath> file,
+                    for
+                        example:<codeblock>&lt;faq-question 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="urn:pubid:example.org:doctypes:dita:faq-question.xsd"
+ id="question-id">
+ 
+ ...
+
+&lt;/faq-question></codeblock><p>Validate
+                        the document. Assuming that you've deployed the new catalog correctly or
+                        otherwise hooked up the catalog into your validation system, the document
+                        should be valid. </p></li>
+      <li>Edit <filepath>faq-question.xsd</filepath> and modify the references to the <filepath>faq-questionGrp.xsd</filepath> and <filepath>faq-questionMod.xsd</filepath> files to use the corresponding URNs from the entity resolution catalog:<codeblock>  ...
+
+  &lt;!--  ================ CONCEPT GROUP DEFINITION=====================  -->
+  &lt;xs:include schemaLocation="<b>urn:pubid:example.org:doctypes:dita:modules:entities:faq-questionGrp.xsd</b>"/>
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptGrp.xsd:1.2"/>
+
+  ...
+
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.2" />  
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptMod.xsd:1.2" />
+  &lt;xs:include schemaLocation="<b>urn:pubid:example.org:doctypes:dita:modules:faq-questionMod.xsd</b>" />
+
+  ...</codeblock></li>
+      <li>Redeploy the Toolkit plugin and validate the test document. It should be valid.</li>
+      </ol></p>
+  </body>
+</subsection>

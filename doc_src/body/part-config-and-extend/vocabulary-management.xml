@@ -20,10 +20,11 @@
         facility of HyTime. DITA's specialization feature was directly influenced by HyTime and the
         way we applied it within IBM to the IBMIDDoc SGML application.</fn></p>
     <p>Before DITA, all mechanisms for combining or extending vocabularies were entirely
-      syntactic—they provided no way to examine a <i>document</i> and know how that document's
-      vocabulary related with any other vocabulary. Therefore, there was no way you could, for sure,
-      whether your processing environment could handle that document, or if you could share content
-      from that document with your documents.</p>
+			syntactic—they provided no way to examine a <i>document</i> and know how that document's
+			vocabulary related with any other vocabulary. Therefore, there was no way you
+			could<?oxy_insert_start author="jdwin" timestamp="20200103T145339-0500"?>
+			know<?oxy_insert_end?>, for sure, whether your processing environment could handle that
+			document, or if you could share content from that document with your documents.</p>
     <p>For example, DocBook supports extension by providing the syntactic hooks
       needed to locally modify the content model. This allows you to define your
       own element and attribute types. However, once you have done that, you no
@@ -53,3 +54,4 @@
       interchange document types do not work. </p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

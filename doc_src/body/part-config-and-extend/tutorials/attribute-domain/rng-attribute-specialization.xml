@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+	id="topic-id">
+	<title>Attribute Specialization: RNG Version</title>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>XSD<indexterm>attribute specialization module</indexterm></indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<body>
+	</body>
+</subsection>

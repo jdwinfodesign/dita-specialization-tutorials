@@ -16,5 +16,6 @@
       href="constraint-domain-dtd-step-5.xml"/>
     <subsection
       href="creating-an-xsd-constraint-module.xml"/>
+  	<subsection href="creating-an-rng-constraint-module.xml"/>
   </chapter>
 </pub-component-map>

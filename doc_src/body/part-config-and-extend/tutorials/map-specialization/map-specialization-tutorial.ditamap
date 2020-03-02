@@ -24,5 +24,7 @@
       <subsection
         href="map-specialization-xsd-step-2.xml"/>
     </subsection>
+  	<subsection
+  		href="map-specialization-rng.xml"/>
   </chapter>
 </pub-component-map>

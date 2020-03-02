@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+	id="topic-id">
+	<title>Topic Constraint Module: XSD-Syntax Version</title>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>constraint module<indexterm>XSD syntax</indexterm></indexterm>
+				<indexterm>XSD syntax<indexterm>constraint module</indexterm></indexterm>
+				<indexterm>content models<indexterm>constraining</indexterm></indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<body>
+	</body>
+</subsection>
