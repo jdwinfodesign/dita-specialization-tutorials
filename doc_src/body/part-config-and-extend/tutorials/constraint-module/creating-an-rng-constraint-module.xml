@@ -2,12 +2,12 @@
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
 <subsection
 	id="topic-id">
-	<title>Topic Constraint Module: XSD-Syntax Version</title>
+	<title>Topic Constraint Module: RNG-Syntax Version</title>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>constraint module<indexterm>XSD syntax</indexterm></indexterm>
-				<indexterm>XSD syntax<indexterm>constraint module</indexterm></indexterm>
+				<indexterm>constraint module<indexterm>RNG syntax</indexterm></indexterm>
+				<indexterm>RNG syntax<indexterm>constraint module</indexterm></indexterm>
 				<indexterm>content models<indexterm>constraining</indexterm></indexterm>
 			</keywords>
 		</metadata>
