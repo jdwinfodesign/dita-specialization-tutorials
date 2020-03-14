@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
-<subsection
-	id="topic-id">
+<subsection id="topic-id">
 	<title>Topic Constraint Module: RNG-Syntax Version</title>
 	<prolog>
 		<metadata>
@@ -13,5 +12,101 @@
 		</metadata>
 	</prolog>
 	<body>
+		<p>In this tutorial, we will constrain the content of <xmlelement>p</xmlelement>, as in the
+			tutorials on DTD and XSD syntax, to text, <xmlelement>b</xmlelement>,
+				<xmlelement>i</xmlelement>, and <xmlelement>u</xmlelement>, and disallow
+				<xmlelement>keyword</xmlelement>. Doing this in RNG is much simpler than either of the other
+			grammar languages.</p>
+		<p>
+			<ol id="ol_ogg_tc2_1lb">
+				<li>First, create a directory for the new RNG and XML files:
+						<filepath>highlight-only-topic-constraint</filepath>.</li>
+				<li>From the RNG directory of the DITA 1.3 distribution, copy <filepath>topic.rng</filepath>
+					and save in the new directory as
+					<filepath>topic-with-highlight-constraint.rng</filepath>.</li>
+				<li>Create a new XML document and save as <filepath>constraint-test.xml</filepath>. Paste
+					the following content into the new file:
+					<codeblock>&lt;?xml version='1.0' encoding='UTF-8'?>
+&lt;?xml-model href="topic-with-highlight-constraint.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+&lt;topic id="topic-1">
+  &lt;title>Test of Paragraph Constraint&lt;/title>
+    &lt;body>
+      &lt;p>Allowed: &lt;i>i&lt;/i>, &lt;b>b&lt;/b>, and &lt;u>u&lt;/u>. Not allowed: &lt;keyword>keyword&lt;/keyword>.&lt;/p>
+    &lt;/body>
+&lt;/topic></codeblock></li>
+				<li>If you try to validate the test document now, you will get a "File Not Found" exception,
+					because your topic shell is not pointing to all the RNG files it depends on. So, correct
+					the relative paths in the INCLUDE MODULES <xmlelement>div</xmlelement> or replace them
+					with URNs as in the
+					following:<codeblock>&lt;div>
+  &lt;a:documentation>INCLUDE MODULES&lt;/a:documentation>
+  &lt;include href="urn:oasis:names:tc:dita:rng:topicMod.rng">
+    &lt;define name="topic-info-types">
+      &lt;ref name="topic.element"/>
+    &lt;/define>
+  &lt;/include>
+  &lt;include href="urn:oasis:names:tc:dita:rng:abbreviateDomain.rng"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:deliveryTargetAttDomain.rng" dita:since="1.3"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:equationDomain.rng" dita:since="1.3"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:highlightDomain.rng"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:indexingDomain.rng"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:markupDomain.rng" dita:since="1.3"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:mathmlDomain.rng" dita:since="1.3"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:releaseManagementDomain.rng" dita:since="1.3"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:svgDomain.rng" dita:since="1.3"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:utilitiesDomain.rng"/>
+  &lt;include href="urn:oasis:names:tc:dita:rng:xmlDomain.rng" dita:since="1.3"/>
+&lt;/div></codeblock>Your
+					file should now be valid.</li>
+				<li>Search the DITA 1.3 RNG plugin for <q>&lt;define name="p.content"></q>, which should appear
+					in <filepath>commonElementsMod.rng</filepath>, then copy the definition and paste it into
+					your topic shell as in the following bold
+					text.<codeblock>&lt;div>
+   &lt;a:documentation>INCLUDE MODULES&lt;/a:documentation>
+   &lt;include href="urn:oasis:names:tc:dita:rng:topicMod.rng">
+    &lt;define name="topic-info-types">
+      &lt;ref name="topic.element"/>
+   &lt;/define>
+  <b>
+    &lt;define name="p.content">
+      &lt;zeroOrMore>
+        &lt;ref name="para.cnt"/>
+      &lt;/zeroOrMore>
+    &lt;/define></b>
+    ...
+  &lt;/include>
+  ...
+&lt;/div></codeblock>This
+					change by itself does not make the change we want. To do that, we need to copy the
+					definition of <filepath>para.cnt</filepath> and add it so the entire
+						<xmlelement>include</xmlelement> in your topic shell looks like the
+					following.<codeblock>&lt;a:documentation>INCLUDE MODULES&lt;/a:documentation>
+&lt;include href="urn:oasis:names:tc:dita:rng:topicMod.rng">
+  &lt;define name="topic-info-types">
+    &lt;ref name="topic.element"/>
+  &lt;/define>
+
+<b>  &lt;define name="p.content">
+    &lt;zeroOrMore>
+      &lt;ref name="para.cnt"/>
+    &lt;/zeroOrMore>
+  &lt;/define>
+
+  &lt;define name="para.cnt">
+    &lt;choice>
+       &lt;text/>
+      &lt;ref name="b"/>
+      &lt;ref name="i"/>
+      &lt;ref name="u"/>
+    &lt;/choice>
+  &lt;/define></b>
+&lt;/include></codeblock></li>
+				<li>Save the topic shell and validate your test file. You should get an error like the
+					following:
+					<codeblock>element "keyword" not allowed here; expected the element end-tag, text or element "b", "i" or "u"</codeblock>
+					If you comment out the <xmlelement>keyword</xmlelement> element in your test file, it
+					should be valid.</li>
+			</ol>
+		</p>
 	</body>
 </subsection>
