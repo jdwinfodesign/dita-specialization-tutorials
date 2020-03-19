@@ -67,4 +67,3 @@
 		<?oxy_delete author="jdwin" timestamp="20200319T125105-0400" content="&lt;p&gt;This example is a topic shell that integrates only the attribute domain. In practice you would normally include a number of element domains in addition to any attribute domains.&lt;/p&gt;"?>
 	</body>
 </subsection>
-<?oxy_options track_changes="on"?>
