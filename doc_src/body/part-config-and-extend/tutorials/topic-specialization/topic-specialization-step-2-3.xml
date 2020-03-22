@@ -11,45 +11,64 @@
                     owned by you and contains the DTD declarations for the FAQ question module.</li>
       </ul></p>
     <p>Now edit the <filepath>faq-question.dtd</filepath> file (the document type shell DTD) and integrate the module as follows: <ol>
-      <li>Find the declaration for the <parameterentity>concept-typemod</parameterentity> entity declaration.</li>
+      <li>Find the declaration for the
+						<parameterentity>concept-type<?oxy_delete author="jdwin" timestamp="20200320T133337-0400" content="mod"?></parameterentity>
+					entity declaration.</li>
       <li><i>After</i> this declaration, add the following declaration and reference to the
-                    faq-question topic type module:
-                    <codeblock>
-&lt;!ENTITY % faq-question-typemod 
+					faq-question topic type module:
+					<codeblock>
+&lt;!ENTITY % faq-question-type<?oxy_delete author="jdwin" timestamp="20200320T133348-0400" content="mod"?> 
   SYSTEM "faq-question.mod"                                                        
  >                                                     
-%faq-question-typemod; </codeblock></li>
+%faq-question-type<?oxy_delete author="jdwin" timestamp="20200320T133352-0400" content="mod"?>; </codeblock></li>
       </ol></p>
     <p>The topic element integration section of the <filepath>faq-question.dtd</filepath> shell
-            should now look like this:
-            <codeblock>
-&lt;!-- ============================================================= -->
-&lt;!--                    TOPIC ELEMENT INTEGRATION                  -->
-&lt;!-- ============================================================= -->
+			should now look like this:
+			<?oxy_delete author="jdwin" timestamp="20200320T133436-0400" content="&lt;codeblock&gt;
+&amp;lt;!-- ============================================================= --&gt;
+&amp;lt;!--                    TOPIC ELEMENT INTEGRATION                  --&gt;
+&amp;lt;!-- ============================================================= --&gt;
 
-&lt;!--                    Embed topic to get generic elements        -->
-&lt;!ENTITY % topic-type   PUBLIC 
-"-//OASIS//ELEMENTS DITA Topic//EN" 
-"topic.mod"                                                          >
+&amp;lt;!--                    Embed topic to get generic elements        --&gt;
+&amp;lt;!ENTITY % topic-type   PUBLIC 
+&quot;-//OASIS//ELEMENTS DITA Topic//EN&quot; 
+&quot;topic.mod&quot;                                                          &gt;
 %topic-type;
 
 
-&lt;!--                    Embed concept to get specific elements     -->
-&lt;!ENTITY % concept-typemod 
+&amp;lt;!--                    Embed concept to get specific elements     --&gt;
+&amp;lt;!ENTITY % concept-typemod 
                         PUBLIC 
-"-//OASIS//ELEMENTS DITA Concept//EN" 
-"concept.mod"                                                        >                                                     
+&quot;-//OASIS//ELEMENTS DITA Concept//EN&quot; 
+&quot;concept.mod&quot;                                                        &gt;                                                     
 %concept-typemod;
 
-<b>&lt;!ENTITY % faq-question-typemod 
+&lt;b&gt;&amp;lt;!ENTITY % faq-question-typemod 
+  SYSTEM &quot;faq-question.mod&quot;                                                        
+ &gt;                                                     
+%faq-question-typemod;&lt;/b&gt;
+&lt;/codeblock&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200320T133442-0400"?><codeblock>&lt;!-- ============================================================= -->
+&lt;!--                    TOPIC ELEMENT INTEGRATION                  -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY % topic-type
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Topic//EN"
+         "../../base/dtd/topic.mod"
+>%topic-type;
+
+&lt;!ENTITY % concept-type
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 Concept//EN"
+         "concept.mod"
+>%concept-type;
+
+<b>&lt;!ENTITY % faq-question-type 
   SYSTEM "faq-question.mod"                                                        
  >                                                     
-%faq-question-typemod;</b>
-</codeblock></p>
+%faq-question-type;</b></codeblock><?oxy_insert_end?></p>
     <p>Note that I didn't bother to define either a public identifier or a URN for the
-                <parameterentity>faq-question-typemod</parameterentity> parameter entity. This is to keep things
-            simple. Later, once we've got everything working, we can replace the relative URL with a
-            URN and set up the necessary catalog mappings.</p>
+				<parameterentity>faq-question-type<?oxy_delete author="jdwin" timestamp="20200320T133510-0400" content="mod"?></parameterentity>
+			parameter entity. This is to keep things simple. Later, once we've got everything working, we
+			can replace the relative URL with a URN and set up the necessary catalog mappings.</p>
     <p>Trying validating your test document again. Now you should get errors to the effect that the
                 <q>concept</q> element type is declared multiple times, as well as the same messages
             about the FAQ-specific element types not being declared. This indicates that we've got
@@ -65,3 +84,4 @@
             there.</note>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>
