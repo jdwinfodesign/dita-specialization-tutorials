@@ -14,7 +14,11 @@
   <body>
     <p>The process for creating an XSD version of the FAQ question topic type is as follows (assuming you have already created the final DTD version of the faq-question topic type):<ol>
       <li>Create the directory <filepath>faq-question/xsd</filepath> in your working area.</li>
-      <li>Copy the files <filepath>concept.xsd</filepath>, <filepath>conceptGrp.xsd</filepath>, and <filepath>conceptMod.xsd</filepath> from the base DITA schema set to the <filepath>faq-question/xsd</filepath> directory.</li>
+      <li>Copy the files <filepath>concept.xsd</filepath>, <filepath>conceptGrp.xsd</filepath>, and
+						<filepath>conceptMod.xsd</filepath> from the
+					<?oxy_comment_start author="jdwin" timestamp="20200401T113122-0400" comment="tech content"?>base
+					DITA schema set<?oxy_comment_end?> to the <filepath>faq-question/xsd</filepath>
+					directory.</li>
       <li>Rename the files from <q>concept*</q> to <q>faq-question*,</q> resulting in
                         <filepath>faq-question.xsd</filepath>,
                         <filepath>faq-questionGrp.xsd</filepath>, and
@@ -44,10 +48,11 @@
                                 processor treats a schema location as a system ID rather than a URI.
                                 That would also be wrong but some systems may do it.</p></li>
         </ol></li>
-      <li>Edit the <filepath>faq-question/catalog.xml</filepath> file, copy the
-                        <xmlelement>nextCatalog</xmlelement> element and change <q>dtd</q> to <q>xsd</q>
-                    in the new copy, resulting in this catalog
-                    file:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+      <li>Edit the
+						<filepath><?oxy_comment_start author="jdwin" timestamp="20200330T132720-0400" comment="Clarify whether this is in the plugin or not. If so, &quot;org.example.faq-question.doctype/catalog.xml&quot;"?>faq-question/catalog.xml<?oxy_comment_end?></filepath>
+					file, copy the <xmlelement>nextCatalog</xmlelement> element and change <q>dtd</q> to
+						<q>xsd</q> in the new copy, resulting in this catalog
+					file:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
   
   &lt;nextCatalog catalog="dtd/catalog.xml"/>
@@ -79,22 +84,27 @@
                         <li>Replace the header comment with something that reflects your
                             ownership.</li>
                         <li>Remove the domain module inclusions for all but the highlight and
-                            utility domains, leaving just these
-                            declarations:<codeblock>  &lt;!--  ================ TOPIC DOMAINS INLCUSION =====================  -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.2"/>
+							utility domains, leaving just these
+							declarations:<codeblock>  &lt;!--  ================ TOPIC DOMAINS INLCUSION =====================  -->
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:highlightDomain.xsd:1.<?oxy_insert_start author="jdwin" timestamp="20200330T133411-0400"?>3<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200330T133412-0400" content="2"?>"/>
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:utilitiesDomain.xsd:1.<?oxy_insert_start author="jdwin" timestamp="20200330T133414-0400"?>3<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200330T133414-0400" content="2"?>"/>
 
   &lt;!--  ================ CONCEPT GROUP DEFINITION=====================  -->
 </codeblock></li>
-                        <li>After the <q>CONCEPT GROUP DEFINITION</q> comment, add a reference to
-                            the <filepath>faq-questionGrp.xsd</filepath>
-                            file:<codeblock>  &lt;!--  ================ CONCEPT GROUP DEFINITION=====================  -->
-  <b>&lt;xs:include schemaLocation="faq-questionGrp.xsd"/></b>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptGrp.xsd:1.2"/>
+                        <li>After the <q>CONCEPT GROUP
+								DEFINITION<?oxy_insert_start author="jdwin" timestamp="20200401T114107-0400"?>S<?oxy_insert_end?></q>
+							comment, add a reference to the <filepath>faq-questionGrp.xsd</filepath>
+							file:<codeblock>  &lt;!--  ================ <?oxy_delete author="jdwin" timestamp="20200330T133510-0400" content="CONCEPT "?>GROUP DEFINITION=====================  --><?oxy_delete author="jdwin" timestamp="20200330T133524-0400" content="
+  &lt;b&gt;&amp;lt;xs:include schemaLocation=&quot;faq-questionGrp.xsd&quot;/&gt;&lt;/b&gt;
+  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:conceptGrp.xsd:1.2&quot;/&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200330T133524-0400"?>
+&lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:tblDeclGrp.xsd:1.3"/>
+&lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicGrp.xsd:1.3"/><b>
+&lt;xs:include schemaLocation="faq-questionGrp.xsd"/></b>
+&lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptGrp.xsd:1.3"/><?oxy_insert_end?>
 </codeblock></li>
-                        <li>From the <xmlelement>xs:redefine</xmlelement> element, delete all the groups
-                            except the groups for <q>ph</q> and
-                            <q>fig</q>:<codeblock>  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2">
+                        <li>From the <xmlelement>xs:redefine</xmlelement> element, delete all the
+							groups except the groups for <q>ph</q> and
+							<q>fig</q>:<codeblock>  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.<?oxy_insert_start author="jdwin" timestamp="20200401T114215-0400"?>3<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200401T114214-0400" content="2"?>">
 
     &lt;xs:group name="ph">
       &lt;xs:choice>
@@ -115,27 +125,29 @@
     &lt;/xs:group >
     
   &lt;/xs:redefine></codeblock></li>
-                        <li>From the group for <q>ph,</q> delete the group references for pr-d-ph,
-                            ui-d-ph, and sw-d-ph, leaving this group
-                            definition:<codeblock>    &lt;xs:group name="ph">
+                        <li>From the group for <q>ph,</q> delete the group references
+							<?oxy_delete author="jdwin" timestamp="20200330T133859-0400" content="for pr-d-ph, ui-d-ph, and sw-d-ph, leaving this group definition"?><?oxy_insert_start author="jdwin" timestamp="20200330T133859-0400"?>except
+							the
+							following<?oxy_insert_end?>:<codeblock>    &lt;xs:group name="ph">
       &lt;xs:choice>
         &lt;xs:group ref="ph"/>
         &lt;xs:group ref="hi-d-ph" />
       &lt;/xs:choice>
     &lt;/xs:group>
 </codeblock></li>
-                        <li>From the group for <q>fig</q> delete the group reference for pr-d-fig,
-                            leaving this group
-                            definition:<codeblock>    &lt;xs:group name="fig">
+                        <li>From the group for <q>fig</q>
+							delete<?oxy_delete author="jdwin" timestamp="20200330T133924-0400" content=" the group reference for pr-d-fig, leaving this group definition"?><?oxy_insert_start author="jdwin" timestamp="20200330T133924-0400"?>
+							everything but the
+							following<?oxy_insert_end?>:<codeblock>    &lt;xs:group name="fig">
       &lt;xs:choice>
         &lt;xs:group ref="fig"/>
         &lt;xs:group ref="ut-d-fig" />
       &lt;/xs:choice>
     &lt;/xs:group ></codeblock></li>
                         <li>After the include for the conceptMod.xsd file, add an include of the
-                            faq-questionMod.xsd
-                            file:<codeblock>  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.2" />  
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptMod.xsd:1.2" />
+							faq-questionMod.xsd
+							file:<codeblock>  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.<?oxy_insert_start author="jdwin" timestamp="20200330T134021-0400"?>3<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200330T134021-0400" content="2"?>" />  
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:conceptMod.xsd:1.<?oxy_insert_start author="jdwin" timestamp="20200330T134024-0400"?>3<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200330T134024-0400" content="2"?>" />
   <b>&lt;xs:include schemaLocation="faq-questionMod.xsd" /></b></codeblock></li>
                         <li>Modify the default value of the <xmlatt>domains</xmlatt> attribute to
                             reflect the domains and topic types actually
@@ -328,10 +340,10 @@
      &lt;/xs:complexType>
    &lt;/xs:element></codeblock></li>
         <li>Open the file <filepath>commonElementMod.xsd</filepath> from the standard DITA schema
-                            distribution and find the <xmlelement>xs:complexType</xmlelement> declaration
-                            for <q>title.class.</q> Copy the complexType, title.content group, and
-                            title.attributes group and paste it into
-                                <filepath>faq-questionMod.xsd</filepath>.</li>
+							distribution and find the <xmlelement>xs:complexType</xmlelement> declaration for
+								<q>title.class.</q> Copy the complexType, title.content group, and title.attributes
+							<?oxy_delete author="jdwin" timestamp="20200401T120526-0400" content="group"?><?oxy_insert_start author="jdwin" timestamp="20200401T120526-0400"?>attributeGroup<?oxy_insert_end?>
+							and paste it into <filepath>faq-questionMod.xsd</filepath>.</li>
         <li>Change <q>title.</q> to <q>faq-question-statement.</q> in the newly-pasted components
                             except for the reference to <q>title.cnt.</q> The resulting declarations
                             should
@@ -356,14 +368,19 @@
      &lt;xs:attributeGroup ref="localization-atts"/>
      &lt;xs:attributeGroup ref="global-atts"/>
    &lt;/xs:attributeGroup></codeblock></li>
-        <li>From the <filepath>commonElementMod.xsd</filepath> find the
-                                <xmlelement>xs:complexType</xmlelement> declaration for
-                                <q>shortdesc.class.</q> Copy the complexType, title.content group,
-                            and title.attributes group and paste it into
-                                <filepath>faq-questionMod.xsd</filepath>.</li>
+        <li>From the
+								<filepath><?oxy_delete author="jdwin" timestamp="20200401T121209-0400" content="commonElement"?><?oxy_insert_start author="jdwin" timestamp="20200401T121209-0400"?>topic<?oxy_insert_end?>Mod.xsd</filepath>
+							find the <xmlelement>xs:complexType</xmlelement> declaration for
+								<q>shortdesc.class<?oxy_delete author="jdwin" timestamp="20200401T121020-0400" content="."?></q><?oxy_insert_start author="jdwin" timestamp="20200401T121024-0400"?>.<?oxy_insert_end?>
+							Copy the complexType,
+							<?oxy_delete author="jdwin" timestamp="20200401T121307-0400" content="title"?><?oxy_insert_start author="jdwin" timestamp="20200401T121307-0400"?>shortdesc<?oxy_insert_end?>.content
+							group, and
+							<?oxy_delete author="jdwin" timestamp="20200401T121316-0400" content="title"?><?oxy_insert_start author="jdwin" timestamp="20200401T121316-0400"?>shortdesc<?oxy_insert_end?>.attributes
+							<?oxy_delete author="jdwin" timestamp="20200401T121335-0400" content="group"?><?oxy_insert_start author="jdwin" timestamp="20200401T121335-0400"?>attributeGroup<?oxy_insert_end?>
+							and paste it into <filepath>faq-questionMod.xsd</filepath>.</li>
         <li>Change <filepath>shortdesc.</filepath> to <filepath>faq-short-answer.</filepath>
-                            everywhere, resulting in this set of
-                            declarations:<codeblock>   &lt;xs:complexType name="faq-short-answer.class" mixed="true">
+							everywhere, resulting in this set of
+							declarations:<codeblock>   &lt;xs:complexType name="faq-short-answer.class" mixed="true">
      &lt;xs:sequence>
        &lt;xs:group ref="faq-short-answer.content"/>
      &lt;/xs:sequence>
@@ -373,7 +390,8 @@
      &lt;xs:sequence>
        &lt;xs:choice minOccurs="0" maxOccurs="unbounded">
          &lt;xs:group ref="title.cnt" minOccurs="0"/>
-         &lt;xs:group ref="draft-comment" minOccurs="0"/>
+         <?oxy_delete author="jdwin" timestamp="20200401T124805-0400" content="&amp;lt;xs:group ref=&quot;draft-comment&quot; minOccurs=&quot;0&quot;/&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200401T124808-0400"?>
+         &lt;xs:group ref="xref"/><?oxy_insert_end?>
        &lt;/xs:choice>
      &lt;/xs:sequence>
    &lt;/xs:group>
@@ -421,3 +439,4 @@
       </ol></p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>
