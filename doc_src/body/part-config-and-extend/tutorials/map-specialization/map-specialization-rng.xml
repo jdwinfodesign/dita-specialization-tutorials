@@ -6,8 +6,8 @@
   <prolog>
     <metadata>
       <keywords>
-        <indexterm>map specialization<indexterm>XSD-based</indexterm></indexterm>
-        <indexterm>XSD<indexterm>map specialization</indexterm></indexterm>
+        <indexterm>map specialization<indexterm>RNG-based</indexterm></indexterm>
+        <indexterm>RNG<indexterm>map specialization</indexterm></indexterm>
       </keywords>
     </metadata>
   </prolog>
