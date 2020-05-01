@@ -4,14 +4,15 @@
   id="topic-id">
   <title>Topic Constraint Module Step 4: Integrate the Constraint Module in a Document Type Shell</title>
   <body>
-    <p>For testing purposes, copy the standard <filepath>topic.dtd</filepath> file to a convenient
-            location, either in the same directory as the constraint module file or in a nearby
-            directory. To make its purpose clear, you can name it something like
-                <filepath>topic-with-highlight-constraint.dtd</filepath> if you want.</p>
+    <p><?oxy_comment_start author="jdwin" timestamp="20200303T163555-0500" comment="Which topic? basetopic.dtd or some topic.dtd from technicalContent, as with the document shell tutorial?"?>For
+			testing purposes, copy the standard <filepath>topic.dtd</filepath> file to a convenient
+			location, either in the same directory as the constraint module file or in a nearby directory.
+			To make its purpose clear, you can name it something like
+				<filepath>topic-with-highlight-constraint.dtd</filepath> if you want.<?oxy_comment_end?></p>
     <p>Edit the copied topic DTD file, search for the comment <q>DOMAINS ATTRIBUTE OVERRIDE,</q> and
-            update the declaration of the <textent>included-domains</textent> text entity to include
-            a reference to the <textent>topic-constraints</textent> text
-            entity:<codeblock>
+			update the declaration of the <textentity>included-domains</textentity> text entity to include
+			a reference to the <textentity>topic-constraints</textentity> text
+			entity:<codeblock>
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
 &lt;!-- ============================================================= -->
@@ -53,3 +54,4 @@
                 INTEGRATION</q> comment. If it's not there, add it.</p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

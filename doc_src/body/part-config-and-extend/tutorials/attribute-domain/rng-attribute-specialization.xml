@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+	id="topic-id">
+	<title>Attribute Specialization: RNG Version</title>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>RNG<indexterm>attribute specialization module</indexterm></indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<body>
+		<p>As with DTD-based attribute domains, an RNG attribute domain module consists of a single RNG
+			document whose name is <q><varname>attributeName</varname>AttDomain.rng,</q> e.g.,
+				<filepath>phase-of-moonAttDomain.rng</filepath>. </p>
+		<p>To create the Phase of the Moon Attribute Domain, as in the DTD- and XSD-based tutorials,
+			create a new file, <filepath>phase-of-moonAttDomain.rng</filepath>, and paste the following
+			into it.
+			<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;?xml-model href="urn:oasis:names:tc:dita:rng:vocabularyModuleDesc.rng"
+                         schematypens="http://relaxng.org/ns/structure/1.0"?>
+&lt;grammar 
+  xmlns="http://relaxng.org/ns/structure/1.0"
+  xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+  xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+&lt;moduleDesc xmlns="http://dita.oasis-open.org/architecture/2005/">
+   &lt;moduleTitle>DITA Phase of the Moon Attribute Domain &lt;/moduleTitle>
+   &lt;headerComment>&lt;![CDATA[
+=============================================================
+                   HEADER                                    
+=============================================================
+]]&gt;&lt;/headerComment>
+   &lt;moduleMetadata>
+     &lt;moduleType>attributedomain&lt;/moduleType>
+     &lt;moduleShortName>phase-of-moontAtt-d&lt;/moduleShortName>
+     &lt;modulePublicIds>
+       &lt;dtdEnt>-//OASIS//ENTITIES DITA&lt;var presep=" " name="ditaver"/> Delivery Target Attribute Domain//EN&lt;/dtdEnt>
+       &lt;xsdMod>urn:oasis:names:tc:dita:xsd:phase-of-moonAttDomain.xsd&lt;var presep=":" name="ditaver"/>&lt;/xsdMod>
+       &lt;rncMod>urn:oasis:names:tc:dita:rnc:phase-of-moonAttDomain.rnc&lt;var presep=":" name="ditaver"/>&lt;/rncMod>
+       &lt;rngMod>urn:oasis:names:tc:dita:rng:phase-of-moonAttDomain.rng&lt;var presep=":" name="ditaver"/>&lt;/rngMod>
+     &lt;/modulePublicIds>
+     &lt;domainsContribution>a(props phase-of-moon)&lt;/domainsContribution>
+   &lt;/moduleMetadata>
+ &lt;/moduleDesc>
+  &lt;define name="phase-of-moonAtt-d-attribute">
+    &lt;optional>
+      &lt;attribute name="phase-of-moon" dita:since="1.3">
+        &lt;a:documentation>Specifies the delivery target or targets to which an element applies.
+        Typical delivery target values include "pdf", "html", "epub", "print", "online", etc.&lt;/a:documentation>
+      &lt;/attribute>
+    &lt;/optional>    
+  &lt;/define>
+  
+  &lt;define name="props-attribute-extensions" combine="interleave">
+    &lt;ref name="phase-of-moonAtt-d-attribute"/>
+  &lt;/define>
+  
+&lt;/grammar></codeblock>
+		</p>
+		<p>In a document-type shell, add the domain to the domains attribute and the include modules
+			section. In this example, copy the Technical Content topic RNG to the same directory as your
+			attribute module. </p>
+		<p>Look for the line <codeph>&lt;a:documentation>DOMAINS ATTRIBUTE&lt;/a:documentation></codeph>
+			and add the following bolded entry:
+			<codeblock>  &lt;div>
+    &lt;a:documentation>DOMAINS ATTRIBUTE&lt;/a:documentation>
+    &lt;define name="domains-att">
+      &lt;optional>
+        &lt;attribute name="domains"
+        	a:defaultValue="(topic dbPara-d)
+        		    (topic abbrev-d)
+                          ...
+                          a(props deliveryTarget)
+                          <b>a(props phase-of-moon)</b>"
+        />
+      &lt;/optional>
+    &lt;/define>
+  &lt;/div></codeblock></p>
+		<p>In the INCLUDE MODULES <xmlelement>div</xmlelement>, add the following bolded text:
+			<codeblock>  &lt;div>
+    &lt;a:documentation>INCLUDE MODULES&lt;/a:documentation>
+  	<b>&lt;include href="phase-of-moonAttDomain.rng"/>
+</b>  	&lt;include href="dbParaDomain.rng"/>
+  	&lt;include href="urn:oasis:names:tc:dita:rng:topicMod.rng">
+  		&lt;define name="topic-info-types">
+  			&lt;ref name="topic.element"/>
+  		&lt;/define>
+  	&lt;/include> 
+         ...
+  	&lt;include href="urn:oasis:names:tc:dita:rng:xmlDomain.rng" dita:since="1.3"/>
+  &lt;/div></codeblock></p>
+		<p>A test topic pointing to the <filepath>topic.rng</filepath> should be valid. Now you can
+			deploy your attribute module as part of a plugin.</p>
+	</body>
+</subsection>

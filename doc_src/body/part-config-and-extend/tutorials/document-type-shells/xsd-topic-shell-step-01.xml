@@ -4,11 +4,31 @@
   id="topic-id">
   <title>XSD Topic Type Shell Tutorial Step 1: Copy Existing Shell</title>
   <body>
-    <p>Create a directory in your workspace to hold the new document type shell, e.g.,
-                <filepath>workspace/myTopicShell/xsd</filepath>.</p>
-    <p>Find the file <filepath>topic.xsd</filepath> in the technical content area of the standard DITA XSD distribution (<filepath>schema/technicalContent/xsd/topic.xsd</filepath> in the files packaged with the Open Toolkit) and copy it into the <filepath>workspace/myTopicShell/xsd</filepath> directory as file <filepath>myTopic.xsd</filepath>.</p>
-    <p>The DITA 1.2 schema distribution includes two document type shells for <xmlelement>topic</xmlelement>: <filepath>topic.xsd</filepath> in the technical documentation area, and <filepath>basetopic.xsd</filepath> in the base area. The <filepath>topic.xsd</filepath> shell integrates all the different topic domains that are part of the standard DITA vocabulary. The <filepath>basetopic.xsd</filepath> only integrates the highlighting, indexing, and utility domains.</p>
-    <p>In the <filepath>myTopicShell</filepath> directory, create a new XML document named <filepath>mytopic-test-xsd.xml</filepath> that uses <filepath>myTopic.xsd</filepath> as its document type with this content:<codeblock>&lt;?xml version='1.0' encoding='UTF-8'?>
+		<p>Create a directory in your workspace to hold the new document type shell, e.g.,
+				<filepath>workspace/myTopicShell/xsd</filepath>.</p>
+		<p>Find the file <filepath>topic.xsd</filepath> in the technical content area of the standard
+			DITA<?oxy_insert_start author="jdwin" timestamp="20200117T132811-0500"?> 1.3<?oxy_insert_end?>
+			XSD distribution (<filepath>schema/technicalContent/xsd/topic.xsd</filepath> in the files
+			packaged with the Open Toolkit) and copy it into the
+				<filepath>workspace/myTopicShell/xsd</filepath> directory as file
+				<filepath>myTopic.xsd</filepath>.</p>
+		<?oxy_comment_start author="jdwin" timestamp="20200116T122459-0500" comment="Make clear this tutorial works with the schema in these:
+DITA-OT/plugins/org.oasis-open.dita.v1_3/schema
+NOT these:
+DITA-OT/plugins/org.oasis-open.dita.v1_3/schema-url"?>
+		<p>The DITA 1.<?oxy_delete author="jdwin" timestamp="20200115T094310-0500" content="2"?><?oxy_insert_start author="jdwin" timestamp="20200115T094310-0500"?>3<?oxy_insert_end?>
+			<?oxy_delete author="jdwin" timestamp="20200116T122357-0500" content="schema "?>distribution
+			includes two document type shells for <xmlelement>topic</xmlelement><?oxy_comment_end?>:
+				<filepath>topic.xsd</filepath> in the technical documentation area, and
+				<filepath>basetopic.xsd</filepath> in the base area. The <filepath>topic.xsd</filepath>
+			shell integrates all the different topic domains that are part of the standard DITA
+			vocabulary. The <filepath>basetopic.xsd</filepath> only integrates the
+			<?oxy_insert_start author="jdwin" timestamp="20200115T094954-0500"?>delivery target, hazard
+			statement, <?oxy_insert_end?>highlighting, indexing, and utility domains.</p>
+		<p>In the <filepath>myTopicShell</filepath> directory, create a new XML document named
+				<filepath>mytopic-test-xsd.xml</filepath> that uses <filepath>myTopic.xsd</filepath> as its
+			document type with this
+			content:<codeblock>&lt;?xml version='1.0' encoding='UTF-8'?>
 &lt;topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:noNamespaceSchemaLocation="xsd/myTopic.xsd"
  id="topic-1">
@@ -17,7 +37,10 @@
     &lt;p>Topic paragraph&lt;/p>
   &lt;/body>
 &lt;/topic></codeblock></p>
-    <p>This document serves as your test document to verify that you haven't made any syntax errors in the new shell.</p>
-    <p>Open this document in your XML editor (e.g., in OxygenXML) and validate it. It should be valid.</p>
-  </body>
+		<p>This document serves as your test document to verify that you haven't made any syntax errors
+			in the new shell.</p>
+		<p>Open this document in your XML editor (e.g., in OxygenXML) and validate it. It should be
+			valid.</p>
+	</body>
 </subsection>
+<?oxy_options track_changes="on"?>

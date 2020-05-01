@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization RNG Step 1: Define faq-map Map Type</title>
+  <body>
+    <p>To define the <xmlelement>faq-map</xmlelement> map type, do the following:<ol>
+      <li>Create the directory <filepath>faq-map/rng</filepath>.</li>
+      <li>Create the directory <filepath>faq-mapDomain/rng</filepath>.</li>
+      <li>Create the file <filepath>faq-mapDomain/rng/faq-mapDomain.rng</filepath> with this
+						content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;?xml-model href="urn:oasis:names:tc:dita:rng:vocabularyModuleDesc.rng"
+                         schematypens="http://relaxng.org/ns/structure/1.0"?>
+&lt;grammar xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+	xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+	&lt;moduleDesc xmlns="http://dita.oasis-open.org/architecture/2005/">
+		&lt;moduleTitle>DITA FAQ Map Module&lt;/moduleTitle>
+		&lt;headerComment>&lt;![CDATA[ 
+=============================================================
+     FAQ Map Domain
+
+     Copyright (c) 2020 Your Name Here                                    
+
+=============================================================
+]]&gt;&lt;/headerComment>
+				&lt;moduleMetadata>
+			&lt;moduleType>elementdomain&lt;/moduleType>
+			&lt;moduleShortName>faq-map-d&lt;/moduleShortName>
+			&lt;modulePublicIds>
+				&lt;dtdMod>urn:oasis:names:tc:dita:rnc:faq-mapDomain.mod&lt;/dtdMod>
+				&lt;dtdEnt>urn:oasis:names:tc:dita:rnc:faq-mapDomain.ent&lt;/dtdEnt>
+				&lt;xsdMod>urn:oasis:names:tc:dita:xsd:faq-mapDomain.xsd&lt;/xsdMod>
+				&lt;rncMod>urn:oasis:names:tc:dita:rnc:faq-mapDomain.rnc&lt;/rncMod>
+				&lt;rngMod>urn:oasis:names:tc:dita:rng:faq-mapDomain.rng&lt;/rngMod>
+			&lt;/modulePublicIds>
+			&lt;domainsContribution>(map faq-map-d)&lt;/domainsContribution>
+		&lt;/moduleMetadata>
+	&lt;/moduleDesc>
+	
+	&lt;div>
+		&lt;a:documentation>DOMAIN EXTENSION PATTERNS&lt;/a:documentation>
+		
+	&lt;/div>
+	
+	&lt;div>
+		&lt;a:documentation>ELEMENT TYPE NAME PATTERNS&lt;/a:documentation>
+
+	&lt;/div>
+
+	&lt;div>
+		&lt;a:documentation>ELEMENT TYPE PATTERNS&lt;/a:documentation>
+		
+	&lt;/div>
+	&lt;div>
+		&lt;a:documentation>SPECIALIZATION ATTRIBUTES&lt;/a:documentation>
+	
+       &lt;/div>
+&lt;/grammar>
+</codeblock><p>This
+						file acts as the stub for the FAQ-map map domain, which we will define in Step
+					2.</p></li>
+      <li>Find the file <filepath>basemap.rng</filepath> from the standard DITA schema distribution,
+					copy it into the <filepath>faq-map/rng</filepath> directory, and rename it to
+						<filepath>faq-map.rng</filepath>.</li>
+      <li>Create test document <filepath>faq-map/faq-map-test-rng-01.ditamap</filepath> with this
+						content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;?xml-model href="rng/faq-map.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+  &lt;title>FAQ Map Test 01&lt;/title>
+  &lt;topicmeta>&lt;/topicmeta>
+  &lt;keydef keys="foo"/>  
+  &lt;faq-question-set>
+    &lt;faq-question/>
+  &lt;/faq-question-set>
+&lt;/faq-map></codeblock><p>Validate
+						the document. It should complain that the element type <xmlelement>faq-map</xmlelement>
+						is not declared.</p></li>
+      <li>Edit <filepath>faq-map.rng</filepath>.</li>
+      <li>Replace the header comment with one reflecting your
+					ownership:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;?xml-model href="urn:oasis:names:tc:dita:rng:checkShell.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+&lt;?xml-model href="urn:oasis:names:tc:dita:rng:vocabularyModuleDesc.rng"
+                         schematypens="http://relaxng.org/ns/structure/1.0"?>
+&lt;grammar xmlns="http://relaxng.org/ns/structure/1.0"
+	xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+	xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">
+	&lt;moduleDesc xmlns="http://dita.oasis-open.org/architecture/2005/">
+		&lt;moduleTitle>FAQ Map Shell&lt;/moduleTitle>
+		&lt;headerComment xml:space="preserve">
+=============================================================
+     FAQ Map Shell
+
+     Copyright (c) 2020 Your Name Here
+=============================================================
+...
+&lt;/grammar></codeblock></li>
+				<li>Edit the <xmlelement>moduleMetadata</xmlelement> to fit the new map type:
+					<codeblock>	&lt;moduleMetadata>
+			&lt;moduleType>mapshell&lt;/moduleType>
+			&lt;moduleShortName>faq-map&lt;/moduleShortName>
+			&lt;shellPublicIds>
+				&lt;dtdShell>urn:pubid:example.com:doctypes:dita:faq-map&lt;var presep=":" name="ditaver"
+					/>&lt;/dtdShell>
+				&lt;xsdShell>urn:oasis:names:tc:dita:xsd:faq-map.xsd&lt;var presep=":" name="ditaver"/>
+				&lt;/xsdShell>
+				&lt;rncShell>urn:oasis:names:tc:dita:rnc:faq-map.rnc&lt;var presep=":" name="ditaver"/>
+				&lt;/rncShell>
+				&lt;rngShell>urn:oasis:names:tc:dita:rng:faq-map.rng&lt;var presep=":" name="ditaver"/>
+				&lt;/rngShell>
+			&lt;/shellPublicIds>
+		&lt;/moduleMetadata>
+	&lt;/moduleDesc></codeblock></li>
+				<li>Make the following change to the <xmlelement>div</xmlelement> containing <q>ROOT ELEMENT
+						DECLARATION</q><codeblock>  &lt;div>
+      &lt;a:documentation>ROOT ELEMENT DECLARATION&lt;/a:documentation>
+      &lt;start>
+         <b>&lt;ref name="faq-map.element"/></b>
+      &lt;/start>
+  &lt;/div></codeblock></li>
+				<li>To the <xmlelement>div</xmlelement> containing <q>domains-att</q>, add <q>(map faq-map
+						faq-map-d)</q> to the <xmlatt>domains</xmlatt> attribute.
+					<codeblock>		&lt;define name="domains-att">
+			&lt;optional>
+				&lt;attribute name="domains" 
+                             a:defaultValue="<b>(map faq-map faq-map-d)</b>
+                                             (topic delay-d)
+                                             (map ditavalref-d)
+                                             (topic hazard-d)
+                                             (topic hi-d)
+                                             (topic indexing-d)
+                                             (map mapgroup-d)
+                                             (topic ut-d)
+                                             a(props deliveryTarget)"
+				/>
+			&lt;/optional>
+		&lt;/define></codeblock></li>
+      <li>Find the <xmlelement>div</xmlelement> containing the inclusion for
+						<filepath>mapMod.rng</filepath>. Change the reference as to
+						<filepath>faq-mapMod.rng</filepath> and add an inclusion to your new domain after
+					it:<codeblock> ...
+	&lt;div>
+		&lt;a:documentation>MODULE INCLUSIONS&lt;/a:documentation>
+		<b>&lt;include href="faq-mapMod.rng"/>
+		&lt;include href="../../faq-mapDomain/rng/faq-mapDomain.rng"/></b>
+ ...
+	&lt;/div></codeblock></li>
+				<li>Adjust the <xmlatt>href</xmlatt>s of the other includes to point to the RNG files
+					included.</li>
+      <li>Find the <xmlelement>div</xmlelement> containing <q>ID-DEFINING-ELEMENT OVERRIDES</q> and
+					add <q>faq-map</q> to the list of
+					elements<codeblock>  &lt;div>
+	&lt;a:documentation>ID-DEFINING-ELEMENT OVERRIDES&lt;/a:documentation>
+	&lt;define name="any">
+	&lt;zeroOrMore>
+		&lt;choice>
+		&lt;ref name="idElements"/>
+			&lt;element>
+				&lt;anyName>
+					&lt;except>
+						&lt;name>map&lt;/name>
+						<b>&lt;name>faq-map&lt;/name></b>
+						&lt;name>anchor&lt;/name>
+					&lt;/except>
+	...
+&lt;/div></codeblock></li>
+      <li>Create the file <filepath>faq-map/rng/faq-mapMod.rng</filepath> with this
+					content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;?xml-model href="urn:oasis:names:tc:dita:rng:vocabularyModuleDesc.rng"
+                         schematypens="http://relaxng.org/ns/structure/1.0"?>
+&lt;grammar xmlns:dita="http://dita.oasis-open.org/architecture/2005/"
+	xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+	&lt;moduleDesc xmlns="http://dita.oasis-open.org/architecture/2005/">
+		&lt;moduleTitle>FAQ Map Module&lt;/moduleTitle>
+		&lt;headerComment>&lt;![CDATA[ 
+=============================================================
+                   HEADER                                    
+============================================================
+
+=============================================================
+]]&gt;&lt;/headerComment>
+		&lt;moduleMetadata>
+			&lt;moduleType>map&lt;/moduleType>
+			&lt;moduleShortName>map&lt;/moduleShortName>
+			&lt;modulePublicIds>
+				&lt;dtdEnt>-//OASIS//ENTITIES DITA&lt;var presep=" " name="ditaver"/> FAQ Map//EN&lt;/dtdEnt>
+				&lt;dtdMod>-//OASIS//ELEMENTS DITA&lt;var presep=" " name="ditaver"/> FAQ Map//EN&lt;/dtdMod>
+				&lt;xsdMod>urn:oasis:names:tc:dita:xsd:faq-mapMod.xsd&lt;var presep=":" name="ditaver"/>&lt;/xsdMod>
+				&lt;xsdGrp>urn:oasis:names:tc:dita:xsd:faq-mapGrp.xsd&lt;var presep=":" name="ditaver"/>&lt;/xsdGrp>
+				&lt;rncMod>urn:oasis:names:tc:dita:rnc:faq-mapMod.rnc&lt;var presep=":" name="ditaver"/>&lt;/rncMod>
+				&lt;rngMod>urn:oasis:names:tc:dita:rng:faq-mapMod.rng&lt;var presep=":" name="ditaver"/>&lt;/rngMod>
+			&lt;/modulePublicIds>
+		&lt;/moduleMetadata>
+	&lt;/moduleDesc>
+
+	&lt;div>
+		&lt;a:documentation>ELEMENT TYPE PATTERNS&lt;/a:documentation>
+		
+	&lt;/div>
+
+	&lt;div>
+		&lt;a:documentation>SPECIALIZATION ATTRIBUTES&lt;/a:documentation>
+		
+	&lt;/div>
+&lt;/grammar>
+</codeblock></li>
+      <li>Open <filepath>mapMod.rng</filepath> from the standard DITA 1.3 rng distribution. Find the
+						<xmlelement>div</xmlelement> containing <q>ELEMENT TYPE PATTERNS</q> and copy the entire
+					definition for <xmlelement>map</xmlelement>, including the definitions for
+						<q>map.content</q>, <q>map.attributes</q>, <q>map.element</q>, <q>map.attlist</q> and
+						<q>idElements</q>. Paste into <filepath>faq-mapMod.rng</filepath>, changing <q>map</q>
+					tio <q>faq-map</q> as
+					follows.<codeblock>&lt;div>
+		&lt;a:documentation>ELEMENT TYPE PATTERNS&lt;/a:documentation>
+		&lt;div>
+			<b>&lt;a:documentation>LONG NAME: FAQ Map&lt;/a:documentation>
+			&lt;define name="faq-map.content">
+				&lt;optional>
+					&lt;ref name="title"/>
+				&lt;/optional>
+				&lt;optional>
+					&lt;ref name="topicmeta"/>
+				&lt;/optional>
+				&lt;zeroOrMore>
+					&lt;choice>
+						&lt;ref name="reltable"/>
+						&lt;ref name="topicref"/>
+					&lt;/choice>
+				&lt;/zeroOrMore>
+			&lt;/define></b>
+			<b>&lt;define name="faq-map.attributes">
+</b>				&lt;optional>
+					&lt;attribute name="title"/>
+				&lt;/optional>
+				&lt;optional>
+					&lt;attribute name="id">
+						&lt;data type="ID"/>
+					&lt;/attribute>
+				&lt;/optional>
+				&lt;ref name="conref-atts"/>
+				&lt;optional>
+					&lt;attribute name="anchorref"/>
+				&lt;/optional>
+				&lt;optional>
+					&lt;attribute name="outputclass"/>
+				&lt;/optional>
+				&lt;ref name="localization-atts"/>
+				&lt;ref name="topicref-atts"/>
+				&lt;ref name="select-atts"/>
+			&lt;/define>
+			&lt;<b>define name="faq-map.element">
+				&lt;a:documentation>The &amp;lt;faq-map> element ...&lt;/a:documentation>
+				&lt;element name="faq-map" dita:longName="FAQ Map">
+					&lt;ref name="faq-map.attlist"/>
+					&lt;ref name="faq-map.content"/></b>
+				&lt;/element>
+			&lt;/define>
+			<b>&lt;define name="faq-map.attlist" combine="interleave"></b>
+				<b>&lt;ref name="faq-map.attributes"/></b>
+				&lt;ref name="arch-atts"/>
+				&lt;ref name="domains-att"/>
+			&lt;/define>
+			&lt;define name="idElements" combine="choice">
+				<b>&lt;ref name="faq-map.element"/></b>
+			&lt;/define>
+		&lt;/div>
+		
+	&lt;/div></codeblock></li>
+				<li>In the <xmlelement>div</xmlelement> containing <q>SPECIALIZATION ATTRIBUTES</q> edit the
+					definition:
+					<codeblock>	<b>&lt;define name="faq-map.attlist" combine="interleave"></b>
+			&lt;ref name="global-atts"/>
+			&lt;optional>
+				<b>&lt;attribute name="class" a:defaultValue="- map/map faq-map/faq-map "/></b>
+			&lt;/optional>
+		&lt;/define></codeblock></li>
+      <li>Validate the test document. You should get a message to the effect that the group named
+						<q>faq-question-set</q> cannot be resolved. If you comment out the
+						<xmlelement>faq-question-set</xmlelement> element, it should be valid.</li>
+      </ol></p>
+    <p>At this point the FAQ-map map type document type shell and module are complete. Now we just
+            need to define the FAQ-map map domain.</p>
+  </body>
+</subsection>

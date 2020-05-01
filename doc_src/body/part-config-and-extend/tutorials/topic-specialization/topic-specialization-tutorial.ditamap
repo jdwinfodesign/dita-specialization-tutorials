@@ -48,5 +48,6 @@
     </subsection>
     <subsection
       href="topic-specialization-xsd.xml"/>
+  	<subsection href="topic-specialization-rng.xml"/>
   </chapter>
 </pub-component-map>

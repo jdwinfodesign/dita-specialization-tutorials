@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-step-3-2">
-  <title>Step 3-2. Declare Type-Specific Integration Entities</title>
-  <body>
-    <p>Declare a type-specific entity for the keyword-based elements, listing all the element types in the module: <codeblock>
+	<title>Step 3-2. Declare Type-Specific Integration Entities</title>
+	<body>
+		<p>Declare a type-specific entity for the
+			<?oxy_delete author="jdwin" timestamp="20200113T124005-0500" content="keyword-based "?>elements,
+			listing all the element types in the module:
+			<codeblock>
 &lt;!-- ====================================================
-     XML Construct Domain Module
+     <?oxy_delete author="jdwin" timestamp="20200108T155327-0500" content="XML Construct "?><?oxy_insert_start author="jdwin" timestamp="20200108T155327-0500"?>DocBook-like Paragraph <?oxy_insert_end?>Domain Module
     
      Author: <i>your name here</i>
 
-     Copyright (c) 2011 <i>copyright holder</i>
+     Copyright (c) 201<?oxy_delete author="jdwin" timestamp="20200108T155331-0500" content="1"?><?oxy_insert_start author="jdwin" timestamp="20200108T155331-0500"?>9<?oxy_insert_end?> <i>copyright holder</i>
      
      <i>license to use or not use or whatever</i>
           
      ==================================================== -->
 
-<b>&lt;!ENTITY % xml-d-keyword
-  "xmlelem | 
+<b><?oxy_delete author="jdwin" timestamp="20200113T124022-0500" content="&amp;lt;!ENTITY % xml-d-keyword
+  &quot;xmlelem | 
    xmlatt | 
    textent | 
    parment |
    numcharref
-  "                 
-  ></b>
+  &quot;                 
+  &gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T124026-0500"?>&lt;!-- ============================================================= -->
+&lt;!--                    ELEMENT EXTENSION ENTITY DECLARATIONS      -->
+&lt;!-- ============================================================= -->
+
+&lt;!ENTITY % dbPara-d-p "para" >
+
+&lt;!ENTITY % dbPara-d-keyword "wordasword" ><?oxy_insert_end?></b>
 </codeblock></p>
-  </body>
+	</body>
 </subsection>
+<?oxy_options track_changes="on"?>

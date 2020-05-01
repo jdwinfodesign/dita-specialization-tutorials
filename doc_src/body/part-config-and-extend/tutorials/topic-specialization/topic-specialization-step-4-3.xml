@@ -3,7 +3,8 @@
 <subsection id="topic-spec-step-4-3">
   <title>Topic Specialization Step 4-3: Copy Template Contents from Base XSLTs</title>
   <body>
-    <p>In the Open Toolkit distribution, find the file <filepath>dita2htmlImpl.xsl</filepath>. It should be in the <filepath>xsl/xslhtml</filepath> directory.</p>
+    <p>In the Open Toolkit distribution, find the file
+				<filepath><?oxy_delete author="jdwin" timestamp="20200324T105207-0400" content="dita2htmlImpl.xsl"?><?oxy_insert_start author="jdwin" timestamp="20200324T105207-0400"?>org.dita.xhtml/xsl/dita2htmlImpl.xsl<?oxy_insert_end?></filepath>.<?oxy_delete author="jdwin" timestamp="20200324T105216-0400" content=" It should be in the &lt;filepath&gt;xsl/xslhtml&lt;/filepath&gt; directory"?>.</p>
     <p>Within this file, find the template that matches on <q> topic/title </q> within <q>
                 topic/topic </q> (again, the spaces at the beginning and end are significant). This
             can sometimes be a challenge because the indirect nature of the matches can make it hard
@@ -48,57 +49,84 @@
 &lt;/xsl:template>  
  </codeblock></p>
     <p>For <xmlelement>faq-answer</xmlelement>, we want the processing applied to concept/conbody.
-            However, if you search for <q> concept/conbody </q> you won't find anything, which means
-            that there is no special processing for <xmlelement>conbody</xmlelement>. That means you must
-            search for the next level up the specialization hierarchy (<q> topic/body </q>). Copy
-            the contents of that template into the template for <xmlelement>faq-answer</xmlelement>:
-            <codeblock>
-&lt;xsl:template match="*[contains(@class, ' faq-question/faq-answer ')]">
-<b>  &lt;xsl:variable name="flagrules">
-    &lt;xsl:call-template name="getrules"/>
-  &lt;/xsl:variable>
-&lt;div>
-  &lt;xsl:call-template name="commonattributes"/>
-  &lt;xsl:call-template name="gen-style">
-    &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param>
-  &lt;/xsl:call-template>
-  &lt;xsl:call-template name="setidaname"/>
-  &lt;xsl:call-template name="start-flagit">
-    &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param>     
-  &lt;/xsl:call-template>
-  &lt;xsl:call-template name="start-revflag">
-    &lt;xsl:with-param name="flagrules" select="$flagrules"/>  
-  &lt;/xsl:call-template>
-  &lt;!-- here, you can generate a toc based on what's a child of body -->
-  &lt;!--xsl:call-template name="gen-sect-ptoc"/-->&lt;!-- Works; not always wanted, though; could add a param to enable it.-->
+			However, if you search for <q> concept/conbody </q> you won't find anything, which means that
+			there is no special processing for <xmlelement>conbody</xmlelement>. That means you must
+			search for the next level up the specialization hierarchy (<q> topic/body </q>). Copy the
+			contents of that template into the template for <xmlelement>faq-answer</xmlelement>:
+			<?oxy_delete author="jdwin" timestamp="20200324T111632-0400" content="&lt;codeblock&gt;
+&amp;lt;xsl:template match=&quot;*[contains(@class, &apos; faq-question/faq-answer &apos;)]&quot;&gt;
+&lt;b&gt;  &amp;lt;xsl:variable name=&quot;flagrules&quot;&gt;
+    &amp;lt;xsl:call-template name=&quot;getrules&quot;/&gt;
+  &amp;lt;/xsl:variable&gt;
+&amp;lt;div&gt;
+  &amp;lt;xsl:call-template name=&quot;commonattributes&quot;/&gt;
+  &amp;lt;xsl:call-template name=&quot;gen-style&quot;&gt;
+    &amp;lt;xsl:with-param name=&quot;flagrules&quot; select=&quot;$flagrules&quot;&gt;&amp;lt;/xsl:with-param&gt;
+  &amp;lt;/xsl:call-template&gt;
+  &amp;lt;xsl:call-template name=&quot;setidaname&quot;/&gt;
+  &amp;lt;xsl:call-template name=&quot;start-flagit&quot;&gt;
+    &amp;lt;xsl:with-param name=&quot;flagrules&quot; select=&quot;$flagrules&quot;&gt;&amp;lt;/xsl:with-param&gt;     
+  &amp;lt;/xsl:call-template&gt;
+  &amp;lt;xsl:call-template name=&quot;start-revflag&quot;&gt;
+    &amp;lt;xsl:with-param name=&quot;flagrules&quot; select=&quot;$flagrules&quot;/&gt;  
+  &amp;lt;/xsl:call-template&gt;
+  &amp;lt;!-- here, you can generate a toc based on what&apos;s a child of body --&gt;
+  &amp;lt;!--xsl:call-template name=&quot;gen-sect-ptoc&quot;/--&gt;&amp;lt;!-- Works; not always wanted, though; could add a param to enable it.--&gt;
 
-  &lt;!-- Insert prev/next links. since they need to be scoped by who they're 'pooled' with, apply-templates in 'hierarchylink' mode to linkpools (or related-links itself) when they have children that have any of the following characteristics:
+  &amp;lt;!-- Insert prev/next links. since they need to be scoped by who they&apos;re &apos;pooled&apos; with, apply-templates in &apos;hierarchylink&apos; mode to linkpools (or related-links itself) when they have children that have any of the following characteristics:
+       - role=ancestor (used for breadcrumb)
+       - role=next or role=previous (used for left-arrow and right-arrow before the breadcrumb)
+       - importance=required AND no role, or role=sibling or role=friend or role=previous or role=cousin (to generate prerequisite links)
+       - we can&apos;t just assume that links with importance=required are prerequisites, since a topic with eg role=&apos;next&apos; might be required, while at the same time by definition not a prerequisite --&gt;
+
+  &amp;lt;!-- Added for DITA 1.1 &quot;Shortdesc proposal&quot; --&gt;
+  &amp;lt;!-- get the abstract para --&gt;
+  &amp;lt;xsl:apply-templates select=&quot;preceding-sibling::*[contains(@class,&apos; topic/abstract &apos;)]&quot; mode=&quot;outofline&quot;/&gt;
+  
+  &amp;lt;!-- get the shortdesc para --&gt;
+  &amp;lt;xsl:apply-templates select=&quot;preceding-sibling::*[contains(@class,&apos; topic/shortdesc &apos;)]&quot; mode=&quot;outofline&quot;/&gt;
+  
+  &amp;lt;!-- Insert pre-req links - after shortdesc - unless there is a prereq section about --&gt;
+  &amp;lt;xsl:apply-templates select=&quot;following-sibling::*[contains(@class,&apos; topic/related-links &apos;)]&quot; mode=&quot;prereqs&quot;/&gt;
+
+  &amp;lt;xsl:apply-templates/&gt;
+  &amp;lt;xsl:call-template name=&quot;end-revflag&quot;&gt;
+    &amp;lt;xsl:with-param name=&quot;flagrules&quot; select=&quot;$flagrules&quot;/&gt;  
+  &amp;lt;/xsl:call-template&gt;
+  &amp;lt;xsl:call-template name=&quot;end-flagit&quot;&gt;
+    &amp;lt;xsl:with-param name=&quot;flagrules&quot; select=&quot;$flagrules&quot;&gt;&amp;lt;/xsl:with-param&gt; 
+  &amp;lt;/xsl:call-template&gt;
+&amp;lt;/div&gt;&amp;lt;xsl:value-of select=&quot;$newline&quot;/&gt;
+&lt;/b&gt;
+&amp;lt;/xsl:template&gt;
+&lt;/codeblock&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200324T111637-0400"?><?oxy_comment_start author="jdwin" timestamp="20200324T111828-0400" comment="This is the closest match to the previously used template. It comes from DITA-OT 3.3.4/plugins/ org.dita.xhtml/xsl/xslhtml/dita2htmlImpl.xsl"?><codeblock>	&lt;xsl:template match="*[contains(@class, ' faq-question/faq-answer ')]">
+		&lt;div>
+			&lt;xsl:call-template name="commonattributes"/>
+			&lt;xsl:call-template name="setidaname"/>
+			&lt;xsl:apply-templates select="*[contains(@class, ' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+			&lt;!-- here, you can generate a toc based on what's a child of body -->
+			&lt;!--xsl:call-template name="gen-sect-ptoc"/-->&lt;!-- Works; not always wanted, though; could add a param to enable it.-->
+			
+			&lt;!-- Insert prev/next links. since they need to be scoped by who they're 'pooled' with, apply-templates in 'hierarchylink' mode to linkpools (or related-links itself) when they have children that have any of the following characteristics:
        - role=ancestor (used for breadcrumb)
        - role=next or role=previous (used for left-arrow and right-arrow before the breadcrumb)
        - importance=required AND no role, or role=sibling or role=friend or role=previous or role=cousin (to generate prerequisite links)
        - we can't just assume that links with importance=required are prerequisites, since a topic with eg role='next' might be required, while at the same time by definition not a prerequisite -->
-
-  &lt;!-- Added for DITA 1.1 "Shortdesc proposal" -->
-  &lt;!-- get the abstract para -->
-  &lt;xsl:apply-templates select="preceding-sibling::*[contains(@class,' topic/abstract ')]" mode="outofline"/>
-  
-  &lt;!-- get the shortdesc para -->
-  &lt;xsl:apply-templates select="preceding-sibling::*[contains(@class,' topic/shortdesc ')]" mode="outofline"/>
-  
-  &lt;!-- Insert pre-req links - after shortdesc - unless there is a prereq section about -->
-  &lt;xsl:apply-templates select="following-sibling::*[contains(@class,' topic/related-links ')]" mode="prereqs"/>
-
-  &lt;xsl:apply-templates/>
-  &lt;xsl:call-template name="end-revflag">
-    &lt;xsl:with-param name="flagrules" select="$flagrules"/>  
-  &lt;/xsl:call-template>
-  &lt;xsl:call-template name="end-flagit">
-    &lt;xsl:with-param name="flagrules" select="$flagrules">&lt;/xsl:with-param> 
-  &lt;/xsl:call-template>
-&lt;/div>&lt;xsl:value-of select="$newline"/>
-</b>
-&lt;/xsl:template>
-</codeblock></p>
+			
+			&lt;!-- Added for DITA 1.1 "Shortdesc proposal" -->
+			&lt;!-- get the abstract para -->
+			&lt;xsl:apply-templates select="preceding-sibling::*[contains(@class, ' topic/abstract ')]" mode="outofline"/>
+			
+			&lt;!-- get the shortdesc para -->
+			&lt;xsl:apply-templates select="preceding-sibling::*[contains(@class, ' topic/shortdesc ')]" mode="outofline"/>
+			
+			&lt;!-- Insert pre-req links - after shortdesc - unless there is a prereq section about -->
+			&lt;xsl:apply-templates select="following-sibling::*[contains(@class, ' topic/related-links ')]" mode="prereqs"/>
+			
+			&lt;xsl:apply-templates/>
+			&lt;xsl:apply-templates select="*[contains(@class, ' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+		&lt;/div>&lt;xsl:value-of select="$newline"/>
+	&lt;/xsl:template></codeblock><?oxy_insert_end?><?oxy_comment_end?></p>
     <p>For <xmlelement>faq-question</xmlelement>, add a next-match statement to the template body: <codeblock>
 &lt;xsl:template match="*[contains(@class, ' faq-question/faq-question ')]">
   <b>&lt;xsl:next-match/></b>
@@ -114,3 +142,4 @@
     the processing.</p>
   </body>
 </subsection>  
+<?oxy_options track_changes="on"?>

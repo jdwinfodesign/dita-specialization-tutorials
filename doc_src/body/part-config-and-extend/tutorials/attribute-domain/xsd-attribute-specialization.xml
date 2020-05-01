@@ -11,59 +11,59 @@
     </metadata>
   </prolog>
   <body>
-    <p>As with DTD-based attribute domains, an XSD attribute domain module consists of a single XSD
-            document whose name is <q><varname>attributeName</varname>AttDomain.xsd,</q> e.g.,
-                <filepath>phase-of-moonAttDomain.xsd</filepath>. </p>
-    <p>The XSD document contains a single <xmlelement>xs:attributeGroup</xmlelement>
-                declaration:<draft-comment>I removed the line, "&lt;/xs:schema>buteGroup>" from the
-                example below. It was just above the closing tag for xs:schema, and sure looks like
-                a typo to
-            me.</draft-comment><codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+		<p>As with DTD-based attribute domains, an XSD attribute domain module consists of a single XSD
+			document whose name is <q><varname>attributeName</varname>AttDomain.xsd,</q> e.g.,
+				<filepath>phase-of-moonAttDomain.xsd</filepath>. </p>
+		<p>The XSD document contains a single <xmlelement>xs:attributeGroup</xmlelement>
+			declaration:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
   &lt;xs:attributeGroup name="phase-of-moon-d-attribute">
     &lt;xs:attribute name="phase-of-moon" type="xs:string"/>
   &lt;/xs:attributeGroup>
 &lt;/xs:schema></codeblock></p>
-    <p>You integrate the attribute into shell XSDs by including the attribute module document and adding an entry for the attribute domain to the <xmlatt>domains</xmlatt> attribute declaration. For example:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
-&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-  elementFormDefault="qualified" 
-  attributeFormDefault="unqualified" 
-  xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/">
-  
-  <b>&lt;xs:include schemaLocation="xsd/phase-of-moonAttDomain.xsd" /></b>
-  
-  &lt;!--  ================ GROUP DEFINITIONS =====================  -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:metaDeclGrp.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:tblDeclGrp.xsd:1.2"/>
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicGrp.xsd:1.2"/>
-  
-  &lt;!-- =================  MODULE INLCUDE DEFINITION  ==================  -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementMod.xsd:1.2"/>
-  &lt;!-- ======== Table elements ======== -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:tblDeclMod.xsd:1.2"/>    
-  &lt;!-- ======= MetaData elements, plus keyword and indexterm ======= -->
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:metaDeclMod.xsd:1.2"/>
-  
-    
-  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:topicMod.xsd:1.2"/>
+		<p>You integrate the attribute into shell XSDs by including the attribute module document and
+			adding an entry for the attribute domain to the <xmlatt>domains</xmlatt> attribute
+			declaration. For
+			example:<codeblock><?oxy_insert_start author="jdwin" timestamp="20200319T124706-0400"?>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!-- ============================================================= -->
+&lt;!--                    HEADER                                     -->
+&lt;!-- ============================================================= -->
+&lt;xs:schema xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	&lt;!-- ================ TOPIC DOMAINS ===================== -->
+	&lt;xs:include schemaLocation="dbParaDomain.xsd"/>
+	<b>&lt;xs:include schemaLocation="phase-of-moonAttDomain.xsd"/></b>
 
-  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2">
-    <b>&lt;xs:attributeGroup name="props-attribute-extensions"></b>
-      <b>&lt;xs:attributeGroup ref="props-attribute-extensions"/></b>
-      <b>&lt;xs:attributeGroup ref="phase-of-moon-d-attribute"/></b>
-    <b>&lt;/xs:attributeGroup></b>
- &lt;/xs:redefine>
-  
-  &lt;xs:group name="info-types">
-    &lt;xs:sequence/>    
-  &lt;/xs:group>
-  
-  &lt;xs:attributeGroup name="domains-att">
-    <b>&lt;xs:attribute name="domains" type="xs:string" default="a(props phase-of-moon)"/>
-</b>  &lt;/xs:attributeGroup>
-  
-&lt;/xs:schema></codeblock></p>
-    <p>This example is a topic shell that integrates only the attribute domain. In practice you would normally include a number of element domains in addition to any attribute domains.</p>
-  </body>
+...
+	&lt;!-- ======= MetaData elements, plus keyword and indexterm ======= -->
+	&lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:metaDeclMod.xsd:1.3"/>
+
+	&lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.3">
+
+		&lt;xs:attributeGroup name="props-attribute-extensions">
+			&lt;xs:attributeGroup ref="props-attribute-extensions"/>
+			&lt;xs:attributeGroup ref="deliveryTargetAtt-d-attribute"/>
+			<b>&lt;xs:attributeGroup ref="phase-of-moon-d-attribute"/>
+</b>		&lt;/xs:attributeGroup>
+		
+		&lt;xs:group name="p">
+			&lt;xs:choice>
+				&lt;xs:group ref="p"/>
+				&lt;xs:group ref="dbPara-d-p"/>
+			&lt;/xs:choice>
+		&lt;/xs:group>
+...
+	&lt;xs:attributeGroup name="domains-att">
+		&lt;xs:attribute name="domains" type="xs:string"
+			default="(topic abbrev-d) 
+			         ...
+			         <b>a(props phase-of-moon)</b>"
+		/>
+	&lt;/xs:attributeGroup>
+&lt;/xs:schema>
+<?oxy_insert_end?></codeblock></p>
+		<?oxy_delete author="jdwin" timestamp="20200319T125105-0400" content="&lt;p&gt;This example is a topic shell that integrates only the attribute domain. In practice you would normally include a number of element domains in addition to any attribute domains.&lt;/p&gt;"?>
+	</body>
 </subsection>

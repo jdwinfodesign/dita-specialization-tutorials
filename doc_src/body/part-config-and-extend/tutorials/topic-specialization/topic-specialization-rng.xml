@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Topic Specialization: RNG Version</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>topic specialization<indexterm>RNG</indexterm></indexterm>
+        <indexterm>RNG<indexterm>topic specialization</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The process for creating a Relax NG version of the FAQ question topic type is as follows
+			(assuming you have already created the final DTD version of the faq-question topic type):<ol
+				id="ol_zbm_wkb_glb">
+				<li>Create the directory <filepath>faq-question/rng</filepath> in your working area.</li>
+				<li>Copy the files <filepath>concept.rng</filepath> and <filepath>conceptMod.rng</filepath>
+					from the DITA 1.3 Technical Content RNG directory to the
+						<filepath>faq-question/rng</filepath> directory.</li>
+				<li>Rename the files from <filepath>faq-question.rng</filepath> and
+						<filepath>faq-questionMod.rng</filepath>.</li>
+				<li>Copy the <filepath>catalog.xml</filepath> file from the <filepath>dtd</filepath>
+					directory into the <filepath>rng</filepath> directory.</li>
+				<li>Edit <filepath>rng/catalog.xml</filepath> and change it as follows:<ol
+						id="ol_acm_wkb_glb">
+						<li>Change <q>.dtd</q> to <q>.rng</q></li>
+						<li>Change <q>.mod</q> to <q>Mod.xsd</q></li>
+						<li>In the public identifiers, append the corresponding last part of the filename to the
+							end of the URN, e.g. <q>urn:pubid:example.org:doctypes:dita:modules:faq-question</q>
+							becomes <q>urn:pubid:example.org:doctypes:dita:modules:faq-questionMod.rng</q></li>
+						<li>Copy all the <xmlelement>public</xmlelement> elements and change <q>public</q> to
+								<q>uri</q> and the <q>publicId</q> attributes to <q>name.</q><p>This is necessary
+								because the Apache Xerces parser incorrectly uses public ID resolution to resolve
+								RNG schema locations. It should use URI entries (because schema locations are URIs
+								and not entity references, they should be resolved through URI entries in catalogs).
+								Other systems that use the catalog will likely do the correct thing and use URI
+								entries to resolve schema locations. So you need both forms of entry.</p><p>If you
+								want to cover all bases you can make yet another copy of the entries and change
+									<xmlelement>public</xmlelement> to <xmlelement>system</xmlelement> and
+									<q>publicId</q> to <q>systemId.</q> That covers the case where a processor treats
+								a schema location as a system ID rather than a URI. That would also be wrong but
+								some systems may do it.</p></li>
+					</ol></li>
+				<li>Edit the <filepath>faq-question/catalog.xml</filepath> file, copy the
+						<xmlelement>nextCatalog</xmlelement> element and change <q>dtd</q> to <q>rng</q> in the
+					new copy, resulting in this catalog file (assuming you also completed the XSD
+					tutorial):<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+  
+  &lt;nextCatalog catalog="dtd/catalog.xml"/>
+  &lt;nextCatalog catalog="xsd/catalog.xml"/>
+  &lt;nextCatalog catalog="rng/catalog.xml"/>
+  
+&lt;/catalog></codeblock></li>
+				<li>Edit <filepath>faq-question.rng</filepath> as follows: <ol id="ol_xgg_yy1_glb">
+						<li>Change all instances of <q>concept</q> or <q>Concept</q> to <q>faq-question</q> or
+								<q>FAQ Question</q>, respectively, with the following exception.</li>
+						<li>In the <xmlelement>div</xmlelement> containing <q>DOMAINS ATTRIBUTE</q>, add an
+							entry for <q>(topic faq-question)</q>. That is, make the following addition shown in
+								<b>bold</b>:
+							<codeblock>&lt;div>
+    &lt;a:documentation>DOMAINS ATTRIBUTE&lt;/a:documentation>
+    &lt;define name="domains-att" combine="interleave">
+      &lt;optional>
+        &lt;attribute name="domains"
+        	a:defaultValue="<b>(topic faq-question)</b>
+          		 (topic abbrev-d)
+                         (topic concept)
+                         ...
+        />
+      &lt;/optional>
+    &lt;/define>
+  &lt;/div></codeblock></li>
+						<li>In the <xmlelement>div</xmlelement> containing <q>&lt;a:documentation>MODULE
+								INCLUSIONS&lt;/a:documentation></q>, delete all instances of leading relative paths,
+							i.e. delete <q>../../</q></li>
+						<li>For all <xmlatt>href</xmlatt>'s, prepend the string
+								<q>urn:oasis:names:tc:dita:rng:</q>, so that <codeph>&lt;include
+								href="abbreviateDomain.rng"/></codeph> becomes <codeph>&lt;include
+								href="urn:oasis:names:tc:dita:rng:abbreviateDomain.rng"/></codeph>.</li>
+					</ol></li>
+				<li>For <filepath>faq-questionMod.rng</filepath>, make the following changes. <ol
+						id="ol_sx2_v1b_glb">
+						<li>Edit the header comments as needed.</li>
+						<li>Delete all components that refer to <xmlelement>conbodydiv</xmlelement>; e.g.,
+							delete the entire <xmlelement>div</xmlelement> containing <codeph>&lt;a:documentation>
+								LONG NAME: Concept Body division &lt;/a:documentation></codeph> along with the
+							following:<codeblock>&lt;define name="conbodydiv">
+      &lt;ref name="conbodydiv.element"/>
+    &lt;/define></codeblock></li>
+						<li>Change instances of <q>Concept</q> to <q>FAQ Question</q> and <q>concept</q> to
+								<q>faq-question</q>.</li>
+						<li>Change instances of <q>concept</q> to <q>faq-question</q>; for example, in the
+								<xmlelement>div</xmlelement> containing <codeph>&lt;a:documentation>ELEMENT TYPE
+								NAME PATTERNS&lt;/a:documentation></codeph> you should have:
+							<codeblock>&lt;a:documentation>ELEMENT TYPE NAME PATTERNS&lt;/a:documentation>
+  	&lt;define name="faq-question">
+  		&lt;ref name="faq-question.element"/>
+    &lt;/define></codeblock></li>
+					</ol></li>
+				<li>In the <xmlelement>div</xmlelement> containing <codeph>&lt;a:documentation>ELEMENT TYPE
+						DECLARATIONS&lt;/a:documentation></codeph>, delete <codeph>&lt;ref
+						name="abstract"/></codeph> and verify it looks like:
+					<codeblock>&lt;div>
+      &lt;a:documentation> LONG NAME: FAQ Question &lt;/a:documentation>
+    	&lt;define name="faq-question.content">
+        &lt;ref name="title"/>
+        &lt;optional>
+          &lt;ref name="titlealts"/>
+        &lt;/optional>
+        &lt;optional>
+          &lt;choice>
+            &lt;ref name="shortdesc"/>
+          &lt;/choice>
+        &lt;/optional>
+        &lt;optional>
+          &lt;ref name="prolog"/>
+        &lt;/optional>
+        &lt;optional>
+          &lt;ref name="conbody"/>
+        &lt;/optional>
+        &lt;optional>
+          &lt;ref name="related-links"/>
+        &lt;/optional>
+        &lt;zeroOrMore>
+        	&lt;ref name="faq-question-info-types"/>
+        &lt;/zeroOrMore>
+      &lt;/define>
+    	&lt;define name="faq-question.attributes">
+        &lt;attribute name="id">
+          &lt;data type="ID"/>
+        &lt;/attribute>
+        &lt;ref name="conref-atts"/>
+        &lt;ref name="select-atts"/>
+        &lt;ref name="localization-atts"/>
+        &lt;optional>
+          &lt;attribute name="outputclass"/>
+        &lt;/optional>
+      &lt;/define>
+      &lt;define name="faq-question.element">
+    	&lt;element name="faq-question" dita:longName="faq-question">
+          &lt;a:documentation>The &amp;lt;concept> element is the top-level element for a topic that answers the question what is? Concepts provide background information that users must know before they can
+            successfully work with a product or interface. Often, a concept is an extended definition of a major abstraction such as a process or function. It might also have an example or a graphic,
+            but generally the structure of a concept is fairly simple. Category: Concept elements&lt;/a:documentation>
+    			&lt;ref name="faq-question.attlist"/>
+    			&lt;ref name="faq-question.content"/>
+        &lt;/element>
+      &lt;/define>
+      &lt;define name="faq-question.attlist" combine="interleave">
+        &lt;ref name="faq-question.attributes"/>
+        &lt;ref name="arch-atts"/>
+        &lt;ref name="domains-att"/>
+      &lt;/define>
+      &lt;define name="idElements" combine="choice">
+        &lt;ref name="faq-question.element"/>
+      &lt;/define>
+    &lt;/div></codeblock></li>
+			</ol></p>
+		<ol id="ol_cm1_vmb_glb">
+			<li>In the DITA 1.3 Base RNG distribution, open <filepath>commonElements.rng</filepath> search
+				for <q>LONG NAME: Title</q>and copy the containing <xmlelement>div</xmlelement>.</li>
+			<li>Past the entire <xmlelement>div</xmlelement> into <filepath>faq-questionMod.rng</filepath>
+				below the <xmlelement>div</xmlelement> containing the <codeph>faq-question</codeph>. </li>
+			<li>Delete the reference to <q>CALS Table</q> and modify as follows:
+				<codeblock>&lt;div>
+  		&lt;a:documentation>LONG NAME: FAQ Question statement&lt;/a:documentation>
+  		&lt;define name="faq-question-statement.content">
+  			&lt;a:documentation>This is referenced inside CALS table&lt;/a:documentation>
+  			&lt;zeroOrMore>
+  				&lt;ref name="title.cnt"/>
+  			&lt;/zeroOrMore>
+  		&lt;/define>
+  		&lt;define name="faq-question-statement.attributes">
+  			&lt;ref name="id-atts"/>
+  			&lt;ref name="localization-atts"/>
+  			&lt;optional>
+  				&lt;attribute name="base"/>
+  			&lt;/optional>
+  			&lt;ref name="base-attribute-extensions"/>
+  			&lt;optional>
+  				&lt;attribute name="outputclass"/>
+  			&lt;/optional>
+  			&lt;optional>
+  				&lt;attribute name="rev" dita:since="1.3"/>
+  			&lt;/optional>
+  		&lt;/define>
+  		&lt;define name="faq-question-statement.element">
+  			&lt;element name="faq-question-statement" dita:longName="FAQ Question Statement">
+  				&lt;a:documentation>The &amp;lt;faq-question-statement> element ... Category: Topic elements&lt;/a:documentation>
+  				&lt;ref name="faq-question-statement.attlist"/>
+  				&lt;ref name="faq-question-statement.content"/>
+  			&lt;/element>
+  		&lt;/define>
+  		&lt;define name="faq-question-statement.attlist" combine="interleave">
+  			&lt;ref name="faq-question-statement.attributes"/>
+  		&lt;/define>
+  	&lt;/div></codeblock></li>
+		</ol>
+		<ol id="ol_p3l_3nb_glb">
+			<li>In the DITA 1.3 Base RNG distribution, open <filepath>topicMod.rng</filepath> and copy the
+				entire <xmlelement>div</xmlelement> that contains <q>LONG NAME: Short Description</q> and
+				paste it into <filepath>faq-questionMod.rng</filepath> just below the last
+					<xmlelement>div</xmlelement> you added.</li>
+			<li>Modify as follows:
+				<codeblock>&lt;div>
+  		&lt;a:documentation>LONG NAME: FAQ Short Answer&lt;/a:documentation>
+  		&lt;define name="faq-short-answer.content">
+  			&lt;zeroOrMore>
+  				&lt;choice>
+  					&lt;ref name="title.cnt"/>
+  					&lt;ref name="xref" dita:since="1.3"/>
+  				&lt;/choice>
+  			&lt;/zeroOrMore>
+  		&lt;/define>
+  		&lt;define name="faq-short-answer.attributes">
+  			&lt;ref name="univ-atts"/>
+  			&lt;optional>
+  				&lt;attribute name="outputclass"/>
+  			&lt;/optional>
+  		&lt;/define>
+  		&lt;define name="faq-short-answer.element">
+  			&lt;element name="faq-short-answer" dita:longName="Short Description">
+  				&lt;a:documentation>The short description (&amp;lt;faq-short-answer>) element occurs between the topic title and the topic body, as the initial paragraph-like content of a topic, or it can be embedded
+  					in an abstract element. The short description, which represents the purpose or theme of the topic, is also intended to be used as a link preview and for searching. When used within a
+  					DITA map, the short description of the &amp;lt;topicref> can be used to override the short description in the topic. Category: Topic elements&lt;/a:documentation>
+  				&lt;ref name="faq-short-answer.attlist"/>
+  				&lt;ref name="faq-short-answer.content"/>
+  			&lt;/element>
+  		&lt;/define>
+  		&lt;define name="faq-short-answer.attlist" combine="interleave">
+  			&lt;ref name="faq-short-answer.attributes"/>
+  		&lt;/define>
+  	&lt;/div></codeblock></li>
+			<li>In <filepath>faq-questionMod.rng</filepath>, modify the <xmlelement>div</xmlelement>
+				containing <q>LONG NAME: Concept Body division</q> to the following:
+				<codeblock>&lt;div>
+      &lt;a:documentation> LONG NAME: faq-question Body &lt;/a:documentation>
+      &lt;define name="faq-answer-details.content">
+        &lt;zeroOrMore>
+          &lt;ref name="body.cnt"/>
+        &lt;/zeroOrMore>
+        &lt;zeroOrMore>
+          &lt;choice>
+            &lt;ref name="section"/>
+            &lt;ref name="example"/>
+&lt;!--            &lt;ref name="conbodydiv"/>-->
+          &lt;/choice>
+        &lt;/zeroOrMore>
+      &lt;/define>
+      &lt;define name="faq-answer-details.attributes">
+        &lt;ref name="id-atts"/>
+        &lt;ref name="localization-atts"/>
+        &lt;optional>
+          &lt;attribute name="base"/>
+        &lt;/optional>
+        &lt;ref name="base-attribute-extensions"/>
+        &lt;optional>
+          &lt;attribute name="outputclass"/>
+        &lt;/optional>
+      &lt;/define>
+      &lt;define name="faq-answer-details.element">
+        &lt;element name="faq-answer-details" dita:longName="Concept Body">
+          &lt;a:documentation>The &amp;lt;faq-answer-details> element is the main body-level element for a concept. Like the &amp;lt;body> element of a general &amp;lt;topic>, &amp;lt;faq-answer-details> allows paragraphs, lists, and other
+            elements as well as sections and examples. But &amp;lt;faq-answer-details> has a constraint that a section or an example can be followed only by other sections or examples. Category: Concept
+            elements&lt;/a:documentation>
+          &lt;ref name="faq-answer-details.attlist"/>
+          &lt;ref name="faq-answer-details.content"/>
+        &lt;/element>
+      &lt;/define>
+      &lt;define name="faq-answer-details.attlist" combine="interleave">
+        &lt;ref name="faq-answer-details.attributes"/>
+      &lt;/define>
+    &lt;/div></codeblock></li>
+			<li>Modify the <xmlelement>div</xmlelement> containing
+					<codeph>&lt;a:documentation>SPECIALIZATION ATTRIBUTE
+					DECLARATIONS&lt;/a:documentation></codeph>:
+				<codeblock>&lt;div>
+		&lt;a:documentation>SPECIALIZATION ATTRIBUTE DECLARATIONS&lt;/a:documentation>
+		&lt;define name="faq-question.attlist" combine="interleave">
+			&lt;ref name="global-atts"/>
+			&lt;optional>
+				&lt;attribute name="class"
+					a:defaultValue="- topic/topic concept/concept faq-question/faq-question "/>
+			&lt;/optional>
+		&lt;/define>
+		&lt;define name="faq-question-statement.attlist" combine="interleave">
+			&lt;ref name="global-atts"/>
+			&lt;optional>
+				&lt;attribute name="class"
+					a:defaultValue="- topic/title     concept/title     faq-question/faq-question-statement "
+				/>
+			&lt;/optional>
+		&lt;/define>
+		&lt;define name="faq-short-answer.attlist" combine="interleave">
+			&lt;ref name="global-atts"/>
+			&lt;optional>
+				&lt;attribute name="class"
+					a:defaultValue="- topic/shortdesc concept/shortdesc faq-question/faq-short-answer "/>
+			&lt;/optional>
+		&lt;/define>
+		&lt;define name="faq-answer-details.attlist" combine="interleave">
+			&lt;ref name="global-atts"/>
+			&lt;optional>
+				&lt;attribute name="class"
+					a:defaultValue="- topic/body      concept/conbody   faq-question/faq-answer-details "/>
+			&lt;/optional>
+		&lt;/define>
+	&lt;/div></codeblock></li>
+			<li>Modify the <xmlelement>div</xmlelement> containing <codeph>&lt;a:documentation>ELEMENT
+					TYPE NAME PATTERNS&lt;/a:documentation></codeph>:
+				<codeblock>&lt;div>
+		&lt;a:documentation>ELEMENT TYPE NAME PATTERNS&lt;/a:documentation>
+		&lt;define name="faq-question">
+			&lt;ref name="faq-question.element"/>
+		&lt;/define>
+
+		&lt;define name="faq-question-statement">
+			&lt;ref name="faq-question-statement.element"/>
+		&lt;/define>
+
+		&lt;define name="faq-short-answer">
+			&lt;ref name="faq-short-answer.element"/>
+		&lt;/define>
+
+		&lt;define name="faq-answer-details">
+			&lt;ref name="faq-answer-details.element"/>
+		&lt;/define>
+	&lt;/div></codeblock></li>
+		</ol>
+		<p>
+			<ol id="ol_zhv_vkb_glb">
+				<li>Edit the test document and change the <xmlatt>xsi:href</xmlatt> value to the URN you
+					associated with the <filepath>faq-question.xsd</filepath> file, for
+					example:<codeblock>&lt;faq-question 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="urn:pubid:example.org:doctypes:dita:faq-question.xsd"
+ id="question-id">
+ 
+ ...
+
+&lt;/faq-question></codeblock></li>
+				<li>Redeploy the Toolkit plugin and validate the test document. It should be valid.</li>
+			</ol>
+		</p>
+  </body>
+</subsection>

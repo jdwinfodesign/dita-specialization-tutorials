@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-step-4-1">
-  <title>Step 4-1. Setup Local Copy of Document Type Shell DTD</title>
+  <title>Step 4-1. Set<?oxy_insert_start author="jdwin" timestamp="20200113T131703-0500"?>
+		<?oxy_insert_end?><?oxy_comment_start author="jdwin" timestamp="20200113T131726-0500" comment="Verb and preposition. "?><?oxy_delete author="jdwin" timestamp="20200113T131703-0500" content="u"?><?oxy_insert_start author="jdwin" timestamp="20200113T131705-0500"?>U<?oxy_insert_end?>p<?oxy_comment_end?>
+		Local Copy of Document Type Shell DTD</title>
   <body>
     <p>Make a local copy of the appropriate document type shell DTD. The DITA-defined declarations include both all the DITA-defined modules as well as base shells for all of the DITA-defined top-level topic and map types: map, topic, ditabase, bookmap, concept, reference, task, glossentry, and so on. These shells are intended to be used as the starting point for creating local customized shells that reflect your local topic and domain requirements.</p>
-    <p>Copy the <filepath>concept.dtd</filepath> file from the DITA distribution to some location outside the scope of the DITA Open Toolkit (e.g., c:\mystuff\dita\dtd\concept.dtd). </p>
+    <p>Copy the <filepath>concept.dtd</filepath> file from the DITA distribution to some location
+			outside the scope of the DITA Open Toolkit (e.g.,
+			<?oxy_comment_start author="jdwin" timestamp="20200113T131907-0500" comment="Made this consistent with earlier files in this tutorial."?><?oxy_delete author="jdwin" timestamp="20200113T131829-0500" content="c:\mystuff\dita\dtd"?><?oxy_insert_start author="jdwin" timestamp="20200113T131829-0500"?>myElementDomain<?oxy_comment_end?><?oxy_insert_end?>\concept.dtd). </p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

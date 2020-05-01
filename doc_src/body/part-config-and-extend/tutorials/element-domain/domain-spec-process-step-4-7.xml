@@ -5,21 +5,31 @@
   <prolog>
     <author>W. Eliot Kimber</author>
     <copyright>
-      <copyryear year="2007"/>
-      <copyrholder>W. Eliot Kimber</copyrholder>
-    </copyright>    
+			<?oxy_attributes year="&lt;change type=&quot;modified&quot; oldValue=&quot;2007&quot; author=&quot;jdwin&quot; timestamp=&quot;20200113T142632-0500&quot; /&gt;"?>
+			<copyryear year="2020"/>
+			<copyrholder>W. Eliot Kimber</copyrholder>
+		</copyright>    
   </prolog>
   <body>
-    <p>Using an XML editor and the test concept you created in step 2
-        above, first verify that the document is still valid, which verifies that you didn't break
-        anything in doing the integration of concept.dtd. If that succeeds, then 
-        add a <xmlelement>conbody</xmlelement>, a <xmlelement>p</xmlelement>, and verify that you can now
-        add any of the XML domain elements within a paragraph.</p>
+    <p>Using an XML editor and the test concept you created in step 2 above, first verify that the
+			document is still valid, which verifies that you didn't break anything in doing the
+			integration of concept.dtd. If that succeeds, then add a <xmlelement>conbody</xmlelement>, a
+				<xmlelement><?oxy_delete author="jdwin" timestamp="20200113T145711-0500" content="p"?><?oxy_insert_start author="jdwin" timestamp="20200113T145712-0500"?>para<?oxy_insert_end?></xmlelement>,
+			and verify that you can now add
+			<?oxy_delete author="jdwin" timestamp="20200113T145733-0500" content="any of the XML domain elements within a paragraph"?><?oxy_insert_start author="jdwin" timestamp="20200113T145733-0500"?>a
+				<xmlelement>wordasword</xmlelement> inside
+			it<?oxy_insert_end?>.<?oxy_insert_start author="jdwin" timestamp="20200113T145753-0500"?> You
+			should also be able to use <xmlelement>wordasword</xmlelement> is a DITA
+				<xmlelement>p</xmlelement>, as well.<?oxy_insert_end?></p>
     <p>If this succeeds, you're done. You have successfully defined a new domain and integrated
         it into a shell document type. Now all you have to do is repeat (that is copy) the 
         shell integrations into the other shells you'll be using the domain with.</p>
     <p>The next step, if needed, is to add domain-specific functionality to your DITA processors.
-        For the XML domain, that means updating output processors to create the formatting
-        effects for the different XML component mention elements.</p>
+			For the
+			<?oxy_delete author="jdwin" timestamp="20200113T145852-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200113T145852-0500"?>dbPara<?oxy_insert_end?>
+			domain, that means updating output processors to create the formatting effects
+				f<?oxy_delete author="jdwin" timestamp="20200113T145924-0500" content="or the different XML component mention elements"?><?oxy_insert_start author="jdwin" timestamp="20200113T145913-0500"?><xmlelement>wordasword</xmlelement>
+			if you want<?oxy_insert_end?>.</p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

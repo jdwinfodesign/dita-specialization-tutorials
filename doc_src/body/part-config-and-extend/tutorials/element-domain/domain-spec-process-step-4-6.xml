@@ -5,21 +5,24 @@
   <prolog>
     <author>W. Eliot Kimber</author>
     <copyright>
-      <copyryear year="2007"/>
-      <copyrholder>W. Eliot Kimber</copyrholder>
-    </copyright>    
+			<?oxy_attributes year="&lt;change type=&quot;modified&quot; oldValue=&quot;2007&quot; author=&quot;jdwin&quot; timestamp=&quot;20200113T142150-0500&quot; /&gt;"?>
+			<copyryear year="2020"/>
+			<copyrholder>W. Eliot Kimber</copyrholder>
+		</copyright>    
   </prolog>
   <body>
-    <p>Include the domain element declarations.
-        In concept.dtd, find the comment that says "DOMAIN ELEMENT INTEGRATION". Following that
-        comment, add a declaration and reference for the xmlDomain.mod declaration set:
-<codeblock>
-&lt;!ENTITY % xml-d-def     
-  SYSTEM  "xmlDomain.mod"
+    <p>Include the domain element declarations. In concept.dtd, find the comment that says "DOMAIN
+			ELEMENT INTEGRATION". Following that comment, add a declaration and reference for the
+			xmlDomain.mod declaration set:
+			<codeblock>
+&lt;!ENTITY % <?oxy_delete author="jdwin" timestamp="20200113T142320-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T142321-0500"?>dbPara<?oxy_insert_end?>-d-def     
+  SYSTEM  "<?oxy_delete author="jdwin" timestamp="20200113T142327-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T142328-0500"?>dbPara<?oxy_insert_end?>Domain.mod"
 >
-%xml-d-def;</codeblock>
-    </p>
-    <p>As for the .ent file, the actual system identifier needs to reflect the actual
-        location of your version of xmlDomain.mod.</p>
+%<?oxy_delete author="jdwin" timestamp="20200113T142333-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T142333-0500"?>dbPara<?oxy_insert_end?>-d-def;</codeblock>
+		</p>
+    <p>As for the .ent file, the actual system identifier needs to reflect the actual location of
+			your version of
+			<?oxy_delete author="jdwin" timestamp="20200113T142346-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T142346-0500"?>dbPara<?oxy_insert_end?>Domain.mod.</p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

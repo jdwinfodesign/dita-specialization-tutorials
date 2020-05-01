@@ -28,7 +28,8 @@
                     list declarations.</li>
             </ol>
         </p>
-    <p>The element type declarations should look like this: <codeblock>  
+    <p>The element type declarations should look like this:
+			<codeblock>  
 &lt;!--                    LONG NAME: FAQ question  -->
 &lt;!ENTITY % faq-question.content
  "
@@ -85,14 +86,17 @@
              outputclass 
                         CDATA                            #IMPLIED    
 '>
-&lt;!ELEMENT faq-question-statement %faq-question-statement.content; >
-&lt;!ATTLIST faq-question-statement %faq-question-statement.attributes; > 
+&lt;!ELEMENT faq-question-statement %faq-question-statement.content; ><?oxy_comment_start author="jdwin" timestamp="20200320T142730-0400" comment="Losing the conbodydiv stuff for now."?>
+&lt;!ATTLIST faq-question-statement %faq-question-statement.attributes; > <?oxy_comment_end?>
 
-</codeblock> </p>
+</codeblock>
+		</p>
     <p>If you want, validate the test document again. You should now only get errors like
-                <q>parameter entity 'question-statement' was referenced but not declared</q> and
-            maybe some errors about the declaration of <xmlelement>faq-question</xmlelement> itself. This
-            indicates we've declared the necessary element types, at least minimally, but we need to
-            declare the parameter entities as well.</p>
+				<q>parameter entity
+				'<?oxy_insert_start author="jdwin" timestamp="20200320T143102-0400"?>faq-<?oxy_insert_end?>question-statement'
+				was referenced but not declared</q> and maybe some errors about the declaration of
+				<xmlelement>faq-question</xmlelement> itself. This indicates we've declared the necessary
+			element types, at least minimally, but we need to declare the parameter entities as well.</p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

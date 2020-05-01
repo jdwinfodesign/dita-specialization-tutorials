@@ -2,9 +2,10 @@
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-specialization-tutorial">
   <title>Element Domain Specialization Tutorial</title>
-  <shortdesc>Goal: Declare an element domain vocabulary module that provides elements to identify
-        mentions of XML constructs: element types, attributes, text entities, parameter entities,
-        and numeric character references.</shortdesc>
+  <shortdesc>Goal: Declare an element domain vocabulary module that provides
+		<?oxy_comment_start author="jdwin" timestamp="20200107T142517-0500" comment="Will need to be revised to describe the new domain. Includes a specialized paragraph, not just &quot;mention&quot; or inline elements."?>elements
+		to identify mentions of XML constructs: element types, attributes, text entities, parameter
+		entities, and numeric character references<?oxy_comment_end?>.</shortdesc>
   <prolog>
     <metadata>
       <keywords>
@@ -73,3 +74,4 @@
             and topics.</p>
   </body>
 </subsection>
+<?oxy_options track_changes="on"?>

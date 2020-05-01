@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
+<subsection id="domain-spec-xsd-step-2">
+	<title>Integrate the domain into your topic shell</title>
+	<shortdesc>blah</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>element domain specialization<indexterm>RNG syntax</indexterm></indexterm>
+				<indexterm>RNG<indexterm>element domain specialization</indexterm></indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<body>
+		<p>In the <filepath>concept.rng</filepath> file you created in your <filepath>rng</filepath>
+			folder, find the <xmlelement>div</xmlelement> containing <codeph>DOMAINS ATTRIBUTE</codeph>.
+			Add your new domain:
+			<codeblock>&lt;div>
+  &lt;a:documentation>DOMAINS ATTRIBUTE&lt;/a:documentation>
+  &lt;define name="domains-att" combine="interleave">
+    &lt;optional>
+      &lt;attribute name="domains"
+       a:defaultValue="(topic abbrev-d)
+                       (topic concept)
+                       <b>(topic dbPara-d)</b>
+                       (topic equation-d)
+                       (topic hazard-d)
+                       (topic hi-d)
+                       (topic indexing-d)
+                       (topic markup-d xml-d)
+                       (topic markup-d)
+                       (topic mathml-d)
+                       (topic pr-d)
+                       (topic relmgmt-d)
+                       (topic svg-d)
+                       (topic sw-d)
+                       (topic ui-d)
+                       (topic ut-d)
+                       a(props deliveryTarget)"
+      />
+    &lt;/optional>
+  &lt;/define>
+&lt;/div></codeblock></p>
+		<p>find the <xmlelement>div</xmlelement> containing <codeph>&lt;a:documentation>MODULE
+				INCLUSIONS&lt;/a:documentation></codeph> and paste the following immediately after:
+			<codeblock>&lt;include href="dbParaDomain.rng"/></codeblock></p>
+		<p>You should be able to insert a <xmlelement>para</xmlelement> in your test document wherever a
+				<xmlelement>p</xmlelement> is allowed, along with the <xmlelement>wordasword</xmlelement>
+			element. If not, retrace your steps. </p>
+	</body>
+</subsection>

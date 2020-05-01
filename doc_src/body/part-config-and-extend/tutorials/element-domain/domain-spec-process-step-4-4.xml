@@ -5,21 +5,44 @@
   <prolog>
     <author>W. Eliot Kimber</author>
     <copyright>
-      <copyryear year="2007"/>
-      <copyrholder>W. Eliot Kimber</copyrholder>
-    </copyright>    
+			<?oxy_attributes year="&lt;change type=&quot;modified&quot; oldValue=&quot;2007&quot; author=&quot;jdwin&quot; timestamp=&quot;20200109T094210-0500&quot; /&gt;"?>
+			<copyryear year="2020"/>
+			<copyrholder>W. Eliot Kimber</copyrholder>
+		</copyright>    
   </prolog>
   <body>
-    <p>Add the module type-specific parameter entities to the domain extension parameter entities.
-        In concept.dtd, find the comment that says "DOMAIN EXTENSIONS". Update the <parameterentity>keyword</parameterentity>
-        parameter entity declaration to include the <parameterentity>xml-d-keyword</parameterentity> parameter entity:
-<codeblock>
-&lt;!ENTITY % keyword
-  "keyword |
-   <b>%xml-d-keyword;</b>
+		<p>Add the module type-specific parameter entities to the domain extension parameter entities.
+			In concept.dtd, find the comment that says "DOMAIN EXTENSIONS". Update the
+				<parameterentity>keyword</parameterentity> parameter entity declaration to include the
+				<parameterentity>xml-d-keyword</parameterentity> parameter entity:
+			<codeblock>
+&lt;!ENTITY % keyword<?oxy_insert_start author="jdwin" timestamp="20200113T140957-0500"?> <?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200113T140958-0500" content="
+  "?>"keyword |
+   <?oxy_delete author="jdwin" timestamp="20200113T140223-0500" content="&lt;b&gt;%xml-d-keyword;&lt;/b&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T140227-0500"?>
+      %markup-d-keyword; |
+      %pr-d-keyword; |
+      %sw-d-keyword; |
+      %ui-d-keyword; |
+      %xml-d-keyword; |
+   <b>   %dbPara-d-keyword;</b><?oxy_insert_end?>
   "                   
 ></codeblock></p>
-    <p>This declaration has the effect of including all the XML module's keyword-type elements wherever keyword
-        is allowed in the base DITA-defined content models.</p>
-  </body>
+		<?oxy_insert_start author="jdwin" timestamp="20200113T140550-0500"?>
+		<note>Remember to include the pipe (<q>|</q>) character if you add your entity at the end as we
+			have in the example.</note>
+		<?oxy_insert_end?>
+		<p>This declaration has the effect of including all the
+			<?oxy_delete author="jdwin" timestamp="20200113T141102-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200113T141102-0500"?>dbPara<?oxy_insert_end?>
+			module's keyword-type elements wherever keyword is allowed in the base DITA-defined content
+			models.</p>
+		<?oxy_insert_start author="jdwin" timestamp="20200113T141027-0500"?>
+		<p>Now, go to the end of the DOMAIN EXTENSIONS section and add an entity for the new paragraph
+			element.<codeblock><b>&lt;!ENTITY % p            "p |
+                         %dbPara-d-p;
+                         "></b></codeblock></p>
+		<p>Now, anywhere a <xmlelement>p</xmlelement> is allowed, our <xmlelement>para</xmlelement> will
+			be, also.</p>
+		<?oxy_insert_end?>
+	</body>
 </subsection>
+<?oxy_options track_changes="on"?>

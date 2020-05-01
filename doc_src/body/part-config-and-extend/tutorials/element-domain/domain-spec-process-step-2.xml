@@ -3,9 +3,10 @@
 <subsection id="domain-spec-step-two">
   <title>Element Domain Specialization Step 2: Declare The Domain Element Types</title>
   <shortdesc>The element type declarations go in a file called
-                <filepath><varname>modulename</varname>Domain.xml</filepath>.</shortdesc>
+				<filepath><varname>modulename</varname>Domain.<?oxy_delete author="jdwin" timestamp="20200107T153114-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200107T153114-0500"?>mod<?oxy_insert_end?></filepath>.</shortdesc>
   <body>
     <p>The easiest way to do this is to copy an existing domain module file and use it as a template for creating your new one. However, for this tutorial I will describe the process as though you were creating the file from scratch.</p>
   </body>
   
 </subsection>
+<?oxy_options track_changes="on"?>

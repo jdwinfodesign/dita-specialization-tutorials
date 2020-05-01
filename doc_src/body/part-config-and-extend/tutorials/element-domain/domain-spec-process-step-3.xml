@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="domain-spec-step-three">
-  <title>Element Domain Specialization Step 3: Declare The Module Entities File</title>
-  <shortdesc>The module entities file declares entities that are used within document type shell DTDs to integrate the module into the shell.</shortdesc>
-  <body>
-    <p>The module entities file is named
-                <filepath><varname>modulename</varname>Module.ent</filepath>. </p>
-    <p>There are two types of entities: type-specific parameter entities that integrate the module's
-            element types into the appropriate content models (phrase, keyword, dl, etc.), and a
-            domain usage declaration text entity that goes in the topic's or map's domain use
-            declaration attribute to indicate what domains are being used in a given topic or
-            map.</p>
-    <p>For the XML domain we only have element types specialized from <xmlelement>keyword</xmlelement>, so
-            we only need to declare one type-specific parameter entity. The parameter entity is
-            named <q><i>modulename</i>-d-<i>basetype</i>,</q> so in this case, the entity will be
-            named <q>xml-d-keyword.</q></p>
-  </body>
+	<title>Element Domain Specialization Step 3: Declare The Module
+		<?oxy_comment_start author="jdwin" timestamp="20200108T154816-0500" comment="Declaring the entities, not the file."?>Entities<?oxy_comment_end?><?oxy_delete author="jdwin" timestamp="20200108T154758-0500" content=" File"?></title>
+	<shortdesc>The module entities file declares entities that are used within document type shell
+		DTDs to integrate the module into the shell.</shortdesc>
+	<body>
+		<p>The module entities file is named
+				<filepath><varname>modulename</varname>Module.ent</filepath>. </p>
+		<p>There are two types of entities: type-specific parameter entities that integrate the module's
+			element types into the appropriate content models (phrase, keyword, dl, etc.), and a domain
+			usage declaration text entity that goes in the topic's or map's domain use declaration
+			attribute to indicate what domains are being used in a given topic or map.</p>
+		<?oxy_delete author="jdwin" timestamp="20200108T154843-0500" content="&lt;p&gt;For the XML domain we only have element types specialized from &lt;xmlelement&gt;keyword&lt;/xmlelement&gt;, so we only need to declare one type-specific parameter entity. The parameter entity is named &lt;q&gt;&lt;i&gt;modulename&lt;/i&gt;-d-&lt;i&gt;basetype&lt;/i&gt;,&lt;/q&gt; so in this case, the entity will be named &lt;q&gt;xml-d-keyword.&lt;/q&gt;&lt;/p&gt;"?>
+		<?oxy_insert_start author="jdwin" timestamp="20200108T154847-0500"?>
+		<p>For the dbPara domain, we have a <xmlelement>para</xmlelement> specialized from the DITA
+				<xmlelement>p</xmlelement>, and <xmlelement>wordasword</xmlelement>, which will be
+			specialized from <xmlelement>xmlelement</xmlelement>.</p>
+		<?oxy_insert_end?>
+	</body>
 </subsection>
+<?oxy_options track_changes="on"?>
