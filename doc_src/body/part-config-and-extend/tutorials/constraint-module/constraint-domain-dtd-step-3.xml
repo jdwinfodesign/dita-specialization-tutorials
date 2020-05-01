@@ -4,12 +4,7 @@
   id="topic-id">
   <title>Topic Constraint Module Step 3: Define the New Content Models</title>
   <body>
-    <p>The base content model for the <xmlelement>p</xmlelement> element is defined in a parameter
-			entity named <parameterentity>p.content</parameterentity> (by the
-			general<?oxy_comment_start author="jdwin" timestamp="20200303T152555-0500" comment="true in 1.3 also, if you want to update"?>
-			DITA 1.2 rules<?oxy_comment_end?> for constructing DTD-syntax element type declarations). Thus
-			we need to declare our own version of <parameterentity>p.content</parameterentity> with the
-			content model we want.</p>
+    <p>The base content model for the <xmlelement>p</xmlelement> element is defined in a parameter entity named <parameterentity>p.content</parameterentity> (by the general DITA 1.2 rules for constructing DTD-syntax element type declarations). Thus we need to declare our own version of <parameterentity>p.content</parameterentity> with the content model we want.</p>
     <p>We want to allow only #PCDATA and the element types <xmlelement>b</xmlelement>,
                 <xmlelement>i</xmlelement>, and <xmlelement>u</xmlelement>, or any specializations of those
             types. </p>
@@ -52,11 +47,7 @@
 &lt;!-- ============ End of constraint module --></codeblock>
     </p>
     <p>That's the entire constraint module.</p>
-    <p>It may seem odd that we have to declare tagname entities that are already declared in the
-			base module.
-			<?oxy_comment_start author="jdwin" timestamp="20200303T154522-0500" comment="Is it a problem? Or just a behavior we take advantage of?"?>However,
-			there is an order of inclusion problem that can't be worked around any other
-			way.<?oxy_comment_end?></p>
+    <p>It may seem odd that we have to declare tagname entities that are already declared in the base module. However, there is an order of inclusion problem that can't be worked around any other way.</p>
     <bodydiv
       outputclass="why-does-dita">
       <p>In DTDs, the first declaration of a parameter entity name wins. This is why the module files are included <i>last</i> in document type shells: they have to give domain modules and constraint modules the opportunity to override any parameter entities declared in the base module.</p>
@@ -69,4 +60,3 @@
     </bodydiv>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

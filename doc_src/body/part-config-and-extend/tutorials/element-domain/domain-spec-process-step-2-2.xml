@@ -1,47 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd"> 
 <subsection id="step2-2">
-	<title>Step 2-2. Declare Element Type Name Parameter Entities</title>
-	<?oxy_delete author="jdwin" timestamp="20200107T162813-0500" content="&lt;body&gt;&lt;p&gt;For each element type, declare a parameter entity that reflects the element type name: &lt;codeblock&gt;
-&amp;lt;!-- ====================================================
+  <title>Step 2-2. Declare Element Type Name Parameter Entities</title>
+  <body>
+    <p>For each element type, declare a parameter entity that reflects the element type name: <codeblock>
+&lt;!-- ====================================================
      XML Construct Domain Module
     
-     Author: &lt;i&gt;your name here&lt;/i&gt;
+     Author: <i>your name here</i>
 
-     Copyright (c) 2011 &lt;i&gt;copyright holder&lt;/i&gt;
+     Copyright (c) 2011 <i>copyright holder</i>
      
-     &lt;i&gt;license to use or not use or whatever&lt;/i&gt;
+     <i>license to use or not use or whatever</i>
      
-     ==================================================== --&gt;
+     ==================================================== -->
      
-&lt;b&gt;&amp;lt;!ENTITY % xmlelem    &quot;xmlelem&quot;  &gt;&lt;/b&gt;  &lt;/codeblock&gt;&lt;/p&gt;&lt;p&gt;These entities allow the element type to be used in content models via the parameter entity. Document type shells can then integrate further specializations of this element type by redeclaring the parameter entity to include specializations of the element, which then are automatically allowed wherever the base element type is allowed. You can also use the parameter entity in constraint modules to specifically allow only the element type in place of its base type.&lt;/p&gt;&lt;/body&gt;"?>
-	<?oxy_insert_start author="jdwin" timestamp="20200107T162824-0500"?>
-	<body>
-		<p>For each element type, declare a parameter entity that reflects the element type name:
-			<codeblock>&lt;!-- =================================================================
-     DocBook-like Paragraph Domain Module
-    
-     Author: your name here
-
-     Copyright (c) 2019 copyright holder
-     
-     license to use or not use or whatever
-          
-     ============================================================= -->
-     
-&lt;!-- ============================================================= -->
-&lt;!--                   ELEMENT NAME ENTITIES                       -->
-&lt;!-- ============================================================= -->
-
-<b>&lt;!ENTITY % para 				"para" 			>
-&lt;!ENTITY % wordasword 	"wordasword" ></b></codeblock></p>
-		<p>These entities allow the element type to be used in content models via the parameter entity.
-			Document type shells can then integrate further specializations of this element type by
-			redeclaring the parameter entity to include specializations of the element, which then are
-			automatically allowed wherever the base element type is allowed. You can also use the
-			parameter entity in constraint modules to specifically allow only the element type in place of
-			its base type.</p>
-	</body>
-	<?oxy_insert_end?>
+<b>&lt;!ENTITY % xmlelem    "xmlelem"  ></b>  </codeblock></p>
+    <p>These entities allow the element type to be used in content models via the parameter entity. Document type shells can then integrate further specializations of this element type by redeclaring the parameter entity to include specializations of the element, which then are automatically allowed wherever the base element type is allowed. You can also use the parameter entity in constraint modules to specifically allow only the element type in place of its base type.</p>
+  </body>
 </subsection>
-<?oxy_options track_changes="on"?>

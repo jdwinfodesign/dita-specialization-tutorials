@@ -3,22 +3,15 @@
 <subsection id="domain-spec-step-4-2">
   <title>Step 4-2. Create a Test Topic</title>
   <body>
-		<p>Create a test document that will test the new document type shell by using it as its DTD. Put
-			this file in the same directory as the shell DTD or in a nearby directory. The file should
-			look like
-			this:<codeblock>
+    <p>Create a test document that will test the new document type shell by using it as its DTD. Put this file in the same directory as the shell DTD or in a nearby directory. The file should look like this:<codeblock>
 &lt;?xml version="1.0"?&gt;
 &lt;!DOCTYPE concept SYSTEM "<b>concept.dtd</b>">
 &lt;concept id="topicid">
 &lt;title>Test concept&lt;/title>
 &lt;/concept>
 </codeblock></p>
-		<p>Modify the system identifier (the part in bold) to reflect the actual location of the shell
-			DTD relative to the test document. </p>
-		<p>Remember that in XML all system identifiers are URIs, meaning you're specifying a URL, not a
-			system-specific file path. So no backslashes if you're on Windows.</p>
-		<p>Validate this document. It should be valid at this point as you haven't modified the document
-			type shell file in any way.</p>
-	</body>
+    <p>Modify the system identifier (the part in bold) to reflect the actual location of the shell DTD relative to the test document. </p>
+    <p>Remember that in XML all system identifiers are URIs, meaning you're specifying a URL, not a system-specific file path. So no backslashes if you're on Windows.</p>
+    <p>Validate this document. It should be valid at this point as you haven't modified the document type shell file in any way.</p>
+  </body>
 </subsection>
-<?oxy_options track_changes="on"?>

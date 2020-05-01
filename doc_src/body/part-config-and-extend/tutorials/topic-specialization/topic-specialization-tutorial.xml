@@ -15,87 +15,88 @@
     </metadata>
   </prolog>
   <body>
-		<p>Topic specialization generally requires defining a number of new element types at different
-			levels in the element hierarchy, as opposed to domain specialization, which can be as simple
-			as defining a few new phrase-level element types.</p>
-		<p>The main reason to create structural specializations is to provide more-specific markup that
-			reflects your local business requirements or the nature of your information. For most
-			technical documentation applications, the value in specializing reference and task topic types
-			is usually pretty obvious. Information types work best when they directly reflect the details
-			of the things being documented, the editorial rules for how tasks should be structured, and
-			the needs of other information systems that use the information (for example, interactive task
-			support systems).</p>
-		<?oxy_comment_start author="jdwin" timestamp="20200320T105823-0400" comment="Might want to reword references to DITA 1.2."?>
-		<note type="tip">DITA 1.2 introduces a new configuration feature, constraints, which allows you
-			to modify content models without doing specialization. This allows you to reserve
-			specialization for those requirements that truly require new markup. Before DITA 1.2 you had
-			to use specialization just to define more-constrained versions of base content models, even
-			when you weren't changing the meaning of the markup itself. With DITA 1.2, this is no longer
-			necessary. See <xref href="../constraint-module/creating-constraint-module.xml#topic-id"
-				format="dita"/>.<?oxy_comment_end?></note>
-		<p>For reference information, it is usually useful to define specialized reference topic types
-			that directly reflect the objects being documented. For example, if you're documenting
-			sprockets it probably makes sense to have a specialization of <q>reference</q> called
-				<q>sprocket</q> or <q>sprocket-definition</q> that has specialized
-				<xmlelement>section</xmlelement> elements that reflect the specific sets of properties or
-			characteristics that sprockets have (tooth properties, shaft properties, material information,
-			manufacturing notes, etc.).</p>
-		<p>For tasks, you may have specific editorial rules for how tasks should be constructed, rules
-			that are more constraining than the base DITA rules for tasks (which are already pretty
-			constraining). <fn>DITA 1.2 defines a more generic base task type, which provides more
-				opportunity to create specialized tasks that are different from the more-constrained DITA
-				1.1 <xmlelement>task</xmlelement>. </fn></p>
-		<p>Because conceptual information is, by its nature, more generic, there is usually less need to
-			specialize from <xmlelement>concept</xmlelement>. For example, the topics for this tutorial
-			are all generic concepts (although they use a specialized domain for identifying mentions of
-			XML constructs). However, there are still many good reasons to specialize concept topic
-			types.</p>
-		<p>One strong reason to specialize from <xmlelement>concept</xmlelement> is to create element
-			types that reflect specific levels in a governing organizational taxonomy when that taxonomy
-			is an integral and invariant aspect of the information. Another reason would be to provide
-			different more-specific concept element types that are familiar to your authors or that
-			reflect a particular editorial style for presenting conceptual information. For example, in
-			the case of this tutorial, the FAQ topic type is based on concept but has been specialized to
-			provide a clear <q>short answer/long answer</q> distinction and to disallow base types that we
-			don't want to allow in FAQ topics (abstract in this case). In addition, having a specialized
-			type for FAQ lets us apply FAQ-specific styling to the topics for presentation.</p>
-		<p>Note that specializing <xmlelement>concept</xmlelement> to reflect specific hierarchical
-			levels within a traditional document, e.g., chapter, section, subsection, is normally not a
-			good idea, because it binds a given topic to a specific level, making it harder to re-use or
-			re-organize the topic in other contexts. Instead, if you want markup that directly reflects
-			specific hierarchical levels, you should use map specializations, such as the standard
-				<xmlelement>bookmap</xmlelement> or the DITA for Publishers publication map domain. </p>
-		<p>The only exception to this rule I can think of is when you have an editorial policy that
-			requires title-only topics (that is, topics with no body) to satisfy specific levels in a
-			governing hierarchy (that is, a governing, invariant, taxonomy). In that case, it can make
-			sense to define specializations of <xmlelement>concept</xmlelement> or
-				<xmlelement>topic</xmlelement> whose names reflect the taxonomy or hierarchy level and that
-			don't allow either <xmlelement>body</xmlelement> or nested topics (meaning that they only
-			serve to be used from maps within a hierarchy of topic references). However, the value of this
-			type of topic is dubious given that <xmlelement>topichead</xmlelement> elements within a map
-			are sufficient to establish the hierarchy and provide the necessary titles.<fn>DITA 1.2 also
-				clarifies the fact that topicheads can processed as though they referred to title-only
-				topics.</fn></p>
-		<p>Note that you are not required to specialize from <xmlelement>concept</xmlelement>,
-				<xmlelement>task</xmlelement>, or <xmlelement>reference</xmlelement>. You can specialize
-			directly from <xmlelement>topic</xmlelement> or from a more-specialized topic type. The
-			concept/task/reference model makes sense in the context of technical documentation, where it
-			reflects well-established writing practice. But it is not always sensible for other uses of
-			DITA. For example, in the context of Publishing, most content either does not naturally map to
-			one of those three types, or those distinctions simply aren't relevant (e.g., within a novel).
-			In that case it can make sense to specialize directly from <xmlelement>topic</xmlelement>. </p>
-		<p>For example, the DITA for Publishers vocabulary includes the topic types
-				<xmlelement>article</xmlelement>, <xmlelement>chapter</xmlelement>,
-				<xmlelement>part</xmlelement>, <xmlelement>subsection</xmlelement>, and
-				<xmlelement>sidebar</xmlelement>, all specialized directly from
-				<xmlelement>topic</xmlelement>, because they are intended to represent content at its most
-			generic. The topic types simply provide a more obvious mapping to the basic document
-			components Publishers would expect to see in any Publishing XML application. These topic types
-			also reflect the simplest topic specialization, one that changes only the topic root element,
-			leaving all other elements unchanged. For DITA for Publishers this reflects the need to
-			distinguish chapters from articles as business objects, and people expect to find these topic
-			types in a publishing vocabulary.</p>
-	</body>
+   <p>Topic specialization generally requires defining a number of new element types at different
+            levels in the element hierarchy, as opposed to domain specialization, which can be as
+            simple as defining a few new phrase-level element types.</p>
+    <p>The main reason to create structural specializations is to provide more-specific markup that
+            reflects your local business requirements or the nature of your information. For most
+            technical documentation applications, the value in specializing reference and task topic
+            types is usually pretty obvious. Information types work best when they directly reflect
+            the details of the things being documented, the editorial rules for how tasks should be
+            structured, and the needs of other information systems that use the information (for
+            example, interactive task support systems).</p>
+    <note type="tip">DITA 1.2 introduces a new configuration feature, constraints, which allows you
+            to modify content models without doing specialization. This allows you to reserve
+            specialization for those requirements that truly require new markup. Before DITA 1.2 you
+            had to use specialization just to define more-constrained versions of base content
+            models, even when you weren't changing the meaning of the markup itself. With DITA 1.2,
+            this is no longer necessary. See <xref
+                href="../constraint-module/creating-constraint-module.xml#topic-id" format="dita"
+            />.</note>
+    <p>For reference information, it is usually useful to define specialized reference topic types
+            that directly reflect the objects being documented. For example, if you're documenting
+            sprockets it probably makes sense to have a specialization of <q>reference</q> called
+                <q>sprocket</q> or <q>sprocket-definition</q> that has specialized
+                <xmlelement>section</xmlelement> elements that reflect the specific sets of properties or
+            characteristics that sprockets have (tooth properties, shaft properties, material
+            information, manufacturing notes, etc.).</p>
+    <p>For tasks, you may have specific editorial rules for how tasks should be constructed, rules
+            that are more constraining than the base DITA rules for tasks (which are already pretty
+            constraining). <fn>DITA 1.2 defines a more generic base task type, which provides more
+                opportunity to create specialized tasks that are different from the more-constrained
+                DITA 1.1 <xmlelement>task</xmlelement>. </fn></p>
+    <p>Because conceptual information is, by its nature, more generic, there is usually less need to
+            specialize from <xmlelement>concept</xmlelement>. For example, the topics for this tutorial
+            are all generic concepts (although they use a specialized domain for identifying
+            mentions of XML constructs). However, there are still many good reasons to specialize
+            concept topic types.</p>
+    <p>One strong reason to specialize from <xmlelement>concept</xmlelement> is to create element types
+            that reflect specific levels in a governing organizational taxonomy when that taxonomy
+            is an integral and invariant aspect of the information. Another reason would be to
+            provide different more-specific concept element types that are familiar to your authors
+            or that reflect a particular editorial style for presenting conceptual information. For
+            example, in the case of this tutorial, the FAQ topic type is based on concept but has
+            been specialized to provide a clear <q>short answer/long answer</q> distinction and to
+            disallow base types that we don't want to allow in FAQ topics (abstract in this case).
+            In addition, having a specialized type for FAQ lets us apply FAQ-specific styling to the
+            topics for presentation.</p>
+    <p>Note that specializing <xmlelement>concept</xmlelement> to reflect specific hierarchical levels
+            within a traditional document, e.g., chapter, section, subsection, is normally not a
+            good idea, because it binds a given topic to a specific level, making it harder to
+            re-use or re-organize the topic in other contexts. Instead, if you want markup that
+            directly reflects specific hierarchical levels, you should use map specializations, such
+            as the standard <xmlelement>bookmap</xmlelement> or the DITA for Publishers publication map
+            domain. </p>
+    <p>The only exception to this rule I can think of is when you have an editorial policy that
+            requires title-only topics (that is, topics with no body) to satisfy specific levels in
+            a governing hierarchy (that is, a governing, invariant, taxonomy). In that case, it can
+            make sense to define specializations of <xmlelement>concept</xmlelement> or
+                <xmlelement>topic</xmlelement> whose names reflect the taxonomy or hierarchy level and
+            that don't allow either <xmlelement>body</xmlelement> or nested topics (meaning that they only
+            serve to be used from maps within a hierarchy of topic references). However, the value
+            of this type of topic is dubious given that <xmlelement>topichead</xmlelement> elements within
+            a map are sufficient to establish the hierarchy and provide the necessary
+                titles.<fn>DITA 1.2 also clarifies the fact that topicheads can processed as though
+                they referred to title-only topics.</fn></p>
+    <p>Note that you are not required to specialize from <xmlelement>concept</xmlelement>,
+                <xmlelement>task</xmlelement>, or <xmlelement>reference</xmlelement>. You can specialize
+            directly from <xmlelement>topic</xmlelement> or from a more-specialized topic type. The
+            concept/task/reference model makes sense in the context of technical documentation,
+            where it reflects well-established writing practice. But it is not always sensible for
+            other uses of DITA. For example, in the context of Publishing, most content either does
+            not naturally map to one of those three types, or those distinctions simply aren't
+            relevant (e.g., within a novel). In that case it can make sense to specialize directly
+            from <xmlelement>topic</xmlelement>. </p>
+    <p>For example, the DITA for Publishers vocabulary includes the topic types
+                <xmlelement>article</xmlelement>, <xmlelement>chapter</xmlelement>, <xmlelement>part</xmlelement>,
+                <xmlelement>subsection</xmlelement>, and <xmlelement>sidebar</xmlelement>, all specialized
+            directly from <xmlelement>topic</xmlelement>, because they are intended to represent content
+            at its most generic. The topic types simply provide a more obvious mapping to the basic
+            document components Publishers would expect to see in any Publishing XML application.
+            These topic types also reflect the simplest topic specialization, one that changes only
+            the topic root element, leaving all other elements unchanged. For DITA for Publishers
+            this reflects the need to distinguish chapters from articles as business objects, and
+            people expect to find these topic types in a publishing vocabulary.</p>
+  </body>
   
 </subsection>  
-<?oxy_options track_changes="on"?>

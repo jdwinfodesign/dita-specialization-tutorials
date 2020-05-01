@@ -32,11 +32,9 @@
                 <parameterentity>univ-atts</parameterentity> parameter entity, making this new attribute available
             on most elements (some elements, such as title, are not selection candidates).</p>
     <p>Find the comment that reads <q>DOMAINS ATTRIBUTE OVERRIDE.</q> Following that you should see
-			the declaration of the text entity <textentity>included-domains</textentity> and it should
-			include references to a number of <q><i>x</i>-d</q> text entities.</p>
-    <p>To this entity add a reference to the <textentity>phase-of-moon-d-att</textentity> text
-			entity:
-			<codeblock>&lt;!ENTITY included-domains 
+            the declaration of the text entity <textent>included-domains</textent> and it should
+            include references to a number of <q><i>x</i>-d</q> text entities.</p>
+    <p>To this entity add a reference to the <textent>phase-of-moon-d-att</textent> text entity: <codeblock>&lt;!ENTITY included-domains 
    "&amp;hi-d-att;
     &amp;ut-d-att;
     <b>&amp;phase-of-moon-d-att;</b>

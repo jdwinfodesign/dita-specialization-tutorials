@@ -26,9 +26,7 @@
          "faq-question.ent"
 >%faq-question-dec;</codeblock></p>
     <p>Note that the publid ID is just the filename. This is just for testing purposes. For production use you would use an appropriate URN or public ID.</p>
-    <p>Find the declaration for the <textentity>included-domains</textentity> text entity and add a
-			reference to the entity <textentity>faq-question-att</textentity> to it. It should look like
-			this:<codeblock>&lt;!ENTITY included-domains 
+    <p>Find the declaration for the <textent>included-domains</textent> text entity and add a reference to the entity <textent>faq-question-att</textent> to it. It should look like this:<codeblock>&lt;!ENTITY included-domains 
                         "
                          <b>&amp;faq-question-att;</b>
                          &amp;hi-d-att; 

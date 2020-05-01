@@ -8,23 +8,17 @@
                     <q><varname>moduleName</varname>.<varname>transtype</varname></q> for the plugin
             name, thus <q>faq-question.html</q> for the HTML plugin, <q>faq-question.fo</q> for the
             PDF plugin, etc.</p>
-    <p>In the <filepath>org.example.faq-question.html</filepath> directory create the file
-				<filepath>plugin.xml</filepath> with this
-			content:<codeblock>&lt;!-- 
+    <p>In the <filepath>org.example.faq-question.html</filepath> directory create the file <filepath>plugin.xml</filepath> with this content:<codeblock>&lt;!-- 
   Plugin descriptor for the FAQ question HTML extensions.
   -->
 &lt;plugin id="org.example.faq-question.html">
   &lt;require plugin="org.example.faq-question.doctype"/> 
-  &lt;feature extension="dita.xsl.<?oxy_delete author="jdwin" timestamp="20200323T162515-0400" content="xhtml"?><?oxy_insert_start author="jdwin" timestamp="20200323T162515-0400"?>html5<?oxy_insert_end?>" value="xsl/faq-question2html.xsl" type="file"/>  
+  &lt;feature extension="dita.xsl.xhtml" value="xsl/faq-question2html.xsl" type="file"/>  
 &lt;/plugin></codeblock></p>
     <p>This descriptor names the plugin (<q>org.example.faq-question.html</q>), indicates that it is
-			dependent on the FAQ question document type plugin, and binds the plugin's
-			<?oxy_delete author="jdwin" timestamp="20200323T162527-0400" content="XSLT"?><?oxy_insert_start author="jdwin" timestamp="20200323T162527-0400"?>HTML5<?oxy_insert_end?>
-			module to the extension point
-				<q>dita.xsl.<?oxy_delete author="jdwin" timestamp="20200323T162533-0400" content="xhtml"?><?oxy_insert_start author="jdwin" timestamp="20200323T162533-0400"?>html5<?oxy_insert_end?>,
-			</q>which is defined in the base
-			DITA-to-HTML<?oxy_insert_start author="jdwin" timestamp="20200323T162554-0400"?>5<?oxy_insert_end?>
-			transformation type.</p>
+            dependent on the FAQ question document type plugin, and binds the plugin's XSLT module
+            to the extension point <q>dita.xsl.xhtml, </q>which is defined in the base DITA-to-HTML
+            transformation type.</p>
     <p>The <xmlelement>require</xmlelement> element is not strictly required, but it makes it clearer that
             this module supports the FAQ question vocabulary module and is not, for example, a more
             general extension or override. Note also that the document type plugin does <i>not</i>
@@ -52,11 +46,9 @@
 &lt;/xsl:stylesheet> </codeblock></p>
     <p>At the moment this stylesheet does nothing.</p>
     <p>You can test the plugin by deploying it to your Toolkit and running the HTML transformation type against one of the FAQ question test documents. The processing should produce completely generic output but should not fail with any XSLT-related errors.</p>
-    <p>Note that this XSLT module is an XSLT 2 module.
-			<?oxy_comment_start author="jdwin" timestamp="20200324T082532-0400" comment="Update."?>As of
-			version 1.4.3 of the Open Toolkit, the Toolkit uses the Saxon XSLT engine exclusively. Saxon
-			implements XSLT 2, so it is safe to use XSLT 2 with the Toolkit. It doesn't matter that the
-			base transformation modules are XSLT 1 modules.<?oxy_comment_end?></p>
+    <p>Note that this XSLT module is an XSLT 2 module. As of version 1.4.3 of the Open Toolkit, the
+            Toolkit uses the Saxon XSLT engine exclusively. Saxon implements XSLT 2, so it is safe
+            to use XSLT 2 with the Toolkit. It doesn't matter that the base transformation modules
+            are XSLT 1 modules.</p>
   </body>
 </subsection>  
-<?oxy_options track_changes="on"?>

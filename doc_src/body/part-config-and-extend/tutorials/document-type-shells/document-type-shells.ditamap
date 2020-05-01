@@ -27,11 +27,5 @@
       <subsection
         href="xsd-topic-shell-step-03.xml"/>
     </topicref>
-		<topicref href="creating-an-rng-shell.xml">
-			<topicref href="rng-topic-shell-step-01.xml"/>
-			<topicref href="rng-topic-shell-step-02.xml"/>
-			<topicref href="rng-topic-shell-step-03.xml"/>
-		</topicref>
   </chapter>
 </pub-component-map>
-<?oxy_options track_changes="on"?>

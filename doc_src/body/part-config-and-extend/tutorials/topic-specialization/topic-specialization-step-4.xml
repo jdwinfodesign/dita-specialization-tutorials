@@ -43,13 +43,9 @@
                 <xmlatt>outputclass</xmlatt> attribute in the DTDs (which would then let you style
             the HTML using a CSS stylesheet). However, for this tutorial we will create a transform
             if for no other reason than to see how it's done.</p>
-    <p>As
-			<?oxy_delete author="jdwin" timestamp="20200323T155126-0400" content="for"?><?oxy_insert_start author="jdwin" timestamp="20200323T155126-0400"?>with
-			the<?oxy_insert_end?> creation of the
-			DTDs<?oxy_delete author="jdwin" timestamp="20200323T155145-0400" content=" themselves"?>, the
-			process of creating a specialization-specific XSLT script can be fairly mechanical and may not
-			require any great depth of XSLT knowledge, especially if all you're doing is tweaking the HTML
-			output.</p>
+    <p>As for creation of the DTDs themselves, the process of creating a specialization-specific
+            XSLT script can be fairly mechanical and may not require any great depth of XSLT
+            knowledge, especially if all you're doing is tweaking the HTML output.</p>
     <p>The basic process is as follows:
       <ol>
         <li>Create a directory to contain your Toolkit plugin, which will consist of the plugin descriptor file (<filepath>plugin.xml</filepath>) and the XSLT modules that implement your custom processing.</li>
@@ -65,4 +61,3 @@
     </p>
   </body>
 </subsection>  
-<?oxy_options track_changes="on"?>

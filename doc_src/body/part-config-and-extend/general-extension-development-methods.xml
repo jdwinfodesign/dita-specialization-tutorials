@@ -53,18 +53,16 @@
             what makes it so fast to create new modules. But it also has the potential for insidious
             cut-and-paste errors because you copy something you shouldn't have or inadvertently copy
             the same mistake multiple times.</p></li>
-      <li><i>Use code control</i><p>Use a code control system like Subversion or
-						<?oxy_delete author="jdwin" timestamp="20200104T104745-0500" content="GIT"?><?oxy_insert_start author="jdwin" timestamp="20200104T104745-0500" comment="Not an abbreviation or acronym. "?>Git<?oxy_insert_end?>
-						and commit your code frequently. You do not want to let uncommitted changes sit too
-						long, or you'll risk losing data and time. By testing early and often, you can commit
-						code that isn't broken, even if it's not complete. Then, if things go wrong you can
-						simply restore from your last commit and start over. As a general rule you never want to
-						be at risk of losing more than an hour or two's worth of work, certainly not more than a
-						day's work. Even if you are simply supporting yourself as a lone author you should use
-						code control to manage your code and your authoring work. There are low-cost and free
-						Subversion services, or you can just set up a repository on your work machine (just make
-						sure you back up the repository itself regularly).</p></li>
+      <li><i>Use code control</i><p>Use a code control system like Subversion or GIT and commit your
+            code frequently. You do not want to let uncommitted changes sit too long, or you'll risk
+            losing data and time. By testing early and often, you can commit code that isn't broken,
+            even if it's not complete. Then, if things go wrong you can simply restore from your
+            last commit and start over. As a general rule you never want to be at risk of losing
+            more than an hour or two's worth of work, certainly not more than a day's work. Even if
+            you are simply supporting yourself as a lone author you should use code control to
+            manage your code and your authoring work. There are low-cost and free Subversion
+            services, or you can just set up a repository on your work machine (just make sure you
+            back up the repository itself regularly).</p></li>
       </ul></p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

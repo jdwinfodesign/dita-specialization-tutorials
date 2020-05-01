@@ -27,7 +27,8 @@
       provides a mapping from public identifiers, system identifiers (such as URNs) and URIs, to
       files on a local system.</p>
     <p>The Open Toolkit's plugin mechanism works through pre-defined extension points that plugins
-      can plug into. One extension point is in the master entity resolution catalog,
+      can plug into <draft-comment>[FIXME: see general section on creating Toolkit
+        plugins].</draft-comment> One extension point is in the master entity resolution catalog,
         <filepath>catalog-dita_template.xml</filepath>.</p>
     <p>Neither the Toolkit nor the DITA standard dictate how to organize your document type shells
       and modules. The practice I use is to package all the document type shells and modules for a
@@ -138,5 +139,9 @@
       file and press "ctrl+enter"), you can use that feature to follow the chain of references from
       catalog to catalog to make sure you have everything hooked up correctly. But if you followed
       the file organization pattern shown here, it should be good.</p>
+    <p>
+      <draft-comment>[Need a reference to a general topic on troubleshooting entity resolution
+        issues.]</draft-comment>
+    </p>
   </body>
 </subsection>

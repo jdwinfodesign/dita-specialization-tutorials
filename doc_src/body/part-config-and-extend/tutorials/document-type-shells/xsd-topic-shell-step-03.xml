@@ -63,26 +63,20 @@
     &lt;/xs:documentation>
   &lt;/xs:annotation></codeblock></li>
             </ul></p>
-    <p>For this tutorial we want to integrate the
-			<?oxy_delete author="jdwin" timestamp="20200117T123326-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200117T123339-0500"?>new<?oxy_insert_end?>
-			domain defined in the topic element domain tutorial. The information we need for the
-			<?oxy_delete author="jdwin" timestamp="20200117T123348-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200117T123348-0500"?>dbPara<?oxy_insert_end?>
-			domain is:<dl>
-				<dlentry>
-					<dt><?oxy_comment_start author="jdwin" timestamp="20200127T145916-0500" comment="I could not make this work as written. Instead, I used the path to the dbParaDomain.xsd as the @schemaLocation in the topic shell XSD.
-I could not grok the continuity/parallelism between the DTD and XSD versions of the topic shell and element domain tutorials, so defer to you."?>.xsd
-						file URN:</dt>
-					<dd><q>urn:pubid:exmple.org:doctypes:dita:modules:<?oxy_delete author="jdwin" timestamp="20200117T123401-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200117T123402-0500"?>dbPara<?oxy_insert_end?>Domain</q></dd>
-				</dlentry>
-				<dlentry>
-					<dt>domain extension groups</dt>
-					<dd><q>xml-d-keyword</q></dd>
-				</dlentry>
-				<dlentry>
-					<dt>domains attribute contribution:</dt>
-					<dd><q>(topic xml-d)</q><?oxy_comment_end?></dd>
-				</dlentry>
-			</dl></p>
+    <p>For this tutorial we want to integrate the XML domain defined in the topic element domain tutorial. The information we need for the XML domain is:<dl>
+      <dlentry>
+        <dt>.xsd file URN:</dt>
+        <dd><q>urn:pubid:exmple.org:doctypes:dita:modules:xmlDomain</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domain extension groups</dt>
+        <dd><q>xml-d-keyword</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domains attribute contribution:</dt>
+        <dd><q>(topic xml-d)</q></dd>
+      </dlentry>
+      </dl></p>
     <p>Armed with this knowledge, the process of integrating the domain is as follows:<ol>
       <li>Find the <xmlelement>xs:include</xmlelement> element for the highlight domain. Copy it and paste a new copy into <filepath>myTopic.xsd</filepath> immediately after the original:<codeblock>  ...
 
@@ -136,4 +130,3 @@ I could not grok the continuity/parallelism between the DTD and XSD versions of 
     <p>This tutorial shows how to create a topic type shell. Creating map type shells is exactly the same.</p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

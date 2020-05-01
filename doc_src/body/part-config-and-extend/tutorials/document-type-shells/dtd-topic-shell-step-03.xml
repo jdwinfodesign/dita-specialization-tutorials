@@ -4,18 +4,16 @@
   id="topic-id">
   <title>DTD Topic Type Shell Tutorial Step 3: Add Reference to a New Domain</title>
   <body>
-    <p>In this step we will to integrate the
-			<?oxy_delete author="jdwin" timestamp="20200106T160611-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200106T160611-0500"?>new<?oxy_insert_end?>
-			domain defined in <xref
-				href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
-				format="dita"/>.<note>You can get the worked result of that tutorial from the tutorial
-				materials.</note>
-		</p>
+    <p>In this step we will to integrate the XML domain defined in <xref
+                href="../element-domain/domain_specialization_tutorial.xml#domain-specialization-tutorial"
+                format="dita"/>.<note>You can get the worked result of that tutorial from the
+                tutorial materials.</note>
+        </p>
     <p>To integrate a new domain, we add the following four components:<ul
       id="ul_dd4b885a-75db-4756-aec9-1c1b21f1b9b8">
       <li>A declaration and reference to the domain's .ent file</li>
       <li>A reference to the domain's domain extension parameter entities, one for each different base element type the domain extends.</li>
-      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute text entity in the <textentity>included-domains</textentity> text entity declaration.</li>
+      <li>A reference to the domain's <xmlatt>domains</xmlatt> attribute text entity in the <textent>included-domains</textent> text entity declaration.</li>
       <li>A declaration and reference to the domain's .mod file.</li>
       </ul></p>
     <p>For a given domain to be integrated you need to know the following:<ul
@@ -57,93 +55,61 @@
 ></b>
 </codeblock></li>
       </ul></p>
-    <p>We want to integrate the
-			<?oxy_delete author="jdwin" timestamp="20200113T165128-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200113T165128-0500"?>dbPara<?oxy_insert_end?>
-			domain defined in the Element Domain Specialization tutorial. The information we need for the
-			<?oxy_delete author="jdwin" timestamp="20200113T165152-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200113T165153-0500"?>dbPara<?oxy_insert_end?>
-			domain is:<dl>
-				<dlentry>
-					<dt>.ent file public ID</dt>
-					<dd><q>urn:pubid:example.org:doctypes:dita:modules:<?oxy_delete author="jdwin" timestamp="20200113T165205-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T165205-0500"?>dbPara<?oxy_insert_end?>:entities</q></dd>
-				</dlentry>
-				<dlentry>
-					<dt>.mod file public ID</dt>
-					<dd><q>urn:pubid:example.org:doctypes:dita:modules:<?oxy_delete author="jdwin" timestamp="20200113T165218-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T165218-0500"?>dbPara<?oxy_insert_end?>:declarations</q></dd>
-				</dlentry>
-				<dlentry>
-					<dt>domain extension parameter entities</dt>
-					<dd><parameterentity><?oxy_delete author="jdwin" timestamp="20200113T165226-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T165226-0500"?>dbPara<?oxy_insert_end?>-d-<?oxy_delete author="jdwin" timestamp="20200113T165322-0500" content="keyword"?><?oxy_insert_start author="jdwin" timestamp="20200113T165322-0500"?>p<?oxy_insert_end?></parameterentity></dd>
-					<?oxy_insert_start author="jdwin" timestamp="20200113T165253-0500"?>
-					<dd><parameterentity>dbPara-d-keyword</parameterentity></dd>
-					<?oxy_insert_end?>
-				</dlentry>
-				<dlentry>
-					<dt>domains attribute text entity</dt>
-					<dd><textentity><?oxy_delete author="jdwin" timestamp="20200113T170132-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170133-0500"?>dbPara<?oxy_insert_end?>-d-att</textentity></dd>
-				</dlentry>
-			</dl></p>
+    <p>We want to integrate the XML domain defined in the Element Domain Specialization tutorial. The information we need for the XML domain is:<dl>
+      <dlentry>
+        <dt>.ent file public ID</dt>
+        <dd><q>urn:pubid:example.org:doctypes:dita:modules:xml:entities</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>.mod file public ID</dt>
+        <dd><q>urn:pubid:example.org:doctypes:dita:modules:xml:declarations</q></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domain extension parameter entities</dt>
+        <dd><parameterentity>xml-d-keyword</parameterentity></dd>
+      </dlentry>
+      <dlentry>
+        <dt>domains attribute text entity</dt>
+        <dd><textent>xml-d-att</textent></dd>
+      </dlentry>
+      </dl></p>
     <p>Armed with this knowledge, the process of integrating the domain is as follows:<ol>
-      <li><?oxy_delete author="jdwin" timestamp="20200113T170348-0500" content="F"?><?oxy_insert_start author="jdwin" timestamp="20200113T170349-0500"?>In
-						<filepath>myTopic.dtd</filepath>, f<?oxy_insert_end?>ind
-					the<?oxy_insert_start author="jdwin" timestamp="20200113T170243-0500"?> section <q>DOMAIN
-						ENTITY DECLARATIONS</q>, and the<?oxy_insert_end?> declaration and reference for the
-					<?oxy_delete author="jdwin" timestamp="20200113T170215-0500" content="&lt;parameterentity&gt;hi-d-dec&lt;/parameterentity&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T170315-0500"?>last<?oxy_insert_end?>
-					parameter entity<?oxy_insert_start author="jdwin" timestamp="20200113T170319-0500"?> in
-					that section<?oxy_insert_end?>. Copy it and paste
-					<?oxy_delete author="jdwin" timestamp="20200113T170354-0500" content="a new copy into &lt;filepath&gt;myTopic.dtd&lt;/filepath&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T170419-0500"?>it<?oxy_insert_end?>
-					immediately after the
-					original:<codeblock>...
+      <li>Find the declaration and reference for the <parameterentity>hi-d-dec</parameterentity> parameter entity. Copy it and paste a new copy into <filepath>myTopic.dtd</filepath> immediately after the original:<codeblock>...
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAIN ENTITY DECLARATIONS                 -->
 &lt;!-- ============================================================= -->
-<?oxy_insert_start author="jdwin" timestamp="20200113T170429-0500"?>...<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200113T170459-0500" content="
 
-&amp;lt;!ENTITY % hi-d-dec     
-  PUBLIC &quot;-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN&quot; 
-         &quot;../../base/dtd/highlightDomain.ent&quot;
-&gt;%hi-d-dec;"?><?oxy_insert_start author="jdwin" timestamp="20200113T170448-0500"?>
-&lt;!ENTITY % xml-d-dec
-  PUBLIC "-//OASIS//ENTITIES DITA 1.3 XML Domain//EN"
-         "xmlDomain.ent"
->%xml-d-dec;<?oxy_insert_end?>
 
-<b><?oxy_delete author="jdwin" timestamp="20200113T170510-0500" content="&amp;lt;!ENTITY % hi-d-dec     
-  PUBLIC &quot;-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN&quot; 
-         &quot;../../base/dtd/highlightDomain.ent&quot;
-&gt;%hi-d-dec;"?><?oxy_insert_start author="jdwin" timestamp="20200113T170510-0500"?>
-&lt;!ENTITY % xml-d-dec
-  PUBLIC "-//OASIS//ENTITIES DITA 1.3 XML Domain//EN"
-         "xmlDomain.ent"
->%xml-d-dec;<?oxy_insert_end?></b>
-
-...</codeblock></li>
-      <li>In the copy, change
-						<q><?oxy_delete author="jdwin" timestamp="20200113T170527-0500" content="hi"?><?oxy_insert_start author="jdwin" timestamp="20200113T170527-0500"?>xml<?oxy_insert_end?>-d-dec</q>
-					to
-						<q><?oxy_delete author="jdwin" timestamp="20200113T170524-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170529-0500"?>dbPara<?oxy_insert_end?>-d-dec</q>
-					in both places where it
-					occurs:<codeblock>&lt;!ENTITY % <b><?oxy_delete author="jdwin" timestamp="20200113T170652-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170652-0500"?>dbPara<?oxy_insert_end?>-d-dec</b>     
+&lt;!ENTITY % hi-d-dec     
   PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
          "../../base/dtd/highlightDomain.ent"
->%<b><?oxy_delete author="jdwin" timestamp="20200113T170657-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170657-0500"?>dbPara<?oxy_insert_end?>-d-dec</b>;</codeblock></li>
-      <li>Replace the public identifier string with the URN for the XML
-					domain:<codeblock>&lt;!ENTITY % <?oxy_delete author="jdwin" timestamp="20200113T170705-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170705-0500"?>dbPara<?oxy_insert_end?>-d-dec     
-  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:<?oxy_delete author="jdwin" timestamp="20200113T170716-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170716-0500"?>dbPara<?oxy_insert_end?>:entities</b>" 
+>%hi-d-dec;
+
+<b>&lt;!ENTITY % hi-d-dec     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
          "../../base/dtd/highlightDomain.ent"
->%<?oxy_delete author="jdwin" timestamp="20200113T170709-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170709-0500"?>dbPara<?oxy_insert_end?>-d-dec;</codeblock></li>
+>%hi-d-dec;</b>
+
+...</codeblock></li>
+      <li>In the copy, change <q>hi-d-dec</q> to <q>xml-d-dec</q> in both places where it
+                    occurs:<codeblock>&lt;!ENTITY % <b>xml-d-dec</b>     
+  PUBLIC "-//OASIS//ENTITIES DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.ent"
+>%<b>xml-d-dec</b>;</codeblock></li>
+      <li>Replace the public identifier string with the URN for the XML domain:<codeblock>&lt;!ENTITY % xml-d-dec     
+  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:xml:entities</b>" 
+         "../../base/dtd/highlightDomain.ent"
+>%xml-d-dec;</codeblock></li>
       <li>Replace the system identifier with
-						<q><?oxy_delete author="jdwin" timestamp="20200113T170745-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170746-0500"?>dbPara<?oxy_insert_end?>Domain.ent</q>:<codeblock>&lt;!ENTITY % <?oxy_delete author="jdwin" timestamp="20200113T170812-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170812-0500"?>dbPara<?oxy_insert_end?>-d-dec     
+                    <q>xmlDomain.ent</q>:<codeblock>&lt;!ENTITY % xml-d-dec     
   PUBLIC "urn:pubid:example.org:doctypes:dita:modules:xml:entities" 
-         "<b><?oxy_delete author="jdwin" timestamp="20200113T170755-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170756-0500"?>dbPara<?oxy_insert_end?>Domain.ent</b>"
->%<?oxy_delete author="jdwin" timestamp="20200113T170815-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T170815-0500"?>dbPara<?oxy_insert_end?>-d-dec;</codeblock></li>
+         "<b>xmlDomain.ent</b>"
+>%xml-d-dec;</codeblock></li>
       <li>Find the comment <q>DOMAIN EXTENSIONS</q> and add a reference to the
-						<parameterentity><?oxy_delete author="jdwin" timestamp="20200113T171121-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T171121-0500"?>dbPara<?oxy_insert_end?>-d-keyword</parameterentity><?oxy_insert_start author="jdwin" timestamp="20200113T171352-0500"?>
-					<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200113T171357-0500" content=" "?>parameter
-					entity to the declaration of the <parameterentity>keyword</parameterentity> parameter
-					entity<?oxy_insert_start author="jdwin" timestamp="20200113T171329-0500"?>, then add a new
-					entry for <xmlelement>p</xmlelement>, with the parameter entity for the
-						<parameterentity>dbPara-d-p</parameterentity><?oxy_insert_end?>:<codeblock>...
+                        <parameterentity>xml-d-keyword</parameterentity> parameter entity to the declaration of the
+                        <parameterentity>keyword</parameterentity> parameter
+                        entity:<codeblock>...
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAIN EXTENSIONS                          -->
@@ -153,36 +119,29 @@
                         extension was declared                     -->
 
 &lt;!ENTITY % pre          "pre
-                        "><?oxy_insert_start author="jdwin" timestamp="20200113T171530-0500"?>
-...<?oxy_insert_end?>
-&lt;!ENTITY % keyword      "keyword<?oxy_delete author="jdwin" timestamp="20200113T171604-0500" content="&lt;b&gt; |
-                         %xml-d-keyword;&lt;/b&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T171611-0500"?> |
-                         %markup-d-keyword; |
-                         %xml-d-keyword;<b> |
-                         %dbPara-d-keyword;</b><?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200113T171702-0500" content="
-"?>                        "><?oxy_insert_start author="jdwin" timestamp="20200113T171727-0500"?>
-<b>&lt;!ENTITY % p         "p |
-                         %dbPara-d-p;
-                        "></b><?oxy_insert_end?>
+                        ">
+&lt;!ENTITY % keyword      "keyword<b> |
+                         %xml-d-keyword;</b>
+                        ">
 
 ...</codeblock><p>Note
-						the leading <q>|</q> character added after <q>keyword </q> in the original declaration.
-						This parameter entity is used to build up an OR group of element type names, so you need
-						to add the <q>|</q> (OR) connector between <q>keyword</q> and
-							<q>%<?oxy_delete author="jdwin" timestamp="20200113T171853-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T171854-0500"?>dbPara<?oxy_insert_end?>-d-keyword;.</q></p><note
-						type="other" othertype="Common Error">If you forget the <q>|</q> character or
-						accidentally leave one out you will get validation errors that may be cryptic or
-						misleading, because they will often point to the declarations for elements somewhere
-						deep in the DITA declaration sets, usually the first element type encountered that
-						happens to use the parameter entity you just modified. When you get this type of error,
-						the first thing to check is your domain extension parameter entities—that is likely the
-						cause of the error, especially if you are integrating pre-existing domains that you know
-						are otherwise valid.</note></li>
+                        the leading <q>|</q> character added after <q>keyword </q> in the original
+                        declaration. This parameter entity is used to build up an OR group of
+                        element type names, so you need to add the <q>|</q> (OR) connector between
+                            <q>keyword</q> and <q>%xml-d-keyword;.</q></p><note type="other"
+                        othertype="Common Error">If you forget the <q>|</q> character or
+                        accidentally leave one out you will get validation errors that may be
+                        cryptic or misleading, because they will often point to the declarations for
+                        elements somewhere deep in the DITA declaration sets, usually the first
+                        element type encountered that happens to use the parameter entity you just
+                        modified. When you get this type of error, the first thing to check is your
+                        domain extension parameter entities—that is likely the cause of the error,
+                        especially if you are integrating pre-existing domains that you know are
+                        otherwise valid.</note></li>
       <li>Find the comment <q>DOMAINS ATTRIBUTE OVERRIDE</q> and then the declaration for the
-						<textentity>included-domains</textentity> text entity. Add a reference to the
-						<textentity><?oxy_delete author="jdwin" timestamp="20200113T172135-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172137-0500"?>dbPara<?oxy_insert_end?>-d-att</textentity>
-					text
-					entity:<codeblock>...
+                        <textent>included-domains</textent> text entity. Add a reference to the
+                        <textent>xml-d-att</textent> text
+                    entity:<codeblock>...
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAINS ATTRIBUTE OVERRIDE                 -->
@@ -195,71 +154,50 @@
                            &amp;ut-d-att; 
                            &amp;indexing-d-att;
                            &amp;abbrev-d-att;
-                           <?oxy_insert_start author="jdwin" timestamp="20200113T172023-0500"?>&amp;xml-d-att;<?oxy_insert_end?><?oxy_delete author="jdwin" timestamp="20200113T172023-0500" content="&lt;b&gt;&amp;amp;xml-d-att;&lt;/b&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T172039-0500"?>
-                           <b>&amp;dbPara-d-att;</b><?oxy_insert_end?>
+                           <b>&amp;xml-d-att;</b>
   "
 >
 
 ...</codeblock></li>
-      <li>Find <?oxy_insert_start author="jdwin" timestamp="20200113T172200-0500"?>section <q>DOMAIN
-						ELEMENT INTEGRATION</q> and <?oxy_insert_end?>the
-					<?oxy_insert_start author="jdwin" timestamp="20200113T172249-0500"?>last
-					<?oxy_insert_end?>declaration and reference for <?oxy_delete author="jdwin" timestamp="20200113T172256-0500" content="the"?><?oxy_insert_start author="jdwin" timestamp="20200113T172256-0500"?>a<?oxy_insert_end?>
-					<?oxy_delete author="jdwin" timestamp="20200113T172301-0500" content="&lt;parameterentity&gt;hi-d-def&lt;/parameterentity&gt;"?>
-					parameter entity<?oxy_insert_start author="jdwin" timestamp="20200113T172304-0500"?>,
-					probably <parameterentity>xml-d-def</parameterentity><?oxy_insert_end?>. Copy it and paste
-					a new copy immediately after the
-					original:<codeblock>...
+      <li>Find the declaration and reference for the <parameterentity>hi-d-def</parameterentity> parameter entity. Copy it and paste a new copy immediately after the original:<codeblock>...
 
 &lt;!-- ============================================================= -->
 &lt;!--                    DOMAIN ELEMENT INTEGRATION                 -->
 &lt;!-- ============================================================= -->
 
-<?oxy_delete author="jdwin" timestamp="20200113T172348-0500" content="&amp;lt;!ENTITY % hi-d-def     
-  PUBLIC &quot;-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN&quot; 
-         &quot;../../base/dtd/highlightDomain.mod&quot;
-&gt;%hi-d-def;
-
-&lt;b&gt;&amp;lt;!ENTITY % hi-d-def     
-  PUBLIC &quot;-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN&quot; 
-         &quot;../../base/dtd/highlightDomain.mod&quot;
-&gt;%hi-d-def;&lt;/b&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T172351-0500"?>
-&lt;!ENTITY % xml-d-def
-  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 XML Domain//EN"
-         "xmlDomain.mod"
->%xml-d-def;
-<b>
-&lt;!ENTITY % xml-d-def
-  PUBLIC "-//OASIS//ELEMENTS DITA 1.3 XML Domain//EN"
-         "xmlDomain.mod"
->%xml-d-def;</b><?oxy_insert_end?>
-
-...</codeblock></li>
-      <li>Change
-						<q><?oxy_delete author="jdwin" timestamp="20200113T172415-0500" content="hi"?><?oxy_insert_start author="jdwin" timestamp="20200113T172416-0500"?>xml<?oxy_insert_end?>-d-def</q>
-					to
-						<q><?oxy_delete author="jdwin" timestamp="20200113T172422-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172423-0500"?>dbPara<?oxy_insert_end?>-d-def</q>
-					everywhere it
-					occurs:<codeblock>&lt;!ENTITY % <b><?oxy_delete author="jdwin" timestamp="20200113T172431-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172432-0500"?>dbPara<?oxy_insert_end?>-d-def</b>     
+&lt;!ENTITY % hi-d-def     
   PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
          "../../base/dtd/highlightDomain.mod"
->%<b><?oxy_delete author="jdwin" timestamp="20200113T172436-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172436-0500"?>dbPara<?oxy_insert_end?>-d-def</b>;</codeblock></li>
-      <li>Change the public identifier to the public ID for
-						<filepath><?oxy_delete author="jdwin" timestamp="20200113T172444-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172445-0500"?>dbPara<?oxy_insert_end?>Domain.mod</filepath>:<codeblock>&lt;!ENTITY % <?oxy_delete author="jdwin" timestamp="20200113T172449-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172449-0500"?>dbPara<?oxy_insert_end?>-d-def     
-  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:<?oxy_delete author="jdwin" timestamp="20200113T172501-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172501-0500"?>dbPara<?oxy_insert_end?>:declarations</b>" 
+>%hi-d-def;
+
+<b>&lt;!ENTITY % hi-d-def     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
          "../../base/dtd/highlightDomain.mod"
->%<?oxy_delete author="jdwin" timestamp="20200113T172455-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172455-0500"?>dbPara<?oxy_insert_end?>-d-def;</codeblock><note
-						type="other" othertype="Common Error">If you are copying the public ID or URN from a
-						catalog file, it is easy to accidentally copy the public ID for the .ent file instead of
-						the .mod file and vice versa. If you get mysterious errors, like duplicate declaration
-						messages or <q>element type not declared</q> messages even though you know you included
-						the module, check the public ID value to make sure you didn't mix up the .ent and .mod
-						public IDs.</note></li>
+>%hi-d-def;</b>
+
+...</codeblock></li>
+      <li>Change <q>hi-d-def</q> to <q>xml-d-def</q> everywhere it
+                    occurs:<codeblock>&lt;!ENTITY % <b>xml-d-def</b>     
+  PUBLIC "-//OASIS//ELEMENTS DITA 1.2 Highlight Domain//EN" 
+         "../../base/dtd/highlightDomain.mod"
+>%<b>xml-d-def</b>;</codeblock></li>
+      <li>Change the public identifier to the public ID for
+                        <filepath>xmlDomain.mod</filepath>:<codeblock>&lt;!ENTITY % xml-d-def     
+  PUBLIC "<b>urn:pubid:example.org:doctypes:dita:modules:xml:declarations</b>" 
+         "../../base/dtd/highlightDomain.mod"
+>%xml-d-def;</codeblock><note
+                        type="other" othertype="Common Error">If you are copying the public ID or
+                        URN from a catalog file, it is easy to accidentally copy the public ID for
+                        the .ent file instead of the .mod file and vice versa. If you get mysterious
+                        errors, like duplicate declaration messages or <q>element type not
+                            declared</q> messages even though you know you included the module,
+                        check the public ID value to make sure you didn't mix up the .ent and .mod
+                        public IDs.</note></li>
       <li>Change the system identifier to
-						<q><?oxy_delete author="jdwin" timestamp="20200113T172515-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172515-0500"?>dbPara<?oxy_insert_end?>Domain.mod</q>:<codeblock>&lt;!ENTITY % <?oxy_delete author="jdwin" timestamp="20200113T172521-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172521-0500"?>dbPara<?oxy_insert_end?>-d-def     
-  PUBLIC "urn:pubid:example.org:doctypes:dita:modules:<?oxy_delete author="jdwin" timestamp="20200113T172539-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172539-0500"?>dbPara<?oxy_insert_end?>:declarations" 
-         "<b><?oxy_delete author="jdwin" timestamp="20200113T172546-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172546-0500"?>dbPara<?oxy_insert_end?>Domain.mod</b>"
->%<?oxy_delete author="jdwin" timestamp="20200113T172551-0500" content="xml"?><?oxy_insert_start author="jdwin" timestamp="20200113T172551-0500"?>dbPara<?oxy_insert_end?>-d-def;</codeblock></li>
+                    <q>xmlDomain.mod</q>:<codeblock>&lt;!ENTITY % xml-d-def     
+  PUBLIC "urn:pubid:example.org:doctypes:dita:modules:xml:declarations" 
+         "<b>xmlDomain.mod</b>"
+>%xml-d-def;</codeblock></li>
       <li>Validate your test document. Assuming that the XML domain module is already deployed (you can find it in the materials package for the tutorials), then your document should validate if you haven't made any syntax errors in the shell DTD.<p>If the document validates, see if you can enter any of the element types from the domain, such as <xmlelement>xmlelem</xmlelement> or <xmlelement>xmlatt</xmlelement>, into a paragraph. You should be able to.</p></li>
       </ol></p>
     <p>That's it, you're done. You've successfully created a new topic type shell that removes domains you don't want and adds a new domain you do want.</p>
@@ -270,4 +208,3 @@
     <p>This tutorial shows how to create a topic type shell. Creating map type shells is exactly the same.</p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

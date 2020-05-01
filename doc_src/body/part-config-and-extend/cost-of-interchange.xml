@@ -14,12 +14,11 @@
         <xmlelement>title</xmlelement>, all specialized topic types must also require
         <xmlelement>title</xmlelement>, or a specialization of <xmlelement>title</xmlelement>, and must require
       the title element to be the first child of the topic element.</p>
-    <p>This means that markup designers do not have completely free
-			<?oxy_delete author="jdwin" timestamp="20200103T183503-0500" content="reign"?><?oxy_insert_start author="jdwin" timestamp="20200103T183503-0500"?>rein<?oxy_insert_end?>
-			to structure new markup designs. It also means that it will not always be possible to make an
-			existing non-DITA vocabulary into a DITA vocabulary simply by adding the appropriate
-				<xmlatt>class</xmlatt> attributes, because the existing vocabulary may not align
-			structurally with the appropriate base DITA type.</p>
+    <p>This means that markup designers do not have completely free reign to structure new markup
+      designs. It also means that it will not always be possible to make an existing non-DITA
+      vocabulary into a DITA vocabulary simply by adding the appropriate <xmlatt>class</xmlatt>
+      attributes, because the existing vocabulary may not align structurally with the appropriate
+      base DITA type.</p>
     <p>For example, the general DocBook model for titled divisions does not include an element type
       that corresponds to the DITA <xmlelement>body</xmlelement> element, which DITA requires to hold the
       direct content of topics. Thus DocBook divisions are not structurally compatible with DITA
@@ -90,4 +89,3 @@
       you.</lq></p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

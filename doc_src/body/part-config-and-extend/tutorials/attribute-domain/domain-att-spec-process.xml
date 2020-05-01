@@ -14,11 +14,10 @@
     </metadata>
   </prolog>
   <body>
-    <p>You can specialize from the <xmlatt>base</xmlatt> and <xmlatt>props</xmlatt> attributes.
-			<?oxy_comment_start author="jdwin" timestamp="20200319T113008-0400" comment="Might want to clarify according to spec para 3.12.1.2 @base &quot;is not itself a filtering or flagging attribute&quot;"?>For
-			conditional processing (filtering and flagging)<?oxy_comment_end?>, this lets you add your own
-			attributes, which can be clearer to authors and implementors than using
-				<xmlatt>otherprops</xmlatt>.</p>
+    <p>You can specialize from the <xmlatt>base</xmlatt> and <xmlatt>props</xmlatt> attributes. For
+            conditional processing (filtering and flagging), this lets you add your own attributes,
+            which can be clearer to authors and implementors than using
+            <xmlatt>otherprops</xmlatt>.</p>
     <p>For this tutorial, the goal is to declare an attribute domain module that provides a new
             conditional attribute, in this case the <q>phase of the moon</q> condition, useful for
             medical information for werewolves and other lycanthropes.<fn>For a more practically
@@ -34,13 +33,11 @@
             specialized document type shells). You integrate the specialization attribute domain
             through the shell DTDs.</p>
     <p>For this tutorial we want to create a specialization of <xmlatt>props</xmlatt> called
-				<q>phase-of-moon</q>
-			<?oxy_comment_start author="jdwin" timestamp="20200319T113146-0400" comment="Takes only CDATA in the tutorial."?>that
-			takes as its value one or more moon phase names (e.g., <q>full,</q>
-			<q>new,</q>
-			<q>waning,</q>
-			<q>waxing,</q> etc.)<?oxy_comment_end?>.</p>
+                <q>phase-of-moon</q> that takes as its value one or more moon phase names (e.g.,
+                <q>full,</q>
+            <q>new,</q>
+            <q>waning,</q>
+            <q>waxing,</q> etc.).</p>
     <p>Note that an attribute domain always defines exactly one attribute. You cannot declare multiple attributes in a single attribute domain module.</p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

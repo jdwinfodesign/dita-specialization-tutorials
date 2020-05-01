@@ -25,55 +25,42 @@
                     uses it. This directory will eventually be the directory for the constraint
                     module, so name it in a way that reflects the name of the constraint module, for
                     example, <q>highlightOnlyPConstraints.</q></li>
-      <li><?oxy_comment_start author="jdwin" timestamp="20200304T103404-0500" comment="This is the specificity I suggested in the DTD section."?>Copy
-						<filepath>topic.xsd</filepath> from the <filepath>technicalContent</filepath>
-					directory<?oxy_comment_end?> of the OASIS-provided
-					DITA<?oxy_insert_start author="jdwin" timestamp="20200304T104455-0500"?>
-					1.3<?oxy_insert_end?> XSD distribution to this new
-					directory<?oxy_insert_start author="jdwin" timestamp="20200304T113316-0500"?> ( Use the
-					one in the <filepath>schema</filepath> directory, not
-					<filepath>schema-url</filepath>)<?oxy_insert_end?>. Name it something like
-						<filepath>topic-with-highlight-constraint.xsd</filepath> to make it clear what this
-					shell is for.<p>Eventually you will move this shell schema to a different directory, but
-						for now putting all the pieces in one directory makes setup and testing easier. Once
-						everything is working in this location you can reorganize the files and know when you've
-						got everything hooked up right again.</p></li>
+      <li>Copy <filepath>topic.xsd</filepath> from the <filepath>technicalContent</filepath>
+                    directory of the OASIS-provided DITA XSD distribution to this new directory.
+                    Name it something like <filepath>topic-with-highlight-constraint.xsd</filepath>
+                    to make it clear what this shell is for.<p>Eventually you will move this shell
+                        schema to a different directory, but for now putting all the pieces in one
+                        directory makes setup and testing easier. Once everything is working in this
+                        location you can reorganize the files and know when you've got everything
+                        hooked up right again.</p></li>
       <li>In the same directory, create a new XML document that uses the shell XSD. This document is
-					used to test as you go. Name it something like <filepath>constraint-test.xsd</filepath>.
-					Verify that the document is valid. As you haven't yet modified the shell schema document,
-					it should be valid. The document should look something like
-					this:<codeblock><?oxy_delete author="jdwin" timestamp="20200304T110410-0500" content="&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&amp;lt;topic
-  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-  xsi:noNamespaceSchemaLocation=&quot;topic-with-highlight-constraint.xsd&quot;
-  id=&quot;topicid&quot;&gt;
-  &amp;lt;title&gt;Test of Simple Paragraph Restriction&amp;lt;/title&gt;
-  &amp;lt;body&gt;
-    &amp;lt;p&gt;&amp;lt;b&gt;b&amp;lt;/b&gt;, &amp;lt;i&gt;i&amp;lt;/i&gt;, &amp;lt;u&gt;u&amp;lt;/u&gt;. Not allowed &amp;lt;keyword&gt;keyword&amp;lt;/keyword&gt;.&amp;lt;/p&gt;
-    &amp;lt;p&gt;&amp;lt;/p&gt;
-  &amp;lt;/body&gt;
-&amp;lt;/topic&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200304T110410-0500"?>
-<?oxy_comment_start author="jdwin" timestamp="20200304T110527-0500" comment="Copied and pasted from DTD version, except for DOCTYPE declaration and schema location."?>&lt;<?oxy_comment_end?>?xml version="1.0" encoding="UTF-8"?>
+                    used to test as you go. Name it something like
+                        <filepath>constraint-test.xsd</filepath>. Verify that the document is valid.
+                    As you haven't yet modified the shell schema document, it should be valid. The
+                    document should look something like
+                    this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;topic
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="topic-with-highlight-constraint.xsd"
-	id="topic-1">
-		&lt;title>Test of Paragraph Constraint&lt;/title>
-		&lt;body>
-			&lt;p>Allowed: &lt;i>i&lt;/i>, &lt;b>b&lt;/b>, and &lt;u>u&lt;/u>. Not allowed: &lt;keyword>keyword&lt;/keyword>.&lt;/p>
-		&lt;/body>
-	&lt;/topic><?oxy_insert_end?></codeblock></li>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="topic-with-highlight-constraint.xsd"
+  id="topicid">
+  &lt;title>Test of Simple Paragraph Restriction&lt;/title>
+  &lt;body>
+    &lt;p>&lt;b>b&lt;/b>, &lt;i>i&lt;/i>, &lt;u>u&lt;/u>. Not allowed &lt;keyword>keyword&lt;/keyword>.&lt;/p>
+    &lt;p>&lt;/p>
+  &lt;/body>
+&lt;/topic></codeblock></li>
       <li>In the same directory, create a new empty XSD document named
                         <filepath>highlightOnlyPConstraints.xsd</filepath>. This is the constraint
                     module file.</li>
       <li>For this domain you are constraining the content model of the <xmlelement>p</xmlelement>
-					element, so the first task is to find where <xmlelement>p</xmlelement>'s content model is
-					defined in the XSD files that make up the base <xmlelement>topic</xmlelement> vocabulary
-					module. One way to do this is to search for <codeph>name="p.content"</codeph> across all
-					the standard XSD modules (for example, using OxygenXML's <q>Find in files</q> feature or
-					using Search in Windows Explorer). You should find the group definition for
-						<q>p.content</q> in <filepath>commonElementMod.xsd</filepath>. It looks like
-					this:<codeblock>	&lt;xs:group name="p.content">
+                    element, so the first task is to find where <xmlelement>p</xmlelement>'s content model
+                    is defined in the XSD files that make up the base <xmlelement>topic</xmlelement>
+                    vocabulary module. One way to do this is to search for
+                        <codeph>name="p.content"</codeph> across all the standard XSD modules (for
+                    example, using OxygenXML's <q>Find in files</q> feature or using Search in
+                    Windows Explorer). You should find the group definition for <q>p.content</q> in
+                        <filepath>commonElementMod.xsd</filepath>. It looks like
+                    this:<codeblock>	&lt;xs:group name="p.content">
 		&lt;xs:sequence>
 			&lt;xs:choice minOccurs="0" maxOccurs="unbounded">
 				&lt;xs:group ref="para.cnt" minOccurs="0"/>
@@ -163,4 +150,3 @@
     <p>At this point you could package the constraint module and the shell document type into Toolkit plugins.</p>
   </body>
 </subsection>
-<?oxy_options track_changes="on"?>

@@ -107,7 +107,10 @@
             types defined by the DITA 1.2 Learning and Training vocabulary modules, which all start
             with <q>lc</q> (for <q>learning content</q>), which functions as a sort of <q>namespace
                 prefix</q> and helps ensure that no other vocabularies will have names that collide
-            with the Learning and Training types.</p>
+            with the Learning and Training types.<draft-comment>It's not clear if lc is a good
+                example of things being more cumbersome or a good example of how to use prefixes.
+                Unless you really consider the lc prefix to be too cumbersome, I'd say something
+                like, "An example that isn't too cumbersome is the ..."</draft-comment></p>
     <p>So our topic body should look like this: <codeblock>
 &lt;faq-question id="question-id">
   &lt;faq-question-statement>Can I add attributes to specific element types?&lt;/faq-question-statement>

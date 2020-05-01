@@ -4,27 +4,25 @@
   <title>Topic Specialization Step 4-2: Create Templates For Specialized Elements</title>
   <body>
     <p>For the FAQ Question specialization, we need to modify the presentation of
-				<xmlelement>faq-question-statement</xmlelement> and <xmlelement>faq-answer</xmlelement>. We
-			don't need to do anything special for <xmlelement>faq-question</xmlelement> because we just
-			want the normal topic processing. Thus we need to create match templates for
-				<xmlelement>faq-question-statement</xmlelement> and <xmlelement>faq-question</xmlelement>.
-			In addition, we will create a
-			<?oxy_comment_start author="jdwin" timestamp="20200324T082658-0400" comment="?"?>no-op<?oxy_comment_end?>
-			template for <xmlelement>faq-question</xmlelement> just to demonstrate how to have a custom
-			template and still use the base Toolkit-supplied processing, even though we don't need it, at
-			least based on our current formatting specifications.</p>
+                <xmlelement>faq-question-statement</xmlelement> and <xmlelement>faq-answer</xmlelement>. We
+            don't need to do anything special for <xmlelement>faq-question</xmlelement> because we just
+            want the normal topic processing. Thus we need to create match templates for
+                <xmlelement>faq-question-statement</xmlelement> and <xmlelement>faq-question</xmlelement>. In
+            addition, we will create a no-op template for <xmlelement>faq-question</xmlelement> just to
+            demonstrate how to have a custom template and still use the base Toolkit-supplied
+            processing, even though we don't need it, at least based on our current formatting
+            specifications.</p>
     <p>For DITA processing, match statements always have the same basic form, which is: <codeblock>&lt;xsl:template match="<b>*[contains(@class, ' <i>module</i>/<i>typename</i> ')]</b>"></codeblock></p>
     <p>Note the space characters before and after the module/typename pair.</p>
     <p>This pattern for match expressions ensures that elements are always processed in terms of
             their specialization hierarchy and not their local tagnames. You can, of course, combine
             the <q>*[...]</q> matches together to match on elements in context, just as you would if
             you were using tagnames in the match statement.</p>
-    <p>For FAQ question create these three template instructions:
-			<codeblock>  &lt;!-- ===========================================================
+    <p>For FAQ question create these three template instructions: <codeblock>  &lt;!-- ===========================================================
     HTML generation templates for the FAQ Question DITA topic
     specialization.
     
-    Copyright (c) <?oxy_delete author="jdwin" timestamp="20200324T082817-0400" content="2011"?><?oxy_insert_start author="jdwin" timestamp="20200324T082817-0400"?>2020<?oxy_insert_end?> Your Name Here
+    Copyright (c) 2011 Your Name Here
     
     =========================================================== -->
   
@@ -37,8 +35,6 @@
 &lt;xsl:template match="*[contains(@class, ' faq-question/faq-answer ')]">
 &lt;/xsl:template></b>
 
-&lt;/xsl:stylesheet></codeblock>
-		</p>
+&lt;/xsl:stylesheet></codeblock> </p>
   </body>
 </subsection>  
-<?oxy_options track_changes="on"?>

@@ -14,7 +14,5 @@
       href="domain-att-spec-process-step-3.xml"/>
     <subsection
       href="xsd-attribute-specialization.xml"/>
-  	<subsection
-  		href="rng-attribute-specialization.xml"/>
   </chapter>
 </pub-component-map>

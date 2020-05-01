@@ -12,128 +12,138 @@
     </metadata>
   </prolog>
   <body>
-		<p>Each element type in an element domain module requires the following declaration components:<ul>
-				<li>A group that defines the content model for the element type</li>
-				<li>A group that defines the attribute list for the element type</li>
-				<li>A complex type that combines the content model and the attributes for the element type
-					and, where appropriate, defines the content model as mixed.</li>
-				<li>A element type that uses the complex type and declares the <xmlatt>class</xmlatt>
-					attribute for the element type.</li>
-				<li>A group that includes just the element by which the element type can be referenced in
-					content models.</li>
-			</ul></p>
-		<?oxy_delete author="jdwin" timestamp="20200120T102441-0500" content="&lt;p&gt;For the element types in the XML domain these components look like this:&lt;codeblock&gt;&amp;lt;xs:element name=&quot;xmlelem&quot;&gt;
-  &amp;lt;xs:annotation&gt;
-    &amp;lt;xs:documentation&gt;
-      The XML element (&amp;amp;lt;&amp;lt;keyword&gt;xmlelem&amp;lt;/keyword&gt;&amp;amp;gt;) element represents a 
+    <p>Each element type in an element domain module requires the following declaration components:<ul>
+                <li>A group that defines the content model for the element type</li>
+                <li>A group that defines the attribute list for the element type</li>
+                <li>A complex type that combines the content model and the attributes for the
+                    element type and, where appropriate, defines the content model as mixed.</li>
+                <li>A element type that uses the complex type and declares the
+                        <xmlatt>class</xmlatt> attribute for the element type.</li>
+                <li>A group that includes just the element by which the element type can be
+                    referenced in content models.</li>
+            </ul></p>
+    <p>For the element types in the XML domain these components look like this:<codeblock>&lt;xs:element name="xmlelem">
+  &lt;xs:annotation>
+    &lt;xs:documentation>
+      The XML element (&amp;lt;&lt;keyword>xmlelem&lt;/keyword>&amp;gt;) element represents a 
       mention of an XML element (tag name).
-    &amp;lt;/xs:documentation&gt;
-  &amp;lt;/xs:annotation&gt;
-  &amp;lt;xs:complexType mixed=&quot;true&quot;&gt;
-    &amp;lt;xs:complexContent&gt;
-      &amp;lt;xs:extension base=&quot;xmlelem.class&quot;&gt;
-        &amp;lt;xs:attribute ref=&quot;class&quot; default=&quot;+ topic/keyword xml-d/xmlelem &quot;/&gt;
-      &amp;lt;/xs:extension&gt;
-    &amp;lt;/xs:complexContent&gt;
-  &amp;lt;/xs:complexType&gt;
-&amp;lt;/xs:element&gt; 
-&amp;lt;xs:group name=&quot;xmlelem.content&quot;&gt;
-  &amp;lt;xs:sequence/&gt;
-&amp;lt;/xs:group&gt;
-&amp;lt;xs:attributeGroup name=&quot;xmlelem.attributes&quot;&gt;
-  &amp;lt;xs:attribute name=&quot;outputclass&quot; type=&quot;xs:string&quot;/&gt;
-  &amp;lt;xs:attribute name=&quot;keyref&quot; type=&quot;xs:string&quot;/&gt;
-  &amp;lt;xs:attributeGroup ref=&quot;global-atts&quot;/&gt;
-  &amp;lt;xs:attributeGroup ref=&quot;univ-atts&quot;/&gt;
-&amp;lt;/xs:attributeGroup&gt;
-&amp;lt;xs:group name=&quot;xmlelem&quot;&gt;
-  &amp;lt;xs:sequence&gt;
-    &amp;lt;xs:choice&gt;
-      &amp;lt;xs:element ref=&quot;xmlelem&quot;/&gt;
-    &amp;lt;/xs:choice&gt;
-  &amp;lt;/xs:sequence&gt;
-&amp;lt;/xs:group&gt;  
-&amp;lt;xs:complexType name=&quot;xmlelem.class&quot; mixed=&quot;true&quot;&gt;
-  &amp;lt;xs:sequence&gt;
-    &amp;lt;xs:group ref=&quot;xmlelem.content&quot;/&gt;
-  &amp;lt;/xs:sequence&gt;
-  &amp;lt;xs:attributeGroup ref=&quot;xmlelem.attributes&quot;/&gt;
-&amp;lt;/xs:complexType&gt;&lt;/codeblock&gt;&lt;/p&gt;"?>
-		<p>The individual components can go in any order but it makes sense to put the
-				<xmlelement>xs:element</xmlelement> declaration first as it contains the documentation for
-			the element type.</p>
-		<?oxy_delete author="jdwin" timestamp="20200120T102643-0500" content="&lt;p&gt;The only other required components are the groups used to enable integration of the domain on a per-element-type basis. For this domain all the element types specialize from topic/keyword so there is only one group required, which should be named &lt;q&gt;xml-d-keyword&lt;/q&gt;:&lt;codeblock&gt;  &amp;lt;xs:group name=&quot;xml-d-keyword&quot;&gt;
-    &amp;lt;xs:choice&gt;
-      &amp;lt;xs:element ref=&quot;xmlelem&quot;/&gt;
-      &amp;lt;xs:element ref=&quot;xmlatt&quot;/&gt;
-      &amp;lt;xs:element ref=&quot;numcharref&quot;/&gt;
-      &amp;lt;xs:element ref=&quot;parment&quot;/&gt;
-      &amp;lt;xs:element ref=&quot;textent&quot;/&gt;
-    &amp;lt;/xs:choice&gt;
-  &amp;lt;/xs:group&gt;&lt;/codeblock&gt;&lt;/p&gt;&lt;p&gt;This group can go at the top or bottom of the XSD document. I prefer to put it at the top where it&apos;s easy to find.&lt;/p&gt;&lt;p&gt;To implement the XML domain as an XSD vocabulary module, follow these steps:&lt;ol&gt;&lt;li&gt;Create a file named &lt;filepath&gt;xmlDomain.xsd&lt;/filepath&gt; with this content:&lt;codeblock&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&amp;lt;xs:schema
-  xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt; 
+    &lt;/xs:documentation>
+  &lt;/xs:annotation>
+  &lt;xs:complexType mixed="true">
+    &lt;xs:complexContent>
+      &lt;xs:extension base="xmlelem.class">
+        &lt;xs:attribute ref="class" default="+ topic/keyword xml-d/xmlelem "/>
+      &lt;/xs:extension>
+    &lt;/xs:complexContent>
+  &lt;/xs:complexType>
+&lt;/xs:element> 
+&lt;xs:group name="xmlelem.content">
+  &lt;xs:sequence/>
+&lt;/xs:group>
+&lt;xs:attributeGroup name="xmlelem.attributes">
+  &lt;xs:attribute name="outputclass" type="xs:string"/>
+  &lt;xs:attribute name="keyref" type="xs:string"/>
+  &lt;xs:attributeGroup ref="global-atts"/>
+  &lt;xs:attributeGroup ref="univ-atts"/>
+&lt;/xs:attributeGroup>
+&lt;xs:group name="xmlelem">
+  &lt;xs:sequence>
+    &lt;xs:choice>
+      &lt;xs:element ref="xmlelem"/>
+    &lt;/xs:choice>
+  &lt;/xs:sequence>
+&lt;/xs:group>  
+&lt;xs:complexType name="xmlelem.class" mixed="true">
+  &lt;xs:sequence>
+    &lt;xs:group ref="xmlelem.content"/>
+  &lt;/xs:sequence>
+  &lt;xs:attributeGroup ref="xmlelem.attributes"/>
+&lt;/xs:complexType></codeblock></p>
+    <p>The individual components can go in any order but it makes sense to put the <xmlelement>xs:element</xmlelement> declaration first as it contains the documentation for the element type.</p>
+    <p>The only other required components are the groups used to enable integration of the domain on
+            a per-element-type basis. For this domain all the element types specialize from
+            topic/keyword so there is only one group required, which should be named
+                <q>xml-d-keyword</q>:<codeblock>  &lt;xs:group name="xml-d-keyword">
+    &lt;xs:choice>
+      &lt;xs:element ref="xmlelem"/>
+      &lt;xs:element ref="xmlatt"/>
+      &lt;xs:element ref="numcharref"/>
+      &lt;xs:element ref="parment"/>
+      &lt;xs:element ref="textent"/>
+    &lt;/xs:choice>
+  &lt;/xs:group></codeblock></p>
+    <p>This group can go at the top or bottom of the XSD document. I prefer to put it at the top where it's easy to find.</p>
+    <p>To implement the XML domain as an XSD vocabulary module, follow these steps:<ol>
+      <li>Create a file named <filepath>xmlDomain.xsd</filepath> with this content:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
 
-&amp;lt;/xs:schema&gt;&lt;/codeblock&gt;&lt;/li&gt;&lt;li&gt;Copy the declarations shown above for the &lt;xmlelement&gt;xmlelem&lt;/xmlelement&gt; element type and paste them in, one copy for each of the five element types.&lt;/li&gt;&lt;li&gt;Change the base tagname in each copy to the appropriate tag name.&lt;/li&gt;&lt;li&gt;Copy the xml-d-keyword group shown above and paste it at the top of the XSD file.&lt;/li&gt;&lt;/ol&gt;&lt;/p&gt;"?>
-		<?oxy_insert_start author="jdwin" timestamp="20200120T102802-0500"?>
-		<p/>
-		<?oxy_insert_end?>
-		<?oxy_delete author="jdwin" timestamp="20200120T124658-0500" content="&lt;p&gt;To test the module in isolation, create a topic document type shell XSD file in a convenient directory relative to where you have saved the domain&apos;s XSD file, for example, in the directory above it or in one nearby. This lets you create relative URLs from the shell XSD to the module so you don&apos;t have to set up an entity resolution catalog just to test the module. For example, you can just copy the &lt;filepath&gt;topic.xsd&lt;/filepath&gt; file from the standard DITA schema files.&lt;/p&gt;&lt;p&gt;To integrate the new domain module, edit the shell XSD as follows:&lt;ol&gt;&lt;li&gt;Add a reference to the &lt;filepath&gt;xmlDomain.xsd&lt;/filepath&gt; module at the top of the schema document&lt;codeblock&gt;  ...
-  &amp;lt;!--  ================ TOPIC DOMAINS =====================  --&gt;
-  &lt;b&gt;&amp;lt;xs:include schemaLocation=&quot;xsd/xmlDomain.xsd&quot; /&gt;&lt;/b&gt;
+&lt;/xs:schema></codeblock></li>
+      <li>Copy the declarations shown above for the <xmlelement>xmlelem</xmlelement> element type and paste them in, one copy for each of the five element types.</li>
+      <li>Change the base tagname in each copy to the appropriate tag name.</li>
+      <li>Copy the xml-d-keyword group shown above and paste it at the top of the XSD file.</li>
+      </ol></p>
+    <p>To test the module in isolation, create a topic document type shell XSD file in a convenient
+            directory relative to where you have saved the domain's XSD file, for example, in the
+            directory above it or in one nearby. This lets you create relative URLs from the shell
+            XSD to the module so you don't have to set up an entity resolution catalog just to test
+            the module. For example, you can just copy the <filepath>topic.xsd</filepath> file from
+            the standard DITA schema files.</p>
+    <p>To integrate the new domain module, edit the shell XSD as follows:<ol>
+      <li>Add a reference to the <filepath>xmlDomain.xsd</filepath> module at the top of the schema
+                        document<codeblock>  ...
+  &lt;!--  ================ TOPIC DOMAINS =====================  -->
+  <b>&lt;xs:include schemaLocation="xsd/xmlDomain.xsd" /></b>
   
-  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:uiDomain.xsd:1.2&quot;/&gt;
-  &amp;lt;xs:include schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:softwareDomain.xsd:1.2&quot;/&gt;
-  ...&lt;/codeblock&gt;&lt;p&gt;Change the value of the &lt;xmlatt&gt;schemaLocation&lt;/xmlatt&gt; attribute to reflect the real relative location of the &lt;filepath&gt;xmlDomain.xsd&lt;/filepath&gt; file. Remember that schema locations are URLs, not filenames, so if you are on Windows, don&apos;t use Windows paths (that is, no backslashes).&lt;/p&gt;&lt;/li&gt;&lt;li&gt;Within the &lt;xmlelement&gt;xs:redefine&lt;/xmlelement&gt; for the common elements module, update the entry for &lt;xmlelement&gt;keyword&lt;/xmlelement&gt; to include a reference to the xml-d-keyword group:&lt;codeblock&gt;  ...
-  &amp;lt;xs:redefine schemaLocation=&quot;urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2&quot;&gt;
-    &amp;lt;xs:group name=&quot;keyword&quot;&gt;
-      &amp;lt;xs:choice&gt;
-        &amp;lt;xs:group ref=&quot;keyword&quot;/&gt;
-        &amp;lt;xs:group ref=&quot;pr-d-keyword&quot; /&gt;
-        &amp;lt;xs:group ref=&quot;ui-d-keyword&quot; /&gt;
-        &amp;lt;xs:group ref=&quot;sw-d-keyword&quot; /&gt;
-        &lt;b&gt;&amp;lt;xs:group ref=&quot;xml-d-keyword&quot; /&gt;&lt;/b&gt;
-      &amp;lt;/xs:choice&gt;
-    &amp;lt;/xs:group&gt;
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:uiDomain.xsd:1.2"/>
+  &lt;xs:include schemaLocation="urn:oasis:names:tc:dita:xsd:softwareDomain.xsd:1.2"/>
+  ...</codeblock><p>Change
+                        the value of the <xmlatt>schemaLocation</xmlatt> attribute to reflect the
+                        real relative location of the <filepath>xmlDomain.xsd</filepath> file.
+                        Remember that schema locations are URLs, not filenames, so if you are on
+                        Windows, don't use Windows paths (that is, no backslashes).</p></li>
+      <li>Within the <xmlelement>xs:redefine</xmlelement> for the common elements module, update the entry for <xmlelement>keyword</xmlelement> to include a reference to the xml-d-keyword group:<codeblock>  ...
+  &lt;xs:redefine schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.2">
+    &lt;xs:group name="keyword">
+      &lt;xs:choice>
+        &lt;xs:group ref="keyword"/>
+        &lt;xs:group ref="pr-d-keyword" />
+        &lt;xs:group ref="ui-d-keyword" />
+        &lt;xs:group ref="sw-d-keyword" />
+        <b>&lt;xs:group ref="xml-d-keyword" /></b>
+      &lt;/xs:choice>
+    &lt;/xs:group>
     ...
-  &amp;lt;/xs:redefine&gt;
-  ... &lt;/codeblock&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/p&gt;"?>
-		<?oxy_delete author="jdwin" timestamp="20200117T133315-0500" content="&lt;p&gt;Test the domain by creating a topic document that uses the shell you just created. The easiest place to put the document is in the same directory as the shell XSD file. Given that, the document should look like this:&lt;codeblock&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&amp;lt;topic xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-  xsi:noNamespaceSchemaLocation=&quot;topic.xsd&quot; 
-  id=&quot;topicid&quot;&gt;
-  &amp;lt;title&gt;Test Topic&amp;lt;/title&gt;
-  &amp;lt;body&gt;
-    &amp;lt;p&gt;&amp;lt;xmlelem&gt;xmlelem&amp;lt;/xmlelem&gt;&amp;lt;/p&gt;
-    &amp;lt;p&gt;&amp;lt;xmlatt&gt;xmlatt&amp;lt;/xmlatt&gt;&amp;lt;/p&gt;
-    &amp;lt;p&gt;&amp;lt;numcharref&gt;numcharref&amp;lt;/numcharref&gt;&amp;lt;/p&gt;
-    &amp;lt;p&gt;&amp;lt;parment&gt;parment&amp;lt;/parment&gt;&amp;lt;/p&gt;
-    &amp;lt;p&gt;&amp;lt;textent&gt;textent&amp;lt;/textent&gt;&amp;lt;/p&gt;
-  &amp;lt;/body&gt;
-&amp;lt;/topic&gt;&lt;/codeblock&gt;&lt;/p&gt;&lt;p&gt;You should now be able to validate the document or just apply the Toolkit to it, which will have the effect of validating it.&lt;/p&gt;&lt;p&gt;The last step is to create an entity resolution catalog that assigns a URN to the &lt;filepath&gt;xmlDomain.xsd&lt;/filepath&gt; file. This file should go in the same directory as the module file. The content should be like this:&lt;codeblock&gt;&amp;lt;catalog xmlns=&quot;urn:oasis:names:tc:entity:xmlns:xml:catalog&quot; prefer=&quot;public&quot;&gt;
+  &lt;/xs:redefine>
+  ... </codeblock></li>
+      </ol></p>
+    <p>Test the domain by creating a topic document that uses the shell you just created. The easiest place to put the document is in the same directory as the shell XSD file. Given that, the document should look like this:<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="topic.xsd" 
+  id="topicid">
+  &lt;title>Test Topic&lt;/title>
+  &lt;body>
+    &lt;p>&lt;xmlelem>xmlelem&lt;/xmlelem>&lt;/p>
+    &lt;p>&lt;xmlatt>xmlatt&lt;/xmlatt>&lt;/p>
+    &lt;p>&lt;numcharref>numcharref&lt;/numcharref>&lt;/p>
+    &lt;p>&lt;parment>parment&lt;/parment>&lt;/p>
+    &lt;p>&lt;textent>textent&lt;/textent>&lt;/p>
+  &lt;/body>
+&lt;/topic></codeblock></p>
+    <p>You should now be able to validate the document or just apply the Toolkit to it, which will have the effect of validating it.</p>
+    <p>The last step is to create an entity resolution catalog that assigns a URN to the <filepath>xmlDomain.xsd</filepath> file. This file should go in the same directory as the module file. The content should be like this:<codeblock>&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
   
-  &amp;lt;public publicId=&quot;urn:pubid:&lt;b&gt;example.org&lt;/b&gt;:doctypes:dita:modules:xmlDomain&quot;
-            uri=&quot;xmlDomain.xsd&quot;
-    /&gt;
-  &amp;lt;uri name=&quot;urn:pubid:&lt;b&gt;example.org&lt;/b&gt;:doctypes:dita:modules:xmlDomain&quot;
-    uri=&quot;xmlDomain.xsd&quot;
-  /&gt;
+  &lt;public publicId="urn:pubid:<b>example.org</b>:doctypes:dita:modules:xmlDomain"
+            uri="xmlDomain.xsd"
+    />
+  &lt;uri name="urn:pubid:<b>example.org</b>:doctypes:dita:modules:xmlDomain"
+    uri="xmlDomain.xsd"
+  />
   
-&amp;lt;/catalog&gt;&lt;/codeblock&gt;&lt;/p&gt;&lt;p&gt;You would need to adjust your version to replace the parts shown in bold with your own value, which needs to be globally unique (e.g., an appropriate Internet domain name).&lt;/p&gt;&lt;p&gt;To integrate this module with the Open Toolkit, you should package it as a plugin. See &lt;xref href=&quot;../../packaging-vocabulary-as-plugins.xml#topic-id&quot; format=&quot;dita&quot;/&gt;.&lt;/p&gt;" comment="The catalog step is not parallel with the DTD version.
-Deleting the last paragraphs and will restore to final sub-subsection I have added."?>
-		<?oxy_insert_start author="jdwin" timestamp="20200120T125904-0500" comment="If I save this as &quot;concept.xsd&quot; it will not validate after I add the new domain. We can go back and correct this later, but moving on for now."?>
-		<p>Putting first things first, from the DITA 1.3 Schema Technical Content plugin, copy
-				<filepath>concept.xsd</filepath> and save it as <filepath>myConcept.xsd</filepath> in the
-			directory where you will be doing this specialization. You will need a test document, so
-			create a new file and name it <filepath>myElementDomain-test-xsd.xml</filepath>, paste the
-			following into the file.
-			<codeblock>&lt;?xml version="1.0" encoding="UTF-8"?>
-&lt;concept xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="myConcept.xsd" id="topicid">
-	&lt;title>Test concept&lt;/title>
-&lt;/concept></codeblock>Check
-			the file. It should be valid.</p>
-		<?oxy_insert_end?>
-	</body>
+&lt;/catalog></codeblock></p>
+    <p>You would need to adjust your version to replace the parts shown in bold with your own value, which needs to be globally unique (e.g., an appropriate Internet domain name).</p>
+    <p>To integrate this module with the Open Toolkit, you should package it as a plugin. See  <xref
+      href="../../packaging-vocabulary-as-plugins.xml#topic-id"
+      format="dita"/>.</p>
+  </body>
 </subsection>  
-<?oxy_options track_changes="on"?>

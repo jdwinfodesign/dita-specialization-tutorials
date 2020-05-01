@@ -5,44 +5,20 @@
   <prolog>
     <author>W. Eliot Kimber</author>
     <copyright>
-			<?oxy_attributes year="&lt;change type=&quot;modified&quot; oldValue=&quot;2007&quot; author=&quot;jdwin&quot; timestamp=&quot;20200113T141729-0500&quot; /&gt;"?>
-			<copyryear year="2020"/>
-			<copyrholder>W. Eliot Kimber</copyrholder>
-		</copyright>    
+      <copyryear year="2007"/>
+      <copyrholder>W. Eliot Kimber</copyrholder>
+    </copyright>    
   </prolog>
   <body>
-		<p>Add the
-			<?oxy_delete author="jdwin" timestamp="20200113T141746-0500" content="XML"?><?oxy_insert_start author="jdwin" timestamp="20200113T141746-0500"?>dbPara<?oxy_insert_end?>
-			domain to the <xmlatt>domains</xmlatt> attribute declaration. In concept.dtd, find the comment
-			that says "DOMAINS ATTRIBUTE OVERRIDE". Update the <textentity>included-domains</textentity>
-			entity declaration to include the <textentity>xml-d-att</textentity> text entity:
-			<codeblock><?oxy_delete author="jdwin" timestamp="20200113T141847-0500" content="
-&amp;lt;!ENTITY included-domains 
-   &quot;&amp;amp;hi-d-att; 
-    &amp;amp;ut-d-att; 
-    &lt;b&gt;&amp;amp;xml-d-att;&lt;/b&gt; 
-   &quot;                
-&gt;"?><?oxy_insert_start author="jdwin" timestamp="20200113T141847-0500"?>&lt;!ENTITY included-domains
-                          "&amp;concept-att;
-                           &amp;abbrev-d-att;
-                           &amp;deliveryTargetAtt-d-att;
-                           &amp;equation-d-att;
-                           &amp;hazard-d-att;
-                           &amp;hi-d-att;
-                           &amp;indexing-d-att;
-                           &amp;markup-d-att;
-                           &amp;mathml-d-att;
-                           &amp;pr-d-att;
-                           &amp;relmgmt-d-att;
-                           &amp;sw-d-att;
-                           &amp;svg-d-att;
-                           &amp;ui-d-att;
-                           &amp;ut-d-att;
-                           &amp;xml-d-att;
-                           <b>&amp;dbPara-d-domain;</b>
-  "
-><?oxy_insert_end?></codeblock></p>
-		<?oxy_delete author="jdwin" timestamp="20200113T142049-0500" content="&lt;p&gt;Note that your &lt;textentity&gt;included-domains&lt;/textentity&gt; value may be different. The example shows the value used for the concept shell used by this tutorial&apos;s topics, which includes only the highlight and utility domains.&lt;/p&gt;" comment="Deleted paragraph as I used the concept DTD from the technical content module in the 1.3 plugin."?>
-	</body>
+    <p>Add the XML domain to the <xmlatt>domains</xmlatt> attribute declaration. In concept.dtd, find the comment that says "DOMAINS ATTRIBUTE OVERRIDE". Update the <textent>included-domains</textent> entity declaration to include the <textent>xml-d-att</textent> text entity: <codeblock>
+&lt;!ENTITY included-domains 
+   "&amp;hi-d-att; 
+    &amp;ut-d-att; 
+    <b>&amp;xml-d-att;</b> 
+   "                
+></codeblock></p>
+    <p>Note that your <textent>included-domains</textent> value may be different. The example
+        shows the value used for the concept shell used by this tutorial's topics, which 
+        includes only the highlight and utility domains.</p>
+  </body>
 </subsection>
-<?oxy_options track_changes="on"?>
