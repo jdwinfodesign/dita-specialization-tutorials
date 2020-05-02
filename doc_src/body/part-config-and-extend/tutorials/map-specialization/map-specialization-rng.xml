@@ -2,12 +2,12 @@
 <!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
 <subsection
   id="topic-id">
-  <title>Map Specialization: XSD Version</title>
+  <title>Map Specialization: RNG Version</title>
   <prolog>
     <metadata>
       <keywords>
-        <indexterm>map specialization<indexterm>XSD-based</indexterm></indexterm>
-        <indexterm>XSD<indexterm>map specialization</indexterm></indexterm>
+        <indexterm>map specialization<indexterm>RNG-based</indexterm></indexterm>
+        <indexterm>RNG<indexterm>map specialization</indexterm></indexterm>
       </keywords>
     </metadata>
   </prolog>

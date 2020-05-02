@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE subsection PUBLIC "urn:pubid:dita4practitioners.com:doctypes:dita:subsection" "subsection.dtd">
+<subsection
+  id="topic-id">
+  <title>Map Specialization RNG Step 2: Define faq-mapDomain Map Domain</title>
+  <body>
+    <p>Create the FAQ-map map domain module as follows:<ol>
+				<li>In the DITA 1.3 base distribution, open<filepath> mapGroupDomain.rng</filepath> and
+					locate the <xmlelement>div</xmlelement> containing  <q>Define domain extension
+						patterns</q>.</li>
+				<li>From <filepath>mapGroupDomain.rng</filepath>, locate the <xmlelement>div</xmlelement>
+					containing <q>Define domain extension patterns</q> and copy the
+						<xmlelement>define</xmlelement> elements for <q>mapgroup-d-topicref</q> and
+						<q>topicref</q>.</li>
+				<li>Paste into <filepath>faq-mapDomain.rng</filepath> in the <xmlelement>div</xmlelement>
+					containing <q>DOMAIN EXTENSION PATTERNS</q>.</li>
+				<li>Make the changes in <b>bold</b> below.
+					<codeblock>	<b>&lt;define name="faq-map-d-topicref">
+			&lt;choice>
+				&lt;ref name="faq-question-set.element"/>
+				&lt;ref name="faq-question.element"/>
+			&lt;/choice>
+		&lt;/define></b>
+		&lt;define name="topicref" combine="choice">
+			<b>&lt;ref name="faq-map-d-topicref"/>
+</b>		&lt;/define></codeblock></li>
+				<li>In <filepath>mapMod.rng</filepath> find the <xmlelement>div</xmlelement> containing
+						<q>ELEMENT TYPE NAME PATTERNS</q>, copy the definition for
+						<xmlelement>topicref</xmlelement> and paste into the corresponding section of
+						<filepath>faq-mapDomain.rng</filepath></li>
+				<li>Edit the pasted contain to define <xmlelement>faq-question-set</xmlelement>, then repeat
+					for <xmlelement>faq-question</xmlelement>.
+					<codeblock>	&lt;define name="faq-question-set">
+			&lt;ref name="faq-question-set.element"/>
+		&lt;/define>
+		
+		&lt;define name="faq-question">
+			&lt;ref name="faq-question.element"/>
+		&lt;/define></codeblock></li>
+				<li>From <filepath>mapMod.rng</filepath> copy the element type pattern for
+						<codeph>topicref</codeph>, the paste into <filepath>faq-mapDomain.rng</filepath> in the
+						<xmlelement>div</xmlelement> containing <q>ELEMENT TYPE PATTERNS</q>. </li>
+				<li>Edit the pasted content to define <codeph>faq-question-set</codeph>.
+					<codeblock>	&lt;div>
+		&lt;a:documentation>LONG NAME: FAQ Question Set&lt;/a:documentation>
+		&lt;define name="faq-question-set.content">
+			&lt;optional>
+				&lt;ref name="topicmeta"/>
+			&lt;/optional>
+			&lt;zeroOrMore>
+				&lt;choice>
+					&lt;ref name="anchor"/>
+					&lt;ref name="data.elements.incl"/>
+					&lt;ref name="navref"/>
+					&lt;ref name="faq-question"/>
+				&lt;/choice>
+			&lt;/zeroOrMore>
+		&lt;/define>
+		&lt;define name="faq-question-set.attributes">
+			&lt;optional>
+				&lt;attribute name="navtitle"/>
+			&lt;/optional>
+			&lt;optional>
+				&lt;attribute name="href"/>
+			&lt;/optional>
+			&lt;optional>
+				&lt;attribute name="keyref"/>
+			&lt;/optional>
+			&lt;optional>
+				&lt;attribute name="keys"/>
+			&lt;/optional>
+			&lt;optional>
+				&lt;attribute name="query"/>
+			&lt;/optional>
+			&lt;optional>
+				&lt;attribute name="copy-to"/>
+			&lt;/optional>
+			&lt;optional>
+				&lt;attribute name="outputclass"/>
+			&lt;/optional>
+			&lt;ref name="topicref-atts"/>
+			&lt;ref name="univ-atts"/>
+		&lt;/define>
+		&lt;define name="faq-question-set.element">
+			&lt;a:documentation> The &amp;lt;faq-question-set> element ...&lt;/a:documentation>
+			&lt;element name="faq-question-set" dita:longName="FAQ Question Set">
+				&lt;ref name="faq-question-set.attlist"/>
+				&lt;ref name="faq-question-set.content"/>
+			&lt;/element>
+		&lt;/define>
+		&lt;define name="faq-question-set.attlist" combine="interleave">
+			&lt;ref name="faq-question-set.attributes"/>
+		&lt;/define>
+		&lt;/div></codeblock></li>
+				<li>Copy the pattern for <codeph>faq-question-set</codeph>, paste it below and edit to apply
+					to <codeph>faq-question</codeph>.</li>
+				<li>In <filepath>mapMod.rng</filepath>, find the <xmlelement>div</xmlelement> containing
+						<q>SPECIALIZATION ATTRIBUTES</q>, copy the definition for
+						<codeph>topicref.attlist</codeph> and paste into the <xmlelement>div</xmlelement> with
+					the same heading in <filepath>faq-mapDomain.rng</filepath>. </li>
+				<li>Edit the specialization attributes to apply to <xmlelement>faq-question-set</xmlelement>
+					and <xmlelement>faq-question</xmlelement>.
+					<codeblock>	&lt;define name="faq-question-set.attlist" combine="interleave">
+			&lt;ref name="global-atts"/>
+			&lt;optional>
+				&lt;attribute name="class" a:defaultValue="+ map/topicref faq-map-d/faq-question-set "/>
+			&lt;/optional>
+		&lt;/define>
+
+		&lt;define name="faq-question.attlist" combine="interleave">
+			&lt;ref name="global-atts"/>
+			&lt;optional>
+				&lt;attribute name="class" a:defaultValue="+ map/topicref faq-map-d/faq-question "/>
+			&lt;/optional>
+		&lt;/define></codeblock></li>
+			</ol></p>
+		<p>The test file should now be valid, even with the new elements.</p>
+  </body>
+</subsection>
